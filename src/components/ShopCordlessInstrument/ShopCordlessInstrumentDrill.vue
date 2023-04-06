@@ -1,8 +1,10 @@
 <script setup="">
 // - Import
 import {ref} from 'vue'
-import { useRouter } from 'vue-router'
-import {useBasketStore} from "../../stores/counetBasket";
+import {useRouter} from 'vue-router'
+import {useBasketStore} from "../../stores/counterBasket";
+import BasketComponentDynamic from "../Basket/basketComponentDynamic.vue";
+
 const router = useRouter()
 const cordlessLocal = JSON.parse(localStorage.getItem("cordless"))
 
@@ -23,7 +25,7 @@ const viewDetails = (id) => {
   localStorage.setItem("id_cordless", JSON.stringify(id))
 }
 // - Logical
-const counterClick = ref(0)
+let counterClick = ref(0)
 const buyInBasket = (id) => {
   counterClick.value = counterClick.value + 1
   if (counterClick.value === 1) {
@@ -166,10 +168,12 @@ const buyInBasket = (id) => {
   font-size: 0.8rem;
   font-weight: 600;
 }
+
 .vBtnBuy {
   color: $background;
   background: $primary;
 }
+
 .vBtnBuy:hover {
   color: $primary;
   background: $background;

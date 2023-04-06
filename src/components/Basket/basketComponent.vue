@@ -27,7 +27,7 @@ import {computed, onMounted, ref} from 'vue'
 //
 import _ from 'lodash'
 // store
-import {useBasketStore} from '../stores/counetBasket.js'
+import {useBasketStore} from '../../stores/counterBasket.js'
 
 const {
   getBasket,
@@ -43,12 +43,13 @@ onMounted(() => {
 })
 
 const example = computed(() => {
-  return basket[0]
+  return basket
 })
 let findCordlessCopy = []
 const findCordless = () => {
   findCordlessCopy.push(findByCordlessID(example.value))
 }
+console.log(`example`, example.value)
 findCordless()
 
 const example2 = computed(() => {
@@ -67,7 +68,7 @@ let oneBtn = () => {
 let twoBtn = () => {
   selectedBtn.value = selectedBtn.value + 1
 }
-console.log(cordlessDrillArray);
+// console.log(cordlessDrillArray);
 
 </script>
 
@@ -211,7 +212,7 @@ console.log(cordlessDrillArray);
 </template>
 
 <style lang="scss" scoped>
-@import '../assets/mixins';
+@import '../../assets/mixins';
 
 .example {
   color: white;

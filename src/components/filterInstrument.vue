@@ -22,7 +22,7 @@ const networkInstrument = () => {
 const pneuomotoolInstrument = () => {
   router.push({name: 'pneumotoolInstrumentAll'})
 }
-
+// const arrayInBasketInstrument = localStorage.setItem("basket_array", JSON.stringify([]))
 
 </script>
 

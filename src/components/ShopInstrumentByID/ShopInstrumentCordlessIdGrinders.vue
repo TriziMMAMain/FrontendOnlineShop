@@ -1,9 +1,10 @@
 <script setup="">
 // core
-import { computed } from 'vue'
+import {computed, ref} from 'vue'
 // store
 import { useInstrumentStore } from '../../stores/counter'
-
+//
+import BasketComponentDynamic from "../Basket/basketComponentDynamic.vue"
 // lodash
 import _ from "lodash";
 // local
@@ -57,12 +58,30 @@ const items = [
   },
 ]
 
+let counterClick = ref(0)
+let counterClickBasket = ref(false)
+const buyInBasket = (id) => {
+  counterClick.value = counterClick.value + 1
+  counterClickBasket.value = !counterClickBasket.value
+  if (counterClick.value === 1) {
+    console.log(id)
+
+    localStorage.setItem("basket_id", JSON.stringify(id))
+    // importBasketId()
+  } else {
+    return console.log(`Вы уже нажали на кнопку`)
+  }
+}
 
 //
 
 </script>
 
 <template>
+  <div class="basketComponentDynamicBlock"
+       v-if="counterClickBasket.value">
+    <BasketComponentDynamic></BasketComponentDynamic>
+  </div>
   <v-container
       fluid
       class="cardMainShopSideContainer w-100"

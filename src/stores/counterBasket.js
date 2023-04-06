@@ -32,6 +32,14 @@ export const useBasketStore = defineStore({
         findByPneuomotoolID(id) {
             return _.find( this.instrumentJsonPneumotool, { 'id': id } )
         },
+        async toLocalStorageInBasketItem (arrayFirst) {
+            let exportItemInBasket = await localStorage.setItem("basket_array", JSON.stringify(arrayFirst))
+            console.log(`Good`, exportItemInBasket)
+        },
+        async getLocalStorageInBasketItem () {
+            let importItemInBasket = await JSON.parse(localStorage.getItem("basket_array"))
+            this.basket.push(importItemInBasket)
+        },
     },
     getters: {
         getBasket() {

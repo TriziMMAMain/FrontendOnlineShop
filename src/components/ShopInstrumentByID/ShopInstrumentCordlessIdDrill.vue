@@ -2,11 +2,11 @@
 // core
 import {ref, computed, } from 'vue'
 //
-
+import BasketComponentDynamic from "../Basket/basketComponentDynamic.vue"
 import _ from 'lodash'
 // store
 import {useInstrumentStore} from '../../stores/counter'
-import {useBasketStore} from '../../stores/counetBasket.js'
+import {useBasketStore} from '../../stores/counterBasket.js'
 
 
 // local
@@ -58,15 +58,19 @@ const items = [
     href: '/cordless-instrument/cordless-drills/',
   },
 ]
+
 let counterClick = ref(0)
+let counterClickBasket = ref(true)
 const buyInBasket = (id) => {
   counterClick.value = counterClick.value + 1
+  counterClickBasket.value = !counterClickBasket.value
   if (counterClick.value === 1) {
-    console.log(`Товар в корзине: `, id)
+    console.log(id)
+
     localStorage.setItem("basket_id", JSON.stringify(id))
-    importBasketId() 
+    // importBasketId()
   } else {
-    return console.log(`I'm sorry, counter is limit`)
+    return console.log(`Вы уже нажали на кнопку`)
   }
 }
 
@@ -75,6 +79,10 @@ const buyInBasket = (id) => {
 </script>
 
 <template>
+  <div class="basketComponentDynamicBlock"
+  v-if="true">
+    <BasketComponentDynamic></BasketComponentDynamic>
+  </div>
   <v-container
       fluid
       class="cardMainShopSideContainer w-100"
@@ -208,6 +216,11 @@ const buyInBasket = (id) => {
 <style lang="scss" scoped>
 @import '../../assets/mixins';
 
+.basketComponentDynamicBlock {
+  width: 100%;
+  height: 350px;
+  background-color: red;
+}
 //
 
 .linkInPageVBreadcrumbs {
