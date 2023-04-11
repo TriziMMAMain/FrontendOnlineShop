@@ -2,7 +2,7 @@
 // core
 import {computed, ref} from 'vue'
 // store
-import { useInstrumentStore } from '../../stores/counter'
+import {useInstrumentStore} from '../../stores/counter'
 //
 import BasketComponentDynamic from "../Basket/basketComponentDynamic.vue"
 // lodash
@@ -13,31 +13,30 @@ const cordlessLocal = JSON.parse(localStorage.getItem("cordless"))
 const cordlessLocalCopy = cordlessLocal
 const cordlessId = JSON.parse(localStorage.getItem("id_cordless"))
 
-const { findByCordlessID, filterCrodlessInstrument } = useInstrumentStore()
+const {findByCordlessID, filterCrodlessInstrument} = useInstrumentStore()
 
-const instrument = computed( () => {
-  return findByCordlessID( Number( route2.params.id ) )
-} )
+const instrument = computed(() => {
+  return findByCordlessID(Number(route2.params.id))
+})
 
 // router
-import { useRouter, useRoute } from 'vue-router'
+import {useRouter, useRoute} from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
 
 
 const back = () => {
-  router.push( { name: 'cordlessInstrumentGrinders' } )
+  router.push({name: 'cordlessInstrumentGrinders'})
 }
 
-console.log(cordlessId);
+// console.log(cordlessId);
 const arrayGrindersId = []
 const findIdTool = () => {
   arrayGrindersId.push(_.find(cordlessLocalCopy, {'id': cordlessId}))
-  console.log(`array`, arrayGrindersId)
+  // console.log(`array`, arrayGrindersId)
 }
 findIdTool()
-
 
 
 const items = [
@@ -63,14 +62,8 @@ let counterClickBasket = ref(false)
 const buyInBasket = (id) => {
   counterClick.value = counterClick.value + 1
   counterClickBasket.value = !counterClickBasket.value
-  if (counterClick.value === 1) {
-    console.log(id)
-
-    localStorage.setItem("basket_id", JSON.stringify(id))
-    // importBasketId()
-  } else {
-    return console.log(`Вы уже нажали на кнопку`)
-  }
+  console.log(id)
+  localStorage.setItem("basket_id", JSON.stringify(id))
 }
 
 //
@@ -79,7 +72,7 @@ const buyInBasket = (id) => {
 
 <template>
   <div class="basketComponentDynamicBlock"
-       v-if="counterClickBasket.value">
+       v-if="counterClickBasket">
     <BasketComponentDynamic></BasketComponentDynamic>
   </div>
   <v-container
@@ -150,7 +143,7 @@ const buyInBasket = (id) => {
             </v-card-text>
             <v-card-actions class="d-flex justify-center">
               <v-btn class="vCardBtnShopPriceComponent"
-                     @click="">
+                     @click="buyInBasket(i.id)">
                 <v-icon icon="fa-solid fa-cart-shopping" start></v-icon>
                 Купить
               </v-btn>
@@ -442,6 +435,7 @@ const buyInBasket = (id) => {
     width: 100%;
   }
 }
+
 @media screen and (min-width: 600px) and (max-width: 960px) {
   /* стили для sm-устройств */
   .cardMainShopSidePhoto {
@@ -451,7 +445,8 @@ const buyInBasket = (id) => {
     height: 500px;
   }
 }
-@media screen and (min-width: 960px) and (max-width: 1264px)  {
+
+@media screen and (min-width: 960px) and (max-width: 1264px) {
   /* стили для md-устройств */
   .cardMainShopSidePhoto {
     height: 500px;
@@ -460,7 +455,8 @@ const buyInBasket = (id) => {
     height: 500px;
   }
 }
-@media screen and (min-width: 1264px) and (max-width: 1904px)  {
+
+@media screen and (min-width: 1264px) and (max-width: 1904px) {
   /*  стили для lg-устройств */
   .cardMainShopSidePhotoMain {
     width: 100%;
@@ -473,6 +469,7 @@ const buyInBasket = (id) => {
   }
   /* done! */
 }
+
 @media screen and (min-width: 1904px) {
   /*  стили для xl-устройств */
   .cardMainShopSidePhoto {

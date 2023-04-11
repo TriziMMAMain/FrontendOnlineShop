@@ -1,6 +1,6 @@
 <script setup="">
 // core
-import {ref, computed, } from 'vue'
+import {ref, computed,} from 'vue'
 //
 import BasketComponentDynamic from "../Basket/basketComponentDynamic.vue"
 import _ from 'lodash'
@@ -59,19 +59,23 @@ const items = [
   },
 ]
 
+let basketClick = ref(false)
+setInterval(() => {
+  basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
+})
+
+
 let counterClick = ref(0)
-let counterClickBasket = ref(true)
+let counterClickBasket = ref(false)
+
 const buyInBasket = (id) => {
   counterClick.value = counterClick.value + 1
   counterClickBasket.value = !counterClickBasket.value
-  if (counterClick.value === 1) {
-    console.log(id)
+  localStorage.setItem("basket_click", JSON.stringify(counterClickBasket.value))
+  basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
 
-    localStorage.setItem("basket_id", JSON.stringify(id))
-    // importBasketId()
-  } else {
-    return console.log(`Вы уже нажали на кнопку`)
-  }
+  console.log(id)
+  localStorage.setItem("basket_id", JSON.stringify(id))
 }
 
 //
@@ -79,18 +83,18 @@ const buyInBasket = (id) => {
 </script>
 
 <template>
-  <div class="basketComponentDynamicBlock"
-  v-if="true">
-    <BasketComponentDynamic></BasketComponentDynamic>
-  </div>
   <v-container
       fluid
       class="cardMainShopSideContainer w-100"
       v-for="i in arrayDrillId"
   >
+    <div class="basketComponentDynamicBlockMain"
+         v-if="basketClick">
+      <BasketComponentDynamic></BasketComponentDynamic>
+    </div>
     <div class="linkInPage">
       <v-breadcrumbs class="linkInPageVBreadcrumbs"
-          :items="items"></v-breadcrumbs>
+                     :items="items"></v-breadcrumbs>
     </div>
     <v-divider
         :thickness="3"
@@ -216,11 +220,19 @@ const buyInBasket = (id) => {
 <style lang="scss" scoped>
 @import '../../assets/mixins';
 
-.basketComponentDynamicBlock {
+.basketComponentDynamicBlockMain {
   width: 100%;
-  height: 350px;
-  background-color: red;
+  height: 100%;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.09);
+  position: fixed;
 }
+
 //
 
 .linkInPageVBreadcrumbs {
@@ -235,6 +247,7 @@ const buyInBasket = (id) => {
 
 .cardMainShopSideContainer {
   min-height: 1200px;
+  position: relative;
   //background-color: rgba(0, 128, 0, 0.65);
 }
 
@@ -451,6 +464,7 @@ const buyInBasket = (id) => {
     width: 100%;
   }
 }
+
 @media screen and (min-width: 600px) and (max-width: 960px) {
   /* стили для sm-устройств */
   .cardMainShopSidePhoto {
@@ -460,7 +474,8 @@ const buyInBasket = (id) => {
     height: 500px;
   }
 }
-@media screen and (min-width: 960px) and (max-width: 1264px)  {
+
+@media screen and (min-width: 960px) and (max-width: 1264px) {
   /* стили для md-устройств */
   .cardMainShopSidePhoto {
     height: 500px;
@@ -469,7 +484,8 @@ const buyInBasket = (id) => {
     height: 500px;
   }
 }
-@media screen and (min-width: 1264px) and (max-width: 1904px)  {
+
+@media screen and (min-width: 1264px) and (max-width: 1904px) {
   /*  стили для lg-устройств */
   .cardMainShopSidePhotoMain {
     width: 100%;
@@ -482,6 +498,7 @@ const buyInBasket = (id) => {
   }
   /* done! */
 }
+
 @media screen and (min-width: 1904px) {
   /*  стили для xl-устройств */
   .cardMainShopSidePhoto {
