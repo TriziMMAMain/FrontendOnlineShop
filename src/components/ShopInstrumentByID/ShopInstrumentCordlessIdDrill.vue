@@ -224,7 +224,7 @@ const buyInBasket = (id) => {
   width: 100%;
   height: 100%;
   z-index: 1;
-  top: 0;
+  top: 10%;
   left: 0;
   right: 0;
   bottom: 0;

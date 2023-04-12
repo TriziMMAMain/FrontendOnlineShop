@@ -106,6 +106,7 @@ let filterAllName = ""
 }
 .btnBlockMainContainer {
   width: 100%;
+  z-index: 2;
 }
 .btnMainContainerStart {
   width: 350px;
