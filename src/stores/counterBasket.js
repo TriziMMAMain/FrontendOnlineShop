@@ -14,11 +14,26 @@ export const useBasketStore = defineStore({
         instrumentJsonNetwork: instrumentJsonNetwork,
         instrumentJsonPneumotool: instrumentJsonPneumotool,
         basket: [],
+        basketArray: [],
     }),
     actions: {
-        async importBasketId() {
-            let importId = await JSON.parse(localStorage.getItem("basket_id"))
-            this.basket.push(importId)
+        async toLocalStorageInBasketItem(arrayFirst) {
+            await localStorage.setItem("basket_array", JSON.stringify(arrayFirst))
+            console.log(`Good`)
+        },
+        async setLocalStorageBasketObject(array) {
+            let arrayForBasket = [];
+            arrayForBasket = JSON.parse(localStorage.getItem("basket_object"))
+            arrayForBasket.push(array)
+            localStorage.setItem("basket_object", JSON.stringify(arrayForBasket));
+        },
+        async getLocalStorageInBasketItem() {
+            let importItemInBasket = await JSON.parse(localStorage.getItem("basket_array"))
+            this.basket.push(importItemInBasket)
+        },
+        getLocalStorageInBasketObject () {
+            const exportBasketArray = JSON.parse(localStorage.getItem("basket_object"))
+            this.basketArray.push(exportBasketArray)
         },
         findByCordlessID(id) {
             return _.find(this.instrumentJsonCordless, {'id': id})
@@ -27,23 +42,15 @@ export const useBasketStore = defineStore({
             return _.find(this.instrumentJsonGasoline, {'id': id})
         },
         findByNetworkID(id) {
-            return _.find( this.instrumentJsonNetwork, { 'id': id } )
+            return _.find(this.instrumentJsonNetwork, {'id': id})
         },
         findByPneuomotoolID(id) {
-            return _.find( this.instrumentJsonPneumotool, { 'id': id } )
-        },
-        async toLocalStorageInBasketItem (arrayFirst) {
-            let exportItemInBasket = await localStorage.setItem("basket_array", JSON.stringify(arrayFirst))
-            console.log(`Good`, exportItemInBasket)
-        },
-        async getLocalStorageInBasketItem () {
-            let importItemInBasket = await JSON.parse(localStorage.getItem("basket_array"))
-            this.basket.push(importItemInBasket)
+            return _.find(this.instrumentJsonPneumotool, {'id': id})
         },
     },
     getters: {
         getBasket() {
-            return state => this.basket
+            return this.basketArray
         }
     },
 })

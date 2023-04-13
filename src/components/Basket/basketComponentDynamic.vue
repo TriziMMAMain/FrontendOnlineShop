@@ -11,6 +11,7 @@ const getLocalStoreIdBasket = JSON.parse(localStorage.getItem("basket_id"))
 const {
   toLocalStorageInBasketItem,
   getLocalStorageInBasketItem,
+  setLocalStorageBasketObject,
   findByCordlessID,
   findByGasolineID,
   findByNetworkID,
@@ -85,6 +86,7 @@ const VBtnClickInBasket = () => {
     console.log(`basket_array`, arrayInBasketInstrument[0][0])
     toLocalStorageInBasketItem(arrayInBasketInstrument[0][0])
     getLocalStorageInBasketItem()
+    setLocalStorageBasketObject(arrayInBasketInstrument[0][0])
     arrayInBasketInstrument = []
     orderInInstrument.value = 1
     orderSumPrice.value = orderPrice.value

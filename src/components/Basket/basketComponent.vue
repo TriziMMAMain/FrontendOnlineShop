@@ -1,26 +1,4 @@
 <script setup="">
-// example !!!
-const cordlessLocal = JSON.parse(localStorage.getItem("cordless"))
-
-const cordlessDrillArray = []
-const cordlessDrill = () => {
-  for (let i = 0; i < cordlessLocal.length; i++) {
-    if (cordlessLocal[i].typeThis === 'Аккумуляторная дрель') {
-      cordlessDrillArray.push(cordlessLocal[i])
-    }
-  }
-}
-cordlessDrill()
-
-const cordlessDrill2 = () => {
-  for (let i = 0; i < cordlessLocal.length; i++) {
-    if (cordlessLocal[i].typeThis === 'Аккумуляторная болгарка') {
-      cordlessDrillArray.push(cordlessLocal[i])
-    }
-  }
-}
-cordlessDrill2()
-// example !!!
 
 // core
 import {computed, onMounted, ref} from 'vue'
@@ -30,52 +8,42 @@ import _ from 'lodash'
 import {useBasketStore} from '../../stores/counterBasket.js'
 
 const {
+  getLocalStorageInBasketObject,
   getBasket,
-  basket,
+  basketArray,
   importBasketId,
   findByCordlessID,
   findByGasolineID,
   findByNetworkID,
   findByPneuomotoolID
 } = useBasketStore()
+getLocalStorageInBasketObject()
+
 onMounted(() => {
-  importBasketId()
-})
 
-const example = computed(() => {
-  return basket
 })
-let findCordlessCopy = []
-const findCordless = () => {
-  findCordlessCopy.push(findByCordlessID(example.value))
-}
-console.log(`example`, example.value)
-findCordless()
-
-const example2 = computed(() => {
-  return findCordlessCopy
+const getBasketArray = computed(() => {
+  return basketArray[0]
 })
+const asd = getBasketArray.value
+console.log(asd);
 
-//
-let selectedBtn = ref(1)
-let selected = ref("")
-const asd = () => {
-  console.log(`true`)
+const deleteArray = () => {
+  localStorage.setItem("basket_object", JSON.stringify([]))
+
 }
-let oneBtn = () => {
-  selectedBtn.value = selectedBtn.value - 1
-}
-let twoBtn = () => {
-  selectedBtn.value = selectedBtn.value + 1
-}
-// console.log(cordlessDrillArray);
 
 </script>
 
 <template>
   <v-container fluid class="d-flex flex-wrap">
     <div class="blockTitleInSite">
-      <h1 class="blockTitleInSiteTitle">Корзина</h1>
+      <h1 class="blockTitleInSiteTitle">Корзина
+        <v-btn
+          @click="deleteArray"><a href="/basket/" class="">Удалить все товары</a>
+      </v-btn>
+      </h1>
+
     </div>
     <div class="blockBasketInSite mt-3 d-flex ">
       <div class="blockMainBasket">
@@ -92,46 +60,28 @@ let twoBtn = () => {
           </div>
         </div>
 
-          <v-card class="blockVCardFirstBasket d-flex mt-3"
-          v-for="item in cordlessDrillArray">
-            <div class="blockInputAmount d-flex justify-center align-center">
-              <v-checkbox
-                  class="VCheckboxInput"
-                  v-model="selected"
-                  :value=item.name
-                  @click="asd"
-                  label="Добавить в заказ"></v-checkbox>
+        <v-card class="blockVCardFirstBasket d-flex mt-3"
+                v-for="item in asd"
+        >
+          <div class="blockVCardFirstBasketItemPhotoMain">
+            <img :src="item.imgTitle" alt="" class="blockVCardFirstBasketItemPhoto">
+          </div>
 
-            </div>
-            <div class="blockVCardFirstBasketItemPhotoMain">
-              <img :src="item.imgTitle" alt="" class="blockVCardFirstBasketItemPhoto">
-            </div>
+          <div class="blockVCardFirstBasketItemInfoText pa-1">
+            <p class="blockVCardFirstBasketItemSubtitle">Код: {{ item.id }}</p>
+            <a href="#" class="blockVCardFirstBasketItemTitle">{{ item.name }}</a>
+          </div>
 
-            <div class="blockVCardFirstBasketItemInfoText pa-1">
-              <p class="blockVCardFirstBasketItemSubtitle">Код: {{ item.id }}</p>
-              <a href="#" class="blockVCardFirstBasketItemTitle">{{ item.name }}</a>
+          <div class="blockVCardFirstBasketItemPriceAmountSum d-flex">
+
+            <div class="blockVCardFirstBasketItemPriceMain d-flex justify-center align-center">
+              <h1 class="blockVCardFirstBasketItemPriceTitle">{{ item.price }} р.</h1>
             </div>
 
-            <div class="blockVCardFirstBasketItemPriceAmountSum d-flex">
+          </div>
+        </v-card>
 
-              <div class="blockVCardFirstBasketItemPriceMain d-flex justify-center align-center">
-                <h1 class="blockVCardFirstBasketItemPriceTitle">{{ item.price }} р.</h1>
-              </div>
-              <div class="blockVCardFirstBasketItemAmountMain d-flex justify-center align-center">
-                <v-btn class="oneBtn"
-                       @click="oneBtn">-
-                </v-btn>
-                <v-text-field
-                    v-model="selectedBtn"
-                    class="textBtn"></v-text-field>
-                <v-btn class="twoBtn"
-                       @click="twoBtn">+
-                </v-btn>
-              </div>
-            </div>
-          </v-card>
-
-<!--          Ниже изначальный вариант v-card. START-->
+        <!--          Ниже изначальный вариант v-card. START-->
         <!--        <v-card-->
         <!--            width="750"-->
         <!--            height="250"-->
@@ -200,12 +150,10 @@ let twoBtn = () => {
         <!--            </v-col>-->
         <!--          </v-row>-->
         <!--        </v-card>-->
-<!--              END-->
-        <p class="example">{{ selected }}</p>
+        <!--              END-->
       </div>
       <div class="blockSecondBasket"></div>
     </div>
-
 
 
   </v-container>
@@ -217,12 +165,15 @@ let twoBtn = () => {
 .example {
   color: white;
 }
+
 .textBtn {
   color: black;
 }
+
 .blockVCardFirstBasketItemPriceTitle {
   color: $textSpan;
 }
+
 // MAIN BLOCK
 
 // --- MAIN BLOCK TITLE
