@@ -211,6 +211,7 @@
       }
     ],
     "price": "25.000",
+    "orderSum": 1,
     "priceOrder": 25000
   },
   {
@@ -425,6 +426,7 @@
       }
     ],
     "price": "25.000",
+    "orderSum": 1,
     "priceOrder": 25000
   }
 ]

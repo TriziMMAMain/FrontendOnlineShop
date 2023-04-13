@@ -280,6 +280,7 @@
 
     "imgTitle": "https://www.illeon.ru/upload/iblock/bac/TSS_SGG_2800EN.jpg",
     "price": "45.000",
+    "orderSum": 1,
     "priceOrder": 45000
   },
   {
@@ -288,7 +289,7 @@
     "type": "Бензоинструмент",
     "typeThis": "Бензогенератор",
     "brand": "TSS",
-    "name": "Бензогенератор TSS 2800EN",
+    "name": "COPY Бензогенератор TSS 2800EN",
     "city": "Донецк",
     "featureTop": "",
     "featureTopTitle": [
@@ -563,6 +564,7 @@
 
     "imgTitle": "https://www.illeon.ru/upload/iblock/bac/TSS_SGG_2800EN.jpg",
     "price": "45.000",
+    "orderSum": 1,
     "priceOrder": 45000
   }
 ]

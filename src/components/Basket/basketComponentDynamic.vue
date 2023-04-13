@@ -39,12 +39,12 @@ const pushInArrayId = () => {
   if (networkId === undefined) {
     // console.log(`Пусто`)
   } else {
-    arrayInstrumentInBasket.push(cordlessId)
+    arrayInstrumentInBasket.push(networkId)
   }
   if (pneuomotoolId === undefined) {
     // console.log(`Пусто`)
   } else {
-    arrayInstrumentInBasket.push(cordlessId)
+    arrayInstrumentInBasket.push(pneuomotoolId)
   }
   // console.log(`array`, arrayInstrumentInBasket)
 }

@@ -34,7 +34,6 @@ const back = () => {
 const arrayGrindersId = []
 const findIdTool = () => {
   arrayGrindersId.push(_.find(cordlessLocalCopy, {'id': cordlessId}))
-  // console.log(`array`, arrayGrindersId)
 }
 findIdTool()
 
@@ -57,29 +56,38 @@ const items = [
   },
 ]
 
+let basketClick = ref(false)
+setInterval(() => {
+  basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
+})
+
+
 let counterClick = ref(0)
 let counterClickBasket = ref(false)
+
 const buyInBasket = (id) => {
   counterClick.value = counterClick.value + 1
   counterClickBasket.value = !counterClickBasket.value
+  localStorage.setItem("basket_click", JSON.stringify(counterClickBasket.value))
+  basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
+
   console.log(id)
   localStorage.setItem("basket_id", JSON.stringify(id))
 }
 
-//
 
 </script>
 
 <template>
-  <div class="basketComponentDynamicBlock"
-       v-if="counterClickBasket">
-    <BasketComponentDynamic></BasketComponentDynamic>
-  </div>
   <v-container
       fluid
       class="cardMainShopSideContainer w-100"
       v-for="i in arrayGrindersId"
   >
+    <div class="basketComponentDynamicBlockMain"
+         v-if="basketClick">
+      <BasketComponentDynamic></BasketComponentDynamic>
+    </div>
     <div class="linkInPage">
       <v-breadcrumbs class="linkInPageVBreadcrumbs"
                      :items="items"></v-breadcrumbs>
@@ -204,6 +212,19 @@ const buyInBasket = (id) => {
 
 <style lang="scss" scoped>
 @import '../../assets/mixins';
+
+.basketComponentDynamicBlockMain {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  top: 10%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.09);
+  position: fixed;
+}
 
 //
 
