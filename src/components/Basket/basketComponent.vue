@@ -81,6 +81,7 @@ const forIArrayAmount = (array) => {
   for (let i = 0; i < array.length; i++) {
     numberInAmount.value = numberInAmount.value + array[i]
   }
+  localStorage.setItem("basket_array_amount", JSON.stringify(numberInAmount.value))
 }
 forIArrayAmount(arrayAmount)
 
@@ -88,6 +89,7 @@ const forIArraySum = (array) => {
   for (let i = 0; i < array.length; i++) {
     numberInPriceSum.value = numberInPriceSum.value + array[i]
   }
+  localStorage.setItem("basket_array_price_sum", JSON.stringify(numberInPriceSum.value))
 }
 forIArraySum(arraySum)
 
