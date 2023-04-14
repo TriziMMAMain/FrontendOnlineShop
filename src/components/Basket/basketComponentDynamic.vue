@@ -82,6 +82,7 @@ const VBtnClickInBasket = () => {
   orderClick.value = orderClick.value + 1
   if (orderClick.value === 1) {
     basketArraySecond.priceOrder = orderSumPrice.value
+    basketArraySecond.orderSum = orderInInstrument.value
     arrayInBasketInstrument[0][0] = basketArraySecond
     console.log(`basket_array`, arrayInBasketInstrument[0][0])
     toLocalStorageInBasketItem(arrayInBasketInstrument[0][0])

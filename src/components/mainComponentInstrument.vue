@@ -31,6 +31,7 @@ filterPneumotoolInstrument()
       <router-view name="homeComponentSite"></router-view>
       <!--          BASKET COMPONENT-->
       <router-view name="basketComponentSite"></router-view>
+      <router-view name="basketComponentCheckout"></router-view>
       <!--          CORDLESS-->
       <router-view name="cordlessTools"></router-view>
       <!--          GASOLINE-->
@@ -39,6 +40,8 @@ filterPneumotoolInstrument()
       <router-view name="networkTools"></router-view>
       <!--          PNEUOMOTOOLS-->
       <router-view name="pneuomoTools"></router-view>
+      <!--      ADMIN VIEW-->
+      <router-view name="adminPanel"></router-view>
       <router-view></router-view>
     </v-col>
   </v-row>

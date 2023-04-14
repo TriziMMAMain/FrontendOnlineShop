@@ -3,6 +3,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import MainComponents from '../components/mainComponentInstrument.vue'
 import homeComponentSite from '../components/homeComponentSite.vue'
 import basketComponentSite from '../components/Basket/basketComponent.vue'
+import BasketComponentCheckout from '../components/Basket/basketComponentCheckout.vue'
 // Cordless
 import ShopCordless from '../components/ShopCordlessInstrument/ShopCordlessInstrument.vue'
 import ShopCordlessAll from '../components/ShopCordlessInstrument/ShopCrodlessInstrumentAll.vue'
@@ -30,6 +31,8 @@ import ShopPneumotoolInstrumentAll from '../components/ShopPneuomotoolInstrument
 import ShopPneumotoolInstrumentCompressor
     from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrumentCompressor.vue'
 import ShopPneumotoolInstrumentCompressorId from '../components/ShopInstrumentByID/ShopInstrumentPneumotoolId.vue'
+// Admin
+import AdminView from '../views/AdminView.vue'
 
 const routes = [
     {
@@ -51,6 +54,13 @@ const routes = [
         name: 'basketComponent',
         components: {
             basketComponentSite: basketComponentSite
+        },
+    },
+    {
+        path: '/checkout/',
+        name: 'basketComponentCheckout',
+        components: {
+            basketComponentCheckout: BasketComponentCheckout,
         },
     },
 
@@ -219,6 +229,13 @@ const routes = [
         ]
     },
 
+    {
+        path: '/admin-panel/', // /admin-panel/
+        name: 'adminPanel',
+        components: {
+            adminPanel: AdminView,
+        },
+    }
 ]
 
 const router = createRouter({
