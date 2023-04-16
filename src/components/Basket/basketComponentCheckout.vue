@@ -3,6 +3,7 @@
 import {ref} from 'vue'
 //
 import {useDisplay} from 'vuetify'
+
 const {name} = useDisplay()
 import _ from 'lodash'
 // store
@@ -29,6 +30,10 @@ const valid = ref(false)
 const firstNameUser = ref("")
 const numberInPhoneUser = ref("")
 const emailUser = ref("")
+const stringDeliveryUser = ref("")
+const arrayCheckboxUser = ref([])
+const stringDelivery = ref("")
+
 
 const nameRulesUser = [
   value => {
@@ -40,7 +45,7 @@ const nameRulesUser = [
 ]
 const numberRulesUser = [
   value => {
-    if (value.length <= 11) return "Мало цифр!"
+    if (value.length <= 10) return "Мало цифр!"
   },
   value => {
     if (value) return "Отлично! Дальше email."
@@ -48,14 +53,21 @@ const numberRulesUser = [
 ]
 const emailRulesUser = [
   value => {
-    if (/.+@.+\..+/.test(value)) return 'Отлично! Нажмите на кнопку "Подтвердить заказ".'
+    if (/.+@.+\..+/.test(value)) return 'Отлично! Выберите тип доставки. И не забудьте написать адрес доставки!'
   },
   value => {
     if (value) return "Введите email правильно! Не забудьте про @"
   },
 
 ]
-const arrayCheckbox = ref([])
+const checkboxDeliveryRulesUser = [
+  value => {
+    if (value.length <= 12) return "Мало символов!"
+  },
+  value => {
+    if (value.length >= 13) return "Отлично! Не забудьте написать город, район, дом, квартира, номер."
+  }
+]
 
 // form end
 
@@ -91,6 +103,7 @@ const arrayCheckbox = ref([])
               md="4"
           >
             <v-text-field
+                type="number"
                 class="vTextFieldInForm"
                 color="text"
                 bg-color="background"
@@ -126,21 +139,39 @@ const arrayCheckbox = ref([])
           >
             <v-checkbox
                 color="primary"
-                v-model="arrayCheckbox"
+                v-model="arrayCheckboxUser"
                 label="Самовывоз"
                 value="Самовывоз"
-                :disabled="arrayCheckbox[0] === 'Доставка'"
+                :disabled="arrayCheckboxUser[0] === 'Доставка'"
                 hide-details
             ></v-checkbox>
 
             <v-checkbox
                 color="primary"
-                v-model="arrayCheckbox"
+                v-model="arrayCheckboxUser"
                 label="Доставка"
                 value="Доставка"
-                :disabled="arrayCheckbox[0] === 'Самовывоз'"
+                :disabled="arrayCheckboxUser[0] === 'Самовывоз'"
                 hide-details
             ></v-checkbox>
+          </v-col>
+          <v-col
+              cols="12"
+              md="4"
+          >
+            <v-text-field
+                class="vTextFieldInForm"
+                color="text"
+                bg-color="background"
+                v-model="stringDeliveryUser"
+                :rules="checkboxDeliveryRulesUser"
+                :counter="3"
+                label="Адрес доставки"
+                prepend-icon="fa-solid fa-input-text"
+                variant="solo"
+                :disabled="arrayCheckboxUser[0] === 'Самовывоз' || arrayCheckboxUser[0] === undefined"
+                required
+            ></v-text-field>
           </v-col>
         </v-row>
       </v-form>
@@ -148,18 +179,19 @@ const arrayCheckbox = ref([])
     <div class="blockConfirmPurchase d-flex justify-end">
       <v-card class="purchaseVCardMain">
         <h1 class="purchaseVCardMainTitle d-flex align-center pl-4">Итого: {{ numberInPriceSum }} рублей</h1>
-        <div class="purchaseVCardSecondBlockUserData">
+        <div class="purchaseVCardSecondBlockUserData pa-2">
           <h1 class="userDataTitle">Введенные данные: </h1>
           <h1 class="userDataNameTitle">Имя: {{ firstNameUser }}</h1>
           <h1 class="userDataNumberTitle">Номер телефона: {{ numberInPhoneUser }}</h1>
           <h1 class="userDataEmailTitle">Email: {{ emailUser }}</h1>
-          <h1 class="userDataCheckbox">{{ arrayCheckbox[0] }}</h1>
+          <h1 class="userDataCheckbox">{{ arrayCheckboxUser[0] }} {{ stringDeliveryUser }}</h1>
         </div>
         <div class="purchaseVCardSecondBlockButtonAction d-flex justify-center align-center">
           <v-btn
               @click=""
               :height="heightFunc()"
-              class="buttonActionBtn">Подтвердить заказ</v-btn>
+              class="buttonActionBtn">Подтвердить заказ
+          </v-btn>
         </div>
       </v-card>
     </div>
@@ -201,7 +233,7 @@ const arrayCheckbox = ref([])
 
 .purchaseVCardMain {
   width: 70%;
-  height: 450px;
+  height: 750px;
 }
 
 .purchaseVCardMainTitle {
@@ -214,9 +246,33 @@ const arrayCheckbox = ref([])
   background-color: red;
 }
 
+.purchaseVCardSecondBlockUserData {
+  width: 100%;
+  height: 60%;
+  background-color: #0014ff;
+}
+
+.userDataTitle, .userDataNameTitle, .userDataNumberTitle, .userDataEmailTitle, .userDataCheckbox {
+  font-size: 2rem;
+  font-weight: 500;
+  color: $text;
+}
+
+.userDataTitle {}
+
+.userDataNameTitle {}
+
+.userDataNumberTitle {}
+
+.userDataEmailTitle {}
+
+.userDataCheckbox {}
+
+
+
 .purchaseVCardSecondBlockButtonAction {
   width: 100%;
-  height: 130px;
+  height: 20%;
   background-color: #4CAF50;
 }
 
@@ -228,6 +284,7 @@ const arrayCheckbox = ref([])
   background-color: $primary;
   transition: all 0.3s ease-in-out;
 }
+
 .buttonActionBtn:hover {
   color: $primary;
   background-color: $background;

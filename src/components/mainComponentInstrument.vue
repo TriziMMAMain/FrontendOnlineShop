@@ -29,6 +29,8 @@ filterPneumotoolInstrument()
     <v-col class="d-flex flex-row flex-wrap w-100">
       <!--          HOME PAGE-->
       <router-view name="homeComponentSite"></router-view>
+      <!--      SEARCH INSTRUMENT BY NAME-->
+      <router-view name="searchInstrumentByName"></router-view>
       <!--          BASKET COMPONENT-->
       <router-view name="basketComponentSite"></router-view>
       <router-view name="basketComponentCheckout"></router-view>

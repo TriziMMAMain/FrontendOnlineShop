@@ -2,7 +2,9 @@ import {createRouter, createWebHistory} from 'vue-router'
 
 import MainComponents from '../components/mainComponentInstrument.vue'
 import homeComponentSite from '../components/homeComponentSite.vue'
-import basketComponentSite from '../components/Basket/basketComponent.vue'
+import SearchInstrumentByName from '../components/searchInstrumentByName.vue'
+// basket
+import basketComponentSite from '../components/Basket/basketComponentSite.vue'
 import BasketComponentCheckout from '../components/Basket/basketComponentCheckout.vue'
 // Cordless
 import ShopCordless from '../components/ShopCordlessInstrument/ShopCordlessInstrument.vue'
@@ -56,11 +58,20 @@ const routes = [
             basketComponentSite: basketComponentSite
         },
     },
+
     {
         path: '/checkout/',
         name: 'basketComponentCheckout',
         components: {
             basketComponentCheckout: BasketComponentCheckout,
+        },
+    },
+
+    {
+        path: '/search/instrument/name/:name/',
+        name: 'searchInstrumentByName',
+        components: {
+            searchInstrumentByName: SearchInstrumentByName,
         },
     },
 

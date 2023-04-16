@@ -29,9 +29,9 @@ let counterClick = ref(0)
 const buyInBasket = (id) => {
   counterClick.value = counterClick.value + 1
   if (counterClick.value === 1) {
-    console.log(`Товар в корзине: `, id)
+    router.push({name: 'cordlessInstrumentDrillsID', params: {id: id}})
     localStorage.setItem("basket_id", JSON.stringify(id))
-    importBasketId()
+    localStorage.setItem("basket_click", JSON.stringify(true))
   } else {
     return console.log(`I'm sorry, counter is limit`)
   }

@@ -19,7 +19,6 @@ export const useInstrumentStore = defineStore({
         async filterCrodlessInstrument() {
             this.instrumentJsonCordless = _.filter(instrumentJsonCordless, {"type": "Аккумуляторный инструмент"})
             await this.toLocalStorageInstrumentCordless(this.instrumentJsonCordless)
-
         },
         async filterGasolineInstrument() {
             this.instrumentJsonGasoline = _.filter(instrumentJsonGasoline, {"type": "Бензоинструмент"})
@@ -61,6 +60,22 @@ export const useInstrumentStore = defineStore({
         },
         findByPneuomotoolID(id) {
             return _.find( this.instrumentJsonPneumotool, { 'id': id } )
+        },
+        filterByCordlessName(name) {
+            let filterCordlessName = []
+            console.log(`name`, name)
+            if (name === "") {
+                console.log(`Пустая строка`)
+            } else {
+                filterCordlessName.push(_.filter(instrumentJsonCordless, {"name": name}))
+                filterCordlessName.push(_.filter(instrumentJsonGasoline, {"name": name}))
+                filterCordlessName.push(_.filter(instrumentJsonNetwork, {"name": name}))
+                filterCordlessName.push(_.filter(instrumentJsonPneumotool, {"name": name}))
+                return filterCordlessName
+            }
+        },
+        reloadWindow() {
+            window.location.reload()
         },
     },
     getters: {

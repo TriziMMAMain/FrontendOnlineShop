@@ -52,7 +52,7 @@ const items = [
   {
     title: 'Аккумуляторные перфораторы',
     disabled: false,
-    href: '/cordless-instrument/cordless-screwdrivers/',
+    href: '/cordless-instrument/screwdrivers/',
   },
 ]
 

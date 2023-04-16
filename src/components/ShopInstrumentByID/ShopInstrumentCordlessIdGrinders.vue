@@ -52,7 +52,7 @@ const items = [
   {
     title: 'Аккумуляторные болгарки',
     disabled: false,
-    href: '/cordless-instrument/cordless-grinders/',
+    href: '/cordless-instrument/grinders/',
   },
 ]
 

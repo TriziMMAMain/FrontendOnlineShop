@@ -55,7 +55,7 @@ const items = [
   {
     title: 'Аккумуляторные дрели',
     disabled: false,
-    href: '/cordless-instrument/cordless-drills/',
+    href: '/cordless-instrument/drills/',
   },
 ]
 

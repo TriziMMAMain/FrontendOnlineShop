@@ -1,6 +1,7 @@
 <script setup="">
 // - Import
 import { useRouter } from 'vue-router'
+import {ref} from "vue";
 const router = useRouter()
 const cordlessLocal = JSON.parse(localStorage.getItem("cordless"))
 const cordlessLocalCopy = cordlessLocal
@@ -21,6 +22,17 @@ const viewDetails = (id) => {
   localStorage.setItem("id_cordless", JSON.stringify(id))
 }
 
+const counterClick = ref(0)
+const buyInBasket = (id) => {
+  counterClick.value = counterClick.value + 1
+  if (counterClick.value === 1) {
+    router.push({name: 'cordlessInstrumentScrewdriversID', params: {id: id}})
+    localStorage.setItem("basket_id", JSON.stringify(id))
+    localStorage.setItem("basket_click", JSON.stringify(true))
+  } else {
+    return console.log(`I'm sorry, counter is limit`)
+  }
+}
 </script>
 
 <template>
@@ -78,7 +90,7 @@ const viewDetails = (id) => {
             class="pa-0 pr-1">
 
           <v-btn
-              @click=""
+              @click="buyInBasket(i.id)"
               elevation="1"
               class="vBtnBuy"
               width="170px"

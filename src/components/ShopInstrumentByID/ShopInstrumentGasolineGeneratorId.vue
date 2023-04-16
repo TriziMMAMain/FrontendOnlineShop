@@ -31,11 +31,9 @@ const back = () => {
   router.push({name: 'gasolineInstrumentGenerator'})
 }
 
-console.log(gasolineId);
 const gasolineGeneratorId = []
 const findIdTool = () => {
   gasolineGeneratorId.push(_.find(gasolineLocalCopy, {'id': gasolineId}))
-  console.log(`array`, gasolineGeneratorId)
 }
 findIdTool()
 

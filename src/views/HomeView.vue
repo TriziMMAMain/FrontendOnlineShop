@@ -1,38 +1,120 @@
 <script setup="">
 // - Import
 import {ref} from 'vue'
-// import instrumentStore from '../stores/instrumentStore.json'
-// import ShopGenerator from "../components/ShopGasolineInstrumentGasoline.vue";
+import _ from 'lodash'
+import {useRouter} from 'vue-router'
+import {useInstrumentStore} from "../stores/counter.js"
+
+const router = useRouter()
+const {filterByCordlessName, filterByGasolineName, reloadWindow} = useInstrumentStore()
+
 import FilterInstrument from '../components/filterInstrument.vue'
 import MainComponentInstrument from '../components/mainComponentInstrument.vue'
-import _ from 'lodash'
+
 
 const cordlessLocal = JSON.parse(localStorage.getItem("cordless"))
 const gasolineLocal = JSON.parse(localStorage.getItem("gasoline"))
 const networkLocal = JSON.parse(localStorage.getItem("network"))
 const pneumotoolLocal = JSON.parse(localStorage.getItem("pneumotool"))
 
-// const cordlessLocalCopyNameArray = []
-// const cordlessLocalCopyName = () => {
-//   for (let i = 0; i < 3; i++) {
-//     cordlessLocalCopyNameArray.push(cordlessLocal[i]);
-//   }
-//   console.log(`qwe`, cordlessLocalCopyNameArray)
-// }
-//
-// cordlessLocalCopyName()
+const cordlessLocalCopyNameArray = []
+const instrumentAllLocalCopyName = []
+const cordlessLocalCopyName = () => {
+  for (let i = 0; i < cordlessLocal.length; i++) {
+    cordlessLocalCopyNameArray.push(cordlessLocal[i]);
+  }
+  for (let i = 0; i < cordlessLocalCopyNameArray.length; i++) {
+    instrumentAllLocalCopyName.push(cordlessLocalCopyNameArray[i].name)
+  }
+}
+cordlessLocalCopyName()
+
+const gasolineLocalCopyNameArray = []
+const gasolineLocalCopyNameCopy = []
+const gasolineLocalCopyName = () => {
+  for (let i = 0; i < gasolineLocal.length; i++) {
+    gasolineLocalCopyNameArray.push(gasolineLocal[i])
+  }
+  for (let i = 0; i < gasolineLocalCopyNameArray.length; i++) {
+    gasolineLocalCopyNameCopy.push(gasolineLocalCopyNameArray[i].name)
+  }
+}
+gasolineLocalCopyName()
+
+const networkLocalCopyNameArray = []
+const networkLocalCopyNameCopy = []
+const networkLocalCopy = () => {
+  for (let i = 0; i < networkLocal.length; i++) {
+    networkLocalCopyNameArray.push(networkLocal[i])
+  }
+  for (let i = 0; i < networkLocalCopyNameArray.length; i++) {
+    networkLocalCopyNameCopy.push(networkLocalCopyNameArray[i].name)
+  }
+}
+networkLocalCopy()
+
+const pneumotoolLocalCopyArray = []
+const pneumotoolLocalCopyNameCopy = []
+const pneumotoolCopy = () => {
+  for (let i = 0; i < pneumotoolLocal.length; i++) {
+    pneumotoolLocalCopyArray.push(pneumotoolLocal[i])
+  }
+  for (let i = 0; i < pneumotoolLocalCopyArray.length; i++) {
+    pneumotoolLocalCopyNameCopy.push(pneumotoolLocalCopyArray[i].name)
+  }
+}
+pneumotoolCopy()
+
+const instrumentLocalCopy = () => {
+  for (let i = 0; i < gasolineLocalCopyNameCopy.length; i++) {
+    instrumentAllLocalCopyName.push(gasolineLocalCopyNameCopy[i])
+  }
+  for (let i = 0; i < networkLocalCopyNameCopy.length; i++) {
+    instrumentAllLocalCopyName.push(networkLocalCopyNameCopy[i])
+  }
+  for (let i = 0; i < pneumotoolLocalCopyNameCopy.length; i++) {
+    instrumentAllLocalCopyName.push(pneumotoolLocalCopyNameCopy[i])
+  }
+}
+instrumentLocalCopy()
+
 
 let navigationDrawer = ref(false)
 const navigationDrawerClick = () => {
   navigationDrawer.value = !navigationDrawer.value
 }
-let filterAllName = ""
-// let filterAllNameLodash = null
-// const filterAllNameBtn = (asd) => {
-//   console.log(`asd`, asd)
-//   filterAllNameLodash = _.find(cordlessLocal, {name: "Ryobi "})
-//   console.log(`filter`, filterAllNameLodash)
-// }
+
+let filterAllName = ref("")
+const arrayFilter = ref("")
+const stringSearchInstrument = ref("/search/instrument/name/")
+
+const filterAllNameBtn = (string) => {
+  arrayFilter.value = filterByCordlessName(string)
+
+  if (arrayFilter.value[0].length === 1) {
+    localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[0][0]))
+    router.push({name: 'searchInstrumentByName', params: {name: filterAllName.value}})
+    stringSearchInstrument.value = stringSearchInstrument.value + string
+
+  } else if (arrayFilter.value[1].length === 1) {
+    localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[1][0]))
+    router.push({name: 'searchInstrumentByName', params: {name: filterAllName.value}})
+    stringSearchInstrument.value = stringSearchInstrument.value + string
+
+  } else if (arrayFilter.value[2].length === 1) {
+    localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[2][0]))
+    router.push({name: 'searchInstrumentByName', params: {name: filterAllName.value}})
+    stringSearchInstrument.value = stringSearchInstrument.value + string
+
+  } else if (arrayFilter.value[3].length === 1) {
+    localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[3][0]))
+    router.push({name: 'searchInstrumentByName', params: {name: filterAllName.value}})
+    stringSearchInstrument.value = stringSearchInstrument.value + string
+  }
+  arrayFilter.value = ""
+}
+
+
 </script>
 
 <template>
@@ -77,17 +159,18 @@ let filterAllName = ""
               @click="navigationDrawerClick">
             Каталог инструмента
           </v-btn>
-<!--          <v-autocomplete-->
-<!--              label="Введите название инструмента"-->
-<!--              :items="[]">-->
-<!--          ></v-autocomplete>-->
-          <v-text-field
-              type="text"
-              v-model="filterAllName"
+          <v-autocomplete
               clearable
+              type="text"
+              :items="instrumentAllLocalCopyName"
+              v-model="filterAllName"
               label="Введите название инструмента"
-          ></v-text-field>
-          <v-btn @click="filterAllNameBtn(filterAllName)">Click On Filter</v-btn>
+              variant="filled"
+          ></v-autocomplete>
+          <v-btn
+              :href="stringSearchInstrument"
+              @click="filterAllNameBtn(filterAllName)">Click On Filter
+          </v-btn>
         </div>
         <MainComponentInstrument></MainComponentInstrument>
       </v-container>
@@ -104,10 +187,12 @@ let filterAllName = ""
   width: 70%;
   font-size: 1.5rem;
 }
+
 .btnBlockMainContainer {
   width: 100%;
   z-index: 2;
 }
+
 .btnMainContainerStart {
   width: 350px;
   height: 50%;
@@ -130,6 +215,7 @@ let filterAllName = ""
   background-color: $primary;
   transition: all 0.3s ease-in-out;
 }
+
 .basketComponent:hover {
   color: $primary;
   background-color: $background;
