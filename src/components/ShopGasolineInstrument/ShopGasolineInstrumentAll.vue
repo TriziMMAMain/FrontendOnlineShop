@@ -11,7 +11,9 @@ import ShopGasolineInstrumentGenerator from './ShopGasolineInstrumentGasoline.vu
 
 <template>
   <!--        CARD -->
-  <ShopGasolineInstrumentGenerator></ShopGasolineInstrumentGenerator>
+  <div class="d-flex flex-wrap">
+    <ShopGasolineInstrumentGenerator></ShopGasolineInstrumentGenerator>
+  </div>
 </template>
 
 <style lang="scss" scoped>

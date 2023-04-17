@@ -25,7 +25,7 @@ filterPneumotoolInstrument()
 </script>
 
 <template>
-  <v-row class="d-flex justify-start flex-column w-100 mt-1">
+  <v-row class="rowMain d-flex justify-start flex-column w-100 mt-1">
     <v-col class="d-flex flex-row flex-wrap w-100">
       <!--          HOME PAGE-->
       <router-view name="homeComponentSite"></router-view>
@@ -51,5 +51,7 @@ filterPneumotoolInstrument()
 </template>
 
 <style lang="scss" scoped>
-
+.rowMain {
+  min-height: 200vh;
+}
 </style>

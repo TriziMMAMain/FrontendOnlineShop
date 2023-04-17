@@ -11,7 +11,9 @@ import ShopPneumotoolInstrumentCompressor from './ShopPneumotoolInstrumentCompre
 
 <template>
   <!--        CARD -->
-  <ShopPneumotoolInstrumentCompressor></ShopPneumotoolInstrumentCompressor>
+  <div class="d-flex flex-wrap">
+    <ShopPneumotoolInstrumentCompressor></ShopPneumotoolInstrumentCompressor>
+  </div>
 </template>
 
 <style lang="scss" scoped>

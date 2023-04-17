@@ -173,147 +173,6 @@ const closeBasket = () => {
 <style lang="scss" scoped>
 @import './src/assets/mixins';
 
-// CARD MAIN
-.vCardBasket {
-  width: 1600px;
-  height: 350px;
-  position: relative;
-  top: 20%;
-  left: 10%;
-  z-index: 1;
-  box-shadow: 0 0 0 1px rgba(55, 53, 53, 0.3);
-  background-color: $background;
-}
-
-// BLOCK BASKET TITLE MAIN
-.blockBasketTitleMain {
-  width: 100%;
-  height: 15%;
-  position: relative;
-  border-bottom: 2px solid $primary;
-  background-color: $background;
-}
-
-.titleMainBlock {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.titleMainBlockClose {
-  color: $text;
-  background-color: $background;
-  border: none;
-}
-
-.titleMainTitle {
-  font-size: 2rem;
-  font-weight: 500;
-  color: $text;
-}
-
-// BLOCK BASKET MAIN
-.blockBasketMain {
-  width: 100%;
-  height: 100%;
-  background-color: $background;
-}
-
-// BLOCK BASKET MAIN PHOTO
-.blockBasketPhotoMain {
-  width: 20%;
-  height: 300px;
-  background-color: $background;
-}
-
-.photoMainImg {
-  width: 250px;
-  height: 250px;
-}
-
-// BLOCK BASKET TITLE PRICE BTN
-.blockBasketTitlePriceBtn {
-  width: 80%;
-  height: 300px;
-  border-right: 1px solid $primary;
-  border-left: 1px solid $primary;
-  background-color: $background;
-}
-
-// BLOCK BASKET TITLE SECOND
-.blockBasketTitleSecond {
-  width: 100%;
-  height: 40%;
-  background-color: $background;
-}
-
-// BLOCK BASKET TITLE SECOND BLOCK ONE
-.titleSecondTitle {
-  font-size: 1.7rem;
-  font-weight: 500;
-  color: $text;
-}
-
-// BLOCK BASKET PRICE MAIN
-.blockBasketPriceMain {
-  width: 100%;
-  height: 10%;
-  background-color: $background;
-}
-
-.priceMainTitle {
-  font-size: 1.7rem;
-  font-weight: 500;
-  color: $text;
-}
-
-// BLOCK BASKET BTN MAIN
-.blockBasketBtnMain {
-  width: 100%;
-  height: 50%;
-  background-color: $background;
-}
-
-.blockBasketBtnMainInPlus, .blockBasketBtnMainInMinus {
-  font-size: 2rem;
-  color: $text;
-  background-color: $background;
-  border: 1px solid $text;
-}
-
-.blockBasketBtnMainInPlus {
-
-}
-
-.blockBasketBtnMainOrderPrice {
-  font-size: 1.5rem;
-  color: $text;
-}
-
-.blockBasketBtnMainInMinus {
-}
-
-// BLOCK BASKET LINK IN BASKET
-.blockBasketLinkInBasket {
-  width: 15%;
-  height: 100%;
-}
-
-.linkInBasketBtn {
-  color: $background;
-  background-color: $primary;
-}
-
-.linkInBasketBlockBtnSecondTitle {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: $text;
-}
-
-.linkInBasketBlockBtnSecondTitleSpan {
-  font-weight: 700;
-  color: $textSpan;
-}
 
 // Media
 
@@ -322,9 +181,9 @@ const closeBasket = () => {
   // CARD MAIN
   .vCardBasket {
     width: 400px;
-    height: 450px;
+    height: 400px;
     position: relative;
-    top: 15%;
+    top: 10px;
     left: 15%;
     z-index: 1;
     box-shadow: 0 0 0 1px rgba(55, 53, 53, 0.3);
@@ -479,11 +338,11 @@ const closeBasket = () => {
   /* стили для sm-устройств */
   // CARD MAIN
   .vCardBasket {
-    width: 500px;
-    height: 550px;
+    width: 400px;
+    height: 400px;
     position: relative;
-    top: 10%;
-    left: 25%;
+    top: 10px;
+    left: 20%;
     z-index: 1;
     box-shadow: 0 0 0 1px rgba(55, 53, 53, 0.3);
     background-color: $background;
@@ -492,9 +351,9 @@ const closeBasket = () => {
   // BLOCK BASKET TITLE MAIN
   .blockBasketTitleMain {
     width: 100%;
-    height: 7%;
+    height: 10%;
     position: relative;
-    border-bottom: 2px solid $primary;
+    border-bottom: 1px solid $primary;
     background-color: $background;
   }
 
@@ -511,7 +370,7 @@ const closeBasket = () => {
   }
 
   .titleMainTitle {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 500;
     color: $text;
   }
@@ -528,24 +387,24 @@ const closeBasket = () => {
 
   // BLOCK BASKET MAIN PHOTO
   .blockBasketPhotoMain {
-    width: 50%;
-    height: 300px;
-    border-left: 1px solid $primary;
+    width: 40%;
+    height: 200px;
+    border: none;
     border-bottom: 1px solid $primary;
     background-color: $background;
   }
 
   .photoMainImg {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
   }
 
   // BLOCK BASKET TITLE PRICE BTN
   .blockBasketTitlePriceBtn {
-    width: 50%;
-    height: 300px;
+    width: 60%;
+    height: 200px;
     border-left: 1px solid $primary;
-    border-right: 1px solid $primary;
+    border-right: none;
     border-bottom: 1px solid $primary;
     background-color: $background;
   }
@@ -553,13 +412,13 @@ const closeBasket = () => {
   // BLOCK BASKET TITLE SECOND
   .blockBasketTitleSecond {
     width: 100%;
-    height: 40%;
+    height: 50%;
     background-color: $background;
   }
 
   // BLOCK BASKET TITLE SECOND BLOCK ONE
   .titleSecondTitle {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: $text;
   }
@@ -567,12 +426,12 @@ const closeBasket = () => {
   // BLOCK BASKET PRICE MAIN
   .blockBasketPriceMain {
     width: 100%;
-    height: 10%;
+    height: 15%;
     background-color: $background;
   }
 
   .priceMainTitle {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 500;
     color: $text;
   }
@@ -580,12 +439,12 @@ const closeBasket = () => {
   // BLOCK BASKET BTN MAIN
   .blockBasketBtnMain {
     width: 100%;
-    height: 50%;
+    height: 30%;
     background-color: $background;
   }
 
   .blockBasketBtnMainInPlus, .blockBasketBtnMainInMinus {
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: $text;
     background-color: $background;
     border: 1px solid $text;
@@ -622,7 +481,7 @@ const closeBasket = () => {
     height: 100%;
     position: relative;
     top: 10%;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: $text;
   }
@@ -639,7 +498,7 @@ const closeBasket = () => {
   .vCardBasket {
     width: 800px;
     height: 350px;
-    top: 20%;
+    top: 35px;
     left: 10%;
     z-index: 1;
     box-shadow: 0 0 0 1px rgba(55, 53, 53, 0.3);
@@ -786,7 +645,7 @@ const closeBasket = () => {
     width: 1100px;
     height: 350px;
     z-index: 1;
-    top: 20%;
+    top: 35px;
     left: 10%;
     box-shadow: 0 0 0 1px rgba(55, 53, 53, 0.3);
     background-color: $background;
@@ -933,7 +792,7 @@ const closeBasket = () => {
     width: 1600px;
     height: 350px;
     position: relative;
-    top: 20%;
+    top: 35px;
     left: 10%;
     z-index: 1;
     box-shadow: 0 0 0 1px rgba(55, 53, 53, 0.3);

@@ -11,7 +11,9 @@ import ShopNetworkInstrumentDrill from './ShopNetworkInstrumentDrill.vue'
 
 <template>
   <!--        CARD -->
-  <ShopNetworkInstrumentDrill></ShopNetworkInstrumentDrill>
+  <div class="d-flex flex-wrap">
+    <ShopNetworkInstrumentDrill></ShopNetworkInstrumentDrill>
+  </div>
 </template>
 
 <style lang="scss" scoped>

@@ -189,6 +189,7 @@ const filterAllNameBtn = (string) => {
         color="background"
         elevation="0"
         border="none"
+        temporary
         class="d-flex justify-center align-center">
       <FilterInstrument></FilterInstrument>
     </v-navigation-drawer>
@@ -285,7 +286,6 @@ const filterAllNameBtn = (string) => {
 
   .btnBlockMainContainer {
     width: 100%;
-    z-index: 2;
   }
 
   .blockActionBtnMain {
@@ -364,7 +364,6 @@ const filterAllNameBtn = (string) => {
 
   .btnBlockMainContainer {
     width: 100%;
-    z-index: 2;
   }
 
   .blockActionBtnMain {
@@ -443,7 +442,6 @@ const filterAllNameBtn = (string) => {
 
   .btnBlockMainContainer {
     width: 100%;
-    z-index: 2;
   }
 
   .blockActionBtnMain {
@@ -522,7 +520,6 @@ const filterAllNameBtn = (string) => {
 
   .btnBlockMainContainer {
     width: 100%;
-    z-index: 2;
   }
 
   .blockActionBtnMain {
@@ -601,7 +598,6 @@ const filterAllNameBtn = (string) => {
 
   .btnBlockMainContainer {
     width: 100%;
-    z-index: 2;
   }
 
   .blockActionBtnMain {
