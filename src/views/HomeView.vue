@@ -86,30 +86,34 @@ const navigationDrawerClick = () => {
 
 let filterAllName = ref("")
 const arrayFilter = ref("")
-const stringSearchInstrument = ref("/search/instrument/name/")
+const stringSearchInstrument = ref("/search/instrument/id/")
 
 const filterAllNameBtn = (string) => {
   arrayFilter.value = filterByCordlessName(string)
 
   if (arrayFilter.value[0].length === 1) {
+    console.log(`array[0]`, arrayFilter.value[0][0].id)
     localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[0][0]))
-    router.push({name: 'searchInstrumentByName', params: {name: filterAllName.value}})
-    stringSearchInstrument.value = stringSearchInstrument.value + string
+    router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[0][0].id}})
+    stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[0][0].id
 
   } else if (arrayFilter.value[1].length === 1) {
+    console.log(`array[1]`, arrayFilter.value[1])
     localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[1][0]))
-    router.push({name: 'searchInstrumentByName', params: {name: filterAllName.value}})
-    stringSearchInstrument.value = stringSearchInstrument.value + string
+    router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[1][0].id}})
+    stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[1][0].id
 
   } else if (arrayFilter.value[2].length === 1) {
+    console.log(`array[2]`, arrayFilter.value[2])
     localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[2][0]))
-    router.push({name: 'searchInstrumentByName', params: {name: filterAllName.value}})
-    stringSearchInstrument.value = stringSearchInstrument.value + string
+    router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[2][0].id}})
+    stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[2][0].id
 
   } else if (arrayFilter.value[3].length === 1) {
+    console.log(`array[3]`, arrayFilter.value[3])
     localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[3][0]))
-    router.push({name: 'searchInstrumentByName', params: {name: filterAllName.value}})
-    stringSearchInstrument.value = stringSearchInstrument.value + string
+    router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[3][0].id}})
+    stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[3][0].id
   }
   arrayFilter.value = ""
 }

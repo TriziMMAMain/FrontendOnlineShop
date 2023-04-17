@@ -68,7 +68,7 @@ const routes = [
     },
 
     {
-        path: '/search/instrument/name/:name/',
+        path: '/search/instrument/id/:id/',
         name: 'searchInstrumentByName',
         components: {
             searchInstrumentByName: SearchInstrumentByName,

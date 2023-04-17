@@ -63,7 +63,6 @@ export const useInstrumentStore = defineStore({
         },
         filterByCordlessName(name) {
             let filterCordlessName = []
-            console.log(`name`, name)
             if (name === "") {
                 console.log(`Пустая строка`)
             } else {
