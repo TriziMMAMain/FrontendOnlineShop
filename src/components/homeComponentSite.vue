@@ -2729,16 +2729,18 @@ const exampleInstrument2 = [
 ]
 
 const heightFunc = () => {
-  if (name.value === 'xl') {
-    return '450'
-  } else if (name.value === 'lg') {
-    return '900'
-  } else if (name.value === 'md') {
-    return '1350'
+  if (name.value === 'xs') {
+    return '2700'
   } else if (name.value === 'sm') {
     return '2700'
-  } else if (name.value === 'xs') {
-    return '2700'
+  } else if (name.value === 'md') {
+    return '1350'
+  } else if (name.value === 'lg') {
+    return '900'
+  } else if (name.value === 'xl') {
+    return '450'
+  } else if (name.value === 'xxl') {
+    return '450'
   }
 }
 
