@@ -26,7 +26,7 @@ filterPneumotoolInstrument()
 
 <template>
   <v-row class="rowMain d-flex justify-start flex-column w-100 mt-1">
-    <v-col class="d-flex flex-row flex-wrap w-100">
+    <v-col class="w-100">
       <!--          HOME PAGE-->
       <router-view name="homeComponentSite"></router-view>
       <!--      SEARCH INSTRUMENT BY NAME-->

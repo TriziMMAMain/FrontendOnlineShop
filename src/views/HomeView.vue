@@ -177,7 +177,8 @@ const filterAllNameBtn = (string) => {
             Все Инструменты Дон
           </v-app-bar-title>
         </v-col>
-        <v-col class="d-flex justify-center align-center">
+        <v-col
+            class="d-flex justify-center align-center">
           <router-link class="basketComponent d-flex justify-center align-center" to="/basket/">Корзина</router-link>
         </v-col>
       </v-row>
@@ -195,7 +196,7 @@ const filterAllNameBtn = (string) => {
     </v-navigation-drawer>
     <v-main>
 
-      <v-container fluid class="d-flex justify-start flex-wrap">
+      <v-container  class="d-flex justify-start flex-wrap">
         <div class="btnBlockMainContainer d-flex flex-column">
           <div class="blockActionBtnMain d-flex justify-space-between">
             <v-btn
