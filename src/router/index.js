@@ -35,6 +35,8 @@ import ShopPneumotoolInstrumentCompressor
 import ShopPneumotoolInstrumentCompressorId from '../components/ShopInstrumentByID/ShopInstrumentPneumotoolId.vue'
 // Admin
 import AdminView from '../views/AdminView.vue'
+// import AdminPanelUsers from '../components/AdminPanelComponents/usersComponent.vue'
+// import AdminPanelInstrument from '../components/AdminPanelComponents/instrumentComponent.vue'
 
 const routes = [
     {
@@ -246,6 +248,7 @@ const routes = [
         components: {
             adminPanel: AdminView,
         },
+
     }
 ]
 

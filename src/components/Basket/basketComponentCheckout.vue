@@ -1,13 +1,11 @@
 <script setup="">
-// core
 import {ref} from 'vue'
-//
 import {useDisplay} from 'vuetify'
+import _ from 'lodash'
+import {useBasketStore} from '../../stores/counterBasket.js'
+
 
 const {name} = useDisplay()
-import _ from 'lodash'
-// store
-import {useBasketStore} from '../../stores/counterBasket.js'
 
 const numberInPriceSum = localStorage.getItem("basket_array_price_sum")
 
@@ -27,49 +25,60 @@ const heightFunc = () => {
 
 // form
 const valid = ref(false)
-const firstNameUser = ref("")
-const numberInPhoneUser = ref("")
-const emailUser = ref("")
-const stringDeliveryUser = ref("")
-const arrayCheckboxUser = ref([])
-const stringDelivery = ref("")
-
 
 const nameRulesUser = [
   value => {
     if (value?.length <= 1) return "Мало символов"
-  },
-  value => {
-    if (value) return "Отлично! Дальше номер телефона."
-  },
+  }
 ]
 const numberRulesUser = [
   value => {
-    if (value.length <= 10) return "Мало цифр!"
-  },
-  value => {
-    if (value) return "Отлично! Дальше email."
-  },
-]
+    if (value.length <= 10) return "Мало цифр!";
+    if (!/^\d+$/.test(value)) return "Неверный формат номера!";
+  }
+];
 const emailRulesUser = [
   value => {
-    if (/.+@.+\..+/.test(value)) return 'Отлично! Выберите тип доставки. И не забудьте написать адрес доставки!'
-  },
-  value => {
-    if (value) return "Введите email правильно! Не забудьте про @"
+    if (!/.+@.+\..+/.test(value)) return 'Пишите корректный email'
+    return true
   },
 
 ]
 const checkboxDeliveryRulesUser = [
   value => {
-    if (value.length <= 12) return "Мало символов!"
-  },
-  value => {
-    if (value.length >= 13) return "Отлично! Не забудьте написать город, район, дом, квартира, номер."
+    if (value.length <= 12) return "Пишите полный адрес вашего проживания"
   }
 ]
 
 // form end
+
+const local = JSON.parse(localStorage.getItem("basket_object"))
+
+// node js
+
+//import axios module
+import axios from 'axios';
+
+const formData = ref({
+  newId: 0,
+  name: '',
+  phone: '',
+  email: '',
+  deliveryType: [],
+  address: '',
+  instrumentArray: local
+});
+
+
+const clickInInfo = () => {
+  console.log(`formData`, formData.value)
+  axios.post('http://localhost:3000/api/user', formData.value)
+      .then(response => console.log(response.data))
+      .catch(error => console.log(error))
+
+};
+
+// node js end
 
 
 </script>
@@ -88,7 +97,7 @@ const checkboxDeliveryRulesUser = [
                 class="vTextFieldInForm"
                 color="text"
                 bg-color="background"
-                v-model="firstNameUser"
+                v-model="formData.name"
                 :rules="nameRulesUser"
                 :counter="1"
                 label="Имя"
@@ -107,7 +116,7 @@ const checkboxDeliveryRulesUser = [
                 class="vTextFieldInForm"
                 color="text"
                 bg-color="background"
-                v-model="numberInPhoneUser"
+                v-model="formData.phone"
                 :rules="numberRulesUser"
                 :counter="11"
                 label="Номер телефона"
@@ -125,7 +134,7 @@ const checkboxDeliveryRulesUser = [
                 class="vTextFieldInForm"
                 color="text"
                 bg-color="background"
-                v-model="emailUser"
+                v-model="formData.email"
                 :rules="emailRulesUser"
                 label="Email"
                 prepend-icon="fa-solid fa-input-text"
@@ -139,19 +148,19 @@ const checkboxDeliveryRulesUser = [
           >
             <v-checkbox
                 color="primary"
-                v-model="arrayCheckboxUser"
+                v-model="formData.deliveryType"
                 label="Самовывоз"
                 value="Самовывоз"
-                :disabled="arrayCheckboxUser[0] === 'Доставка'"
+                :disabled="formData.deliveryType[0] === 'Доставка'"
                 hide-details
             ></v-checkbox>
 
             <v-checkbox
                 color="primary"
-                v-model="arrayCheckboxUser"
+                v-model="formData.deliveryType"
                 label="Доставка"
                 value="Доставка"
-                :disabled="arrayCheckboxUser[0] === 'Самовывоз'"
+                :disabled="formData.deliveryType[0] === 'Самовывоз'"
                 hide-details
             ></v-checkbox>
           </v-col>
@@ -163,13 +172,13 @@ const checkboxDeliveryRulesUser = [
                 class="vTextFieldInForm"
                 color="text"
                 bg-color="background"
-                v-model="stringDeliveryUser"
+                v-model="formData.address"
                 :rules="checkboxDeliveryRulesUser"
                 :counter="3"
                 label="Адрес доставки"
                 prepend-icon="fa-solid fa-input-text"
                 variant="solo"
-                :disabled="arrayCheckboxUser[0] === 'Самовывоз' || arrayCheckboxUser[0] === undefined"
+                :disabled="formData.deliveryType[0] === 'Самовывоз' || formData.deliveryType[0] === undefined"
                 required
             ></v-text-field>
           </v-col>
@@ -181,14 +190,14 @@ const checkboxDeliveryRulesUser = [
         <h1 class="purchaseVCardMainTitle d-flex align-center pl-4">Итого: {{ numberInPriceSum }} рублей</h1>
         <div class="purchaseVCardSecondBlockUserData pa-2">
           <h1 class="userDataTitle">Введенные данные: </h1>
-          <h1 class="userDataNameTitle">Имя: {{ firstNameUser }}</h1>
-          <h1 class="userDataNumberTitle">Номер телефона: {{ numberInPhoneUser }}</h1>
-          <h1 class="userDataEmailTitle">Email: {{ emailUser }}</h1>
-          <h1 class="userDataCheckbox">{{ arrayCheckboxUser[0] }} {{ stringDeliveryUser }}</h1>
+          <h1 class="userDataNameTitle">Имя: {{ formData.name }}</h1>
+          <h1 class="userDataNumberTitle">Номер телефона: {{ formData.phone }}</h1>
+          <h1 class="userDataEmailTitle">Email: {{ formData.email }}</h1>
+          <h1 class="userDataCheckbox">{{ formData.deliveryType[0] }} {{ formData.address }}</h1>
         </div>
         <div class="purchaseVCardSecondBlockButtonAction d-flex justify-center align-center">
           <v-btn
-              @click=""
+              @click="clickInInfo()"
               :height="heightFunc()"
               class="buttonActionBtn">Подтвердить заказ
           </v-btn>
@@ -258,16 +267,20 @@ const checkboxDeliveryRulesUser = [
   color: $text;
 }
 
-.userDataTitle {}
+.userDataTitle {
+}
 
-.userDataNameTitle {}
+.userDataNameTitle {
+}
 
-.userDataNumberTitle {}
+.userDataNumberTitle {
+}
 
-.userDataEmailTitle {}
+.userDataEmailTitle {
+}
 
-.userDataCheckbox {}
-
+.userDataCheckbox {
+}
 
 
 .purchaseVCardSecondBlockButtonAction {
