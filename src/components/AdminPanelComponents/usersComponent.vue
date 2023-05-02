@@ -39,6 +39,7 @@ const fetchingUsersProcessingAccepted = async () => {
     const response = await fetch('http://localhost:3000/api/user/processing/accepted');
     if (response.ok) {
       let asd = await response.json();
+      console.log(`asd`, asd)
     } else {
       throw new Error(`Error fetching users: ${response.statusText}`);
     }
@@ -51,6 +52,7 @@ const fetchingUsersProcessingRefusal = async () => {
     const response = await fetch('http://localhost:3000/api/user/processing/refusal');
     if (response.ok) {
       let user = await response.json();
+      console.log(`user`, user)
     } else {
       throw new Error(`Error fetching users: ${response.statusText}`);
     }
@@ -72,61 +74,87 @@ const fetchingUsersProcessingChange = async () => {
 }
 
 
-
 const processingInAccept = async (user) => {
+  try {
+    data.value = user
+    const response = await axios.post('http://localhost:3000/api/user/processing', data.value)
 
-  data.value.userInProcessing = user
-  axios.post('http://localhost:3000/api/user/processing', data.value)
-      .then(response => console.log(response.data))
-      .catch(error => console.log(error))
 
-  fetchingUsersProcessingAccepted()
-      .then(() => {
-        console.log(`Good`);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setTimeout(() => {
+      fetchingUsersProcessingAccepted()
+          .then(() => {
+            console.log(`Accepted good`);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }, 1500)
 
-  fetchingUsersProcessingChange()
-      .then(() => {
-        console.log(`Change good`);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setTimeout(() => {
+      fetchingUsersProcessingChange()
+          .then(() => {
+            console.log(`Change good`);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }, 2000)
+
+    setTimeout(() => {
+      console.log(`reload Window`)
+      window.location.reload()
+    }, 2500)
+
+  } catch (error) {
+    console.log(error)
+  }
+
+
 
 
 
 }
 const processingInRefusal = async (user) => {
-
-  data.value.userInProcessing = user
-  axios.post('http://localhost:3000/api/user/processing', data.value)
-      .then(response => console.log(response.data))
-      .catch(error => console.log(error))
+  try {
+    data.value = user
+    const response = await axios.post('http://localhost:3000/api/user/processing', data.value)
 
 
-  fetchingUsersProcessingRefusal()
-      .then(() => {
-        console.log(`Refusal good`);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setTimeout(() => {
+      fetchingUsersProcessingRefusal()
+          .then(() => {
+            console.log(`Refusal good`);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }, 1500)
 
 
-  fetchingUsersProcessingChange()
-      .then(() => {
-        console.log(`Change good`);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setTimeout(() => {
+      fetchingUsersProcessingChange()
+          .then(() => {
+            console.log(`Change good`);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }, 2000)
+
+    setTimeout(() => {
+      console.log(`reload Window`)
+      window.location.reload()
+    }, 2500)
+
+  } catch (error) {
+    console.log(error)
+  }
+
+
+
 }
 
 // Обработка завершена
-
 
 
 </script>
@@ -146,12 +174,8 @@ const processingInRefusal = async (user) => {
           Общая сумма: {{ i.priceOrder }} - </span>
         <br>
         Обработка: {{ user.processing }}
-        <v-btn
-            href="/admin-panel/"
-            @click="processingInAccept(user)">Добавить в обработку {{ user.newId }}</v-btn>
-        <v-btn
-            href="/admin-panel/"
-            @click="processingInRefusal(user)">Отказать в обработке {{ user.newId }}</v-btn>
+        <v-btn @click="processingInAccept(user)">Добавить в обработку {{ user.newId }}</v-btn>
+        <v-btn @click="processingInRefusal(user)">Отказать в обработке {{ user.newId }}</v-btn>
       </li>
     </ul>
   </div>
