@@ -1,6 +1,8 @@
 <script setup="">
 // - Import
 import {ref} from 'vue'
+import {Promise} from 'core-js'
+import axios from 'axios'
 import _ from 'lodash'
 import {useRouter} from 'vue-router'
 import {useInstrumentStore} from "../stores/counter.js"
@@ -47,73 +49,189 @@ const heightFunc = () => {
   }
 }
 
+//
 
-const cordlessLocal = JSON.parse(localStorage.getItem("cordless"))
-const gasolineLocal = JSON.parse(localStorage.getItem("gasoline"))
-const networkLocal = JSON.parse(localStorage.getItem("network"))
-const pneumotoolLocal = JSON.parse(localStorage.getItem("pneumotool"))
-
-const cordlessLocalCopyNameArray = []
-const instrumentAllLocalCopyName = []
-const cordlessLocalCopyName = () => {
-  for (let i = 0; i < cordlessLocal.length; i++) {
-    cordlessLocalCopyNameArray.push(cordlessLocal[i]);
+const fetchingCordlessInstrument = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/instruments/get/cordless');
+    if (response.ok) {
+      const cordless = await response.json();
+      await cordlessLocalCopyName(cordless); // передача данных в cordlessLocalCopyName
+    } else {
+      throw new Error(`Error fetching cordless: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
   }
-  for (let i = 0; i < cordlessLocalCopyNameArray.length; i++) {
-    instrumentAllLocalCopyName.push(cordlessLocalCopyNameArray[i].name)
+};
+const fetchingGasolineInstrument = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/instruments/get/gasoline');
+    if (response.ok) {
+      const gasoline = await response.json();
+      await gasolineLocalCopyName(gasoline);
+    } else {
+      throw new Error(`Error fetching gasoline: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+const fetchingNetworkInstrument = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/instruments/get/network');
+    if (response.ok) {
+      const network = await response.json();
+      await networkLocalCopyName(network);
+    } else {
+      throw new Error(`Error fetching network: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+const fetchingPneumoInstrument = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/instruments/get/pneumo');
+    if (response.ok) {
+      const pneumo = await response.json();
+      await pneumoLocalCopyName(pneumo);
+    } else {
+      throw new Error(`Error fetching pneumo: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const instrumentAllLocalCopyName2 = ref([])
+
+// Cordless
+
+const cordlessLocalCopyNameArray = ref([])
+const instrumentAllLocalCopyName = ref([]);
+
+const cordlessLocalCopyName = async (cordless) => {
+  if (Array.isArray(cordless) || (typeof cordless === 'object' && cordless.hasOwnProperty('length'))) {
+    for (let i = 0; i < cordless.length; i++) {
+      cordlessLocalCopyNameArray.value.push(cordless[i]);
+    }
+    for (let i = 0; i < cordlessLocalCopyNameArray.value.length; i++) {
+      instrumentAllLocalCopyName.value.push(cordlessLocalCopyNameArray.value[i].name);
+    }
+  } else {
+    console.log('Invalid input');
+  }
+};
+
+
+// Gasoline
+
+const gasolineLocalCopyNameArray = ref([])
+const gasolineLocalCopyNameCopy = ref([])
+
+const gasolineLocalCopyName = async (gasoline) => {
+  if (Array.isArray(gasoline) || (typeof gasoline === 'object' && cordless.hasOwnProperty('length'))) {
+    for (let i = 0; i < gasoline.length; i++) {
+      gasolineLocalCopyNameArray.value.push(gasoline[i]);
+    }
+    for (let i = 0; i < gasolineLocalCopyNameArray.value.length; i++) {
+      gasolineLocalCopyNameCopy.value.push(gasolineLocalCopyNameArray.value[i].name);
+    }
+  } else {
+    console.log('Invalid input');
   }
 }
-cordlessLocalCopyName()
 
-const gasolineLocalCopyNameArray = []
-const gasolineLocalCopyNameCopy = []
-const gasolineLocalCopyName = () => {
-  for (let i = 0; i < gasolineLocal.length; i++) {
-    gasolineLocalCopyNameArray.push(gasolineLocal[i])
-  }
-  for (let i = 0; i < gasolineLocalCopyNameArray.length; i++) {
-    gasolineLocalCopyNameCopy.push(gasolineLocalCopyNameArray[i].name)
+
+// Netwrok
+
+const networkLocalCopyNameArray = ref([])
+const networkLocalCopyNameCopy = ref([])
+
+const networkLocalCopyName = async (network) => {
+  if (Array.isArray(network) || (typeof network === 'object' && cordless.hasOwnProperty('length'))) {
+    for (let i = 0; i < network.length; i++) {
+      networkLocalCopyNameArray.value.push(network[i]);
+    }
+    for (let i = 0; i < networkLocalCopyNameArray.value.length; i++) {
+      networkLocalCopyNameCopy.value.push(networkLocalCopyNameArray.value[i].name);
+    }
+  } else {
+    console.log('Invalid input');
   }
 }
-gasolineLocalCopyName()
 
-const networkLocalCopyNameArray = []
-const networkLocalCopyNameCopy = []
-const networkLocalCopy = () => {
-  for (let i = 0; i < networkLocal.length; i++) {
-    networkLocalCopyNameArray.push(networkLocal[i])
-  }
-  for (let i = 0; i < networkLocalCopyNameArray.length; i++) {
-    networkLocalCopyNameCopy.push(networkLocalCopyNameArray[i].name)
+
+// Pneumotool
+
+const pneumotoolLocalCopyArray = ref([])
+const pneumotoollocalCopyNameCopy = ref([])
+
+const pneumoLocalCopyName = async (pneumo) => {
+  if (Array.isArray(pneumo) || (typeof pneumo === 'object' && cordless.hasOwnProperty('length'))) {
+    for (let i = 0; i < pneumo.length; i++) {
+      pneumotoolLocalCopyArray.value.push(pneumo[i]);
+    }
+    for (let i = 0; i < pneumotoolLocalCopyArray.value.length; i++) {
+      pneumotoollocalCopyNameCopy.value.push(pneumotoolLocalCopyArray.value[i].name);
+    }
+  } else {
+    console.log('Invalid input');
   }
 }
-networkLocalCopy()
 
-const pneumotoolLocalCopyArray = []
-const pneumotoolLocalCopyNameCopy = []
-const pneumotoolCopy = () => {
-  for (let i = 0; i < pneumotoolLocal.length; i++) {
-    pneumotoolLocalCopyArray.push(pneumotoolLocal[i])
-  }
-  for (let i = 0; i < pneumotoolLocalCopyArray.length; i++) {
-    pneumotoolLocalCopyNameCopy.push(pneumotoolLocalCopyArray[i].name)
+
+const loadInstruments = async () => {
+  try {
+    await Promise.all([
+      fetchingCordlessInstrument()
+          .then(() => {
+            console.log(`Cordless load`);
+          })
+          .catch((error) => {
+            console.log(error);
+          }),
+      fetchingGasolineInstrument()
+          .then(() => {
+            console.log(`Gasoline load`);
+          })
+          .catch((error) => {
+            console.log(error);
+          }),
+      fetchingNetworkInstrument()
+          .then(() => {
+            console.log(`Network load`);
+          })
+          .catch((error) => {
+            console.log(error);
+          }),
+      fetchingPneumoInstrument()
+          .then(() => {
+            console.log(`Pneumo load`);
+          })
+          .catch((error) => {
+            console.log(error);
+          }),
+    ])
+    for (let i = 0; i < gasolineLocalCopyNameCopy.value.length; i++) {
+      instrumentAllLocalCopyName.value.push(gasolineLocalCopyNameCopy.value[i])
+    }
+    for (let i = 0; i < networkLocalCopyNameCopy.value.length; i++) {
+      instrumentAllLocalCopyName.value.push(networkLocalCopyNameCopy.value[i])
+    }
+    for (let i = 0; i < pneumotoollocalCopyNameCopy.value.length; i++) {
+      instrumentAllLocalCopyName.value.push(pneumotoollocalCopyNameCopy.value[i])
+    }
+    instrumentAllLocalCopyName2.value = instrumentAllLocalCopyName.value
+    console.log(`instrument`, instrumentAllLocalCopyName2.value)
+    // Ваш код здесь
+
+  } catch (error) {
+    console.log('Instrument load failed', error)
   }
 }
-pneumotoolCopy()
-
-const instrumentLocalCopy = () => {
-  for (let i = 0; i < gasolineLocalCopyNameCopy.length; i++) {
-    instrumentAllLocalCopyName.push(gasolineLocalCopyNameCopy[i])
-  }
-  for (let i = 0; i < networkLocalCopyNameCopy.length; i++) {
-    instrumentAllLocalCopyName.push(networkLocalCopyNameCopy[i])
-  }
-  for (let i = 0; i < pneumotoolLocalCopyNameCopy.length; i++) {
-    instrumentAllLocalCopyName.push(pneumotoolLocalCopyNameCopy[i])
-  }
-}
-instrumentLocalCopy()
-
+loadInstruments()
 
 let navigationDrawer = ref(false)
 const navigationDrawerClick = () => {
@@ -125,36 +243,36 @@ const arrayFilter = ref("")
 const stringSearchInstrument = ref("/search/instrument/id/")
 
 const filterAllNameBtn = (string) => {
-  arrayFilter.value = filterByCordlessName(string)
+  // arrayFilter.value = filterByCordlessName(string)
+  console.log(`filter`, filterAllName.value)
 
-  if (arrayFilter.value[0].length === 1) {
-    console.log(`array[0]`, arrayFilter.value[0][0].id)
-    localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[0][0]))
-    // router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[0][0].id}})
-    stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[0][0].id
 
-  } else if (arrayFilter.value[1].length === 1) {
-    console.log(`array[1]`, arrayFilter.value[1])
-    localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[1][0]))
-    // router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[1][0].id}})
-    stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[1][0].id
-
-  } else if (arrayFilter.value[2].length === 1) {
-    console.log(`array[2]`, arrayFilter.value[2])
-    localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[2][0]))
-    // router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[2][0].id}})
-    stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[2][0].id
-
-  } else if (arrayFilter.value[3].length === 1) {
-    console.log(`array[3]`, arrayFilter.value[3])
-    localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[3][0]))
-    // router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[3][0].id}})
-    stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[3][0].id
-  }
-  arrayFilter.value = ""
+  // if (arrayFilter.value[0].length === 1) {
+  //   console.log(`array[0]`, arrayFilter.value[0][0].id)
+  //   localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[0][0]))
+  //   // router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[0][0].id}})
+  //   stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[0][0].id
+  //
+  // } else if (arrayFilter.value[1].length === 1) {
+  //   console.log(`array[1]`, arrayFilter.value[1])
+  //   localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[1][0]))
+  //   // router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[1][0].id}})
+  //   stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[1][0].id
+  //
+  // } else if (arrayFilter.value[2].length === 1) {
+  //   console.log(`array[2]`, arrayFilter.value[2])
+  //   localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[2][0]))
+  //   // router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[2][0].id}})
+  //   stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[2][0].id
+  //
+  // } else if (arrayFilter.value[3].length === 1) {
+  //   console.log(`array[3]`, arrayFilter.value[3])
+  //   localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[3][0]))
+  //   // router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[3][0].id}})
+  //   stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[3][0].id
+  // }
+  // arrayFilter.value = ""
 }
-
-
 </script>
 
 <template>
@@ -196,7 +314,7 @@ const filterAllNameBtn = (string) => {
     </v-navigation-drawer>
     <v-main>
 
-      <v-container  class="d-flex justify-start flex-wrap">
+      <v-container class="d-flex justify-start flex-wrap">
         <div class="btnBlockMainContainer d-flex flex-column">
           <div class="blockActionBtnMain d-flex justify-space-between">
             <v-btn
@@ -221,7 +339,7 @@ const filterAllNameBtn = (string) => {
                 clearable
                 class="vAutocompleteMain"
                 type="text"
-                :items="instrumentAllLocalCopyName"
+                :items="instrumentAllLocalCopyName2"
                 v-model="filterAllName"
                 prepend-icon="fa-solid fa-magnifying-glass"
                 placeholder="Введите название инструмента"

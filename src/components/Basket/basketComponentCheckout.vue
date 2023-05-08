@@ -66,17 +66,23 @@ const formData = ref({
   email: '',
   deliveryType: [],
   address: '',
-  instrumentArray: local
+  instrumentArray: local,
+  dayAndTime: '',
+  processing: 'Ожидание обработки'
 });
 
 
 const clickInInfo = () => {
+  const newIdMath = ref(Math.floor(Math.random() * 1000000))
+  formData.value.newId = newIdMath.value
   console.log(`formData`, formData.value)
   axios.post('http://localhost:3000/api/user', formData.value)
       .then(response => console.log(response.data))
       .catch(error => console.log(error))
+  localStorage.setItem("id_user_basket", JSON.stringify(formData.value.newId))
+  // basket_array
 
-};
+}
 
 // node js end
 
@@ -176,6 +182,22 @@ const clickInInfo = () => {
                 :rules="checkboxDeliveryRulesUser"
                 :counter="3"
                 label="Адрес доставки"
+                prepend-icon="fa-solid fa-input-text"
+                variant="solo"
+                :disabled="formData.deliveryType[0] === 'Самовывоз' || formData.deliveryType[0] === undefined"
+                required
+            ></v-text-field>
+          </v-col>
+          <v-col
+              cols="12"
+              md="4"
+          >
+            <v-text-field
+                class="vTextFieldInForm"
+                color="text"
+                bg-color="background"
+                v-model="formData.dayAndTime"
+                label="Желаемая дата и время доставки на дом"
                 prepend-icon="fa-solid fa-input-text"
                 variant="solo"
                 :disabled="formData.deliveryType[0] === 'Самовывоз' || formData.deliveryType[0] === undefined"

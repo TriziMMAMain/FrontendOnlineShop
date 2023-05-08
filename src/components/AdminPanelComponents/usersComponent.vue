@@ -98,6 +98,7 @@ const processingInAccept = async (user) => {
           .catch((error) => {
             console.log(error);
           });
+
     }, 2000)
 
     setTimeout(() => {
@@ -163,15 +164,30 @@ const processingInRefusal = async (user) => {
   <div>
     <h2>Пользователи которые выбрали товар</h2>
     <ul>
-      <li v-for="user in users" :key="user.id">
-        {{ user.newId }} - {{ user.name }} - {{ user.phone }} - {{ user.email }} -
-        {{ user.deliveryType[0] }} - {{ user.address }}
+      <li class="userLi"
+          v-for="user in users" :key="user.id">
+        <br>
+        <v-divider
+            :thickness="4"
+            class="border-opacity-25"
+            color="primary"
+        ></v-divider>
+        <br>
+        ID: {{ user.newId }} <br>
+        Имя: {{ user.name }} <br>
+        Номер телефона: {{ user.phone }} <br>
+        Почта: {{ user.email }} <br>
+        Тип доставки: {{ user.deliveryType[0] }} <br>
+        Адрес: {{ user.address }} <br>
+        Время доставки: {{ user.dayAndTime }} <br>
+        <h3>Инструменты пользователя</h3>
         <span v-for="i in user.instrumentArray">
-          <br>
           Название: {{ i.name }} -
           Цена за шт: {{ i.price }} -
           Кол-во шт: {{ i.orderSum }} -
-          Общая сумма: {{ i.priceOrder }} - </span>
+          Общая сумма: {{ i.priceOrder }} -
+          <br>
+        </span>
         <br>
         Обработка: {{ user.processing }}
         <v-btn @click="processingInAccept(user)">Добавить в обработку {{ user.newId }}</v-btn>
@@ -182,5 +198,9 @@ const processingInRefusal = async (user) => {
 </template>
 
 <style lang="scss" scoped>
+
+.userLi {
+  list-style-type: none;
+}
 
 </style>
