@@ -1,6 +1,7 @@
 <script setup="">
 import {ref} from 'vue'
 import axios from "axios";
+import {ProccesingSuccessfuly, ProcessingError} from "../../notification/toasting";
 
 // Counter True or False
 const counterTrueOrFalse = ref(true)
@@ -73,7 +74,7 @@ const photoObject = ref({
 })
 const vTextFieldPhotoText = ref('')
 // Price
-const vTextFieldPrice = ref('')
+const vTextFieldPrice = ref(null)
 //
 
 
@@ -98,32 +99,19 @@ const postInBackendType = async () => {
     type: vSelectType.value
   })
   const response = await axios.post('http://localhost:3000/api/instrument/type', dataType.value)
-  console.log(`Отправка: Type`)
 
   setTimeout(() => {
     fetchingDataType()
         .then(() => {
-          console.log(`Fetching done!`);
+          ProccesingSuccessfuly('Выберите категорию инструмента!')
         })
         .catch((error) => {
           console.log(error);
         });
-  }, 500)
+  }, 300)
 }
 // Axios
-// FeatureTop
-// const pushTitleInfo = () => {
-//   counterClickBtnPush.value = counterClickBtnPush.value + 1
-//   if (counterClickBtnPush.value <= 6) {
-//     featureTopTitleObject.value.featureTopTitleInfoTitle = vTextFieldFeatureTopTitleInfoTitle.value
-//     featureTopTitleObject.value.featureTopTitleInfoText = vTextFieldFeatureTopTitleInfoText.value
-//     featureTopTitleArray.value.push(featureTopTitleObject.value)
-//     console.log(`array`, featureTopTitleArray.value)
-//   } else if (counterClickBtnPush.value >= 7) {
-//     console.log(`array`, featureTopTitleArray.value)
-//   //  Максимальное значение 6
-//   }
-// }
+
 const pushTitleInfo = () => {
   counterClickBtnPush.value = counterClickBtnPush.value + 1
   if (counterClickBtnPush.value <= 6) {
@@ -133,16 +121,20 @@ const pushTitleInfo = () => {
     };
     featureTopTitleObject.value = newFeatureTopTitleObject;
     featureTopTitleArray.value.push(newFeatureTopTitleObject)
+    ProccesingSuccessfuly('Данные успешно загруженны!')
     console.log(`array`, featureTopTitleArray.value)
+    vTextFieldFeatureTopTitleInfoTitle.value = ''
+    vTextFieldFeatureTopTitleInfoText.value = ''
   } else if (counterClickBtnPush.value >= 7) {
+    ProcessingError('Максимальное кол-во строк --- 6')
     console.log(`array`, featureTopTitleArray.value)
-    //  Максимальное значение 6
   }
 }
 const deleteTitleInfo = () => {
   featureTopTitleArray.value = []
   console.log(`array`, featureTopTitleArray.value)
   counterClickBtnPush.value = 0
+  ProcessingError('Данные успешно удалены!')
 }
 // FeatureMiddle
 const pushFeatureMiddle = () => {
@@ -151,10 +143,14 @@ const pushFeatureMiddle = () => {
     featureValue: vTextFieldFeatureMiddleFetureValue.value,
   };
   featureMiddleArray.value.push(newFeatureMiddleObject);
+  ProccesingSuccessfuly('Данные успешно загруженны!')
   console.log(`array`, featureMiddleArray.value);
+  vTextFieldFeatureMiddleFeature.value = ''
+  vTextFieldFeatureMiddleFetureValue.value = ''
 };
 const deleterFeatureMiddle = () => {
   featureMiddleArray.value = []
+  ProcessingError('Данные успешно удалены!')
   console.log(`array`, featureMiddleArray.value)
 }
 // FeatureDown
@@ -163,10 +159,13 @@ const pushFeatureDown = () => {
     featureDown: vTextFieldFeatureDownFeatureDown.value,
   };
   featureDownArray.value.push(newFeatureDownObject);
+  ProccesingSuccessfuly('Данные успешно загруженны!')
   console.log(`array`, featureDownArray.value);
+  vTextFieldFeatureDownFeatureDown.value = ''
 };
 const deleterFeatureDown = () => {
   featureDownArray.value = []
+  ProcessingError('Данные успешно удалены!')
   console.log(`array`, featureDownArray.value)
 }
 // Img photo Array
@@ -175,10 +174,13 @@ const pushPhotoArray = () => {
     src: vTextFieldPhotoText.value
   };
   photoArray.value.push(newPhotoObject);
+  ProccesingSuccessfuly('Фотографии успешно загруженны!')
   console.log(`array: `, photoArray.value);
+  vTextFieldPhotoText.value = ''
 };
 const deletePhotoArray = () => {
   photoArray.value = []
+  ProcessingError('Фотографии успешно удалены!')
   console.log(`array`, photoArray.value)
 }
 //
@@ -202,12 +204,15 @@ const submitForm = () => {
   toolObject.value.imgArray = photoArray.value
   toolObject.value.price = vTextFieldPrice.value
   toolObject.value.orderSum = 1
-  toolObject.value.priceOrder = 0
+  toolObject.value.priceOrder = vTextFieldPrice.value
 
   console.log(`toolObject`, toolObject.value)
 
   axios.post('http://localhost:3000/api/instrument/add', toolObject.value)
-      .then(response => console.log(response.data))
+      .then(response => {
+        ProccesingSuccessfuly('Инструмент добавлен на сайт!')
+        console.log(response.data)
+      })
       .catch(error => console.log(error))
 
 }
@@ -323,7 +328,7 @@ const submitForm = () => {
 
       <v-btn @click="deletePhotoArray()">Удалить все значения</v-btn>
     </v-container>
-    <v-text-field v-model="vTextFieldPrice"
+    <v-text-field v-model.number="vTextFieldPrice"
                   clearable
                   label="Цена за шт"
                   variant="underlined"/>

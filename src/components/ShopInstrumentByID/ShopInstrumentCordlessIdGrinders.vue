@@ -1,41 +1,45 @@
 <script setup="">
 // core
-import {computed, ref} from 'vue'
-// store
-import {useInstrumentStore} from '../../stores/counter'
+import {ref} from 'vue'
+
 //
 import BasketComponentDynamic from "../Basket/basketComponentDynamic.vue"
-// lodash
-import _ from "lodash";
-// local
+import {Promise} from "core-js";
 
-const cordlessLocal = JSON.parse(localStorage.getItem("cordless"))
-const cordlessLocalCopy = cordlessLocal
-const cordlessId = JSON.parse(localStorage.getItem("id_cordless"))
+//
+const cordlessLocal = ref([])
+const cordlessLocalCopy = ref([])
 
-const {findByCordlessID, filterCrodlessInstrument} = useInstrumentStore()
+const fetchingInstrumentFilterById = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
+    if (response.ok) {
+      cordlessLocal.value = await response.json()
+      cordlessLocalCopy.value = await cordlessLocal.value[0]
+    } else {
+      throw new Error(`Error fetching instrument: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-const instrument = computed(() => {
-  return findByCordlessID(Number(route2.params.id))
-})
+const cordlessLocalCopyFun = async () => {
+  try {
+    await Promise.all([
+      fetchingInstrumentFilterById()
+          .then(() => {
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    ])
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-// router
-import {useRouter, useRoute} from 'vue-router'
-
-const route = useRoute()
-const router = useRouter()
-
-
-const back = () => {
-  router.push({name: 'cordlessInstrumentGrinders'})
-}
-
-// console.log(cordlessId);
-const arrayGrindersId = []
-const findIdTool = () => {
-  arrayGrindersId.push(_.find(cordlessLocalCopy, {'id': cordlessId}))
-}
-findIdTool()
+cordlessLocalCopyFun();
 
 
 const items = [
@@ -82,7 +86,7 @@ const buyInBasket = (id) => {
   <v-container
       fluid
       class="cardMainShopSideContainer w-100"
-      v-for="i in arrayGrindersId"
+      v-for="i in [cordlessLocalCopy]"
   >
     <div class="basketComponentDynamicBlockMain"
          v-if="basketClick">
@@ -118,7 +122,7 @@ const buyInBasket = (id) => {
           >
             <v-carousel-item
                 class="w-100"
-                v-for="(item, i) in arrayGrindersId[0].imgArray"
+                v-for="(item, i) in cordlessLocalCopy.imgArray"
                 :key="i"
                 :src="item.src"
             >
@@ -132,7 +136,7 @@ const buyInBasket = (id) => {
             Основные характеристики
           </v-card-text>
           <!--          -->
-          <v-card-text v-for="item in arrayGrindersId[0].featureTopTitle"
+          <v-card-text v-for="item in cordlessLocalCopy.featureTopTitle"
                        key="item"
                        class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
@@ -174,7 +178,7 @@ const buyInBasket = (id) => {
           <v-table class="cardMainContainerShopSideFeatureMiddleTopVTable" density="compact">
             <tbody>
             <tr
-                v-for="item in arrayGrindersId[0].featureMiddle"
+                v-for="item in cordlessLocalCopy.featureMiddle"
                 :key="item.feature"
             >
               <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.feature }}</td>
@@ -190,7 +194,7 @@ const buyInBasket = (id) => {
           <h1 class="textCardFeatureDown">Преимущества {{ i.name }}</h1>
           <ul class="cardMainContainerShopSideFeatureDownTopUl">
             <li class="cardMainContainerShopSideFeatureDownTopLi"
-                v-for="i in arrayGrindersId[0].featureDownArray"
+                v-for="i in cordlessLocalCopy.featureDownArray"
                 :key="i.featureDown">{{ i.featureDown }}
             </li>
           </ul>

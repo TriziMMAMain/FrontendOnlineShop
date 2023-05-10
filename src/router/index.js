@@ -120,7 +120,6 @@ const routes = [
                 components: {
                     cordlessToolsGrindersId: ShopInstrumentGrindersId,
                 },
-
             },
             // done!
             {

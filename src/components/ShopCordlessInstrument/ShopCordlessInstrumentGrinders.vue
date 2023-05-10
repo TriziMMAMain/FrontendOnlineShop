@@ -1,12 +1,18 @@
 <script setup="">
 // - Import
 import {ref} from 'vue'
-import { useRouter } from 'vue-router'
+import {useRouter} from 'vue-router'
+import _ from 'lodash'
+import {useInstrumentStore} from '../../stores/counter.js'
+import {useBasketStore} from "../../stores/counterBasket";
 import {useDisplay} from 'vuetify'
+import axios from "axios";
 
 const {name} = useDisplay()
+const {importBasketId} = useBasketStore()
+
 const router = useRouter()
-const cordlessLocal = JSON.parse(localStorage.getItem("cordless"))
+
 
 const heightFunc = () => {
   if (name.value === 'xs') {
@@ -39,7 +45,6 @@ const weightFunc = () => {
     return '950'
   }
 }
-
 const firstColFunc = () => {
   if (name.value === 'xs') {
     return '3'
@@ -55,7 +60,6 @@ const firstColFunc = () => {
     return '3'
   }
 }
-
 const secondColFunc = () => {
   if (name.value === 'xs') {
     return '6'
@@ -71,7 +75,6 @@ const secondColFunc = () => {
     return '6'
   }
 }
-
 const thirdColFunc = () => {
   if (name.value === 'xs') {
     return '3'
@@ -87,7 +90,6 @@ const thirdColFunc = () => {
     return '3'
   }
 }
-
 const weightFuncVBtn = () => {
   if (name.value === 'xs') {
     return '170'
@@ -103,7 +105,6 @@ const weightFuncVBtn = () => {
     return '220'
   }
 }
-
 const heightFuncVBtn = () => {
   if (name.value === 'xs') {
     return '32'
@@ -119,33 +120,63 @@ const heightFuncVBtn = () => {
     return '48'
   }
 }
+
 //
-const cordlessGrindersArray = []
-const cordlessGrindres = () => {
-  for (let i = 0; i < cordlessLocal.length; i++) {
-    if (cordlessLocal[i].typeThis === 'Аккумуляторная болгарка') {
-      cordlessGrindersArray.push(cordlessLocal[i])
+const cordlessGrindersArray = ref([])
+const cordlessLocal= ref([])
+
+const fetchingInstrumentFilterName = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/instruments/get/cordless');
+    if (response.ok) {
+      cordlessLocal.value = await response.json();
+    } else {
+      throw new Error(`Error fetching instrument: ${response.statusText}`);
     }
+  } catch (error) {
+    console.log(error);
   }
 }
-cordlessGrindres()
-// - Logical
+fetchingInstrumentFilterName()
+    .then(() => {
+      cordlessDrill()
+      console.log(`Fetching cordless grinders good`);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
 
-const viewDetails = (id) => {
-  router.push({name: 'cordlessInstrumentGrindersID', params: {id: id}}) // /id/:id
+const cordlessDrill = async () => {
+  for (let i = 0; i < cordlessLocal.value.length; i++) {
+    if (cordlessLocal.value[i].typeThis === 'Аккумуляторная болгарка') {
+      cordlessGrindersArray.value.push(cordlessLocal.value[i])
+    }
+  }
+  console.log(`cordless`, cordlessGrindersArray.value)
+}
+
+
+const viewDetails = async (id) => {
+  let dataInstrument = ref([])
+  for (let i = 0; i < cordlessGrindersArray.value.length; i++) {
+    dataInstrument.value = _.filter(cordlessGrindersArray.value, {id: id})
+  }
+  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+
+  await router.push({name: 'cordlessInstrumentGrindersID', params: {id: id}}) // /id/:id
   localStorage.setItem("id_cordless", JSON.stringify(id))
 }
-// ---
 // - Logical
+let counterClick = ref(0)
+const buyInBasket = async (id) => {
 
-const counterClick = ref(0)
-const buyInBasket = (id) => {
   counterClick.value = counterClick.value + 1
   if (counterClick.value === 1) {
     localStorage.setItem("basket_id", JSON.stringify(id))
     localStorage.setItem("basket_click", JSON.stringify(true))
     localStorage.setItem("id_cordless", JSON.stringify(id))
-    router.push({name: 'cordlessInstrumentGrindersID', params: {id: id}})
+    await router.push({name: 'cordlessInstrumentGrindersID', params: {id: id}})
+
   }
 }
 </script>
@@ -182,7 +213,7 @@ const buyInBasket = (id) => {
         <!--        SPAN AND TEXT-->
         <div
             class="mt-1">
-          <v-card-text v-for="item in cordlessGrindersArray[i.numberInList].featureTopTitle"
+          <v-card-text v-for="item in i.featureTopTitle"
                        key="item"
                        class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>

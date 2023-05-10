@@ -1,7 +1,7 @@
 <script setup="">
 import {ref} from 'vue'
 import axios from "axios";
-
+import {ProccesingSuccessfuly, ProcessingError} from '../../notification/toasting.js'
 // Получаем пользователей
 
 let users = ref([])
@@ -78,7 +78,7 @@ const processingInAccept = async (user) => {
   try {
     data.value = user
     const response = await axios.post('http://localhost:3000/api/user/processing', data.value)
-
+    ProccesingSuccessfuly('Обработка успешна')
 
     setTimeout(() => {
       fetchingUsersProcessingAccepted()
@@ -98,7 +98,6 @@ const processingInAccept = async (user) => {
           .catch((error) => {
             console.log(error);
           });
-
     }, 2000)
 
     setTimeout(() => {
@@ -107,6 +106,7 @@ const processingInAccept = async (user) => {
     }, 2500)
 
   } catch (error) {
+    ProcessingError(`Ошибка: ${error}`)
     console.log(error)
   }
 
@@ -119,7 +119,7 @@ const processingInRefusal = async (user) => {
   try {
     data.value = user
     const response = await axios.post('http://localhost:3000/api/user/processing', data.value)
-
+    ProccesingSuccessfuly('Обработка успешна')
 
     setTimeout(() => {
       fetchingUsersProcessingRefusal()
@@ -148,6 +148,7 @@ const processingInRefusal = async (user) => {
     }, 2500)
 
   } catch (error) {
+    ProcessingError(`Ошибка: ${error}`)
     console.log(error)
   }
 

@@ -3,8 +3,11 @@
 import {ref} from 'vue'
 import _ from "lodash";
 import {useBasketStore} from '../../stores/counterBasket.js'
-import { useDisplay } from 'vuetify'
-const { name } = useDisplay()
+import {useDisplay} from 'vuetify'
+import {Promise} from "core-js";
+import {ProccesingSuccessfuly, ProcessingError} from "../../notification/toasting";
+
+const {name} = useDisplay()
 // variable
 localStorage.setItem("basket_array", JSON.stringify([]))
 const getLocalStoreIdBasket = JSON.parse(localStorage.getItem("basket_id"))
@@ -26,78 +29,105 @@ const networkId = findByNetworkID(getLocalStoreIdBasket)
 const pneuomotoolId = findByPneuomotoolID(getLocalStoreIdBasket)
 
 // logical
-const pushInArrayId = () => {
-  if (cordlessId === undefined) {
-    // console.log(`Пусто`)
-  } else {
-    arrayInstrumentInBasket.push(cordlessId)
-  }
-  if (gasolineId === undefined) {
-    // console.log(`Пусто`)
-  } else {
-    arrayInstrumentInBasket.push(gasolineId)
-  }
-  if (networkId === undefined) {
-    // console.log(`Пусто`)
-  } else {
-    arrayInstrumentInBasket.push(networkId)
-  }
-  if (pneuomotoolId === undefined) {
-    // console.log(`Пусто`)
-  } else {
-    arrayInstrumentInBasket.push(pneuomotoolId)
-  }
-  // console.log(`array`, arrayInstrumentInBasket)
-}
-pushInArrayId()
 
-let arrayInBasketInstrument = []
-arrayInBasketInstrument.push(arrayInstrumentInBasket)
-let basketArrayCopy = arrayInBasketInstrument[0][0]
+const cordlessLocal = ref([])
 
-
-let orderPrice = ref(basketArrayCopy.priceOrder)
-let orderSumPrice = ref(basketArrayCopy.priceOrder)
+let basketArrayCopy = ref([])
+let orderPrice = ref('')
+let orderSumPrice = ref('')
 let orderInInstrument = ref(1)
 let orderClick = ref(0)
+let basketArraySecond = ref([])
+let isLoading = ref(false)
 
-const VBtnClickInPLus = () => {
-  orderInInstrument.value = orderInInstrument.value + 1
-  orderSumPrice.value = orderPrice.value * orderInInstrument.value
-}
-
-const VBtnClickInMinus = () => {
-  if (orderInInstrument.value >= 1) {
-    orderInInstrument.value = orderInInstrument.value - 1
-    orderSumPrice.value = orderPrice.value * orderInInstrument.value
-  } else if (orderInInstrument.value === 0) {
-    console.log(`Нельзя выбрать 0 шт`)
-    orderInInstrument.value = orderInInstrument.value + 1
+const fetchingInstrumentFilterById = async () => {
+  isLoading.value = true
+  try {
+    const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
+    if (response.ok) {
+      cordlessLocal.value = await response.json()
+      basketArrayCopy.value = await cordlessLocal.value
+    } else {
+      throw new Error(`Error fetching instrument: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
   }
+  isLoading.value = false
+};
 
+const cordlessLocalCopyFun = async () => {
+  try {
+    // получаем данные с сервера
+    await fetchingInstrumentFilterById()
+
+    // ожидаем получения данных из базы данных
+    await new Promise((resolve) => setTimeout(resolve, 100))
+
+    // определяем orderPrice и orderSumPrice после окончательной установки basketArrayCopy
+    orderPrice.value = basketArrayCopy.value[0].price
+    orderSumPrice.value = orderPrice.value * orderInInstrument.value
+  } catch (error) {
+    console.log(error)
+  }
 }
-let basketArraySecond = basketArrayCopy
 
-const VBtnClickInBasket = () => {
+cordlessLocalCopyFun();
+
+
+const VBtnClickInPLus = async () => {
+  try {
+    orderInInstrument.value = orderInInstrument.value + 1;
+    orderSumPrice.value = await orderPrice.value * orderInInstrument.value;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const VBtnClickInMinus = async () => {
+  try {
+    if (orderInInstrument.value >= 1) {
+      orderInInstrument.value = await new Promise((resolve, reject) => {
+        try {
+          const newValue = orderInInstrument.value - 1;
+          resolve(newValue);
+        } catch (error) {
+          reject(error);
+        }
+      });
+
+      orderSumPrice.value = await orderPrice.value * orderInInstrument.value;
+
+    } else if (orderInInstrument.value === 0) {
+      orderInInstrument.value = orderInInstrument.value + 1;
+      orderSumPrice.value = await orderPrice.value;
+    }
+
+  } catch (error) {
+    console.log(error);
+    throw error; // добавляем throw, чтобы выводить сообщение об ошибке в консоли
+  }
+};
+
+
+const VBtnClickInBasket = async () => {
   orderClick.value = orderClick.value + 1
   if (orderClick.value === 1) {
-    basketArraySecond.priceOrder = orderSumPrice.value
-    basketArraySecond.orderSum = orderInInstrument.value
-    arrayInBasketInstrument[0][0] = basketArraySecond
-    console.log(`basket_array`, arrayInBasketInstrument[0][0])
-    toLocalStorageInBasketItem(arrayInBasketInstrument[0][0])
-    getLocalStorageInBasketItem()
-    setLocalStorageBasketObject(arrayInBasketInstrument[0][0])
-    arrayInBasketInstrument = []
+    basketArrayCopy.value[0].priceOrder = orderSumPrice.value
+    basketArrayCopy.value[0].orderSum = orderInInstrument.value
+    setLocalStorageBasketObject(basketArrayCopy.value[0])
+
     orderInInstrument.value = 1
     orderSumPrice.value = orderPrice.value
-    //  ДОЛЖНО БЫТЬ СООБЩЕНИЕ ОБ УСПЕШНОМ ДОБАВЛЕНИЕ ТОВАРА В КОРЗИНУ
+    ProccesingSuccessfuly('Товар был добавлен в корзину!')
   } else if (orderClick.value >= 2) {
     orderInInstrument.value = 1
     orderSumPrice.value = orderPrice.value
+    ProcessingError('Товар уже был добавлен в корзину!')
     //  ДОЛЖНО БЫТЬ СООБЩЕНИЕ ОБ ТО ЧТО ТОВАР БЫЛ ДОБАВЛЕН В КОРЗИНУ РАНЕЕ
   }
 }
+
 
 const closeBasket = () => {
   let basketClick = ref(JSON.parse(localStorage.getItem("basket_click")))
@@ -110,62 +140,66 @@ const closeBasket = () => {
 </script>
 
 <template>
-  <!--  V-CARD MAIN -->
-  <v-card class="vCardBasket pa-2" v-for="item in arrayInstrumentInBasket">
-    <!--      BLOCK BASKET TITLE MAIN -->
-    <div class="blockBasketTitleMain">
-      <h1 class="titleMainTitle">Товар будет добавлен в коризну</h1>
-      <div class="titleMainBlock">
-        <v-btn
-            @click="closeBasket()"
-            class="titleMainBlockClose">
-          <v-icon icon="fa-solid fa-x"></v-icon>
-        </v-btn>
-      </div>
-    </div>
-    <!--      BLOCK BASKET MAIN -->
-    <div class="blockBasketMain d-flex">
-      <!--        BLOCK BASKET MAIN PHOTO -->
-      <div class="blockBasketPhotoMain d-flex justify-center align-center">
-        <img :src="item.imgTitle" alt="" class="photoMainImg">
-      </div>
-      <!--        BLOCK BASKET TITLE PRICE BTN -->
-      <div class="blockBasketTitlePriceBtn pa-2">
-        <!--          BLOCK BASKET TITLE SECOND -->
-        <div class="blockBasketTitleSecond pa-1">
-          <h1 class="titleSecondTitle">{{ item.name }}</h1>
-        </div>
-        <!--          BLOCK BASKET PRICE MAIN -->
-        <div class="blockBasketPriceMain pa-1">
-          <h1 class="priceMainTitle">{{ item.price }}</h1>
-        </div>
-        <!--          BLOCK BASKET BTN MAIN -->
-        <div class="blockBasketBtnMain d-flex align-center pa-1">
+  <div v-if="isLoading"> Loading</div>
+  <div v-else>
+    <!--  V-CARD MAIN -->
+    <v-card class="vCardBasket pa-2" v-for="item in basketArrayCopy">
+      <!--      BLOCK BASKET TITLE MAIN -->
+      <div class="blockBasketTitleMain">
+        <h1 class="titleMainTitle">Товар будет добавлен в коризну</h1>
+        <div class="titleMainBlock">
           <v-btn
-              class="blockBasketBtnMainInPlus"
-              @click="VBtnClickInPLus">+
-          </v-btn>
-          <p class="blockBasketBtnMainOrderPrice ma-4">{{ orderInInstrument }}</p>
-          <v-btn
-              class="blockBasketBtnMainInMinus"
-              @click="VBtnClickInMinus">-
+              @click="closeBasket()"
+              class="titleMainBlockClose">
+            <v-icon icon="fa-solid fa-x"></v-icon>
           </v-btn>
         </div>
       </div>
-      <!--        BLOCK BASKET LINK IN BASKET-->
-      <div class="blockBasketLinkInBasket  pa-1">
-        <v-btn
-            @click="VBtnClickInBasket"
-            class="linkInBasketBtn mt-5">Добавить в корзину
-        </v-btn>
-        <p class="linkInBasketBlockBtnSecondTitle mt-5">
-          В вашу коризну будет добавлен инструмент в количестве
-          <span class="linkInBasketBlockBtnSecondTitleSpan">{{ orderInInstrument }} шт</span>,
-          на сумму в <span class="linkInBasketBlockBtnSecondTitleSpan">{{ orderSumPrice }} рублей</span>
-        </p>
+      <!--      BLOCK BASKET MAIN -->
+      <div class="blockBasketMain d-flex">
+        <!--        BLOCK BASKET MAIN PHOTO -->
+        <div class="blockBasketPhotoMain d-flex justify-center align-center">
+          <img :src="item.imgTitle" alt="" class="photoMainImg">
+        </div>
+        <!--        BLOCK BASKET TITLE PRICE BTN -->
+        <div class="blockBasketTitlePriceBtn pa-2">
+          <!--          BLOCK BASKET TITLE SECOND -->
+          <div class="blockBasketTitleSecond pa-1">
+            <h1 class="titleSecondTitle">{{ item.name }}</h1>
+          </div>
+          <!--          BLOCK BASKET PRICE MAIN -->
+          <div class="blockBasketPriceMain pa-1">
+            <h1 class="priceMainTitle">{{ item.price }}</h1>
+          </div>
+          <!--          BLOCK BASKET BTN MAIN -->
+          <div class="blockBasketBtnMain d-flex align-center pa-1">
+            <v-btn
+                class="blockBasketBtnMainInPlus"
+                @click="VBtnClickInPLus">+
+            </v-btn>
+            <p class="blockBasketBtnMainOrderPrice ma-4">{{ orderInInstrument }}</p>
+            <v-btn
+                class="blockBasketBtnMainInMinus"
+                @click="VBtnClickInMinus">-
+            </v-btn>
+          </div>
+        </div>
+        <!--        BLOCK BASKET LINK IN BASKET-->
+        <div class="blockBasketLinkInBasket  pa-1">
+          <v-btn
+              @click="VBtnClickInBasket"
+              class="linkInBasketBtn mt-5">Добавить в корзину
+          </v-btn>
+          <p class="linkInBasketBlockBtnSecondTitle mt-5">
+            В вашу коризну будет добавлен инструмент в количестве
+            <span class="linkInBasketBlockBtnSecondTitleSpan">{{ orderInInstrument }} шт</span>,
+            на сумму в <span class="linkInBasketBlockBtnSecondTitleSpan">{{ orderSumPrice }} рублей</span>
+          </p>
+        </div>
       </div>
-    </div>
-  </v-card>
+    </v-card>
+  </div>
+
 
 </template>
 
@@ -782,7 +816,7 @@ const closeBasket = () => {
     color: $textSpan;
   }
 
-//  DONE!!!
+  //  DONE!!!
 }
 
 @media screen and (min-width: 1920px) and (max-width: 2560px) {

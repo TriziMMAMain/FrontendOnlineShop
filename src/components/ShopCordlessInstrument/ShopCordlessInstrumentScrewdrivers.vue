@@ -1,10 +1,16 @@
 <script setup="">
 // - Import
-import { useRouter } from 'vue-router'
-import {ref} from "vue";
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
+import _ from 'lodash'
+import {useInstrumentStore} from '../../stores/counter.js'
+import {useBasketStore} from "../../stores/counterBasket";
 import {useDisplay} from 'vuetify'
+import axios from "axios";
 
 const {name} = useDisplay()
+const {importBasketId} = useBasketStore()
+
 const router = useRouter()
 
 
@@ -23,7 +29,6 @@ const heightFunc = () => {
     return '250'
   }
 }
-
 const weightFunc = () => {
   if (name.value === 'xs') {
     return '400'
@@ -39,7 +44,6 @@ const weightFunc = () => {
     return '950'
   }
 }
-
 const firstColFunc = () => {
   if (name.value === 'xs') {
     return '3'
@@ -55,7 +59,6 @@ const firstColFunc = () => {
     return '3'
   }
 }
-
 const secondColFunc = () => {
   if (name.value === 'xs') {
     return '6'
@@ -71,7 +74,6 @@ const secondColFunc = () => {
     return '6'
   }
 }
-
 const thirdColFunc = () => {
   if (name.value === 'xs') {
     return '3'
@@ -87,7 +89,6 @@ const thirdColFunc = () => {
     return '3'
   }
 }
-
 const weightFuncVBtn = () => {
   if (name.value === 'xs') {
     return '170'
@@ -103,7 +104,6 @@ const weightFuncVBtn = () => {
     return '220'
   }
 }
-
 const heightFuncVBtn = () => {
   if (name.value === 'xs') {
     return '32'
@@ -120,34 +120,66 @@ const heightFuncVBtn = () => {
   }
 }
 
-const cordlessLocal = JSON.parse(localStorage.getItem("cordless"))
-const cordlessLocalCopy = cordlessLocal
 
-const cordlessScrewdriversArray = []
-const cordlessDrill = () => {
-  for (let i = 0; i < cordlessLocalCopy.length; i++) {
-    if (cordlessLocalCopy[i].typeThis === 'Аккумуляторный перфоратор') {
-      cordlessScrewdriversArray.push(cordlessLocalCopy[i])
+//
+const cordlessScrewdriversArray = ref([])
+const cordlessLocal = ref([])
+
+const fetchingInstrumentFilterName = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/instruments/get/cordless');
+    if (response.ok) {
+      cordlessLocal.value = await response.json();
+    } else {
+      throw new Error(`Error fetching instrument: ${response.statusText}`);
     }
+  } catch (error) {
+    console.log(error);
   }
 }
-cordlessDrill()
-// - Logical
-const viewDetails = (id) => {
-  router.push({name: 'cordlessInstrumentScrewdriversID', params: {id: id}}) // /id/:id
-  localStorage.setItem("id_cordless", JSON.stringify(id))
+fetchingInstrumentFilterName()
+    .then(() => {
+      cordlessDrill()
+      console.log(`Fetching cordless screwdrivers good`);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+
+const cordlessDrill = async () => {
+  for (let i = 0; i < cordlessLocal.value.length; i++) {
+    if (cordlessLocal.value[i].typeThis === 'Аккумуляторный перфоратор') {
+      cordlessScrewdriversArray.value.push(cordlessLocal.value[i])
+    }
+  }
+  console.log(`cordless`, cordlessScrewdriversArray.value)
 }
 
-const counterClick = ref(0)
-const buyInBasket = (id) => {
+
+const viewDetails = async (id) => {
+  let dataInstrument = ref([])
+  for (let i = 0; i < cordlessScrewdriversArray.value.length; i++) {
+    dataInstrument.value = _.filter(cordlessScrewdriversArray.value, {id: id})
+  }
+  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+
+  await router.push({name: 'cordlessInstrumentScrewdriversID', params: {id: id}}) // /id/:id
+  localStorage.setItem("id_cordless", JSON.stringify(id))
+}
+// - Logical
+let counterClick = ref(0)
+const buyInBasket = async (id) => {
+
   counterClick.value = counterClick.value + 1
   if (counterClick.value === 1) {
     localStorage.setItem("basket_id", JSON.stringify(id))
     localStorage.setItem("basket_click", JSON.stringify(true))
     localStorage.setItem("id_cordless", JSON.stringify(id))
-    router.push({name: 'cordlessInstrumentScrewdriversID', params: {id: id}})
+    await router.push({name: 'cordlessInstrumentScrewdriversID', params: {id: id}})
+
   }
 }
+
 </script>
 
 <template>
@@ -183,7 +215,7 @@ const buyInBasket = (id) => {
         <!--        SPAN AND TEXT-->
         <div
             class="mt-1">
-          <v-card-text v-for="item in cordlessScrewdriversArray[i.numberInList].featureTopTitle"
+          <v-card-text v-for="item in i.featureTopTitle"
                        key="item"
                        class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>

@@ -3,7 +3,7 @@
 import {ref} from 'vue'
 import {Promise} from 'core-js'
 import axios from 'axios'
-import _ from 'lodash'
+// import _ from 'lodash'
 import {useRouter} from 'vue-router'
 import {useInstrumentStore} from "../stores/counter.js"
 import {useDisplay} from 'vuetify'
@@ -187,28 +187,24 @@ const loadInstruments = async () => {
     await Promise.all([
       fetchingCordlessInstrument()
           .then(() => {
-            console.log(`Cordless load`);
           })
           .catch((error) => {
             console.log(error);
           }),
       fetchingGasolineInstrument()
           .then(() => {
-            console.log(`Gasoline load`);
           })
           .catch((error) => {
             console.log(error);
           }),
       fetchingNetworkInstrument()
           .then(() => {
-            console.log(`Network load`);
           })
           .catch((error) => {
             console.log(error);
           }),
       fetchingPneumoInstrument()
           .then(() => {
-            console.log(`Pneumo load`);
           })
           .catch((error) => {
             console.log(error);
@@ -224,7 +220,6 @@ const loadInstruments = async () => {
       instrumentAllLocalCopyName.value.push(pneumotoollocalCopyNameCopy.value[i])
     }
     instrumentAllLocalCopyName2.value = instrumentAllLocalCopyName.value
-    console.log(`instrument`, instrumentAllLocalCopyName2.value)
     // Ваш код здесь
 
   } catch (error) {
@@ -241,38 +236,51 @@ const navigationDrawerClick = () => {
 let filterAllName = ref("")
 const arrayFilter = ref("")
 const stringSearchInstrument = ref("/search/instrument/id/")
+const instrumentFilterName = ref('')
 
-const filterAllNameBtn = (string) => {
-  // arrayFilter.value = filterByCordlessName(string)
-  console.log(`filter`, filterAllName.value)
-
-
-  // if (arrayFilter.value[0].length === 1) {
-  //   console.log(`array[0]`, arrayFilter.value[0][0].id)
-  //   localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[0][0]))
-  //   // router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[0][0].id}})
-  //   stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[0][0].id
-  //
-  // } else if (arrayFilter.value[1].length === 1) {
-  //   console.log(`array[1]`, arrayFilter.value[1])
-  //   localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[1][0]))
-  //   // router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[1][0].id}})
-  //   stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[1][0].id
-  //
-  // } else if (arrayFilter.value[2].length === 1) {
-  //   console.log(`array[2]`, arrayFilter.value[2])
-  //   localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[2][0]))
-  //   // router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[2][0].id}})
-  //   stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[2][0].id
-  //
-  // } else if (arrayFilter.value[3].length === 1) {
-  //   console.log(`array[3]`, arrayFilter.value[3])
-  //   localStorage.setItem("filter_name_instrument", JSON.stringify(arrayFilter.value[3][0]))
-  //   // router.push({name: 'searchInstrumentByName', params: {id: arrayFilter.value[3][0].id}})
-  //   stringSearchInstrument.value = stringSearchInstrument.value + arrayFilter.value[3][0].id
-  // }
-  // arrayFilter.value = ""
+const fetchingInstrumentFilterName = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/instrument/get/filter/name');
+    if (response.ok) {
+      instrumentFilterName.value = await response.json();
+    } else {
+      throw new Error(`Error fetching instrument: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
+
+const filterAllNameBtn = async (string) => {
+  try {
+    console.log(`string`, string)
+    const data = ref({
+      string: string
+    })
+    const responseData = await axios.post('http://localhost:3000/api/instrument/filter/name', data.value)
+
+
+    await Promise.all([
+      fetchingInstrumentFilterName()
+          .then(() => {
+            console.log(`Fetching name good`);
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    ])
+
+    await router.push({name: 'searchInstrumentByName', params: {id: instrumentFilterName.value.id}})
+
+    arrayFilter.value = ""
+
+    window.location.reload()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
 </script>
 
 <template>
@@ -297,7 +305,7 @@ const filterAllNameBtn = (string) => {
         </v-col>
         <v-col
             class="d-flex justify-center align-center">
-          <router-link class="basketComponent d-flex justify-center align-center" to="/basket/">Корзина</router-link>
+          <v-btn class="basketComponent d-flex justify-center align-center" href="/basket/">Корзина</v-btn>
         </v-col>
       </v-row>
     </v-app-bar>
@@ -327,7 +335,6 @@ const filterAllNameBtn = (string) => {
             <v-btn
                 :height="heightFunc()"
                 class="btnMainContainerFilter d-flex align-center"
-                :href="stringSearchInstrument"
                 @click="filterAllNameBtn(filterAllName)">Найти инструмент
             </v-btn>
           </div>
