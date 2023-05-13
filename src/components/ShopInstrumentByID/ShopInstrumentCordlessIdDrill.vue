@@ -10,6 +10,7 @@ import {ProccesingSuccessfuly} from "../../notification/toasting";
 // local
 const cordlessLocalCopy = ref([])
 const cordlessLocal = ref([])
+const loadingComponent = ref(true)
 //
 
 const fetchingInstrumentFilterById = async () => {
@@ -86,9 +87,9 @@ const buyInBasket = (id) => {
 
 <template>
   <v-container
-      fluid
-      class="cardMainShopSideContainer w-100"
-      v-for="i in [cordlessLocalCopy]"
+               fluid
+               class="cardMainShopSideContainer w-100"
+               v-for="i in [cordlessLocalCopy]"
   >
     <div class="basketComponentDynamicBlockMain"
          v-if="basketClick">
@@ -144,7 +145,7 @@ const buyInBasket = (id) => {
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
         </div>
         <div class="cardMainShopSidePrice pa-1">
-          <v-card variant="tonal" height="320px">
+          <v-card class="vCardFeature" variant="tonal" height="320px">
             <v-card-item>
               <v-card-title class="vCardTitleShopPriceComponent">
                 {{ i.price }} р.
@@ -297,6 +298,14 @@ const buyInBasket = (id) => {
 }
 
 // Card Side Feature Top
+
+.vCardFeature {
+  box-shadow:
+      0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+      0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+      0 22px 86px rgba(0, 0, 0, 0.097)
+;
+}
 
 .cardMainContainerShopSideFeatureTop {
   width: 100%;

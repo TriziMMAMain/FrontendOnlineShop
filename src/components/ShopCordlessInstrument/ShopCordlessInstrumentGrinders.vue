@@ -16,33 +16,32 @@ const router = useRouter()
 
 const heightFunc = () => {
   if (name.value === 'xs') {
-    return '250'
+    return '230'
   } else if (name.value === 'sm') {
     return '200'
   } else if (name.value === 'md') {
     return '250'
   } else if (name.value === 'lg') {
-    return '250'
+    return '300'
   } else if (name.value === 'xl') {
-    return '250'
+    return '400'
   } else if (name.value === 'xxl') {
-    return '250'
+    return '400'
   }
 }
-
 const weightFunc = () => {
   if (name.value === 'xs') {
-    return '400'
-  } else if (name.value === 'sm') {
     return '500'
+  } else if (name.value === 'sm') {
+    return '550'
   } else if (name.value === 'md') {
-    return '750'
-  } else if (name.value === 'lg') {
-    return '750'
-  } else if (name.value === 'xl') {
     return '900'
+  } else if (name.value === 'lg') {
+    return '1200'
+  } else if (name.value === 'xl') {
+    return '1700'
   } else if (name.value === 'xxl') {
-    return '950'
+    return '1100'
   }
 }
 const firstColFunc = () => {
@@ -94,13 +93,13 @@ const weightFuncVBtn = () => {
   if (name.value === 'xs') {
     return '170'
   } else if (name.value === 'sm') {
-    return '100'
+    return '110'
   } else if (name.value === 'md') {
     return '170'
   } else if (name.value === 'lg') {
-    return '170'
+    return '220'
   } else if (name.value === 'xl') {
-    return '170'
+    return '300'
   } else if (name.value === 'xxl') {
     return '220'
   }
@@ -115,15 +114,15 @@ const heightFuncVBtn = () => {
   } else if (name.value === 'lg') {
     return '48'
   } else if (name.value === 'xl') {
-    return '48'
+    return '62'
   } else if (name.value === 'xxl') {
-    return '48'
+    return '62'
   }
 }
 
 //
 const cordlessGrindersArray = ref([])
-const cordlessLocal= ref([])
+const cordlessLocal = ref([])
 
 const fetchingInstrumentFilterName = async () => {
   try {
@@ -169,7 +168,11 @@ const viewDetails = async (id) => {
 // - Logical
 let counterClick = ref(0)
 const buyInBasket = async (id) => {
-
+  let dataInstrument = ref([])
+  for (let i = 0; i < cordlessGrindersArray.value.length; i++) {
+    dataInstrument.value = _.filter(cordlessGrindersArray.value, {id: id})
+  }
+  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
   counterClick.value = counterClick.value + 1
   if (counterClick.value === 1) {
     localStorage.setItem("basket_id", JSON.stringify(id))
@@ -188,7 +191,7 @@ const buyInBasket = async (id) => {
       :height="heightFunc()"
       color="background"
       elevation="5"
-      class="vCardMain pa-1 ma-1 d-flex justify-space-around"
+      class="vCardMain pa-5 mr-10 mb-16"
       v-for="i in cordlessGrindersArray">
     <v-row>
       <!--      FIRST COL-->
@@ -212,11 +215,12 @@ const buyInBasket = async (id) => {
         </div>
         <!--        SPAN AND TEXT-->
         <div
-            class="mt-1">
-          <v-card-text v-for="item in i.featureTopTitle"
-                       key="item"
-                       class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
-            <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
+            class="textCardFeatureMain">
+          <div v-for="item in i.featureTopTitle"
+               key="item"
+               class="textCardFeatureDiv">
+            <p class="textCardFeature">{{ item.featureTopTitleInfoTitle }}
+              <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></p></div>
         </div>
 
 
@@ -258,7 +262,6 @@ const buyInBasket = async (id) => {
 @import '../../assets/mixins';
 
 
-
 // Media
 
 @media screen and (max-width: 600px) {
@@ -271,8 +274,8 @@ const buyInBasket = async (id) => {
     z-index: 1;
     font-size: 0.6rem;
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 3px;
+    right: 30px;
   }
 
   .photoInCardBlock {
@@ -281,8 +284,8 @@ const buyInBasket = async (id) => {
   }
 
   .photoInCard {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
   }
 
   .blockTitleCard {
@@ -299,11 +302,20 @@ const buyInBasket = async (id) => {
     font-weight: 500;
   }
 
+  .textCardFeatureMain {
+    margin-top: 8px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
+  }
+
   .textCardFeature {
-    font-size: 0.6rem;
+    font-size: 0.7rem;
   }
 
   .spanTextCard {
+    font-weight: 600;
     color: $textSpan;
   }
 
@@ -315,12 +327,12 @@ const buyInBasket = async (id) => {
   }
 
 
-
   .v-card-text {
     color: $text;
   }
 
   .textCardAvailability {
+    text-align: center;
     padding-top: 8px;
     font-size: 0.6rem;
     font-weight: 500;
@@ -350,8 +362,8 @@ const buyInBasket = async (id) => {
     z-index: 1;
     font-size: 0.6rem;
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 3px;
+    right: 30px;
   }
 
   .photoInCardBlock {
@@ -360,8 +372,8 @@ const buyInBasket = async (id) => {
   }
 
   .photoInCard {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
   }
 
   .blockTitleCard {
@@ -378,11 +390,20 @@ const buyInBasket = async (id) => {
     font-weight: 500;
   }
 
+  .textCardFeatureMain {
+    margin-top: 8px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
+  }
+
   .textCardFeature {
-    font-size: 0.6rem;
+    font-size: 0.7rem;
   }
 
   .spanTextCard {
+    font-weight: 600;
     color: $textSpan;
   }
 
@@ -394,12 +415,12 @@ const buyInBasket = async (id) => {
   }
 
 
-
   .v-card-text {
     color: $text;
   }
 
   .textCardAvailability {
+    text-align: center;
     padding-top: 8px;
     font-size: 0.6rem;
     font-weight: 500;
@@ -429,8 +450,8 @@ const buyInBasket = async (id) => {
     z-index: 1;
     font-size: 0.8rem;
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 10px;
+    right: 30px;
   }
 
   .photoInCardBlock {
@@ -457,11 +478,20 @@ const buyInBasket = async (id) => {
     font-weight: 500;
   }
 
+  .textCardFeatureMain {
+    margin-top: 4px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
+  }
+
   .textCardFeature {
     font-size: 0.8rem;
   }
 
   .spanTextCard {
+    font-weight: 600;
     color: $textSpan;
   }
 
@@ -473,12 +503,12 @@ const buyInBasket = async (id) => {
   }
 
 
-
   .v-card-text {
     color: $text;
   }
 
   .textCardAvailability {
+    text-align: center;
     padding-top: 8px;
     font-size: 0.8rem;
     font-weight: 500;
@@ -513,8 +543,8 @@ const buyInBasket = async (id) => {
     z-index: 1;
     font-size: 0.8rem;
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 10px;
+    right: 60px;
   }
 
   .photoInCardBlock {
@@ -523,8 +553,8 @@ const buyInBasket = async (id) => {
   }
 
   .photoInCard {
-    width: 160px;
-    height: 160px;
+    width: 230px;
+    height: 230px;
   }
 
   .blockTitleCard {
@@ -534,28 +564,36 @@ const buyInBasket = async (id) => {
   }
 
   .cardTextHref {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     text-decoration: none;
     text-align: center;
     color: $textSpan;
     font-weight: 500;
   }
 
+  .textCardFeatureMain {
+    margin-top: 12px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 2px;
+  }
+
   .textCardFeature {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .spanTextCard {
+    font-weight: 600;
     color: $textSpan;
   }
 
   .textCardPrice {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     text-align: right;
     font-weight: 600;
     color: $primary;
   }
-
 
 
   .v-card-text {
@@ -563,6 +601,7 @@ const buyInBasket = async (id) => {
   }
 
   .textCardAvailability {
+    text-align: center;
     padding-top: 8px;
     font-size: 0.9rem;
     font-weight: 500;
@@ -583,9 +622,10 @@ const buyInBasket = async (id) => {
 }
 
 @media screen and (min-width: 1920px) and (max-width: 2560px) {
-  /*  стили для xl-устройств */
+  /*  стили для xxl-устройств */
   .vCardMain {
-
+    display: flex;
+    justify-content: space-around;
   }
 
   .v-btn {
@@ -595,10 +635,10 @@ const buyInBasket = async (id) => {
 
   .vCardSubtitleMain {
     z-index: 1;
-    font-size: 1rem;
+    font-size: 1.2rem;
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 10px;
+    right: 30px;
   }
 
   .photoInCardBlock {
@@ -607,8 +647,8 @@ const buyInBasket = async (id) => {
   }
 
   .photoInCard {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
   }
 
   .blockTitleCard {
@@ -618,28 +658,35 @@ const buyInBasket = async (id) => {
   }
 
   .cardTextHref {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     text-decoration: none;
     text-align: center;
     color: $textSpan;
-    font-weight: 500;
+  }
+
+  .textCardFeatureMain {
+    margin-top: 12px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
   }
 
   .textCardFeature {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
   }
 
   .spanTextCard {
+    font-weight: 600;
     color: $textSpan;
   }
 
   .textCardPrice {
-    font-size: 1.3rem;
+    font-size: 1.8rem;
     text-align: right;
     font-weight: 600;
     color: $primary;
   }
-
 
 
   .v-card-text {
@@ -647,8 +694,9 @@ const buyInBasket = async (id) => {
   }
 
   .textCardAvailability {
+    text-align: center;
     padding-top: 8px;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 500;
     color: $success;
   }
@@ -669,7 +717,8 @@ const buyInBasket = async (id) => {
 @media screen and (min-width: 2560px) {
   /*  стили для xxl-устройств */
   .vCardMain {
-
+    display: flex;
+    justify-content: space-around;
   }
 
   .v-btn {
@@ -681,8 +730,8 @@ const buyInBasket = async (id) => {
     z-index: 1;
     font-size: 1.2rem;
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 10px;
+    right: 30px;
   }
 
   .photoInCardBlock {
@@ -691,8 +740,8 @@ const buyInBasket = async (id) => {
   }
 
   .photoInCard {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
   }
 
   .blockTitleCard {
@@ -702,28 +751,35 @@ const buyInBasket = async (id) => {
   }
 
   .cardTextHref {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     text-decoration: none;
     text-align: center;
     color: $textSpan;
-    font-weight: 500;
+  }
+
+  .textCardFeatureMain {
+    margin-top: 12px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
   }
 
   .textCardFeature {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
   }
 
   .spanTextCard {
+    font-weight: 600;
     color: $textSpan;
   }
 
   .textCardPrice {
-    font-size: 1.3rem;
+    font-size: 1.8rem;
     text-align: right;
     font-weight: 600;
     color: $primary;
   }
-
 
 
   .v-card-text {
@@ -731,8 +787,9 @@ const buyInBasket = async (id) => {
   }
 
   .textCardAvailability {
+    text-align: center;
     padding-top: 8px;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 500;
     color: $success;
   }

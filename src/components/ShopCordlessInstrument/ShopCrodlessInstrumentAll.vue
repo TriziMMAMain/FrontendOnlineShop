@@ -13,11 +13,9 @@ import ShopCordlessScrewdrivers from './ShopCordlessInstrumentScrewdrivers.vue'
 
 <template>
     <!--        CARD -->
-  <div class="d-flex flex-wrap">
     <ShopCordlessDrill></ShopCordlessDrill>
     <ShopCordlessGrinders></ShopCordlessGrinders>
     <ShopCordlessScrewdrivers></ShopCordlessScrewdrivers>
-  </div>
 
 </template>
 

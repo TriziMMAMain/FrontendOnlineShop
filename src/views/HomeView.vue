@@ -386,7 +386,7 @@ const filterAllNameBtn = async (string) => {
     width: 100%;
     display: flex;
     align-items: center;
-    color: $textSpan;
+    color: $primary;
     font-size: 1.3rem;
     font-weight: 500;
   }
@@ -464,7 +464,7 @@ const filterAllNameBtn = async (string) => {
     height: 100%;
     display: flex;
     align-items: center;
-    color: $textSpan;
+    color: $primary;
     font-size: 1.5rem;
     font-weight: 500;
   }
@@ -541,7 +541,7 @@ const filterAllNameBtn = async (string) => {
     height: 100%;
     display: flex;
     align-items: center;
-    color: $textSpan;
+    color: $primary;
     font-size: 1.5rem;
     font-weight: 500;
   }
@@ -619,7 +619,7 @@ const filterAllNameBtn = async (string) => {
     height: 100%;
     display: flex;
     align-items: center;
-    color: $textSpan;
+    color: $primary;
     font-size: 1.5rem;
     font-weight: 500;
   }

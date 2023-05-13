@@ -20,7 +20,7 @@ import ShopInstrumentScrewdriversId from '../components/ShopInstrumentByID/ShopI
 import ShopGasoline from '../components/ShopGasolineInstrument/ShopGasolineInstrument.vue'
 import ShopGasolineAll from '../components/ShopGasolineInstrument/ShopGasolineInstrumentAll.vue'
 // import ShopGasoline from '../components/ShopGasolineInstrument/ShopGasolineInstrument.vue'
-import ShopGasolineGenerator from '../components/ShopGasolineInstrument/ShopGasolineInstrumentGasoline.vue'
+import ShopGasolineGenerator from '../components/ShopGasolineInstrument/ShopGasolineInstrumentGenerator.vue'
 import ShopGasolineGeneratorId from '../components/ShopInstrumentByID/ShopInstrumentGasolineGeneratorId.vue'
 // Network
 import ShopNetwork from '../components/ShopNetworkInstrument/ShopNetworkInstrument.vue'

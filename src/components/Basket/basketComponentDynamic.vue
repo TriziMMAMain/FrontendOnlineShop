@@ -41,7 +41,7 @@ let basketArraySecond = ref([])
 let isLoading = ref(false)
 
 const fetchingInstrumentFilterById = async () => {
-  isLoading.value = true
+
   try {
     const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
     if (response.ok) {
@@ -53,14 +53,15 @@ const fetchingInstrumentFilterById = async () => {
   } catch (error) {
     console.log(error);
   }
-  isLoading.value = false
+
 };
 
 const cordlessLocalCopyFun = async () => {
+  isLoading.value = true
   try {
     // получаем данные с сервера
     await fetchingInstrumentFilterById()
-
+    console.log(`loading`, isLoading.value)
     // ожидаем получения данных из базы данных
     await new Promise((resolve) => setTimeout(resolve, 100))
 
@@ -70,6 +71,7 @@ const cordlessLocalCopyFun = async () => {
   } catch (error) {
     console.log(error)
   }
+  isLoading.value = false
 }
 
 cordlessLocalCopyFun();

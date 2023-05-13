@@ -1,6 +1,6 @@
 <script setup="">
 // - Import
-import ShopGasolineInstrumentGenerator from './ShopGasolineInstrumentGasoline.vue'
+import ShopGasolineInstrumentGenerator from './ShopGasolineInstrumentGenerator.vue'
 
 //
 

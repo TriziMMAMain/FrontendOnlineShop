@@ -3,8 +3,9 @@
 // core
 import {computed, onMounted, ref} from 'vue'
 //
-import { useDisplay } from 'vuetify'
-const { name } = useDisplay()
+import {useDisplay} from 'vuetify'
+
+const {name} = useDisplay()
 import _ from 'lodash'
 // store
 import {useBasketStore} from '../../stores/counterBasket.js'
@@ -66,7 +67,6 @@ const heightFunc = () => {
 }
 
 
-
 const getBasketArray = computed(() => {
   return basketArray[0]
 })
@@ -112,36 +112,34 @@ const forIArraySum = (array) => {
 forIArraySum(arraySum)
 
 
-
-
 </script>
 
 <template>
-    <div class="blockTitleInSite d-flex">
-      <h1 class="blockTitleInSiteTitle">Корзина</h1>
-      <v-btn
-          @click="deleteArray"
-          class="blockTitleInSiteBtnDelete d-flex justify-center align-center"
-          href="/basket/">Удалить все товары
-      </v-btn>
-    </div>
-    <div class="blockBasketInSite mt-3 d-flex ">
-      <div class="blockFirstBasket">
+  <div class="blockTitleInSite d-flex">
+    <h1 class="blockTitleInSiteTitle">Корзина</h1>
+    <v-btn
+        @click="deleteArray"
+        class="blockTitleInSiteBtnDelete d-flex justify-center align-center"
+        href="/basket/">Удалить все товары
+    </v-btn>
+  </div>
+  <div class="blockBasketInSite">
+    <div class="blockFirstBasket">
 
-        <div class="blockMainBasketInfo d-flex ">
-          <div class="blockMainBasketInfoText">
-            <h1 class="blockMainBasketInfoTextTitle">Наименование</h1>
-          </div>
-          <div class="blockMainBasketPriceAmountSum d-flex">
-            <h1 class="blockMainBasketPrice">Цена</h1>
-            <h1 class="blockMainBasketAmount">Количество</h1>
-            <h1 class="blockMainBasketSum">Сумма</h1>
-          </div>
+      <div class="blockMainBasketInfo d-flex ">
+        <div class="blockMainBasketInfoText">
+          <h1 class="blockMainBasketInfoTextTitle">Наименование</h1>
         </div>
+        <div class="blockMainBasketPriceAmountSum d-flex">
+          <h1 class="blockMainBasketPrice">Цена</h1>
+          <h1 class="blockMainBasketAmount">Количество</h1>
+          <h1 class="blockMainBasketSum">Сумма</h1>
+        </div>
+      </div>
 
-        <v-card class="blockVCardFirstBasket d-flex mt-3 mr-1"
-                v-for="item in arrayObjectsInInstrument"
-        >
+      <div class="blockVCardFirstBasketDiv">
+        <div class="blockVCardFirstBasket"
+             v-for="item in arrayObjectsInInstrument">
           <div class="blockVCardFirstBasketItemPhotoMain d-flex justify-center align-center">
             <img :src="item.imgTitle" alt="" class="blockVCardFirstBasketItemPhoto">
           </div>
@@ -159,38 +157,39 @@ forIArraySum(arraySum)
             <div class="blockVCardFirstBasketItemSumMain d-flex justify-center align-center">
               <h1 class="blockVCardFirstBasketItemSumMainTitle">{{ item.priceOrder }} р.</h1>
             </div>
-
           </div>
-        </v-card>
-      </div>
-      <v-card class="blockSecondBasket ml-3">
-        <h1 class="secondBasketMainTitle">Ваш заказ</h1>
-        <h1 class="secondBasketChoiceTitle">Выбрано товаров на кол-во:
-          <span class="secondBasketSpanInText">{{ numberInAmount }} шт</span></h1>
-        <h1 class="secondBasketPriceTitle">Общая стоимость заказа:
-          <span class="secondBasketSpanInText">{{ numberInPriceSum  }} рублей</span></h1>
-        <v-divider
-            :thickness="2"
-            class="border-opacity-25"
-            color="background"
-        ></v-divider>
-        <div class="secondBlockVBtnBlock d-flex justify-center align-center">
-          <v-btn
-              href="/checkout/"
-              :width="widthFunc()"
-              :height="heightFunc()"
-              class="secondBasketVBtnDesign"
-          >Оформить заказ</v-btn>
         </div>
-      </v-card>
+      </div>
+
     </div>
+    <div class="blockSecondBasket ">
+      <h1 class="secondBasketMainTitle">Ваш заказ</h1>
+      <h1 class="secondBasketChoiceTitle">Выбрано товаров на кол-во:
+        <span class="secondBasketSpanInText">{{ numberInAmount }} шт</span></h1>
+      <h1 class="secondBasketPriceTitle">Общая стоимость заказа:
+        <span class="secondBasketSpanInText">{{ numberInPriceSum }} рублей</span></h1>
+      <v-divider
+          :thickness="2"
+          class="border-opacity-25"
+          color="background"
+      ></v-divider>
+      <div class="secondBlockVBtnBlock d-flex justify-center align-center">
+        <v-btn
+            href="/checkout/"
+            :width="widthFunc()"
+            :height="heightFunc()"
+            class="secondBasketVBtnDesign"
+        >Оформить заказ
+        </v-btn>
+      </div>
+    </div>
+  </div>
 
 
 </template>
 
 <style lang="scss" scoped>
 @import '../../assets/mixins';
-
 
 
 // Media
@@ -341,21 +340,27 @@ forIArraySum(arraySum)
 
   // PRICE
 
-  .blockVCardFirstBasketItemPriceMain {}
+  .blockVCardFirstBasketItemPriceMain {
+  }
 
-  .blockVCardFirstBasketItemPriceMainTitle {}
+  .blockVCardFirstBasketItemPriceMainTitle {
+  }
 
   // AMOUNT
 
-  .blockVCardFirstBasketItemAmountMain {}
+  .blockVCardFirstBasketItemAmountMain {
+  }
 
-  .blockVCardFirstBasketItemAmountMainTitle {}
+  .blockVCardFirstBasketItemAmountMainTitle {
+  }
 
   // SUM
 
-  .blockVCardFirstBasketItemSumMain {}
+  .blockVCardFirstBasketItemSumMain {
+  }
 
-  .blockVCardFirstBasketItemSumMainTitle {}
+  .blockVCardFirstBasketItemSumMainTitle {
+  }
 
 
   //
@@ -390,9 +395,11 @@ forIArraySum(arraySum)
     color: $text;
   }
 
-  .secondBasketChoiceTitle {}
+  .secondBasketChoiceTitle {
+  }
 
-  .secondBasketPriceTitle {}
+  .secondBasketPriceTitle {
+  }
 
   .secondBlockVBtnBlock {
     width: 100%;
@@ -567,21 +574,27 @@ forIArraySum(arraySum)
 
   // PRICE
 
-  .blockVCardFirstBasketItemPriceMain {}
+  .blockVCardFirstBasketItemPriceMain {
+  }
 
-  .blockVCardFirstBasketItemPriceMainTitle {}
+  .blockVCardFirstBasketItemPriceMainTitle {
+  }
 
   // AMOUNT
 
-  .blockVCardFirstBasketItemAmountMain {}
+  .blockVCardFirstBasketItemAmountMain {
+  }
 
-  .blockVCardFirstBasketItemAmountMainTitle {}
+  .blockVCardFirstBasketItemAmountMainTitle {
+  }
 
   // SUM
 
-  .blockVCardFirstBasketItemSumMain {}
+  .blockVCardFirstBasketItemSumMain {
+  }
 
-  .blockVCardFirstBasketItemSumMainTitle {}
+  .blockVCardFirstBasketItemSumMainTitle {
+  }
 
 
   //
@@ -616,9 +629,11 @@ forIArraySum(arraySum)
     color: $text;
   }
 
-  .secondBasketChoiceTitle {}
+  .secondBasketChoiceTitle {
+  }
 
-  .secondBasketPriceTitle {}
+  .secondBasketPriceTitle {
+  }
 
   .secondBlockVBtnBlock {
     width: 100%;
@@ -792,21 +807,27 @@ forIArraySum(arraySum)
 
   // PRICE
 
-  .blockVCardFirstBasketItemPriceMain {}
+  .blockVCardFirstBasketItemPriceMain {
+  }
 
-  .blockVCardFirstBasketItemPriceMainTitle {}
+  .blockVCardFirstBasketItemPriceMainTitle {
+  }
 
   // AMOUNT
 
-  .blockVCardFirstBasketItemAmountMain {}
+  .blockVCardFirstBasketItemAmountMain {
+  }
 
-  .blockVCardFirstBasketItemAmountMainTitle {}
+  .blockVCardFirstBasketItemAmountMainTitle {
+  }
 
   // SUM
 
-  .blockVCardFirstBasketItemSumMain {}
+  .blockVCardFirstBasketItemSumMain {
+  }
 
-  .blockVCardFirstBasketItemSumMainTitle {}
+  .blockVCardFirstBasketItemSumMainTitle {
+  }
 
 
   //
@@ -841,7 +862,8 @@ forIArraySum(arraySum)
     color: $text;
   }
 
-  .secondBasketChoiceTitle {}
+  .secondBasketChoiceTitle {
+  }
 
   .secondBasketPriceTitle {
     height: 15%;
@@ -1019,21 +1041,27 @@ forIArraySum(arraySum)
 
   // PRICE
 
-  .blockVCardFirstBasketItemPriceMain {}
+  .blockVCardFirstBasketItemPriceMain {
+  }
 
-  .blockVCardFirstBasketItemPriceMainTitle {}
+  .blockVCardFirstBasketItemPriceMainTitle {
+  }
 
   // AMOUNT
 
-  .blockVCardFirstBasketItemAmountMain {}
+  .blockVCardFirstBasketItemAmountMain {
+  }
 
-  .blockVCardFirstBasketItemAmountMainTitle {}
+  .blockVCardFirstBasketItemAmountMainTitle {
+  }
 
   // SUM
 
-  .blockVCardFirstBasketItemSumMain {}
+  .blockVCardFirstBasketItemSumMain {
+  }
 
-  .blockVCardFirstBasketItemSumMainTitle {}
+  .blockVCardFirstBasketItemSumMainTitle {
+  }
 
 
   //
@@ -1068,7 +1096,8 @@ forIArraySum(arraySum)
     color: $text;
   }
 
-  .secondBasketChoiceTitle {}
+  .secondBasketChoiceTitle {
+  }
 
   .secondBasketPriceTitle {
     height: 25%;
@@ -1245,21 +1274,27 @@ forIArraySum(arraySum)
 
   // PRICE
 
-  .blockVCardFirstBasketItemPriceMain {}
+  .blockVCardFirstBasketItemPriceMain {
+  }
 
-  .blockVCardFirstBasketItemPriceMainTitle {}
+  .blockVCardFirstBasketItemPriceMainTitle {
+  }
 
   // AMOUNT
 
-  .blockVCardFirstBasketItemAmountMain {}
+  .blockVCardFirstBasketItemAmountMain {
+  }
 
-  .blockVCardFirstBasketItemAmountMainTitle {}
+  .blockVCardFirstBasketItemAmountMainTitle {
+  }
 
   // SUM
 
-  .blockVCardFirstBasketItemSumMain {}
+  .blockVCardFirstBasketItemSumMain {
+  }
 
-  .blockVCardFirstBasketItemSumMainTitle {}
+  .blockVCardFirstBasketItemSumMainTitle {
+  }
 
 
   //
@@ -1294,7 +1329,8 @@ forIArraySum(arraySum)
     color: $text;
   }
 
-  .secondBasketChoiceTitle {}
+  .secondBasketChoiceTitle {
+  }
 
   .secondBasketPriceTitle {
     height: 25%;
@@ -1369,6 +1405,9 @@ forIArraySum(arraySum)
   // BLOCK BASKET
 
   .blockBasketInSite {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
     min-height: 100vh;
     background-color: $background;
   }
@@ -1417,10 +1456,21 @@ forIArraySum(arraySum)
 
   // --- FIRST BASKET V-CARD
 
+  .blockVCardFirstBasketDiv {
+    width: 100%;
+    margin-top: 30px;
+  }
+
   .blockVCardFirstBasket {
     width: 100%;
-    min-height: 200px;
-    box-shadow: 0 0 1px 1px $primary;
+    min-height: 250px;
+    display: flex;
+    margin-top: 50px;
+    padding: 25px;
+    box-shadow:
+        0px 0px 10.5px rgba(0, 0, 0, 0.24),
+        0px 0px 84px rgba(0, 0, 0, 0.12)
+  ;
     background-color: $background;
   }
 
@@ -1462,7 +1512,6 @@ forIArraySum(arraySum)
 
   .blockVCardFirstBasketItemPriceMain, .blockVCardFirstBasketItemAmountMain, .blockVCardFirstBasketItemSumMain {
     width: 60%;
-    border-left: 2px solid $primary;
   }
 
   .blockVCardFirstBasketItemPriceMainTitle, .blockVCardFirstBasketItemAmountMainTitle, .blockVCardFirstBasketItemSumMainTitle {
@@ -1472,21 +1521,27 @@ forIArraySum(arraySum)
 
   // PRICE
 
-  .blockVCardFirstBasketItemPriceMain {}
+  .blockVCardFirstBasketItemPriceMain {
+  }
 
-  .blockVCardFirstBasketItemPriceMainTitle {}
+  .blockVCardFirstBasketItemPriceMainTitle {
+  }
 
   // AMOUNT
 
-  .blockVCardFirstBasketItemAmountMain {}
+  .blockVCardFirstBasketItemAmountMain {
+  }
 
-  .blockVCardFirstBasketItemAmountMainTitle {}
+  .blockVCardFirstBasketItemAmountMainTitle {
+  }
 
   // SUM
 
-  .blockVCardFirstBasketItemSumMain {}
+  .blockVCardFirstBasketItemSumMain {
+  }
 
-  .blockVCardFirstBasketItemSumMainTitle {}
+  .blockVCardFirstBasketItemSumMainTitle {
+  }
 
 
   //
@@ -1494,7 +1549,7 @@ forIArraySum(arraySum)
   // SECOND BASKET
 
   .blockSecondBasket {
-    width: 30%;
+    width: 20%;
     height: 450px;
     box-shadow: 0 0 0 2px $primary;
     background-color: $background;
@@ -1516,14 +1571,16 @@ forIArraySum(arraySum)
     height: 20%;
     font-weight: 500;
     font-size: 2rem;
-    padding-left:24px;
+    padding-left: 24px;
     padding-top: 8px;
     color: $text;
   }
 
-  .secondBasketChoiceTitle {}
+  .secondBasketChoiceTitle {
+  }
 
-  .secondBasketPriceTitle {}
+  .secondBasketPriceTitle {
+  }
 
   .secondBlockVBtnBlock {
     width: 100%;

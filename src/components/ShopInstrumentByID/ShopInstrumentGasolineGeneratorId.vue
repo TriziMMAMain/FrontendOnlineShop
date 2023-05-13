@@ -1,41 +1,49 @@
 <script setup="">
 // core
-import {ref, computed, } from 'vue'
+import {ref} from 'vue'
+
 //
 import BasketComponentDynamic from "../Basket/basketComponentDynamic.vue"
-import _ from 'lodash'
-// store
-import {useInstrumentStore} from '../../stores/counter'
+import {Promise} from "core-js";
+import {ProccesingSuccessfuly} from "../../notification/toasting";
 
 // local
-const gasolineLocal = JSON.parse(localStorage.getItem("gasoline"))
-const gasolineLocalCopy = gasolineLocal
-const gasolineId = JSON.parse(localStorage.getItem("id_gasoline"))
+const gasolineGeneratorId = ref([])
+const gasolineLocal = ref([])
+const loadingComponent = ref(true)
 //
 
-const {findByGasolineID, filterCrodlessInstrument} = useInstrumentStore()
+const fetchingInstrumentFilterById = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
+    if (response.ok) {
+      gasolineLocal.value = await response.json()
+      gasolineGeneratorId.value = await gasolineLocal.value[0]
+    } else {
+      throw new Error(`Error fetching instrument: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-const instrument = computed(() => {
-  return findByGasolineID(Number(route.params.id))
-})
+const gasolineLocalCopyFun = async () => {
+  try {
+    await Promise.all([
+      fetchingInstrumentFilterById()
+          .then(() => {
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    ])
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+gasolineLocalCopyFun();
 
-// router
-import {useRouter, useRoute} from 'vue-router'
-
-const route = useRoute()
-const router = useRouter()
-
-
-const back = () => {
-  router.push({name: 'gasolineInstrumentGenerator'})
-}
-
-const gasolineGeneratorId = []
-const findIdTool = () => {
-  gasolineGeneratorId.push(_.find(gasolineLocalCopy, {'id': gasolineId}))
-}
-findIdTool()
 
 
 const items = [
@@ -56,6 +64,7 @@ const items = [
   },
 ]
 
+
 let basketClick = ref(false)
 setInterval(() => {
   basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
@@ -70,12 +79,9 @@ const buyInBasket = (id) => {
   counterClickBasket.value = !counterClickBasket.value
   localStorage.setItem("basket_click", JSON.stringify(counterClickBasket.value))
   basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
-
   console.log(id)
   localStorage.setItem("basket_id", JSON.stringify(id))
 }
-
-//
 
 </script>
 
@@ -83,7 +89,7 @@ const buyInBasket = (id) => {
   <v-container
       fluid
       class="cardMainShopSideContainer w-100"
-      v-for="i in gasolineGeneratorId"
+      v-for="i in [gasolineGeneratorId]"
   >
     <div class="basketComponentDynamicBlockMain"
          v-if="basketClick">
@@ -119,7 +125,7 @@ const buyInBasket = (id) => {
           >
             <v-carousel-item
                 class="w-100"
-                v-for="(item, i) in gasolineGeneratorId[0].imgArray"
+                v-for="(item, i) in gasolineGeneratorId.imgArray"
                 :key="i"
                 :src="item.src"
             >
@@ -133,7 +139,7 @@ const buyInBasket = (id) => {
             Основные характеристики
           </v-card-text>
           <!--          -->
-          <v-card-text v-for="item in gasolineGeneratorId[0].featureTopTitle"
+          <v-card-text v-for="item in gasolineGeneratorId.featureTopTitle"
                        key="item"
                        class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
@@ -175,7 +181,7 @@ const buyInBasket = (id) => {
           <v-table class="cardMainContainerShopSideFeatureMiddleTopVTable" density="compact">
             <tbody>
             <tr
-                v-for="item in gasolineGeneratorId[0].featureMiddle"
+                v-for="item in gasolineGeneratorId.featureMiddle"
                 :key="item.feature"
             >
               <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.feature }}</td>
@@ -191,7 +197,7 @@ const buyInBasket = (id) => {
           <h1 class="textCardFeatureDown">Преимущества {{ i.name }}</h1>
           <ul class="cardMainContainerShopSideFeatureDownTopUl">
             <li class="cardMainContainerShopSideFeatureDownTopLi"
-                v-for="i in gasolineGeneratorId[0].featureDownArray"
+                v-for="i in gasolineGeneratorId.featureDownArray"
                 :key="i.featureDown">{{ i.featureDown }}
             </li>
           </ul>
@@ -244,6 +250,7 @@ const buyInBasket = (id) => {
 
 .cardMainShopSideContainer {
   min-height: 1200px;
+  position: relative;
   //background-color: rgba(0, 128, 0, 0.65);
 }
 
@@ -460,6 +467,7 @@ const buyInBasket = (id) => {
     width: 100%;
   }
 }
+
 @media screen and (min-width: 600px) and (max-width: 960px) {
   /* стили для sm-устройств */
   .cardMainShopSidePhoto {
@@ -469,7 +477,8 @@ const buyInBasket = (id) => {
     height: 500px;
   }
 }
-@media screen and (min-width: 960px) and (max-width: 1264px)  {
+
+@media screen and (min-width: 960px) and (max-width: 1264px) {
   /* стили для md-устройств */
   .cardMainShopSidePhoto {
     height: 500px;
@@ -478,7 +487,8 @@ const buyInBasket = (id) => {
     height: 500px;
   }
 }
-@media screen and (min-width: 1264px) and (max-width: 1904px)  {
+
+@media screen and (min-width: 1264px) and (max-width: 1904px) {
   /*  стили для lg-устройств */
   .cardMainShopSidePhotoMain {
     width: 100%;
@@ -491,6 +501,7 @@ const buyInBasket = (id) => {
   }
   /* done! */
 }
+
 @media screen and (min-width: 1904px) {
   /*  стили для xl-устройств */
   .cardMainShopSidePhoto {
