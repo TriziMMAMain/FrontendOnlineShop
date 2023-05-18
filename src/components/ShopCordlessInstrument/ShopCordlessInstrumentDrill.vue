@@ -123,6 +123,7 @@ const heightFuncVBtn = () => {
 //
 const cordlessDrillArray = ref([])
 const cordlessLocal = ref([])
+const functionAwait = ref('')
 
 const fetchingInstrumentFilterName = async () => {
   try {

@@ -50,13 +50,25 @@ const heightFunc = () => {
 }
 
 //
+const changeInstrument = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/instrument/change');
 
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+
+const cordless = ref([])
 const fetchingCordlessInstrument = async () => {
   try {
     const response = await fetch('http://localhost:3000/api/instruments/get/cordless');
     if (response.ok) {
-      const cordless = await response.json();
-      await cordlessLocalCopyName(cordless); // передача данных в cordlessLocalCopyName
+      cordless.value = await response.json();
+      await cordlessLocalCopyName(cordless.value)
     } else {
       throw new Error(`Error fetching cordless: ${response.statusText}`);
     }
@@ -112,16 +124,21 @@ const cordlessLocalCopyNameArray = ref([])
 const instrumentAllLocalCopyName = ref([]);
 
 const cordlessLocalCopyName = async (cordless) => {
-  if (Array.isArray(cordless) || (typeof cordless === 'object' && cordless.hasOwnProperty('length'))) {
-    for (let i = 0; i < cordless.length; i++) {
-      cordlessLocalCopyNameArray.value.push(cordless[i]);
+  try {
+    if (Array.isArray(cordless) || (typeof cordless === 'object' && cordless.hasOwnProperty('length'))) {
+      for (let i = 0; i < cordless.length; i++) {
+        cordlessLocalCopyNameArray.value.push(cordless[i]);
+      }
+      for (let i = 0; i < cordlessLocalCopyNameArray.value.length; i++) {
+        instrumentAllLocalCopyName.value.push(cordlessLocalCopyNameArray.value[i].name);
+      }
+    } else {
+      console.log('Invalid input');
     }
-    for (let i = 0; i < cordlessLocalCopyNameArray.value.length; i++) {
-      instrumentAllLocalCopyName.value.push(cordlessLocalCopyNameArray.value[i].name);
-    }
-  } else {
-    console.log('Invalid input');
+  } catch (err) {
+    console.log(err)
   }
+
 };
 
 
@@ -185,6 +202,13 @@ const pneumoLocalCopyName = async (pneumo) => {
 const loadInstruments = async () => {
   try {
     await Promise.all([
+      changeInstrument()
+          .then(() => {
+            console.log(`change`)
+          })
+          .catch((error) => {
+            console.log(error)
+          }),
       fetchingCordlessInstrument()
           .then(() => {
           })
@@ -280,6 +304,9 @@ const filterAllNameBtn = async (string) => {
   }
 }
 
+// setTimeout(() => {
+//   window.location.reload()
+// },5000)
 
 </script>
 
