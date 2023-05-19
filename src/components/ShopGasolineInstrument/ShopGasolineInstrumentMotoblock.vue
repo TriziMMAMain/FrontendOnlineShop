@@ -121,7 +121,7 @@ const heightFuncVBtn = () => {
 }
 
 //
-const gasolineGeneratorArray = ref([])
+const gasolineMotoblockArray = ref([])
 const gasolineLocal = ref([])
 
 const fetchingInstrumentFilterName = async () => {
@@ -139,7 +139,7 @@ const fetchingInstrumentFilterName = async () => {
 fetchingInstrumentFilterName()
     .then(() => {
       gasolineGenerator()
-      console.log(`Fetching gasoline generator good`);
+      console.log(`Fetching gasoline motoblock good`);
     })
     .catch((error) => {
       console.log(error);
@@ -147,22 +147,22 @@ fetchingInstrumentFilterName()
 
 const gasolineGenerator = async () => {
   for (let i = 0; i < gasolineLocal.value.length; i++) {
-    if (gasolineLocal.value[i].typeThis === 'Бензогенератор') {
-      gasolineGeneratorArray.value.push(gasolineLocal.value[i])
+    if (gasolineLocal.value[i].typeThis === 'Бензиновый мотоблок') {
+      gasolineMotoblockArray.value.push(gasolineLocal.value[i])
     }
   }
-  console.log(`gasoline`, gasolineGeneratorArray.value)
+  console.log(`gasoline`, gasolineMotoblockArray.value)
 }
 
 
 const viewDetails = async (id) => {
   let dataInstrument = ref([])
-  for (let i = 0; i < gasolineGeneratorArray.value.length; i++) {
-    dataInstrument.value = _.filter(gasolineGeneratorArray.value, {id: id})
+  for (let i = 0; i < gasolineMotoblockArray.value.length; i++) {
+    dataInstrument.value = _.filter(gasolineMotoblockArray.value, {id: id})
   }
   const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
 
-  await router.push({name: 'gasolineInstrumentGeneratorId', params: {id: id}}) // /id/:id
+  await router.push({name: 'gasolineInstrumentMotoblockId', params: {id: id}}) // /id/:id
   localStorage.setItem("id_gasoline", JSON.stringify(id))
 
 }
@@ -170,8 +170,8 @@ const viewDetails = async (id) => {
 let counterClick = ref(0)
 const buyInBasket = async (id) => {
   let dataInstrument = ref([])
-  for (let i = 0; i < gasolineGeneratorArray.value.length; i++) {
-    dataInstrument.value = _.filter(gasolineGeneratorArray.value, {id: id})
+  for (let i = 0; i < gasolineMotoblockArray.value.length; i++) {
+    dataInstrument.value = _.filter(gasolineMotoblockArray.value, {id: id})
   }
   const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
   counterClick.value = counterClick.value + 1
@@ -179,7 +179,7 @@ const buyInBasket = async (id) => {
     localStorage.setItem("basket_id", JSON.stringify(id))
     localStorage.setItem("basket_click", JSON.stringify(true))
     localStorage.setItem("id_gasoline", JSON.stringify(id))
-    await router.push({name: 'gasolineInstrumentGeneratorId', params: {id: id}})
+    await router.push({name: 'gasolineInstrumentMotoblockId', params: {id: id}})
 
   }
 }
@@ -194,7 +194,7 @@ const buyInBasket = async (id) => {
       color="background"
       elevation="5"
       class="vCardMain pa-5 mr-10 mb-16"
-      v-for="i in gasolineGeneratorArray">
+      v-for="i in gasolineMotoblockArray">
     <v-row>
       <!--      FIRST COL-->
       <v-col :cols="firstColFunc()"

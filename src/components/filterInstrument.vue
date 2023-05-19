@@ -9,19 +9,6 @@ const router = useRouter()
 //
 
 //
-
-const cordlessInstrument = () => {
-  router.push({name: 'crodlessInstrumentAll'})
-}
-const gasolineInstrument = () => {
-  router.push({name: 'gasolineInstrumentAll'})
-}
-const networkInstrument = () => {
-  router.push({name: 'networkInstrumentAll'})
-}
-const pneuomotoolInstrument = () => {
-  router.push({name: 'pneumotoolInstrumentAll'})
-}
 // const arrayInBasketInstrument = localStorage.setItem("basket_array", JSON.stringify([]))
 
 </script>
@@ -45,7 +32,7 @@ const pneuomotoolInstrument = () => {
         <!--          -------------- CordlessTools-->
         <v-expansion-panel>
           <!--          START TITLE-->
-          <v-expansion-panel-title  @click="cordlessInstrument">
+          <v-expansion-panel-title>
             <v-row>
               <v-col><p class="titleLeftInExpansion">Аккумуляторный инструмент</p></v-col>
             </v-row>
@@ -55,6 +42,7 @@ const pneuomotoolInstrument = () => {
           <!--          START TEXT-->
           <v-expansion-panel-text>
             <v-card-text class="d-flex justify-center flex-column">
+              <router-link to="/cordless-instrument/catalog/" class="textExpansionMain">Каталог аккмуляторного инструмента</router-link>
               <router-link to="/cordless-instrument/drills" class="textExpansion">Аккумуляторные дрели</router-link>
               <router-link to="/cordless-instrument/screwdrivers" class="textExpansion">Аккумуляторные перфораторы</router-link>
               <router-link to="/cordless-instrument/grinders" class="textExpansion">Аккумуляторные болгарки</router-link>
@@ -66,7 +54,7 @@ const pneuomotoolInstrument = () => {
         <!--          -------------- GasolineTools-->
         <v-expansion-panel>
           <!--          START TITLE-->
-          <v-expansion-panel-title @click="gasolineInstrument">
+          <v-expansion-panel-title>
             <v-row>
               <v-col><p class="titleLeftInExpansion">Бензиновый инструмент</p></v-col>
             </v-row>
@@ -74,8 +62,11 @@ const pneuomotoolInstrument = () => {
           <!--          END TITLE-->
           <!--          START TEXT-->
           <v-expansion-panel-text>
-            <v-card-text>
+            <v-card-text class="d-flex justify-center flex-column">
+              <router-link to="/gasoline-instrument/catalog/" class="textExpansionMain">Каталог бензинового инструмента</router-link>
               <router-link to="/gasoline-instrument/generator/" class="textExpansion">Бензогенераторы</router-link>
+              <router-link to="/gasoline-instrument/motoblock/" class="textExpansion">Мотоблоки</router-link>
+              <router-link to="/gasoline-instrument/chainsaw/" class="textExpansion">Бензопилы</router-link>
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->
@@ -84,7 +75,7 @@ const pneuomotoolInstrument = () => {
         <!--          -------------- NetworkTools-->
         <v-expansion-panel>
           <!--          START TITLE-->
-          <v-expansion-panel-title @click="networkInstrument">
+          <v-expansion-panel-title>
             <v-row>
               <v-col><p class="titleLeftInExpansion">Сетевой инструмент</p></v-col>
             </v-row>
@@ -92,7 +83,8 @@ const pneuomotoolInstrument = () => {
           <!--          END TITLE-->
           <!--          START TEXT-->
           <v-expansion-panel-text>
-            <v-card-text>
+            <v-card-text class="d-flex justify-center flex-column">
+              <router-link to="/network-instrument/catalog/" class="textExpansionMain">Каталог сетевого инструмента</router-link>
               <router-link to="/network-instrument/drill/" class="textExpansion">Сетевые дрели</router-link>
             </v-card-text>
           </v-expansion-panel-text>
@@ -102,7 +94,7 @@ const pneuomotoolInstrument = () => {
         <!--          -------------- PneuomoTools-->
         <v-expansion-panel>
           <!--          START TITLE-->
-          <v-expansion-panel-title @click="pneuomotoolInstrument">
+          <v-expansion-panel-title>
             <v-row>
               <v-col><p class="titleLeftInExpansion">Пневмоинструмент</p></v-col>
             </v-row>
@@ -110,7 +102,8 @@ const pneuomotoolInstrument = () => {
           <!--          END TITLE-->
           <!--          START TEXT-->
           <v-expansion-panel-text>
-            <v-card-text >
+            <v-card-text class="d-flex justify-center flex-column">
+              <router-link to="/pneumotool-instrument/catalog/" class="textExpansionMain">Каталог пневматического инструмента</router-link>
               <router-link to="/pneumotool-instrument/compressor" class="textExpansion">Компрессоры</router-link>
             </v-card-text>
           </v-expansion-panel-text>
@@ -154,14 +147,18 @@ const pneuomotoolInstrument = () => {
   font-size: 1.1rem;
 
 }
-.textExpansion {
+.textExpansion, .textExpansionMain {
   color: $text;
   padding-top: 4px;
   text-decoration: none;
   transition: all 0.3s;
 }
-.textExpansion:hover {
+.textExpansion:hover, .textExpansionMain:hover {
   color: $primary;
   transition: all 0.3s;
+}
+.textExpansionMain {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
 }
 </style>

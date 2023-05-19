@@ -21,7 +21,11 @@ import ShopGasoline from '../components/ShopGasolineInstrument/ShopGasolineInstr
 import ShopGasolineAll from '../components/ShopGasolineInstrument/ShopGasolineInstrumentAll.vue'
 // import ShopGasoline from '../components/ShopGasolineInstrument/ShopGasolineInstrument.vue'
 import ShopGasolineGenerator from '../components/ShopGasolineInstrument/ShopGasolineInstrumentGenerator.vue'
-import ShopGasolineGeneratorId from '../components/ShopInstrumentByID/ShopInstrumentGasolineGeneratorId.vue'
+import ShopGasolineGeneratorId from '../components/ShopInstrumentByID/ShopInstrumentGasolineIdGenerator.vue'
+import ShopGasolineMotoblock from '../components/ShopGasolineInstrument/ShopGasolineInstrumentMotoblock.vue'
+import ShopGasolineMotoblockId from '../components/ShopInstrumentByID/ShopInstrumentGasolineIdMotoblock.vue'
+import ShopGasolineChainsaw from '../components/ShopGasolineInstrument/ShopGasolineInstrumentChainsaw.vue'
+import ShopGasolineChainsawId from '../components/ShopInstrumentByID/ShopInstrumentGasolineIdChainsaw.vue'
 // Network
 import ShopNetwork from '../components/ShopNetworkInstrument/ShopNetworkInstrument.vue'
 import ShopNetworkInstrumentAll from '../components/ShopNetworkInstrument/ShopNetworkInstrumentAll.vue'
@@ -155,19 +159,45 @@ const routes = [
                 }
             },
             {
-                path: 'generator/', // /gasoline-instrument/gasoline-generator/
+                path: 'generator/',
                 name: 'gasolineInstrumentGenerator',
                 components: {
-                    default: MainComponents,
                     gasolineToolsGenerator: ShopGasolineGenerator,
                 },
             },
             {
-                path: 'generator/id/:id/', // /gasoline-instrument/gasoline-generator/
+                path: 'generator/id/:id/',
                 name: 'gasolineInstrumentGeneratorId',
                 components: {
-                    default: MainComponents,
                     gasolineToolsGeneratorId: ShopGasolineGeneratorId,
+                },
+            },
+            {
+                path: 'motoblock/',
+                name: 'gasolineInstrumentMotoblock',
+                components: {
+                    gasolineToolsMotoblock: ShopGasolineMotoblock,
+                },
+            },
+            {
+                path: 'motoblock/id/:id/',
+                name: 'gasolineInstrumentMotoblockId',
+                components: {
+                    gasolineToolsMotoblockId: ShopGasolineMotoblockId,
+                },
+            },
+            {
+                path: 'chainsaw/',
+                name: 'gasolineInstrumentChainsaw',
+                components: {
+                    gasolineToolsChainsaw: ShopGasolineChainsaw,
+                },
+            },
+            {
+                path: 'chainsaw/id/:id/',
+                name: 'gasolineInstrumentChainsawId',
+                components: {
+                    gasolineToolsChainsawId: ShopGasolineChainsawId,
                 },
             },
         ]

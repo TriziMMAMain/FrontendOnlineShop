@@ -17,7 +17,15 @@
     <router-view name="gasolineToolsGenerator"></router-view>
     <!--      -->
     <router-view name="gasolineToolsGeneratorId"></router-view>
-
+    <!--    Motoblock-->
+    <router-view name="gasolineToolsMotoblock"></router-view>
+    <!--    -->
+    <router-view name="gasolineToolsMotoblockId"></router-view>
+    <!--    Chainsaw-->
+    <router-view name="gasolineToolsChainsaw"></router-view>
+    <!--    -->
+    <router-view name="gasolineToolsChainsawId"></router-view>
+    <!--    -->
     <router-view></router-view>
   </div>
 </template>

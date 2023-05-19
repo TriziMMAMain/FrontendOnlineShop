@@ -1,7 +1,8 @@
 <script setup="">
 // - Import
 import ShopGasolineInstrumentGenerator from './ShopGasolineInstrumentGenerator.vue'
-
+import ShopGasolineInstrumentMotoblock from './ShopGasolineInstrumentMotoblock.vue'
+import ShopGasolineInstrumentChainsaw from './ShopGasolineInstrumentChainsaw.vue'
 //
 
 
@@ -13,6 +14,8 @@ import ShopGasolineInstrumentGenerator from './ShopGasolineInstrumentGenerator.v
   <!--        CARD -->
   <div class="d-flex flex-wrap">
     <ShopGasolineInstrumentGenerator></ShopGasolineInstrumentGenerator>
+    <ShopGasolineInstrumentMotoblock></ShopGasolineInstrumentMotoblock>
+    <ShopGasolineInstrumentChainsaw></ShopGasolineInstrumentChainsaw>
   </div>
 </template>
 
