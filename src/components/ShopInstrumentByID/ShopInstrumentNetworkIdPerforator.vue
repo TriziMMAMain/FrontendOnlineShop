@@ -1,38 +1,49 @@
 <script setup="">
 // core
-import {ref, computed, } from 'vue'
+import {ref} from 'vue'
+
 //
 import BasketComponentDynamic from "../Basket/basketComponentDynamic.vue"
-import _ from 'lodash'
-// store
-import {useInstrumentStore} from '../../stores/counter'
+import {Promise} from "core-js";
+import {ProccesingSuccessfuly} from "../../notification/toasting";
 
 // local
-const networkLocal = JSON.parse(localStorage.getItem("network"))
-const networkLocalCopy = networkLocal
-const networkId = JSON.parse(localStorage.getItem("id_network"))
+const networkPerforatorId = ref([])
+const networkLocal = ref([])
+const loadingComponent = ref(true)
 //
 
-const {findByNetworkID} = useInstrumentStore()
+const fetchingInstrumentFilterById = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
+    if (response.ok) {
+      networkLocal.value = await response.json()
+      networkPerforatorId.value = await networkLocal.value[0]
+    } else {
+      throw new Error(`Error fetching instrument: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-const instrument = computed(() => {
-  return findByNetworkID(Number(route.params.id))
-})
+const networkLocalCopyFun = async () => {
+  try {
+    await Promise.all([
+      fetchingInstrumentFilterById()
+          .then(() => {
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    ])
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+networkLocalCopyFun();
 
-// router
-import {useRouter, useRoute} from 'vue-router'
-
-const route = useRoute()
-const router = useRouter()
-
-console.log(networkId);
-const networkDrillId = []
-const findIdTool = () => {
-  networkDrillId.push(_.find(networkLocalCopy, {'id': networkId}))
-  console.log(`array`, networkDrillId)
-}
-findIdTool()
 
 
 const items = [
@@ -47,11 +58,12 @@ const items = [
     href: '/network-instrument/catalog/',
   },
   {
-    title: 'Сетевые дрели',
+    title: 'Сетевые перфораторы',
     disabled: false,
-    href: '/network-instrument/drill/',
+    href: '/network-instrument/perforator/',
   },
 ]
+
 
 let basketClick = ref(false)
 setInterval(() => {
@@ -67,13 +79,9 @@ const buyInBasket = (id) => {
   counterClickBasket.value = !counterClickBasket.value
   localStorage.setItem("basket_click", JSON.stringify(counterClickBasket.value))
   basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
-
   console.log(id)
   localStorage.setItem("basket_id", JSON.stringify(id))
 }
-
-
-//
 
 </script>
 
@@ -81,7 +89,7 @@ const buyInBasket = (id) => {
   <v-container
       fluid
       class="cardMainShopSideContainer w-100"
-      v-for="i in networkDrillId"
+      v-for="i in [networkPerforatorId]"
   >
     <div class="basketComponentDynamicBlockMain"
          v-if="basketClick">
@@ -117,7 +125,7 @@ const buyInBasket = (id) => {
           >
             <v-carousel-item
                 class="w-100"
-                v-for="(item, i) in networkDrillId[0].imgArray"
+                v-for="(item, i) in networkPerforatorId.imgArray"
                 :key="i"
                 :src="item.src"
             >
@@ -131,7 +139,7 @@ const buyInBasket = (id) => {
             Основные характеристики
           </v-card-text>
           <!--          -->
-          <v-card-text v-for="item in networkDrillId[0].featureTopTitle"
+          <v-card-text v-for="item in networkPerforatorId.featureTopTitle"
                        key="item"
                        class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
@@ -173,7 +181,7 @@ const buyInBasket = (id) => {
           <v-table class="cardMainContainerShopSideFeatureMiddleTopVTable" density="compact">
             <tbody>
             <tr
-                v-for="item in networkDrillId[0].featureMiddle"
+                v-for="item in networkPerforatorId.featureMiddle"
                 :key="item.feature"
             >
               <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.feature }}</td>
@@ -189,7 +197,7 @@ const buyInBasket = (id) => {
           <h1 class="textCardFeatureDown">Преимущества {{ i.name }}</h1>
           <ul class="cardMainContainerShopSideFeatureDownTopUl">
             <li class="cardMainContainerShopSideFeatureDownTopLi"
-                v-for="i in networkDrillId[0].featureDownArray"
+                v-for="i in networkPerforatorId.featureDownArray"
                 :key="i.featureDown">{{ i.featureDown }}
             </li>
           </ul>
@@ -242,6 +250,7 @@ const buyInBasket = (id) => {
 
 .cardMainShopSideContainer {
   min-height: 1200px;
+  position: relative;
   //background-color: rgba(0, 128, 0, 0.65);
 }
 
@@ -458,6 +467,7 @@ const buyInBasket = (id) => {
     width: 100%;
   }
 }
+
 @media screen and (min-width: 600px) and (max-width: 960px) {
   /* стили для sm-устройств */
   .cardMainShopSidePhoto {
@@ -467,7 +477,8 @@ const buyInBasket = (id) => {
     height: 500px;
   }
 }
-@media screen and (min-width: 960px) and (max-width: 1264px)  {
+
+@media screen and (min-width: 960px) and (max-width: 1264px) {
   /* стили для md-устройств */
   .cardMainShopSidePhoto {
     height: 500px;
@@ -476,7 +487,8 @@ const buyInBasket = (id) => {
     height: 500px;
   }
 }
-@media screen and (min-width: 1264px) and (max-width: 1904px)  {
+
+@media screen and (min-width: 1264px) and (max-width: 1904px) {
   /*  стили для lg-устройств */
   .cardMainShopSidePhotoMain {
     width: 100%;
@@ -489,6 +501,7 @@ const buyInBasket = (id) => {
   }
   /* done! */
 }
+
 @media screen and (min-width: 1904px) {
   /*  стили для xl-устройств */
   .cardMainShopSidePhoto {

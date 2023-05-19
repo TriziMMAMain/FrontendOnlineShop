@@ -30,7 +30,11 @@ import ShopGasolineChainsawId from '../components/ShopInstrumentByID/ShopInstrum
 import ShopNetwork from '../components/ShopNetworkInstrument/ShopNetworkInstrument.vue'
 import ShopNetworkInstrumentAll from '../components/ShopNetworkInstrument/ShopNetworkInstrumentAll.vue'
 import ShopNetworkInstrumentDrill from '../components/ShopNetworkInstrument/ShopNetworkInstrumentDrill.vue'
-import ShopNetworkInstrumentDrillId from '../components/ShopInstrumentByID/ShopInstrumentNetworkId.vue'
+import ShopNetworkInstrumentDrillId from '../components/ShopInstrumentByID/ShopInstrumentNetworkIdDrill.vue'
+import ShopNetworkInstrumentFretsaw from '../components/ShopNetworkInstrument/ShopNetworkInstrumentFretsaw.vue'
+import ShopNetworkInstrumentFretsawId from '../components/ShopInstrumentByID/ShopInstrumentNetworkIdFretsaw.vue'
+import ShopNetworkInstrumentPerforator from '../components/ShopNetworkInstrument/ShopNetworkInstrumentPerforator.vue'
+import ShopNetworkInstrumentPerforatorId from '../components/ShopInstrumentByID/ShopInstrumentNetworkIdPerforator.vue'
 // Pneumotool
 import ShopPneumotoolInstrument from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrument.vue'
 import ShopPneumotoolInstrumentAll from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrumentAll.vue'
@@ -143,7 +147,6 @@ const routes = [
             },
         ],
     },
-
     {
         path: '/gasoline-instrument/', // /gasoline-instrument/
         name: 'gasolineInstrument',
@@ -202,12 +205,10 @@ const routes = [
             },
         ]
     },
-
     {
         path: '/network-instrument/', // /network-instrument/
         name: 'networkInstrument',
         components: {
-            default: MainComponents,
             networkTools: ShopNetwork,
         },
         children: [
@@ -219,24 +220,49 @@ const routes = [
                 }
             },
             {
-                path: 'drill/', // /gasoline-instrument/gasoline-generator/
+                path: 'drill/',
                 name: 'networkInstrumentDrill',
                 components: {
-                    default: MainComponents,
                     networkToolsDrill: ShopNetworkInstrumentDrill,
                 },
             },
             {
-                path: 'drill/id/:id/', // /gasoline-instrument/gasoline-generator/
+                path: 'drill/id/:id/',
                 name: 'networkInstrumentDrillId',
                 components: {
-                    default: MainComponents,
                     networkToolsDrillId: ShopNetworkInstrumentDrillId,
+                },
+            },
+            {
+                path: 'fretsaw/',
+                name: 'networkInstrumentFretsaw',
+                components: {
+                    networkToolsFretsaw: ShopNetworkInstrumentFretsaw,
+                },
+            },
+            {
+                path: 'fretsaw/id/:id/',
+                name: 'networkInstrumentFretsawId',
+                components: {
+                    networkToolsFretsawId: ShopNetworkInstrumentFretsawId,
+                },
+            },
+            {
+                path: 'perforator/',
+                name: 'networkInstrumentPerforator',
+                components: {
+                    networkToolsPerforator: ShopNetworkInstrumentPerforator,
+                },
+            },
+            {
+                path: 'perforator/id/:id/',
+                name: 'networkInstrumentPerforatorId',
+                components: {
+                    networkToolsPerforatorId: ShopNetworkInstrumentPerforatorId,
                 },
             },
         ]
     },
-
     {
         path: '/pneumotool-instrument/', // /pneuomotool-instrument/
         name: 'pneumotoolInstrument',

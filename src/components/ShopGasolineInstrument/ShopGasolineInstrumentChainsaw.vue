@@ -139,7 +139,7 @@ const fetchingInstrumentFilterName = async () => {
 fetchingInstrumentFilterName()
     .then(() => {
       gasolineGenerator()
-      console.log(`Fetching gasoline motoblock good`);
+      console.log(`Fetching gasoline chainsaw good`);
     })
     .catch((error) => {
       console.log(error);

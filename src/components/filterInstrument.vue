@@ -86,6 +86,8 @@ const router = useRouter()
             <v-card-text class="d-flex justify-center flex-column">
               <router-link to="/network-instrument/catalog/" class="textExpansionMain">Каталог сетевого инструмента</router-link>
               <router-link to="/network-instrument/drill/" class="textExpansion">Сетевые дрели</router-link>
+              <router-link to="/network-instrument/fretsaw/" class="textExpansion">Сетевые лобзики</router-link>
+              <router-link to="/network-instrument/perforator/" class="textExpansion">Сетевые перфораторы</router-link>
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->

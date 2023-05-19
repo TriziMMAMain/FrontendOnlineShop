@@ -1,7 +1,8 @@
 <script setup="">
 // - Import
 import ShopNetworkInstrumentDrill from './ShopNetworkInstrumentDrill.vue'
-
+import ShopNetworkInstrumentFretsaw from './ShopNetworkInstrumentFretsaw.vue'
+import ShopNetworkInstrumentPerforator from './ShopNetworkInstrumentPerforator.vue'
 //
 
 
@@ -13,6 +14,8 @@ import ShopNetworkInstrumentDrill from './ShopNetworkInstrumentDrill.vue'
   <!--        CARD -->
   <div class="d-flex flex-wrap">
     <ShopNetworkInstrumentDrill></ShopNetworkInstrumentDrill>
+    <ShopNetworkInstrumentFretsaw></ShopNetworkInstrumentFretsaw>
+    <ShopNetworkInstrumentPerforator></ShopNetworkInstrumentPerforator>
   </div>
 </template>
 
