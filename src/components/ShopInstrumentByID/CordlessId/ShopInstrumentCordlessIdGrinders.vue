@@ -3,22 +3,19 @@
 import {ref} from 'vue'
 
 //
-import BasketComponentDynamic from "../Basket/basketComponentDynamic.vue"
+import BasketComponentDynamic from "../../Basket/basketComponentDynamic.vue"
 import {Promise} from "core-js";
-import {ProccesingSuccessfuly} from "../../notification/toasting";
 
-// local
-const networkFretsawId = ref([])
-const networkLocal = ref([])
-const loadingComponent = ref(true)
 //
+const cordlessLocal = ref([])
+const cordlessLocalCopy = ref([])
 
 const fetchingInstrumentFilterById = async () => {
   try {
     const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
     if (response.ok) {
-      networkLocal.value = await response.json()
-      networkFretsawId.value = await networkLocal.value[0]
+      cordlessLocal.value = await response.json()
+      cordlessLocalCopy.value = await cordlessLocal.value[0]
     } else {
       throw new Error(`Error fetching instrument: ${response.statusText}`);
     }
@@ -26,8 +23,9 @@ const fetchingInstrumentFilterById = async () => {
     console.log(error);
   }
 };
+let trueOrFalsePhoto = ref(false)
 
-const networkLocalCopyFun = async () => {
+const cordlessLocalCopyFun = async () => {
   try {
     await Promise.all([
       fetchingInstrumentFilterById()
@@ -37,13 +35,25 @@ const networkLocalCopyFun = async () => {
             console.log(error);
           })
     ])
+    const isImgArrayValid = async () => {
+      for (let i = 0; i < cordlessLocalCopy.value.imgArray.length; i++) {
+        try {
+          new URL(cordlessLocalCopy.value.imgArray[i].src);
+        } catch (_) {
+          trueOrFalsePhoto.value = false
+          return false;
+        }
+      }
+      trueOrFalsePhoto.value = true
+      return true;
+    }
+    await isImgArrayValid()
   } catch (error) {
     console.log(error);
   }
 };
 
-networkLocalCopyFun();
-
+cordlessLocalCopyFun();
 
 
 const items = [
@@ -53,17 +63,16 @@ const items = [
     href: '/home/',
   },
   {
-    title: 'Сетевой инструмент',
+    title: 'Аккумуляторный инструмент',
     disabled: false,
-    href: '/network-instrument/catalog/',
+    href: '/cordless-instrument/catalog',
   },
   {
-    title: 'Сетевые лобзики',
+    title: 'Аккумуляторные болгарки',
     disabled: false,
-    href: '/network-instrument/fretsaw/',
+    href: '/cordless-instrument/grinders/',
   },
 ]
-
 
 let basketClick = ref(false)
 setInterval(() => {
@@ -79,6 +88,7 @@ const buyInBasket = (id) => {
   counterClickBasket.value = !counterClickBasket.value
   localStorage.setItem("basket_click", JSON.stringify(counterClickBasket.value))
   basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
+
   console.log(id)
   localStorage.setItem("basket_id", JSON.stringify(id))
 }
@@ -89,7 +99,7 @@ const buyInBasket = (id) => {
   <v-container
       fluid
       class="cardMainShopSideContainer w-100"
-      v-for="i in [networkFretsawId]"
+      v-for="i in [cordlessLocalCopy]"
   >
     <div class="basketComponentDynamicBlockMain"
          v-if="basketClick">
@@ -115,7 +125,8 @@ const buyInBasket = (id) => {
     d-sm-flex flex-sm-column
     ">
       <div class="cardMainShopSidePhotoMain">
-        <div class="cardMainShopSidePhoto ">
+        <div class="cardMainShopSidePhoto "
+             v-if="trueOrFalsePhoto">
           <v-carousel
               cycle
               class="carouselMainComponent"
@@ -125,13 +136,20 @@ const buyInBasket = (id) => {
           >
             <v-carousel-item
                 class="w-100"
-                v-for="(item, i) in networkFretsawId.imgArray"
+                v-for="(item, i) in cordlessLocalCopy.imgArray"
                 :key="i"
                 :src="item.src"
             >
             </v-carousel-item>
           </v-carousel>
         </div>
+        <div class="d-flex justify-center align-center"
+        v-else><v-progress-circular
+            color="primary"
+            indeterminate
+            :size="128"
+            :width="12"
+        ></v-progress-circular></div>
       </div>
       <div class="cardMainShopSideFeatureMain d-flex justify-start flex-nowrap align-start">
         <div class="cardMainShopSideFeature pa-4">
@@ -139,7 +157,7 @@ const buyInBasket = (id) => {
             Основные характеристики
           </v-card-text>
           <!--          -->
-          <v-card-text v-for="item in networkFretsawId.featureTopTitle"
+          <v-card-text v-for="item in cordlessLocalCopy.featureTopTitle"
                        key="item"
                        class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
@@ -181,7 +199,7 @@ const buyInBasket = (id) => {
           <v-table class="cardMainContainerShopSideFeatureMiddleTopVTable" density="compact">
             <tbody>
             <tr
-                v-for="item in networkFretsawId.featureMiddle"
+                v-for="item in cordlessLocalCopy.featureMiddle"
                 :key="item.feature"
             >
               <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.feature }}</td>
@@ -197,7 +215,7 @@ const buyInBasket = (id) => {
           <h1 class="textCardFeatureDown">Преимущества {{ i.name }}</h1>
           <ul class="cardMainContainerShopSideFeatureDownTopUl">
             <li class="cardMainContainerShopSideFeatureDownTopLi"
-                v-for="i in networkFretsawId.featureDownArray"
+                v-for="i in cordlessLocalCopy.featureDownArray"
                 :key="i.featureDown">{{ i.featureDown }}
             </li>
           </ul>
@@ -215,13 +233,10 @@ const buyInBasket = (id) => {
           :items="items"></v-breadcrumbs>
     </div>
   </v-container>
-
-
-  <!--  <v-btn @click="back">Вернуться назад</v-btn>-->
 </template>
 
 <style lang="scss" scoped>
-@import '../../assets/mixins';
+@import '../../../assets/mixins';
 
 .basketComponentDynamicBlockMain {
   width: 100%;
@@ -250,7 +265,6 @@ const buyInBasket = (id) => {
 
 .cardMainShopSideContainer {
   min-height: 1200px;
-  position: relative;
   //background-color: rgba(0, 128, 0, 0.65);
 }
 

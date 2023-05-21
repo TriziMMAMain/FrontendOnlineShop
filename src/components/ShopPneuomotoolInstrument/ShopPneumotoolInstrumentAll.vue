@@ -1,7 +1,8 @@
 <script setup="">
 // - Import
 import ShopPneumotoolInstrumentCompressor from './ShopPneumotoolInstrumentCompressor.vue'
-
+import ShopPneumotoolInstrumentJackhammer from './ShopPneumotoolInstrumentJackhammer.vue'
+import ShopPneumotoolInstrumentNailGun from './ShopPneumotoolInstrumentNailGun.vue'
 //
 
 
@@ -13,6 +14,8 @@ import ShopPneumotoolInstrumentCompressor from './ShopPneumotoolInstrumentCompre
   <!--        CARD -->
   <div class="d-flex flex-wrap">
     <ShopPneumotoolInstrumentCompressor></ShopPneumotoolInstrumentCompressor>
+    <ShopPneumotoolInstrumentJackhammer></ShopPneumotoolInstrumentJackhammer>
+    <ShopPneumotoolInstrumentNailGun></ShopPneumotoolInstrumentNailGun>
   </div>
 </template>
 

@@ -3,13 +3,13 @@
 import {ref} from 'vue'
 
 //
-import BasketComponentDynamic from "../Basket/basketComponentDynamic.vue"
+import BasketComponentDynamic from "../../Basket/basketComponentDynamic.vue"
 import {Promise} from "core-js";
-import {ProccesingSuccessfuly} from "../../notification/toasting";
+import {ProccesingSuccessfuly} from "../../../notification/toasting";
 
 // local
-const gasolineMotoblockId = ref([])
-const gasolineLocal = ref([])
+const pneumoNailGunId = ref([])
+const pneumoLocal = ref([])
 const loadingComponent = ref(true)
 //
 
@@ -17,8 +17,8 @@ const fetchingInstrumentFilterById = async () => {
   try {
     const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
     if (response.ok) {
-      gasolineLocal.value = await response.json()
-      gasolineMotoblockId.value = await gasolineLocal.value[0]
+      pneumoLocal.value = await response.json()
+      pneumoNailGunId.value = await pneumoLocal.value[0]
     } else {
       throw new Error(`Error fetching instrument: ${response.statusText}`);
     }
@@ -26,8 +26,8 @@ const fetchingInstrumentFilterById = async () => {
     console.log(error);
   }
 };
-
-const gasolineLocalCopyFun = async () => {
+let trueOrFalsePhoto = ref(false)
+const networkLocalCopyFun = async () => {
   try {
     await Promise.all([
       fetchingInstrumentFilterById()
@@ -37,12 +37,26 @@ const gasolineLocalCopyFun = async () => {
             console.log(error);
           })
     ])
+
+    const isImgArrayValid = async () => {
+      for (let i = 0; i < pneumoNailGunId.value.imgArray.length; i++) {
+        try {
+          new URL(pneumoNailGunId.value.imgArray[i].src);
+        } catch (_) {
+          trueOrFalsePhoto.value = false
+          return false;
+        }
+      }
+      trueOrFalsePhoto.value = true
+      return true;
+    }
+    await isImgArrayValid()
   } catch (error) {
     console.log(error);
   }
 };
 
-gasolineLocalCopyFun();
+networkLocalCopyFun();
 
 
 
@@ -53,14 +67,14 @@ const items = [
     href: '/home/',
   },
   {
-    title: 'Бензиновый инструмент',
+    title: 'Пневматический инструмент',
     disabled: false,
-    href: '/gasoline-instrument/catalog/',
+    href: '/pneumotool-instrument/catalog/',
   },
   {
-    title: 'Мотоблоки',
+    title: 'Гвоздезабивные пистолеты',
     disabled: false,
-    href: '/gasoline-instrument/motoblock/',
+    href: '/pneumotool-instrument/nail-gun/',
   },
 ]
 
@@ -89,7 +103,7 @@ const buyInBasket = (id) => {
   <v-container
       fluid
       class="cardMainShopSideContainer w-100"
-      v-for="i in [gasolineMotoblockId]"
+      v-for="i in [pneumoNailGunId]"
   >
     <div class="basketComponentDynamicBlockMain"
          v-if="basketClick">
@@ -115,7 +129,8 @@ const buyInBasket = (id) => {
     d-sm-flex flex-sm-column
     ">
       <div class="cardMainShopSidePhotoMain">
-        <div class="cardMainShopSidePhoto ">
+        <div class="cardMainShopSidePhoto "
+             v-if="trueOrFalsePhoto">
           <v-carousel
               cycle
               class="carouselMainComponent"
@@ -125,13 +140,20 @@ const buyInBasket = (id) => {
           >
             <v-carousel-item
                 class="w-100"
-                v-for="(item, i) in gasolineMotoblockId.imgArray"
+                v-for="(item, i) in pneumoNailGunId.imgArray"
                 :key="i"
                 :src="item.src"
             >
             </v-carousel-item>
           </v-carousel>
         </div>
+        <div class="d-flex justify-center align-center"
+             v-else><v-progress-circular
+            color="primary"
+            indeterminate
+            :size="128"
+            :width="12"
+        ></v-progress-circular></div>
       </div>
       <div class="cardMainShopSideFeatureMain d-flex justify-start flex-nowrap align-start">
         <div class="cardMainShopSideFeature pa-4">
@@ -139,7 +161,7 @@ const buyInBasket = (id) => {
             Основные характеристики
           </v-card-text>
           <!--          -->
-          <v-card-text v-for="item in gasolineMotoblockId.featureTopTitle"
+          <v-card-text v-for="item in pneumoNailGunId.featureTopTitle"
                        key="item"
                        class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
@@ -181,7 +203,7 @@ const buyInBasket = (id) => {
           <v-table class="cardMainContainerShopSideFeatureMiddleTopVTable" density="compact">
             <tbody>
             <tr
-                v-for="item in gasolineMotoblockId.featureMiddle"
+                v-for="item in pneumoNailGunId.featureMiddle"
                 :key="item.feature"
             >
               <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.feature }}</td>
@@ -197,7 +219,7 @@ const buyInBasket = (id) => {
           <h1 class="textCardFeatureDown">Преимущества {{ i.name }}</h1>
           <ul class="cardMainContainerShopSideFeatureDownTopUl">
             <li class="cardMainContainerShopSideFeatureDownTopLi"
-                v-for="i in gasolineMotoblockId.featureDownArray"
+                v-for="i in pneumoNailGunId.featureDownArray"
                 :key="i.featureDown">{{ i.featureDown }}
             </li>
           </ul>
@@ -221,7 +243,7 @@ const buyInBasket = (id) => {
 </template>
 
 <style lang="scss" scoped>
-@import '../../assets/mixins';
+@import '../../../assets/mixins';
 
 .basketComponentDynamicBlockMain {
   width: 100%;

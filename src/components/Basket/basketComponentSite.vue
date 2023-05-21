@@ -53,7 +53,6 @@ const widthFunc = () => {
     return '120'
   }
 }
-
 const heightFunc = () => {
   if (name.value === 'xxl') {
     return '90'

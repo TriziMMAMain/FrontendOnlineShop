@@ -13,34 +13,37 @@ import ShopCordlessDrill from '../components/ShopCordlessInstrument/ShopCordless
 import ShopCordlessGrinders from '../components/ShopCordlessInstrument/ShopCordlessInstrumentGrinders.vue'
 import ShopCordlessScrewdrivers from '../components/ShopCordlessInstrument/ShopCordlessInstrumentScrewdrivers.vue'
 // Cordless ID
-import ShopInstrumentId from '../components/ShopInstrumentByID/ShopInstrumentCordlessIdDrill.vue'
-import ShopInstrumentGrindersId from '../components/ShopInstrumentByID/ShopInstrumentCordlessIdGrinders.vue'
-import ShopInstrumentScrewdriversId from '../components/ShopInstrumentByID/ShopInstrumentCordlessIdScrewdrivers.vue'
+import ShopInstrumentId from '../components/ShopInstrumentByID/CordlessId/ShopInstrumentCordlessIdDrill.vue'
+import ShopInstrumentGrindersId from '../components/ShopInstrumentByID/CordlessId/ShopInstrumentCordlessIdGrinders.vue'
+import ShopInstrumentScrewdriversId from '../components/ShopInstrumentByID/CordlessId/ShopInstrumentCordlessIdScrewdrivers.vue'
 // Gasoline
 import ShopGasoline from '../components/ShopGasolineInstrument/ShopGasolineInstrument.vue'
 import ShopGasolineAll from '../components/ShopGasolineInstrument/ShopGasolineInstrumentAll.vue'
 // import ShopGasoline from '../components/ShopGasolineInstrument/ShopGasolineInstrument.vue'
 import ShopGasolineGenerator from '../components/ShopGasolineInstrument/ShopGasolineInstrumentGenerator.vue'
-import ShopGasolineGeneratorId from '../components/ShopInstrumentByID/ShopInstrumentGasolineIdGenerator.vue'
+import ShopGasolineGeneratorId from '../components/ShopInstrumentByID/GasolineId/ShopInstrumentGasolineIdGenerator.vue'
 import ShopGasolineMotoblock from '../components/ShopGasolineInstrument/ShopGasolineInstrumentMotoblock.vue'
-import ShopGasolineMotoblockId from '../components/ShopInstrumentByID/ShopInstrumentGasolineIdMotoblock.vue'
+import ShopGasolineMotoblockId from '../components/ShopInstrumentByID/GasolineId/ShopInstrumentGasolineIdMotoblock.vue'
 import ShopGasolineChainsaw from '../components/ShopGasolineInstrument/ShopGasolineInstrumentChainsaw.vue'
-import ShopGasolineChainsawId from '../components/ShopInstrumentByID/ShopInstrumentGasolineIdChainsaw.vue'
+import ShopGasolineChainsawId from '../components/ShopInstrumentByID/GasolineId/ShopInstrumentGasolineIdChainsaw.vue'
 // Network
 import ShopNetwork from '../components/ShopNetworkInstrument/ShopNetworkInstrument.vue'
 import ShopNetworkInstrumentAll from '../components/ShopNetworkInstrument/ShopNetworkInstrumentAll.vue'
 import ShopNetworkInstrumentDrill from '../components/ShopNetworkInstrument/ShopNetworkInstrumentDrill.vue'
-import ShopNetworkInstrumentDrillId from '../components/ShopInstrumentByID/ShopInstrumentNetworkIdDrill.vue'
+import ShopNetworkInstrumentDrillId from '../components/ShopInstrumentByID/NetworkId/ShopInstrumentNetworkIdDrill.vue'
 import ShopNetworkInstrumentFretsaw from '../components/ShopNetworkInstrument/ShopNetworkInstrumentFretsaw.vue'
-import ShopNetworkInstrumentFretsawId from '../components/ShopInstrumentByID/ShopInstrumentNetworkIdFretsaw.vue'
+import ShopNetworkInstrumentFretsawId from '../components/ShopInstrumentByID/NetworkId/ShopInstrumentNetworkIdFretsaw.vue'
 import ShopNetworkInstrumentPerforator from '../components/ShopNetworkInstrument/ShopNetworkInstrumentPerforator.vue'
-import ShopNetworkInstrumentPerforatorId from '../components/ShopInstrumentByID/ShopInstrumentNetworkIdPerforator.vue'
+import ShopNetworkInstrumentPerforatorId from '../components/ShopInstrumentByID/NetworkId/ShopInstrumentNetworkIdPerforator.vue'
 // Pneumotool
 import ShopPneumotoolInstrument from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrument.vue'
 import ShopPneumotoolInstrumentAll from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrumentAll.vue'
-import ShopPneumotoolInstrumentCompressor
-    from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrumentCompressor.vue'
-import ShopPneumotoolInstrumentCompressorId from '../components/ShopInstrumentByID/ShopInstrumentPneumotoolId.vue'
+import ShopPneumotoolInstrumentCompressor from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrumentCompressor.vue'
+import ShopPneumotoolInstrumentCompressorId from '../components/ShopInstrumentByID/PneumotoolId/ShopInstrumentPneumotoolIdCompressor.vue'
+import ShopPneumotoolInstrumentJackhammer from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrumentJackhammer.vue'
+import ShopPneumotoolInstrumentJackhammerId from '../components/ShopInstrumentByID/PneumotoolId/ShopInstrumentPneumotoolIdJackhammer.vue'
+import ShopPneumotoolInstrumentNailGun from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrumentNailGun.vue'
+import ShopPneumotoolInstrumentNailGunId from '../components/ShopInstrumentByID/PneumotoolId/ShopInstrumentPneumotoolIdNailGun.vue'
 // Admin
 import AdminView from '../views/AdminView.vue'
 // import AdminPanelUsers from '../components/AdminPanelComponents/usersComponent.vue'
@@ -267,7 +270,6 @@ const routes = [
         path: '/pneumotool-instrument/', // /pneuomotool-instrument/
         name: 'pneumotoolInstrument',
         components: {
-            default: MainComponents,
             pneuomoTools: ShopPneumotoolInstrument,
         },
         children: [
@@ -282,7 +284,6 @@ const routes = [
                 path: 'compressor/', // /gasoline-instrument/gasoline-generator/
                 name: 'pneumotoolInstrument',
                 components: {
-                    default: MainComponents,
                     pneumotoolToolsCompressor: ShopPneumotoolInstrumentCompressor,
                 },
             },
@@ -290,8 +291,37 @@ const routes = [
                 path: 'compressor/id/:id', // /gasoline-instrument/gasoline-generator/
                 name: 'pneumotoolInstrumentId',
                 components: {
-                    default: MainComponents,
                     pneumotoolToolsCompressorId: ShopPneumotoolInstrumentCompressorId,
+                },
+            },
+
+            {
+                path: 'jackhammer/',
+                name: 'pneumotoolInstrumentJackhammer',
+                components: {
+                    pneumotoolToolsJackhammer: ShopPneumotoolInstrumentJackhammer,
+                },
+            },
+            {
+                path: 'jackhammer/id/:id',
+                name: 'pneumotoolInstrumentJackhammerId',
+                components: {
+                    pneumotoolToolsJackhammerId: ShopPneumotoolInstrumentJackhammerId,
+                },
+            },
+
+            {
+                path: 'nail-gun/',
+                name: 'pneumotoolInstrumentNailGun',
+                components: {
+                    pneumotoolToolsNailGun: ShopPneumotoolInstrumentNailGun,
+                },
+            },
+            {
+                path: 'nail-gun/id/:id',
+                name: 'pneumotoolInstrumentNailGunId',
+                components: {
+                    pneumotoolToolsNailGunId: ShopPneumotoolInstrumentNailGunId,
                 },
             },
         ]

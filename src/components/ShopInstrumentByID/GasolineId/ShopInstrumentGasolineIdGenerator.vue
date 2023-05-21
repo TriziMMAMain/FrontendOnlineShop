@@ -3,20 +3,22 @@
 import {ref} from 'vue'
 
 //
-import BasketComponentDynamic from "../Basket/basketComponentDynamic.vue"
+import BasketComponentDynamic from "../../Basket/basketComponentDynamic.vue"
 import {Promise} from "core-js";
+import {ProccesingSuccessfuly} from "../../../notification/toasting";
 
 // local
-const arrayGrindersId = ref([])
-const cordlessLocal = ref([])
+const gasolineGeneratorId = ref([])
+const gasolineLocal = ref([])
+const loadingComponent = ref(true)
 //
 
 const fetchingInstrumentFilterById = async () => {
   try {
     const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
     if (response.ok) {
-      cordlessLocal.value = await response.json()
-      arrayGrindersId.value = await cordlessLocal.value[0]
+      gasolineLocal.value = await response.json()
+      gasolineGeneratorId.value = await gasolineLocal.value[0]
     } else {
       throw new Error(`Error fetching instrument: ${response.statusText}`);
     }
@@ -24,8 +26,8 @@ const fetchingInstrumentFilterById = async () => {
     console.log(error);
   }
 };
-
-const arrayGrindersIdFunc = async () => {
+let trueOrFalsePhoto = ref(false)
+const gasolineLocalCopyFun = async () => {
   try {
     await Promise.all([
       fetchingInstrumentFilterById()
@@ -35,12 +37,27 @@ const arrayGrindersIdFunc = async () => {
             console.log(error);
           })
     ])
+
+    const isImgArrayValid = async () => {
+      for (let i = 0; i < gasolineGeneratorId.value.imgArray.length; i++) {
+        try {
+          new URL(gasolineGeneratorId.value.imgArray[i].src);
+        } catch (_) {
+          trueOrFalsePhoto.value = false
+          return false;
+        }
+      }
+      trueOrFalsePhoto.value = true
+      return true;
+    }
+    await isImgArrayValid()
   } catch (error) {
     console.log(error);
   }
 };
 
-arrayGrindersIdFunc();
+gasolineLocalCopyFun();
+
 
 
 const items = [
@@ -50,14 +67,14 @@ const items = [
     href: '/home/',
   },
   {
-    title: 'Аккумуляторный инструмент',
+    title: 'Бензиновый инструмент',
     disabled: false,
-    href: '/cordless-instrument/catalog',
+    href: '/gasoline-instrument/catalog/',
   },
   {
-    title: 'Аккумуляторные перфораторы',
+    title: 'Бензогенераторы',
     disabled: false,
-    href: '/cordless-instrument/screwdrivers/',
+    href: '/gasoline-instrument/generator/',
   },
 ]
 
@@ -76,13 +93,9 @@ const buyInBasket = (id) => {
   counterClickBasket.value = !counterClickBasket.value
   localStorage.setItem("basket_click", JSON.stringify(counterClickBasket.value))
   basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
-
   console.log(id)
   localStorage.setItem("basket_id", JSON.stringify(id))
 }
-
-
-//
 
 </script>
 
@@ -90,7 +103,7 @@ const buyInBasket = (id) => {
   <v-container
       fluid
       class="cardMainShopSideContainer w-100"
-      v-for="i in [arrayGrindersId]"
+      v-for="i in [gasolineGeneratorId]"
   >
     <div class="basketComponentDynamicBlockMain"
          v-if="basketClick">
@@ -116,7 +129,8 @@ const buyInBasket = (id) => {
     d-sm-flex flex-sm-column
     ">
       <div class="cardMainShopSidePhotoMain">
-        <div class="cardMainShopSidePhoto ">
+        <div class="cardMainShopSidePhoto "
+             v-if="trueOrFalsePhoto">
           <v-carousel
               cycle
               class="carouselMainComponent"
@@ -126,13 +140,20 @@ const buyInBasket = (id) => {
           >
             <v-carousel-item
                 class="w-100"
-                v-for="(item, i) in arrayGrindersId.imgArray"
+                v-for="(item, i) in gasolineGeneratorId.imgArray"
                 :key="i"
                 :src="item.src"
             >
             </v-carousel-item>
           </v-carousel>
         </div>
+        <div class="d-flex justify-center align-center"
+             v-else><v-progress-circular
+            color="primary"
+            indeterminate
+            :size="128"
+            :width="12"
+        ></v-progress-circular></div>
       </div>
       <div class="cardMainShopSideFeatureMain d-flex justify-start flex-nowrap align-start">
         <div class="cardMainShopSideFeature pa-4">
@@ -140,7 +161,7 @@ const buyInBasket = (id) => {
             Основные характеристики
           </v-card-text>
           <!--          -->
-          <v-card-text v-for="item in arrayGrindersId.featureTopTitle"
+          <v-card-text v-for="item in gasolineGeneratorId.featureTopTitle"
                        key="item"
                        class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
@@ -182,7 +203,7 @@ const buyInBasket = (id) => {
           <v-table class="cardMainContainerShopSideFeatureMiddleTopVTable" density="compact">
             <tbody>
             <tr
-                v-for="item in arrayGrindersId.featureMiddle"
+                v-for="item in gasolineGeneratorId.featureMiddle"
                 :key="item.feature"
             >
               <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.feature }}</td>
@@ -198,7 +219,7 @@ const buyInBasket = (id) => {
           <h1 class="textCardFeatureDown">Преимущества {{ i.name }}</h1>
           <ul class="cardMainContainerShopSideFeatureDownTopUl">
             <li class="cardMainContainerShopSideFeatureDownTopLi"
-                v-for="i in arrayGrindersId.featureDownArray"
+                v-for="i in gasolineGeneratorId.featureDownArray"
                 :key="i.featureDown">{{ i.featureDown }}
             </li>
           </ul>
@@ -216,10 +237,13 @@ const buyInBasket = (id) => {
           :items="items"></v-breadcrumbs>
     </div>
   </v-container>
+
+
+  <!--  <v-btn @click="back">Вернуться назад</v-btn>-->
 </template>
 
 <style lang="scss" scoped>
-@import '../../assets/mixins';
+@import '../../../assets/mixins';
 
 .basketComponentDynamicBlockMain {
   width: 100%;
@@ -248,6 +272,7 @@ const buyInBasket = (id) => {
 
 .cardMainShopSideContainer {
   min-height: 1200px;
+  position: relative;
   //background-color: rgba(0, 128, 0, 0.65);
 }
 
@@ -464,6 +489,7 @@ const buyInBasket = (id) => {
     width: 100%;
   }
 }
+
 @media screen and (min-width: 600px) and (max-width: 960px) {
   /* стили для sm-устройств */
   .cardMainShopSidePhoto {
@@ -473,7 +499,8 @@ const buyInBasket = (id) => {
     height: 500px;
   }
 }
-@media screen and (min-width: 960px) and (max-width: 1264px)  {
+
+@media screen and (min-width: 960px) and (max-width: 1264px) {
   /* стили для md-устройств */
   .cardMainShopSidePhoto {
     height: 500px;
@@ -482,7 +509,8 @@ const buyInBasket = (id) => {
     height: 500px;
   }
 }
-@media screen and (min-width: 1264px) and (max-width: 1904px)  {
+
+@media screen and (min-width: 1264px) and (max-width: 1904px) {
   /*  стили для lg-устройств */
   .cardMainShopSidePhotoMain {
     width: 100%;
@@ -495,6 +523,7 @@ const buyInBasket = (id) => {
   }
   /* done! */
 }
+
 @media screen and (min-width: 1904px) {
   /*  стили для xl-устройств */
   .cardMainShopSidePhoto {

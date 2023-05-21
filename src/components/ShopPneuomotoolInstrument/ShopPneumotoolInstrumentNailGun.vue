@@ -121,7 +121,7 @@ const heightFuncVBtn = () => {
 }
 
 //
-const pneumoCompressorArray = ref([])
+const pneumoNailGunArray = ref([])
 const pneumoLocal = ref([])
 
 const fetchingInstrumentFilterName = async () => {
@@ -139,7 +139,7 @@ const fetchingInstrumentFilterName = async () => {
 fetchingInstrumentFilterName()
     .then(() => {
       gasolineGenerator()
-      console.log(`Fetching network drill good`);
+      console.log(`Fetching network nail-gun good`);
     })
     .catch((error) => {
       console.log(error);
@@ -147,22 +147,22 @@ fetchingInstrumentFilterName()
 
 const gasolineGenerator = async () => {
   for (let i = 0; i < pneumoLocal.value.length; i++) {
-    if (pneumoLocal.value[i].typeThis === 'Компрессор') {
-      pneumoCompressorArray.value.push(pneumoLocal.value[i])
+    if (pneumoLocal.value[i].typeThis === 'Гвоздезабивной пистолет пневматический') {
+      pneumoNailGunArray.value.push(pneumoLocal.value[i])
     }
   }
-  console.log(`pneumo`, pneumoCompressorArray.value)
+  console.log(`pneumo`, pneumoNailGunArray.value)
 }
 
 
 const viewDetails = async (id) => {
   let dataInstrument = ref([])
-  for (let i = 0; i < pneumoCompressorArray.value.length; i++) {
-    dataInstrument.value = _.filter(pneumoCompressorArray.value, {id: id})
+  for (let i = 0; i < pneumoNailGunArray.value.length; i++) {
+    dataInstrument.value = _.filter(pneumoNailGunArray.value, {id: id})
   }
   const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
 
-  await router.push({name: 'pneumotoolInstrumentId', params: {id: id}}) // /id/:id
+  await router.push({name: 'pneumotoolInstrumentNailGunId', params: {id: id}}) // /id/:id
   localStorage.setItem("id_pneumotool", JSON.stringify(id))
 
 }
@@ -170,8 +170,8 @@ const viewDetails = async (id) => {
 let counterClick = ref(0)
 const buyInBasket = async (id) => {
   let dataInstrument = ref([])
-  for (let i = 0; i < pneumoCompressorArray.value.length; i++) {
-    dataInstrument.value = _.filter(pneumoCompressorArray.value, {id: id})
+  for (let i = 0; i < pneumoNailGunArray.value.length; i++) {
+    dataInstrument.value = _.filter(pneumoNailGunArray.value, {id: id})
   }
   const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
   counterClick.value = counterClick.value + 1
@@ -179,7 +179,7 @@ const buyInBasket = async (id) => {
     localStorage.setItem("basket_id", JSON.stringify(id))
     localStorage.setItem("basket_click", JSON.stringify(true))
     localStorage.setItem("id_pneumotool", JSON.stringify(id))
-    await router.push({name: 'pneumotoolInstrumentId', params: {id: id}})
+    await router.push({name: 'pneumotoolInstrumentNailGunId', params: {id: id}})
 
   }
 }
@@ -194,7 +194,7 @@ const buyInBasket = async (id) => {
       color="background"
       elevation="5"
       class="vCardMain pa-5 mr-10 mb-16"
-      v-for="i in pneumoCompressorArray">
+      v-for="i in pneumoNailGunArray">
     <v-row>
       <!--      FIRST COL-->
       <v-col :cols="firstColFunc()"

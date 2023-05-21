@@ -106,7 +106,9 @@ const router = useRouter()
           <v-expansion-panel-text>
             <v-card-text class="d-flex justify-center flex-column">
               <router-link to="/pneumotool-instrument/catalog/" class="textExpansionMain">Каталог пневматического инструмента</router-link>
-              <router-link to="/pneumotool-instrument/compressor" class="textExpansion">Компрессоры</router-link>
+              <router-link to="/pneumotool-instrument/compressor/" class="textExpansion">Компрессоры</router-link>
+              <router-link to="/pneumotool-instrument/jackhammer/" class="textExpansion">Отбойный молоток</router-link>
+              <router-link to="/pneumotool-instrument/nail-gun/" class="textExpansion">Гвоздезабивной пистолет</router-link>
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->

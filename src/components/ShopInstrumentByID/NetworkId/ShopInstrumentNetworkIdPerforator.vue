@@ -1,38 +1,63 @@
 <script setup="">
 // core
-import {ref, computed, } from 'vue'
+import {ref} from 'vue'
+
 //
-import BasketComponentDynamic from "../Basket/basketComponentDynamic.vue"
-import _ from 'lodash'
-// store
-import {useInstrumentStore} from '../../stores/counter'
+import BasketComponentDynamic from "../../Basket/basketComponentDynamic.vue"
+import {Promise} from "core-js";
+import {ProccesingSuccessfuly} from "../../../notification/toasting";
 
 // local
-const pneumotoolLocal = JSON.parse(localStorage.getItem("pneumotool"))
-const pneumotoolLocalCopy = pneumotoolLocal
-const pneumotoolId = JSON.parse(localStorage.getItem("id_pneumotool"))
+const networkPerforatorId = ref([])
+const networkLocal = ref([])
+const loadingComponent = ref(true)
 //
 
-const {findByPneuomotoolID} = useInstrumentStore()
+const fetchingInstrumentFilterById = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
+    if (response.ok) {
+      networkLocal.value = await response.json()
+      networkPerforatorId.value = await networkLocal.value[0]
+    } else {
+      throw new Error(`Error fetching instrument: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+let trueOrFalsePhoto = ref(false)
+const networkLocalCopyFun = async () => {
+  try {
+    await Promise.all([
+      fetchingInstrumentFilterById()
+          .then(() => {
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    ])
 
-const instrument = computed(() => {
-  return findByPneuomotoolID(Number(route.params.id))
-})
+    const isImgArrayValid = async () => {
+      for (let i = 0; i < networkPerforatorId.value.imgArray.length; i++) {
+        try {
+          new URL(networkPerforatorId.value.imgArray[i].src);
+        } catch (_) {
+          trueOrFalsePhoto.value = false
+          return false;
+        }
+      }
+      trueOrFalsePhoto.value = true
+      return true;
+    }
+    await isImgArrayValid()
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+networkLocalCopyFun();
 
-// router
-import {useRouter, useRoute} from 'vue-router'
-
-const route = useRoute()
-const router = useRouter()
-
-console.log(pneumotoolId);
-const pneumotoolCompressorId = []
-const findIdTool = () => {
-  pneumotoolCompressorId.push(_.find(pneumotoolLocalCopy, {'id': pneumotoolId}))
-  console.log(`array`, pneumotoolCompressorId)
-}
-findIdTool()
 
 
 const items = [
@@ -42,16 +67,17 @@ const items = [
     href: '/home/',
   },
   {
-    title: 'Пневмоинструмент',
+    title: 'Сетевой инструмент',
     disabled: false,
-    href: '/pneumotool-instrument/catalog/',
+    href: '/network-instrument/catalog/',
   },
   {
-    title: 'Компрессоры',
+    title: 'Сетевые перфораторы',
     disabled: false,
-    href: '/pneumotool-instrument/compressor/',
+    href: '/network-instrument/perforator/',
   },
 ]
+
 
 let basketClick = ref(false)
 setInterval(() => {
@@ -67,12 +93,9 @@ const buyInBasket = (id) => {
   counterClickBasket.value = !counterClickBasket.value
   localStorage.setItem("basket_click", JSON.stringify(counterClickBasket.value))
   basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
-
   console.log(id)
   localStorage.setItem("basket_id", JSON.stringify(id))
 }
-
-//
 
 </script>
 
@@ -80,13 +103,12 @@ const buyInBasket = (id) => {
   <v-container
       fluid
       class="cardMainShopSideContainer w-100"
-      v-for="i in pneumotoolCompressorId"
+      v-for="i in [networkPerforatorId]"
   >
     <div class="basketComponentDynamicBlockMain"
          v-if="basketClick">
       <BasketComponentDynamic></BasketComponentDynamic>
     </div>
-
     <div class="linkInPage">
       <v-breadcrumbs class="linkInPageVBreadcrumbs"
                      :items="items"></v-breadcrumbs>
@@ -107,7 +129,8 @@ const buyInBasket = (id) => {
     d-sm-flex flex-sm-column
     ">
       <div class="cardMainShopSidePhotoMain">
-        <div class="cardMainShopSidePhoto ">
+        <div class="cardMainShopSidePhoto "
+             v-if="trueOrFalsePhoto">
           <v-carousel
               cycle
               class="carouselMainComponent"
@@ -117,13 +140,20 @@ const buyInBasket = (id) => {
           >
             <v-carousel-item
                 class="w-100"
-                v-for="(item, i) in pneumotoolCompressorId[0].imgArray"
+                v-for="(item, i) in networkPerforatorId.imgArray"
                 :key="i"
                 :src="item.src"
             >
             </v-carousel-item>
           </v-carousel>
         </div>
+        <div class="d-flex justify-center align-center"
+             v-else><v-progress-circular
+            color="primary"
+            indeterminate
+            :size="128"
+            :width="12"
+        ></v-progress-circular></div>
       </div>
       <div class="cardMainShopSideFeatureMain d-flex justify-start flex-nowrap align-start">
         <div class="cardMainShopSideFeature pa-4">
@@ -131,7 +161,7 @@ const buyInBasket = (id) => {
             Основные характеристики
           </v-card-text>
           <!--          -->
-          <v-card-text v-for="item in pneumotoolCompressorId[0].featureTopTitle"
+          <v-card-text v-for="item in networkPerforatorId.featureTopTitle"
                        key="item"
                        class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
@@ -173,7 +203,7 @@ const buyInBasket = (id) => {
           <v-table class="cardMainContainerShopSideFeatureMiddleTopVTable" density="compact">
             <tbody>
             <tr
-                v-for="item in pneumotoolCompressorId[0].featureMiddle"
+                v-for="item in networkPerforatorId.featureMiddle"
                 :key="item.feature"
             >
               <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.feature }}</td>
@@ -189,7 +219,7 @@ const buyInBasket = (id) => {
           <h1 class="textCardFeatureDown">Преимущества {{ i.name }}</h1>
           <ul class="cardMainContainerShopSideFeatureDownTopUl">
             <li class="cardMainContainerShopSideFeatureDownTopLi"
-                v-for="i in pneumotoolCompressorId[0].featureDownArray"
+                v-for="i in networkPerforatorId.featureDownArray"
                 :key="i.featureDown">{{ i.featureDown }}
             </li>
           </ul>
@@ -213,7 +243,7 @@ const buyInBasket = (id) => {
 </template>
 
 <style lang="scss" scoped>
-@import '../../assets/mixins';
+@import '../../../assets/mixins';
 
 .basketComponentDynamicBlockMain {
   width: 100%;
@@ -242,6 +272,7 @@ const buyInBasket = (id) => {
 
 .cardMainShopSideContainer {
   min-height: 1200px;
+  position: relative;
   //background-color: rgba(0, 128, 0, 0.65);
 }
 
@@ -458,6 +489,7 @@ const buyInBasket = (id) => {
     width: 100%;
   }
 }
+
 @media screen and (min-width: 600px) and (max-width: 960px) {
   /* стили для sm-устройств */
   .cardMainShopSidePhoto {
@@ -467,7 +499,8 @@ const buyInBasket = (id) => {
     height: 500px;
   }
 }
-@media screen and (min-width: 960px) and (max-width: 1264px)  {
+
+@media screen and (min-width: 960px) and (max-width: 1264px) {
   /* стили для md-устройств */
   .cardMainShopSidePhoto {
     height: 500px;
@@ -476,7 +509,8 @@ const buyInBasket = (id) => {
     height: 500px;
   }
 }
-@media screen and (min-width: 1264px) and (max-width: 1904px)  {
+
+@media screen and (min-width: 1264px) and (max-width: 1904px) {
   /*  стили для lg-устройств */
   .cardMainShopSidePhotoMain {
     width: 100%;
@@ -489,6 +523,7 @@ const buyInBasket = (id) => {
   }
   /* done! */
 }
+
 @media screen and (min-width: 1904px) {
   /*  стили для xl-устройств */
   .cardMainShopSidePhoto {
@@ -502,4 +537,3 @@ const buyInBasket = (id) => {
   /* done! */
 }
 </style>
-ггггггггнвц

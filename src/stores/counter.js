@@ -1,10 +1,11 @@
 // - import
 import {defineStore} from 'pinia'
-import instrumentJsonCordless from './instrumentStoreCordless.json'
-import instrumentJsonGasoline from './instrumentStoreGasoline.json'
-import instrumentJsonNetwork from './instrumentStoreNetwork.json'
-import instrumentJsonPneumotool from './instrumentStorePneumotool.json'
 import _ from 'lodash'
+const instrumentJsonCordless = ''
+const instrumentJsonGasoline = ''
+const instrumentJsonNetwork = ''
+const instrumentJsonPneumotool = ''
+
 
 export const useInstrumentStore = defineStore({
     id: 'instrumentStore',
