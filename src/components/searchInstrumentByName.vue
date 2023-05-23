@@ -7,6 +7,7 @@ import {useInstrumentStore} from '../stores/counter.js'
 import {useBasketStore} from "../stores/counterBasket.js";
 import {useDisplay} from 'vuetify'
 import {Promise} from "core-js";
+import _ from "lodash";
 
 const {name} = useDisplay()
 const {reloadWindow} = useInstrumentStore()
@@ -15,36 +16,34 @@ const router = useRouter()
 
 const heightFunc = () => {
   if (name.value === 'xs') {
-    return '250'
+    return '230'
   } else if (name.value === 'sm') {
     return '200'
   } else if (name.value === 'md') {
     return '250'
   } else if (name.value === 'lg') {
-    return '250'
+    return '300'
   } else if (name.value === 'xl') {
-    return '250'
+    return '400'
   } else if (name.value === 'xxl') {
-    return '250'
+    return '400'
   }
 }
-
 const weightFunc = () => {
   if (name.value === 'xs') {
-    return '400'
-  } else if (name.value === 'sm') {
     return '500'
+  } else if (name.value === 'sm') {
+    return '550'
   } else if (name.value === 'md') {
-    return '750'
-  } else if (name.value === 'lg') {
-    return '750'
-  } else if (name.value === 'xl') {
     return '900'
+  } else if (name.value === 'lg') {
+    return '1200'
+  } else if (name.value === 'xl') {
+    return '1700'
   } else if (name.value === 'xxl') {
-    return '950'
+    return '1100'
   }
 }
-
 const firstColFunc = () => {
   if (name.value === 'xs') {
     return '3'
@@ -60,7 +59,6 @@ const firstColFunc = () => {
     return '3'
   }
 }
-
 const secondColFunc = () => {
   if (name.value === 'xs') {
     return '6'
@@ -76,7 +74,6 @@ const secondColFunc = () => {
     return '6'
   }
 }
-
 const thirdColFunc = () => {
   if (name.value === 'xs') {
     return '3'
@@ -92,23 +89,21 @@ const thirdColFunc = () => {
     return '3'
   }
 }
-
 const weightFuncVBtn = () => {
   if (name.value === 'xs') {
     return '170'
   } else if (name.value === 'sm') {
-    return '100'
+    return '110'
   } else if (name.value === 'md') {
     return '170'
   } else if (name.value === 'lg') {
-    return '170'
+    return '220'
   } else if (name.value === 'xl') {
-    return '170'
+    return '300'
   } else if (name.value === 'xxl') {
     return '220'
   }
 }
-
 const heightFuncVBtn = () => {
   if (name.value === 'xs') {
     return '32'
@@ -119,9 +114,9 @@ const heightFuncVBtn = () => {
   } else if (name.value === 'lg') {
     return '48'
   } else if (name.value === 'xl') {
-    return '48'
+    return '62'
   } else if (name.value === 'xxl') {
-    return '48'
+    return '62'
   }
 }
 
@@ -150,79 +145,178 @@ fetchingInstrumentFilterName()
       console.log(error);
     })
 
+let dataInstrument = ref([])
 
+const checkCordlessInstrument = async (idInstrument, routerPush) => {
+  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
+    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
+  }
+  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  localStorage.setItem("id_cordless", JSON.stringify(idInstrument))
+  await router.push({name: routerPush, params: {id: idInstrument}}) // DRILL
+}
+const checkGasolineInstrument = async (idInstrument, routerPush) => {
+  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
+    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
+  }
+  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  localStorage.setItem("id_gasoline", JSON.stringify(idInstrument))
+  await router.push({name: routerPush, params: {id: idInstrument}}) // DRILL
+}
+const checkNetworkInstrument = async (idInstrument, routerPush) => {
+  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
+    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
+  }
+  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  localStorage.setItem("id_network", JSON.stringify(idInstrument))
+  await router.push({name: routerPush, params: {id: idInstrument}}) // DRILL
+}
+const checkPneumoInstrument = async (idInstrument, routerPush) => {
+  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
+    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
+  }
+  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  localStorage.setItem("id_pneumotool", JSON.stringify(idInstrument))
+  await router.push({name: routerPush, params: {id: idInstrument}}) // DRILL
+}
+
+const addInBasketIdCordless = (idInstrument) => {
+  localStorage.setItem("id_cordless", JSON.stringify(idInstrument))
+  localStorage.setItem("basket_click", JSON.stringify(true))
+}
+const addInBasketIdGasoline = (idInstrument) => {
+  localStorage.setItem("id_gasoline", JSON.stringify(idInstrument))
+  localStorage.setItem("basket_click", JSON.stringify(true))
+}
+const addInBasketIdNetwork = (idInstrument) => {
+  localStorage.setItem("id_network", JSON.stringify(idInstrument))
+  localStorage.setItem("basket_click", JSON.stringify(true))
+}
+const addInBasketIdPneumo = (idInstrument) => {
+  localStorage.setItem("id_pneumotool", JSON.stringify(idInstrument))
+  localStorage.setItem("basket_click", JSON.stringify(true))
+}
 
 
 const viewDetails = async (id) => {
   console.log(`id`, id)
   console.log(`array`, arrayLocalStorage.value)
-  if (arrayLocalStorage.value[0].typeThis === "Аккумуляторная дрель-шуруповерт") {
-    localStorage.setItem("id_cordless", JSON.stringify(id))
-    await router.push({name: 'cordlessInstrumentDrillsID', params: {id: id}}) // DRILL
 
-  } else if (arrayLocalStorage.value[0].typeThis === "Аккумуляторная болгарка") {
-    localStorage.setItem("id_cordless", JSON.stringify(id))
-    await router.push({name: 'cordlessInstrumentGrindersID', params: {id: id}}) // GRINDERS
+  if (arrayLocalStorage.value[0].type === 'Аккумуляторный инструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная дрель-шуруповерт') {
+      // CORDLESS DRILL
+      await checkCordlessInstrument(id, 'cordlessInstrumentDrillsID')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная болгарка') {
+      //  CORDLESS GRINDERES
+      await checkCordlessInstrument(id, 'cordlessInstrumentGrindersID')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторный перфоратор') {
+      //  CORDLESS SCREWDRIVERS
+      await checkCordlessInstrument(id, 'cordlessInstrumentScrewdriversID')
+    }
 
-  } else if (arrayLocalStorage.value[0].typeThis === "Аккумуляторный перфоратор") {
-    localStorage.setItem("id_cordless", JSON.stringify(id))
-    await router.push({name: 'cordlessInstrumentScrewdriversID', params: {id: id}}) // SCREWDRIVERS
-
-  } else if (arrayLocalStorage.value[0].typeThis === "Бензогенератор") {
-    localStorage.setItem("id_gasoline", JSON.stringify(id))
-    await router.push({name: 'gasolineInstrumentGeneratorId', params: {id: id}}) // GENERATOR
-
-  } else if (arrayLocalStorage.value[0].typeThis === "Сетевая дрель") {
-    localStorage.setItem("id_network", JSON.stringify(id))
-    await router.push({name: 'networkInstrumentDrillId', params: {id: id}}) // NETWORK DRILL
-
-  } else if (arrayLocalStorage.value[0].typeThis === "Компрессор") {
-    localStorage.setItem("id_pneumotool", JSON.stringify(id))
-    await router.push({name: 'pneumotoolInstrumentId', params: {id: id}}) // PNEUOMOTOOL COMPRESSOR
   }
-
+  if (arrayLocalStorage.value[0].type === 'Бензоинструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Бензогенератор') {
+      // GASOLINE GENERATOR
+      await checkGasolineInstrument(id, 'gasolineInstrumentGeneratorId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Бензиновый мотоблок') {
+      // GASOLINE MOTOBLOCK
+      await checkGasolineInstrument(id, 'gasolineInstrumentMotoblockId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Бензопила') {
+      // GASOLINE CHAINSAW
+      await checkGasolineInstrument(id, 'gasolineInstrumentChainsawId')
+    }
+  }
+  if (arrayLocalStorage.value[0].type === 'Сетевой инструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Дрель') {
+      // NETWORK DRILL
+      await checkNetworkInstrument(id, 'networkInstrumentDrillId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Лобзик электрический') {
+      // NETWORK FRETSAW
+      await checkNetworkInstrument(id, 'networkInstrumentFretsawId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Перфоратор') {
+      // NETWORK PERFORATOR
+      await checkNetworkInstrument(id, 'networkInstrumentPerforatorId')
+    }
+  }
+  if (arrayLocalStorage.value[0].type === 'Пневмоинструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Компрессор') {
+      // PNEUMO
+      await checkPneumoInstrument(id, 'pneumotoolInstrumentId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Пневматическая отбойная молотковая машина') {
+      // PNEUMO
+      await checkPneumoInstrument(id, 'pneumotoolInstrumentJackhammerId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Гвоздезабивной пистолет пневматический') {
+      // PNEUMO
+      await checkPneumoInstrument(id, 'pneumotoolInstrumentNailGunId')
+    }
+  }
 }
 
 // - Logical
 let counterClick = ref(0)
 
-const buyInBasket = (id) => {
-  if (arrayLocalStorage[0].typeThis === "Аккумуляторная дрель-шуруповерт") {
-    localStorage.setItem("basket_id", JSON.stringify(id))
-    localStorage.setItem("basket_click", JSON.stringify(true))
-    localStorage.setItem("id_cordless", JSON.stringify(id))
-    router.push({name: 'cordlessInstrumentDrillsID', params: {id: id}}) // DRILL
+const buyInBasket = async (id) => {
+  if (arrayLocalStorage.value[0].type === 'Аккумуляторный инструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная дрель-шуруповерт') {
+      // CORDLESS DRILL
+      addInBasketIdCordless(id)
+      await checkCordlessInstrument(id, 'cordlessInstrumentDrillsID')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная болгарка') {
+      //  CORDLESS GRINDERES
+      addInBasketIdCordless(id)
+      await checkCordlessInstrument(id, 'cordlessInstrumentGrindersID')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторный перфоратор') {
+      //  CORDLESS SCREWDRIVERS
+      addInBasketIdCordless(id)
+      await checkCordlessInstrument(id, 'cordlessInstrumentScrewdriversID')
+    }
 
-  } else if (arrayLocalStorage[0].typeThis === "Аккумуляторная болгарка") {
-    localStorage.setItem("basket_id", JSON.stringify(id))
-    localStorage.setItem("basket_click", JSON.stringify(true))
-    localStorage.setItem("id_cordless", JSON.stringify(id))
-    router.push({name: 'cordlessInstrumentGrindersID', params: {id: id}}) // GRINDERS
-
-  } else if (arrayLocalStorage[0].typeThis === "Аккумуляторный перфоратор") {
-    localStorage.setItem("basket_id", JSON.stringify(id))
-    localStorage.setItem("basket_click", JSON.stringify(true))
-    localStorage.setItem("id_cordless", JSON.stringify(id))
-    router.push({name: 'cordlessInstrumentScrewdriversID', params: {id: id}}) // SCREWDRIVERS
-
-  } else if (arrayLocalStorage[0].typeThis === "Бензогенератор") {
-    localStorage.setItem("basket_id", JSON.stringify(id))
-    localStorage.setItem("basket_click", JSON.stringify(true))
-    localStorage.setItem("id_gasoline", JSON.stringify(id))
-    router.push({name: 'gasolineInstrumentGeneratorId', params: {id: id}}) // GENERATOR
-
-  } else if (arrayLocalStorage[0].typeThis === "Сетевая дрель") {
-    localStorage.setItem("basket_id", JSON.stringify(id))
-    localStorage.setItem("basket_click", JSON.stringify(true))
-    localStorage.setItem("id_network", JSON.stringify(id))
-    router.push({name: 'networkInstrumentDrillId', params: {id: id}}) // NETWORK DRILL
-
-  } else if (arrayLocalStorage[0].typeThis === "Компрессор") {
-    localStorage.setItem("basket_id", JSON.stringify(id))
-    localStorage.setItem("basket_click", JSON.stringify(true))
-    localStorage.setItem("id_pneumotool", JSON.stringify(id))
-    router.push({name: 'pneumotoolInstrumentId', params: {id: id}}) // PNEUOMOTOOL COMPRESSOR
-
+  }
+  if (arrayLocalStorage.value[0].type === 'Бензоинструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Бензогенератор') {
+      // GASOLINE GENERATOR
+      addInBasketIdGasoline(id)
+      await checkGasolineInstrument(id, 'gasolineInstrumentGeneratorId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Бензиновый мотоблок') {
+      // GASOLINE MOTOBLOCK
+      addInBasketIdGasoline(id)
+      await checkGasolineInstrument(id, 'gasolineInstrumentMotoblockId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Бензопила') {
+      // GASOLINE CHAINSAW
+      addInBasketIdGasoline(id)
+      await checkGasolineInstrument(id, 'gasolineInstrumentChainsawId')
+    }
+  }
+  if (arrayLocalStorage.value[0].type === 'Сетевой инструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Дрель') {
+      // NETWORK DRILL
+      addInBasketIdNetwork(id)
+      await checkNetworkInstrument(id, 'networkInstrumentDrillId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Лобзик электрический') {
+      // NETWORK FRETSAW
+      addInBasketIdNetwork(id)
+      await checkNetworkInstrument(id, 'networkInstrumentFretsawId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Перфоратор') {
+      // NETWORK PERFORATOR
+      addInBasketIdNetwork(id)
+      await checkNetworkInstrument(id, 'networkInstrumentPerforatorId')
+    }
+  }
+  if (arrayLocalStorage.value[0].type === 'Пневмоинструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Компрессор') {
+      // PNEUMO
+      addInBasketIdPneumo(id)
+      await checkPneumoInstrument(id, 'pneumotoolInstrumentId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Пневматическая отбойная молотковая машина') {
+      // PNEUMO
+      addInBasketIdPneumo(id)
+      await checkPneumoInstrument(id, 'pneumotoolInstrumentJackhammerId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Гвоздезабивной пистолет пневматический') {
+      // PNEUMO
+      addInBasketIdPneumo(id)
+      await checkPneumoInstrument(id, 'pneumotoolInstrumentNailGunId')
+    }
   }
 
 
@@ -236,8 +330,8 @@ const buyInBasket = (id) => {
       :height="heightFunc()"
       color="background"
       elevation="5"
-      class="vCardMain pa-1 ma-1 d-flex justify-space-around"
-      v-for="i in arrayLocalStorage">
+      class="vCardMain pa-5 mr-10 mb-16"
+      v-for="i in [instrumentFilterName]">
     <v-row>
       <!--      FIRST COL-->
       <v-col :cols="firstColFunc()"
@@ -260,13 +354,13 @@ const buyInBasket = (id) => {
         </div>
         <!--        SPAN AND TEXT-->
         <div
-            class="mt-1">
-          <v-card-text v-for="item in arrayLocalStorage[i.numberInList].featureTopTitle"
-                       key="item"
-                       class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
-            <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
+            class="textCardFeatureMain">
+          <div v-for="item in i.featureTopTitle"
+               key="item"
+               class="textCardFeatureDiv">
+            <p class="textCardFeature">{{ item.featureTopTitleInfoTitle }}
+              <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></p></div>
         </div>
-
 
       </v-col>
       <!--      THIRD COL-->
@@ -303,13 +397,12 @@ const buyInBasket = (id) => {
 
 <style lang="scss" scoped>
 // - import
-@import './src/assets/mixins';
-
+@import '../assets/mixins';
 
 
 // Media
 
-@media screen and (max-width: 600px)  {
+@media screen and (max-width: 600px) {
   /*  стили для xl-устройств */
   .vCardMain {
 
@@ -319,8 +412,8 @@ const buyInBasket = (id) => {
     z-index: 1;
     font-size: 0.6rem;
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 3px;
+    right: 30px;
   }
 
   .photoInCardBlock {
@@ -329,8 +422,8 @@ const buyInBasket = (id) => {
   }
 
   .photoInCard {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
   }
 
   .blockTitleCard {
@@ -347,11 +440,20 @@ const buyInBasket = (id) => {
     font-weight: 500;
   }
 
+  .textCardFeatureMain {
+    margin-top: 8px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
+  }
+
   .textCardFeature {
-    font-size: 0.6rem;
+    font-size: 0.7rem;
   }
 
   .spanTextCard {
+    font-weight: 600;
     color: $textSpan;
   }
 
@@ -363,12 +465,12 @@ const buyInBasket = (id) => {
   }
 
 
-
   .v-card-text {
     color: $text;
   }
 
   .textCardAvailability {
+    text-align: center;
     padding-top: 8px;
     font-size: 0.6rem;
     font-weight: 500;
@@ -398,8 +500,8 @@ const buyInBasket = (id) => {
     z-index: 1;
     font-size: 0.6rem;
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 3px;
+    right: 30px;
   }
 
   .photoInCardBlock {
@@ -408,8 +510,8 @@ const buyInBasket = (id) => {
   }
 
   .photoInCard {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
   }
 
   .blockTitleCard {
@@ -426,11 +528,20 @@ const buyInBasket = (id) => {
     font-weight: 500;
   }
 
+  .textCardFeatureMain {
+    margin-top: 8px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
+  }
+
   .textCardFeature {
-    font-size: 0.6rem;
+    font-size: 0.7rem;
   }
 
   .spanTextCard {
+    font-weight: 600;
     color: $textSpan;
   }
 
@@ -442,12 +553,12 @@ const buyInBasket = (id) => {
   }
 
 
-
   .v-card-text {
     color: $text;
   }
 
   .textCardAvailability {
+    text-align: center;
     padding-top: 8px;
     font-size: 0.6rem;
     font-weight: 500;
@@ -477,8 +588,8 @@ const buyInBasket = (id) => {
     z-index: 1;
     font-size: 0.8rem;
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 10px;
+    right: 30px;
   }
 
   .photoInCardBlock {
@@ -505,11 +616,20 @@ const buyInBasket = (id) => {
     font-weight: 500;
   }
 
+  .textCardFeatureMain {
+    margin-top: 4px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
+  }
+
   .textCardFeature {
     font-size: 0.8rem;
   }
 
   .spanTextCard {
+    font-weight: 600;
     color: $textSpan;
   }
 
@@ -521,12 +641,12 @@ const buyInBasket = (id) => {
   }
 
 
-
   .v-card-text {
     color: $text;
   }
 
   .textCardAvailability {
+    text-align: center;
     padding-top: 8px;
     font-size: 0.8rem;
     font-weight: 500;
@@ -561,8 +681,8 @@ const buyInBasket = (id) => {
     z-index: 1;
     font-size: 0.8rem;
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 10px;
+    right: 60px;
   }
 
   .photoInCardBlock {
@@ -571,8 +691,8 @@ const buyInBasket = (id) => {
   }
 
   .photoInCard {
-    width: 160px;
-    height: 160px;
+    width: 230px;
+    height: 230px;
   }
 
   .blockTitleCard {
@@ -582,28 +702,36 @@ const buyInBasket = (id) => {
   }
 
   .cardTextHref {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     text-decoration: none;
     text-align: center;
     color: $textSpan;
     font-weight: 500;
   }
 
+  .textCardFeatureMain {
+    margin-top: 12px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 2px;
+  }
+
   .textCardFeature {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .spanTextCard {
+    font-weight: 600;
     color: $textSpan;
   }
 
   .textCardPrice {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     text-align: right;
     font-weight: 600;
     color: $primary;
   }
-
 
 
   .v-card-text {
@@ -611,6 +739,7 @@ const buyInBasket = (id) => {
   }
 
   .textCardAvailability {
+    text-align: center;
     padding-top: 8px;
     font-size: 0.9rem;
     font-weight: 500;
@@ -631,9 +760,10 @@ const buyInBasket = (id) => {
 }
 
 @media screen and (min-width: 1920px) and (max-width: 2560px) {
-  /*  стили для xl-устройств */
+  /*  стили для xxl-устройств */
   .vCardMain {
-
+    display: flex;
+    justify-content: space-around;
   }
 
   .v-btn {
@@ -643,10 +773,10 @@ const buyInBasket = (id) => {
 
   .vCardSubtitleMain {
     z-index: 1;
-    font-size: 1rem;
+    font-size: 1.2rem;
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 10px;
+    right: 30px;
   }
 
   .photoInCardBlock {
@@ -655,8 +785,8 @@ const buyInBasket = (id) => {
   }
 
   .photoInCard {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
   }
 
   .blockTitleCard {
@@ -666,28 +796,35 @@ const buyInBasket = (id) => {
   }
 
   .cardTextHref {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     text-decoration: none;
     text-align: center;
     color: $textSpan;
-    font-weight: 500;
+  }
+
+  .textCardFeatureMain {
+    margin-top: 12px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
   }
 
   .textCardFeature {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
   }
 
   .spanTextCard {
+    font-weight: 600;
     color: $textSpan;
   }
 
   .textCardPrice {
-    font-size: 1.3rem;
+    font-size: 1.8rem;
     text-align: right;
     font-weight: 600;
     color: $primary;
   }
-
 
 
   .v-card-text {
@@ -695,8 +832,9 @@ const buyInBasket = (id) => {
   }
 
   .textCardAvailability {
+    text-align: center;
     padding-top: 8px;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 500;
     color: $success;
   }
@@ -717,7 +855,8 @@ const buyInBasket = (id) => {
 @media screen and (min-width: 2560px) {
   /*  стили для xxl-устройств */
   .vCardMain {
-
+    display: flex;
+    justify-content: space-around;
   }
 
   .v-btn {
@@ -729,8 +868,8 @@ const buyInBasket = (id) => {
     z-index: 1;
     font-size: 1.2rem;
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 10px;
+    right: 30px;
   }
 
   .photoInCardBlock {
@@ -739,8 +878,8 @@ const buyInBasket = (id) => {
   }
 
   .photoInCard {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
   }
 
   .blockTitleCard {
@@ -750,28 +889,35 @@ const buyInBasket = (id) => {
   }
 
   .cardTextHref {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     text-decoration: none;
     text-align: center;
     color: $textSpan;
-    font-weight: 500;
+  }
+
+  .textCardFeatureMain {
+    margin-top: 12px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
   }
 
   .textCardFeature {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
   }
 
   .spanTextCard {
+    font-weight: 600;
     color: $textSpan;
   }
 
   .textCardPrice {
-    font-size: 1.3rem;
+    font-size: 1.8rem;
     text-align: right;
     font-weight: 600;
     color: $primary;
   }
-
 
 
   .v-card-text {
@@ -779,8 +925,9 @@ const buyInBasket = (id) => {
   }
 
   .textCardAvailability {
+    text-align: center;
     padding-top: 8px;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 500;
     color: $success;
   }
