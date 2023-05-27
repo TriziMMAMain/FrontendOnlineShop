@@ -15,8 +15,20 @@ const {name} = useDisplay()
 const router = useRouter()
 const {filterByCordlessName, filterByGasolineName, reloadWindow} = useInstrumentStore()
 
+let visits = JSON.parse(localStorage.getItem('visits'))
 
-// x-small, small, default, large, and x-large
+if (!visits) {
+  localStorage.setItem('visits', JSON.stringify(1));
+  visits = 1;
+  localStorage.setItem('basket_object', JSON.stringify([]))
+  localStorage.setItem("basket_click_user", JSON.stringify(false))
+} else {
+  const newVisits = visits + 1;
+  localStorage.setItem('visits', JSON.stringify(newVisits));
+  visits = newVisits;
+  console.log(`visits`, visits)
+}
+
 const sizeFunc = () => {
   if (name.value === 'xs') {
     return 'small'
@@ -32,7 +44,6 @@ const sizeFunc = () => {
     return 'x-large'
   }
 }
-
 const heightFunc = () => {
   if (name.value === 'xs') {
     return '36'
@@ -244,7 +255,6 @@ const loadInstruments = async () => {
       instrumentAllLocalCopyName.value.push(pneumotoollocalCopyNameCopy.value[i])
     }
     instrumentAllLocalCopyName2.value = instrumentAllLocalCopyName.value
-    // Ваш код здесь
 
   } catch (error) {
     console.log('Instrument load failed', error)
@@ -830,7 +840,6 @@ const filterAllNameBtn = async (string) => {
 
   .btnBlockMainContainer {
     width: 100%;
-    z-index: 2;
   }
 
   .blockActionBtnMain {

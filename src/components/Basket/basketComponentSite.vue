@@ -69,25 +69,16 @@ const heightFunc = () => {
   }
 }
 
-
-const getBasketArray = computed(() => {
-  return basketArray[0]
-})
-const arrayObjectsInInstrument = getBasketArray.value
-console.log(`array`, arrayObjectsInInstrument)
-
 const deleteArray = () => {
   localStorage.setItem("basket_object", JSON.stringify([]))
-
 }
 
-const arrayObjectsInInstrumentCopy = arrayObjectsInInstrument
+const arrayObjectsInInstrumentCopy = JSON.parse(localStorage.getItem("basket_object"))
 
 let arrayAmount = []
 let arraySum = []
 
 const forIArray = (array) => {
-
   for (let i = 0; i < array.length; i++) {
     arrayAmount.push(array[i].orderSum)
     arraySum.push(array[i].priceOrder)
@@ -125,6 +116,54 @@ const clickInBasket = async (array) => {
 
 }
 
+const userIdData = ref('')
+const userIdDataMain = ref('')
+const titleInProcessing = ref('Ожидание обработки')
+
+const fetchingUserIdFilter = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/user/id');
+    if (response.ok) {
+      userIdDataMain.value = await response.json();
+      userIdData.value = userIdDataMain.value[0].instrumentArray
+      console.log(userIdData.value);
+    } else {
+      throw new Error(`Error fetching user: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const trueOrFalseDiv = ref(JSON.parse(localStorage.getItem("basket_click_user")))
+
+const getIdUser = async () => {
+  const userId = ref(JSON.parse(localStorage.getItem("id_user_basket")))
+  const dataUserId = ref({
+    userId: userId.value
+  })
+  const responseDataUserId = await axios.post('http://localhost:3000/api/user/id', dataUserId.value)
+  setTimeout(() => {
+    fetchingUserIdFilter()
+        .then(() => {
+          console.log(`Fetching user id good`);
+          if (userIdDataMain.value[0].processing === 'Ожидание обработки') {
+            titleInProcessing.value = 'Ожидание обработки'
+          } else if (userIdDataMain.value[0].processing === 'Принят в обработку') {
+            titleInProcessing.value = 'Принят в обработку'
+          } else if (userIdDataMain.value[0].processing === 'Отклонен в обработке') {
+            titleInProcessing.value = 'Отклонен в обработке'
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+  }, 100)
+
+}
+
+onMounted(getIdUser)
 </script>
 
 <template>
@@ -138,7 +177,6 @@ const clickInBasket = async (array) => {
   </div>
   <div class="blockBasketInSite">
     <div class="blockFirstBasket">
-
       <div class="blockMainBasketInfo d-flex ">
         <div class="blockMainBasketInfoText">
           <h1 class="blockMainBasketInfoTextTitle">Наименование</h1>
@@ -150,9 +188,40 @@ const clickInBasket = async (array) => {
         </div>
       </div>
 
+
+
       <div class="blockVCardFirstBasketDiv">
         <div class="blockVCardFirstBasket"
-             v-for="item in arrayObjectsInInstrument">
+             v-for="item in arrayObjectsInInstrumentCopy">
+          <div class="blockVCardFirstBasketItemPhotoMain d-flex justify-center align-center">
+            <img :src="item.imgTitle" alt="" class="blockVCardFirstBasketItemPhoto">
+          </div>
+          <div class="blockVCardFirstBasketItemInfoText">
+            <p class="blockVCardFirstBasketItemSubtitle">Код: {{ item.id }}</p>
+            <a
+                @click="clickInBasket(item)"
+                :href="linkInSearch"
+                class="blockVCardFirstBasketItemTitle">{{ item.name }}</a>
+          </div>
+          <div class="blockVCardFirstBasketItemPriceAmountSum">
+            <div class="blockVCardFirstBasketItemPriceMain d-flex justify-center align-center">
+              <h1 class="blockVCardFirstBasketItemPriceMainTitle">{{ item.price }} р.</h1>
+            </div>
+            <div class="blockVCardFirstBasketItemAmountMain d-flex justify-center align-center">
+              <h1 class="blockVCardFirstBasketItemAmountMainTitle">{{ item.orderSum }} шт</h1>
+            </div>
+            <div class="blockVCardFirstBasketItemSumMain d-flex justify-center align-center">
+              <h1 class="blockVCardFirstBasketItemSumMainTitle">{{ item.priceOrder }} р.</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="blockVCardFirstBasketDiv"
+           v-if="trueOrFalseDiv"
+      >
+        <h1 class="titleInProcessing">{{ titleInProcessing }}</h1>
+        <div class="blockVCardFirstBasket"
+             v-for="item in userIdData">
           <div class="blockVCardFirstBasketItemPhotoMain d-flex justify-center align-center">
             <img :src="item.imgTitle" alt="" class="blockVCardFirstBasketItemPhoto">
           </div>
@@ -217,6 +286,7 @@ const clickInBasket = async (array) => {
   .blockVCardFirstBasketItemPriceTitle {
     color: $textSpan;
   }
+
 
   // MAIN BLOCK
 
@@ -309,6 +379,13 @@ const clickInBasket = async (array) => {
 
   .blockVCardFirstBasketDiv {
     width: 100%;
+  }
+
+  .titleInProcessing {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-top: 30px;
+    color: $text;
   }
 
   .blockVCardFirstBasket {
@@ -568,6 +645,13 @@ const clickInBasket = async (array) => {
     width: 100%;
   }
 
+  .titleInProcessing {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-top: 30px;
+    color: $text;
+  }
+
   .blockVCardFirstBasket {
     width: 100%;
     min-height: 150px;
@@ -825,6 +909,13 @@ const clickInBasket = async (array) => {
   .blockVCardFirstBasketDiv {
     width: 100%;
     margin-top: 10px;
+  }
+
+  .titleInProcessing {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 30px;
+    color: $text;
   }
 
   .blockVCardFirstBasket {
@@ -1087,6 +1178,13 @@ const clickInBasket = async (array) => {
     margin-top: 10px;
   }
 
+  .titleInProcessing {
+    text-align: center;
+    font-size: 1.6rem;
+    margin-top: 30px;
+    color: $text;
+  }
+
   .blockVCardFirstBasket {
     width: 100%;
     min-height: 170px;
@@ -1346,6 +1444,13 @@ const clickInBasket = async (array) => {
     margin-top: 40px;
   }
 
+  .titleInProcessing {
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 30px;
+    color: $text;
+  }
+
   .blockVCardFirstBasket {
     width: 100%;
     min-height: 250px;
@@ -1602,6 +1707,13 @@ const clickInBasket = async (array) => {
   .blockVCardFirstBasketDiv {
     width: 100%;
     margin-top: 30px;
+  }
+
+  .titleInProcessing {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-top: 30px;
+    color: $text;
   }
 
   .blockVCardFirstBasket {

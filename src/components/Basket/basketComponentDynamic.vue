@@ -28,6 +28,68 @@ const gasolineId = findByGasolineID(getLocalStoreIdBasket)
 const networkId = findByNetworkID(getLocalStoreIdBasket)
 const pneuomotoolId = findByPneuomotoolID(getLocalStoreIdBasket)
 
+const widthFuncPlusAndMinus = () => {
+  if (name.value === 'xxl') {
+    return '110'
+  } else if (name.value === 'xl') {
+    return '110'
+  } else if (name.value === 'lg') {
+    return '110'
+  } else if (name.value === 'md') {
+    return '110'
+  } else if (name.value === 'sm') {
+    return '80'
+  } else if (name.value === 'xs') {
+    return '80'
+  }
+}
+const heightFuncPlusAndMinus = () => {
+  if (name.value === 'xxl') {
+    return '60'
+  } else if (name.value === 'xl') {
+    return '60'
+  } else if (name.value === 'lg') {
+    return '60'
+  } else if (name.value === 'md') {
+    return '50'
+  } else if (name.value === 'sm') {
+    return '40'
+  } else if (name.value === 'xs') {
+    return '40'
+  }
+}
+
+const widthFuncBtnBuy = () => {
+  if (name.value === 'xxl') {
+    return '300'
+  } else if (name.value === 'xl') {
+    return '400'
+  } else if (name.value === 'lg') {
+    return '200'
+  } else if (name.value === 'md') {
+    return '170'
+  } else if (name.value === 'sm') {
+    return '130'
+  } else if (name.value === 'xs') {
+    return '100'
+  }
+}
+const heightFuncBtnBuy = () => {
+  if (name.value === 'xxl') {
+    return '70'
+  } else if (name.value === 'xl') {
+    return '90'
+  } else if (name.value === 'lg') {
+    return '72'
+  } else if (name.value === 'md') {
+    return '49'
+  } else if (name.value === 'sm') {
+    return '56'
+  } else if (name.value === 'xs') {
+    return '40'
+  }
+}
+
 // logical
 
 const cordlessLocal = ref([])
@@ -110,7 +172,13 @@ const VBtnClickInMinus = async () => {
     throw error; // добавляем throw, чтобы выводить сообщение об ошибке в консоли
   }
 };
-
+const orderInInstrumentFunc = () => {
+  if (orderInInstrument.value === 0) {
+    return true
+  } else {
+    return false
+  }
+}
 
 const VBtnClickInBasket = async () => {
   orderClick.value = orderClick.value + 1
@@ -126,7 +194,6 @@ const VBtnClickInBasket = async () => {
     orderInInstrument.value = 1
     orderSumPrice.value = orderPrice.value
     ProcessingError('Товар уже был добавлен в корзину!')
-    //  ДОЛЖНО БЫТЬ СООБЩЕНИЕ ОБ ТО ЧТО ТОВАР БЫЛ ДОБАВЛЕН В КОРЗИНУ РАНЕЕ
   }
 }
 
@@ -142,10 +209,19 @@ const closeBasket = () => {
 </script>
 
 <template>
-  <div v-if="isLoading"> Loading</div>
-  <div v-else>
+  <div class="w-100 h-100 d-flex justify-center align-center"
+       v-if="isLoading">
+    <v-progress-circular
+        color="primary"
+        indeterminate
+        :size="128"
+        :width="12"
+    ></v-progress-circular>
+  </div>
+  <div class="mainBlockInBasketDynamic w-100" v-else>
     <!--  V-CARD MAIN -->
-    <v-card class="vCardBasket pa-2" v-for="item in basketArrayCopy">
+    <div class="vCardBasket"
+         v-for="item in basketArrayCopy">
       <!--      BLOCK BASKET TITLE MAIN -->
       <div class="blockBasketTitleMain">
         <h1 class="titleMainTitle">Товар будет добавлен в коризну</h1>
@@ -158,53 +234,59 @@ const closeBasket = () => {
         </div>
       </div>
       <!--      BLOCK BASKET MAIN -->
-      <div class="blockBasketMain d-flex">
+      <div class="blockBasketMain">
         <!--        BLOCK BASKET MAIN PHOTO -->
         <div class="blockBasketPhotoMain d-flex justify-center align-center">
           <img :src="item.imgTitle" alt="" class="photoMainImg">
         </div>
         <!--        BLOCK BASKET TITLE PRICE BTN -->
-        <div class="blockBasketTitlePriceBtn pa-2">
+        <div class="blockBasketTitlePriceBtn">
           <!--          BLOCK BASKET TITLE SECOND -->
-          <div class="blockBasketTitleSecond pa-1">
+          <div class="blockBasketTitleSecond">
             <h1 class="titleSecondTitle">{{ item.name }}</h1>
           </div>
           <!--          BLOCK BASKET PRICE MAIN -->
-          <div class="blockBasketPriceMain pa-1">
-            <h1 class="priceMainTitle">{{ item.price }}</h1>
+          <div class="blockBasketPriceMain">
+            <h1 class="priceMainTitle">Цена за шт: {{ item.price }} рублей</h1>
           </div>
           <!--          BLOCK BASKET BTN MAIN -->
-          <div class="blockBasketBtnMain d-flex align-center pa-1">
+          <div class="blockBasketBtnMain d-flex align-center">
             <v-btn
                 class="blockBasketBtnMainInPlus"
+                :width="widthFuncPlusAndMinus()"
+                :height="heightFuncPlusAndMinus()"
                 @click="VBtnClickInPLus">+
             </v-btn>
-            <p class="blockBasketBtnMainOrderPrice ma-4">{{ orderInInstrument }}</p>
+            <p class="blockBasketBtnMainOrderPrice">{{ orderInInstrument }}</p>
             <v-btn
                 class="blockBasketBtnMainInMinus"
+                :width="widthFuncPlusAndMinus()"
+                :height="heightFuncPlusAndMinus()"
                 @click="VBtnClickInMinus">-
             </v-btn>
           </div>
         </div>
         <!--        BLOCK BASKET LINK IN BASKET-->
-        <div class="blockBasketLinkInBasket  pa-1">
+        <div class="blockBasketLinkInBasket">
           <v-btn
               @click="VBtnClickInBasket"
-              class="linkInBasketBtn mt-5">Добавить в корзину
+              :disabled="orderInInstrumentFunc()"
+              :width="widthFuncBtnBuy()"
+              :height="heightFuncBtnBuy()"
+              class="linkInBasketBtn">Добавить в корзину
           </v-btn>
-          <p class="linkInBasketBlockBtnSecondTitle mt-5">
+          <p class="linkInBasketBlockBtnSecondTitle">
             В вашу коризну будет добавлен инструмент в количестве
             <span class="linkInBasketBlockBtnSecondTitleSpan">{{ orderInInstrument }} шт</span>,
             на сумму в <span class="linkInBasketBlockBtnSecondTitleSpan">{{ orderSumPrice }} рублей</span>
           </p>
         </div>
       </div>
-    </v-card>
+    </div>
   </div>
 
 
 </template>
-
 
 <style lang="scss" scoped>
 @import './src/assets/mixins';
@@ -213,338 +295,32 @@ const closeBasket = () => {
 // Media
 
 @media screen and (max-width: 600px) {
-  /* стили для xs-устройств */
-  // CARD MAIN
-  .vCardBasket {
-    width: 400px;
-    height: 400px;
-    position: relative;
-    top: 10px;
-    left: 15%;
-    z-index: 1;
-    box-shadow: 0 0 0 1px rgba(55, 53, 53, 0.3);
-    background-color: $background;
-  }
-
-  // BLOCK BASKET TITLE MAIN
-  .blockBasketTitleMain {
+  /*  стили для xs-устройств */
+  .mainBlockInBasketDynamic {
     width: 100%;
-    height: 10%;
-    position: relative;
-    border-bottom: 1px solid $primary;
-    background-color: $background;
-  }
-
-  .titleMainBlock {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-
-  .titleMainBlockClose {
-    color: $text;
-    background-color: $background;
-    border: none;
-  }
-
-  .titleMainTitle {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: $text;
-  }
-
-  // BLOCK BASKET MAIN
-  .blockBasketMain {
-    width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    background-color: $background;
+    align-items: center;
+    z-index: 2;
   }
 
-  // BLOCK BASKET MAIN PHOTO
-  .blockBasketPhotoMain {
-    width: 40%;
-    height: 200px;
-    border: none;
-    border-bottom: 1px solid $primary;
-    background-color: $background;
-  }
-
-  .photoMainImg {
-    width: 150px;
-    height: 150px;
-  }
-
-  // BLOCK BASKET TITLE PRICE BTN
-  .blockBasketTitlePriceBtn {
-    width: 60%;
-    height: 200px;
-    border-left: 1px solid $primary;
-    border-right: none;
-    border-bottom: 1px solid $primary;
-    background-color: $background;
-  }
-
-  // BLOCK BASKET TITLE SECOND
-  .blockBasketTitleSecond {
-    width: 100%;
-    height: 50%;
-    background-color: $background;
-  }
-
-  // BLOCK BASKET TITLE SECOND BLOCK ONE
-  .titleSecondTitle {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: $text;
-  }
-
-  // BLOCK BASKET PRICE MAIN
-  .blockBasketPriceMain {
-    width: 100%;
-    height: 15%;
-    background-color: $background;
-  }
-
-  .priceMainTitle {
-    font-size: 1.3rem;
-    font-weight: 500;
-    color: $text;
-  }
-
-  // BLOCK BASKET BTN MAIN
-  .blockBasketBtnMain {
-    width: 100%;
-    height: 30%;
-    background-color: $background;
-  }
-
-  .blockBasketBtnMainInPlus, .blockBasketBtnMainInMinus {
-    font-size: 1rem;
-    color: $text;
-    background-color: $background;
-    border: 1px solid $text;
-  }
-
-  .blockBasketBtnMainInPlus {
-
-  }
-
-  .blockBasketBtnMainOrderPrice {
-    font-size: 1.3rem;
-    color: $text;
-  }
-
-  .blockBasketBtnMainInMinus {
-  }
-
-  // BLOCK BASKET LINK IN BASKET
-  .blockBasketLinkInBasket {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-
-  .linkInBasketBtn {
-    position: absolute;
-    left: 30%;
-    color: $background;
-    background-color: $primary;
-  }
-
-  .linkInBasketBlockBtnSecondTitle {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    top: 10%;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: $text;
-  }
-
-  .linkInBasketBlockBtnSecondTitleSpan {
-    font-weight: 700;
-    color: $textSpan;
-  }
-}
-
-@media screen and (min-width: 600px) and (max-width: 960px) {
-  /* стили для sm-устройств */
   // CARD MAIN
   .vCardBasket {
-    width: 400px;
-    height: 400px;
+    width: 100%;
+    height: 100vh;
     position: relative;
-    top: 10px;
-    left: 20%;
-    z-index: 1;
-    box-shadow: 0 0 0 1px rgba(55, 53, 53, 0.3);
+    padding: 15px;
+    box-shadow: 0 0 10.5px rgba(0, 0, 0, 0.24),
+    0 0 84px rgba(0, 0, 0, 0.12);
+    border-radius: 20px;
+    z-index: 2;
     background-color: $background;
   }
 
   // BLOCK BASKET TITLE MAIN
   .blockBasketTitleMain {
     width: 100%;
-    height: 10%;
-    position: relative;
-    border-bottom: 1px solid $primary;
-    background-color: $background;
-  }
-
-  .titleMainBlock {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-
-  .titleMainBlockClose {
-    color: $text;
-    background-color: $background;
-    border: none;
-  }
-
-  .titleMainTitle {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: $text;
-  }
-
-  // BLOCK BASKET MAIN
-  .blockBasketMain {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    background-color: $background;
-  }
-
-  // BLOCK BASKET MAIN PHOTO
-  .blockBasketPhotoMain {
-    width: 40%;
-    height: 200px;
-    border: none;
-    border-bottom: 1px solid $primary;
-    background-color: $background;
-  }
-
-  .photoMainImg {
-    width: 150px;
-    height: 150px;
-  }
-
-  // BLOCK BASKET TITLE PRICE BTN
-  .blockBasketTitlePriceBtn {
-    width: 60%;
-    height: 200px;
-    border-left: 1px solid $primary;
-    border-right: none;
-    border-bottom: 1px solid $primary;
-    background-color: $background;
-  }
-
-  // BLOCK BASKET TITLE SECOND
-  .blockBasketTitleSecond {
-    width: 100%;
-    height: 50%;
-    background-color: $background;
-  }
-
-  // BLOCK BASKET TITLE SECOND BLOCK ONE
-  .titleSecondTitle {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: $text;
-  }
-
-  // BLOCK BASKET PRICE MAIN
-  .blockBasketPriceMain {
-    width: 100%;
-    height: 15%;
-    background-color: $background;
-  }
-
-  .priceMainTitle {
-    font-size: 1.3rem;
-    font-weight: 500;
-    color: $text;
-  }
-
-  // BLOCK BASKET BTN MAIN
-  .blockBasketBtnMain {
-    width: 100%;
-    height: 30%;
-    background-color: $background;
-  }
-
-  .blockBasketBtnMainInPlus, .blockBasketBtnMainInMinus {
-    font-size: 1rem;
-    color: $text;
-    background-color: $background;
-    border: 1px solid $text;
-  }
-
-  .blockBasketBtnMainInPlus {
-
-  }
-
-  .blockBasketBtnMainOrderPrice {
-    font-size: 1.3rem;
-    color: $text;
-  }
-
-  .blockBasketBtnMainInMinus {
-  }
-
-  // BLOCK BASKET LINK IN BASKET
-  .blockBasketLinkInBasket {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-
-  .linkInBasketBtn {
-    position: absolute;
-    left: 30%;
-    color: $background;
-    background-color: $primary;
-  }
-
-  .linkInBasketBlockBtnSecondTitle {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    top: 10%;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: $text;
-  }
-
-  .linkInBasketBlockBtnSecondTitleSpan {
-    font-weight: 700;
-    color: $textSpan;
-  }
-}
-
-@media screen and (min-width: 960px) and (max-width: 1280px) {
-  /* стили для md-устройств */
-  // CARD MAIN
-  .vCardBasket {
-    width: 800px;
-    height: 350px;
-    top: 35px;
-    left: 10%;
-    z-index: 1;
-    box-shadow: 0 0 0 1px rgba(55, 53, 53, 0.3);
-    background-color: $background;
-  }
-
-  // BLOCK BASKET TITLE MAIN
-  .blockBasketTitleMain {
-    width: 100%;
-    height: 15%;
+    height: 50px;
     position: relative;
     border-bottom: 2px solid $primary;
     background-color: $background;
@@ -563,7 +339,7 @@ const closeBasket = () => {
   }
 
   .titleMainTitle {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: 500;
     color: $text;
   }
@@ -571,7 +347,351 @@ const closeBasket = () => {
   // BLOCK BASKET MAIN
   .blockBasketMain {
     width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    min-height: 300px;
+    margin-top: 20px;
+    background-color: $background;
+  }
+
+  // BLOCK BASKET MAIN PHOTO
+  .blockBasketPhotoMain {
+    width: 20%;
+    height: 300px;
+    background-color: $background;
+  }
+
+  .photoMainImg {
+    width: 100px;
+    height: 100px;
+  }
+
+  // BLOCK BASKET TITLE PRICE BTN
+  .blockBasketTitlePriceBtn {
+    width: 55%;
+    min-height: 300px;
+    padding-left: 24px;
+    background-color: $background;
+  }
+
+  // BLOCK BASKET TITLE SECOND
+  .blockBasketTitleSecond {
+    width: 100%;
+    height: 125px;
+    background-color: $background;
+  }
+
+  // BLOCK BASKET TITLE SECOND BLOCK ONE
+  .titleSecondTitle {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  // BLOCK BASKET PRICE MAIN
+  .blockBasketPriceMain {
+    width: 100%;
+    height: 50px;
+    background-color: $background;
+  }
+
+  .priceMainTitle {
+    font-size: 1rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  // BLOCK BASKET BTN MAIN
+  .blockBasketBtnMain {
+    width: 100%;
+    height: 125px;
+    background-color: $background;
+  }
+
+  .blockBasketBtnMainInPlus, .blockBasketBtnMainInMinus {
+    font-size: 1.5rem;
+    color: $text;
+    background-color: $background;
+    border: 1px solid $text;
+  }
+
+  .blockBasketBtnMainInPlus {
+
+  }
+
+  .blockBasketBtnMainOrderPrice {
+    font-size: 1.5rem;
+    margin: 0 25px 0 25px;
+    color: $text;
+  }
+
+  .blockBasketBtnMainInMinus {
+  }
+
+  // BLOCK BASKET LINK IN BASKET
+  .blockBasketLinkInBasket {
+    width: 20%;
     height: 100%;
+  }
+
+  .linkInBasketBtn {
+    font-size: 0.5rem;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    color: $background;
+    background-color: $primary;
+  }
+
+  .linkInBasketBtn:hover {
+    transition: all 0.3s ease-in-out;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary
+  }
+
+  .linkInBasketBlockBtnSecondTitle {
+    margin-top: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  .linkInBasketBlockBtnSecondTitleSpan {
+    font-weight: 700;
+    color: $textSpan;
+  }
+
+  //  DONE!!!
+}
+
+@media screen and (min-width: 600px) and (max-width: 960px) {
+  /*  стили для sm-устройств */
+  .mainBlockInBasketDynamic {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+  }
+
+  // CARD MAIN
+  .vCardBasket {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    padding: 15px;
+    box-shadow: 0 0 10.5px rgba(0, 0, 0, 0.24),
+    0 0 84px rgba(0, 0, 0, 0.12);
+    border-radius: 20px;
+    z-index: 2;
+    background-color: $background;
+  }
+
+  // BLOCK BASKET TITLE MAIN
+  .blockBasketTitleMain {
+    width: 100%;
+    height: 50px;
+    position: relative;
+    border-bottom: 2px solid $primary;
+    background-color: $background;
+  }
+
+  .titleMainBlock {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .titleMainBlockClose {
+    color: $text;
+    background-color: $background;
+    border: none;
+  }
+
+  .titleMainTitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  // BLOCK BASKET MAIN
+  .blockBasketMain {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    min-height: 300px;
+    margin-top: 20px;
+    background-color: $background;
+  }
+
+  // BLOCK BASKET MAIN PHOTO
+  .blockBasketPhotoMain {
+    width: 20%;
+    height: 300px;
+    background-color: $background;
+  }
+
+  .photoMainImg {
+    width: 100px;
+    height: 100px;
+  }
+
+  // BLOCK BASKET TITLE PRICE BTN
+  .blockBasketTitlePriceBtn {
+    width: 55%;
+    min-height: 300px;
+    padding-left: 24px;
+    background-color: $background;
+  }
+
+  // BLOCK BASKET TITLE SECOND
+  .blockBasketTitleSecond {
+    width: 100%;
+    height: 125px;
+    background-color: $background;
+  }
+
+  // BLOCK BASKET TITLE SECOND BLOCK ONE
+  .titleSecondTitle {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  // BLOCK BASKET PRICE MAIN
+  .blockBasketPriceMain {
+    width: 100%;
+    height: 50px;
+    background-color: $background;
+  }
+
+  .priceMainTitle {
+    font-size: 1rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  // BLOCK BASKET BTN MAIN
+  .blockBasketBtnMain {
+    width: 100%;
+    height: 125px;
+    background-color: $background;
+  }
+
+  .blockBasketBtnMainInPlus, .blockBasketBtnMainInMinus {
+    font-size: 1.5rem;
+    color: $text;
+    background-color: $background;
+    border: 1px solid $text;
+  }
+
+  .blockBasketBtnMainInPlus {
+
+  }
+
+  .blockBasketBtnMainOrderPrice {
+    font-size: 1.5rem;
+    margin: 0 25px 0 25px;
+    color: $text;
+  }
+
+  .blockBasketBtnMainInMinus {
+  }
+
+  // BLOCK BASKET LINK IN BASKET
+  .blockBasketLinkInBasket {
+    width: 20%;
+    height: 100%;
+  }
+
+  .linkInBasketBtn {
+    font-size: 0.5rem;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    color: $background;
+    background-color: $primary;
+  }
+
+  .linkInBasketBtn:hover {
+    transition: all 0.3s ease-in-out;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary
+  }
+
+  .linkInBasketBlockBtnSecondTitle {
+    margin-top: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  .linkInBasketBlockBtnSecondTitleSpan {
+    font-weight: 700;
+    color: $textSpan;
+  }
+
+  //  DONE!!!
+}
+
+@media screen and (min-width: 960px) and (max-width: 1280px) {
+  /*  стили для md-устройств */
+  .mainBlockInBasketDynamic {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+  }
+
+  // CARD MAIN
+  .vCardBasket {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    margin: 0 auto;
+    padding: 30px;
+    box-shadow: 0 0 10.5px rgba(0, 0, 0, 0.24),
+    0 0 84px rgba(0, 0, 0, 0.12);
+    border-radius: 20px;
+    z-index: 2;
+    background-color: $background;
+  }
+
+  // BLOCK BASKET TITLE MAIN
+  .blockBasketTitleMain {
+    width: 100%;
+    height: 50px;
+    position: relative;
+    border-bottom: 2px solid $primary;
+    background-color: $background;
+  }
+
+  .titleMainBlock {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .titleMainBlockClose {
+    color: $text;
+    background-color: $background;
+    border: none;
+  }
+
+  .titleMainTitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  // BLOCK BASKET MAIN
+  .blockBasketMain {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    min-height: 300px;
+    margin-top: 20px;
     background-color: $background;
   }
 
@@ -589,23 +709,22 @@ const closeBasket = () => {
 
   // BLOCK BASKET TITLE PRICE BTN
   .blockBasketTitlePriceBtn {
-    width: 60%;
-    height: 300px;
-    border-right: 1px solid $primary;
-    border-left: 1px solid $primary;
+    width: 55%;
+    min-height: 300px;
+    padding-left: 24px;
     background-color: $background;
   }
 
   // BLOCK BASKET TITLE SECOND
   .blockBasketTitleSecond {
     width: 100%;
-    height: 40%;
+    height: 125px;
     background-color: $background;
   }
 
   // BLOCK BASKET TITLE SECOND BLOCK ONE
   .titleSecondTitle {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: 500;
     color: $text;
   }
@@ -613,12 +732,12 @@ const closeBasket = () => {
   // BLOCK BASKET PRICE MAIN
   .blockBasketPriceMain {
     width: 100%;
-    height: 10%;
+    height: 50px;
     background-color: $background;
   }
 
   .priceMainTitle {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: 500;
     color: $text;
   }
@@ -626,12 +745,12 @@ const closeBasket = () => {
   // BLOCK BASKET BTN MAIN
   .blockBasketBtnMain {
     width: 100%;
-    height: 50%;
+    height: 125px;
     background-color: $background;
   }
 
   .blockBasketBtnMainInPlus, .blockBasketBtnMainInMinus {
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: $text;
     background-color: $background;
     border: 1px solid $text;
@@ -642,7 +761,8 @@ const closeBasket = () => {
   }
 
   .blockBasketBtnMainOrderPrice {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+    margin: 0 25px 0 25px;
     color: $text;
   }
 
@@ -656,41 +776,63 @@ const closeBasket = () => {
   }
 
   .linkInBasketBtn {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
     color: $background;
     background-color: $primary;
   }
 
+  .linkInBasketBtn:hover {
+    transition: all 0.3s ease-in-out;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary
+  }
+
   .linkInBasketBlockBtnSecondTitle {
-    font-size: 1rem;
+    margin-top: 30px;
+    font-size: 1.2rem;
     font-weight: 500;
     color: $text;
   }
 
   .linkInBasketBlockBtnSecondTitleSpan {
-    font-size: 1rem;
     font-weight: 700;
     color: $textSpan;
   }
+
+  //  DONE!!!
 }
 
 @media screen and (min-width: 1280px) and (max-width: 1920px) {
   /*  стили для lg-устройств */
+  .mainBlockInBasketDynamic {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+  }
+
   // CARD MAIN
   .vCardBasket {
-    width: 1100px;
-    height: 350px;
-    z-index: 1;
-    top: 35px;
-    left: 10%;
-    box-shadow: 0 0 0 1px rgba(55, 53, 53, 0.3);
+    width: 1000px;
+    min-height: 350px;
+    position: relative;
+    margin: 0 auto;
+    padding: 30px;
+    box-shadow: 0 0 10.5px rgba(0, 0, 0, 0.24),
+    0 0 84px rgba(0, 0, 0, 0.12);
+    border-radius: 20px;
+    z-index: 2;
     background-color: $background;
   }
 
   // BLOCK BASKET TITLE MAIN
   .blockBasketTitleMain {
     width: 100%;
-    height: 15%;
+    height: 70px;
     position: relative;
     border-bottom: 2px solid $primary;
     background-color: $background;
@@ -709,7 +851,7 @@ const closeBasket = () => {
   }
 
   .titleMainTitle {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 500;
     color: $text;
   }
@@ -717,13 +859,16 @@ const closeBasket = () => {
   // BLOCK BASKET MAIN
   .blockBasketMain {
     width: 100%;
-    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    min-height: 300px;
+    margin-top: 20px;
     background-color: $background;
   }
 
   // BLOCK BASKET MAIN PHOTO
   .blockBasketPhotoMain {
-    width: 20%;
+    width: 200px;
     height: 300px;
     background-color: $background;
   }
@@ -735,17 +880,16 @@ const closeBasket = () => {
 
   // BLOCK BASKET TITLE PRICE BTN
   .blockBasketTitlePriceBtn {
-    width: 60%;
-    height: 300px;
-    border-right: 1px solid $primary;
-    border-left: 1px solid $primary;
+    width: 500px;
+    min-height: 300px;
+    padding-left: 24px;
     background-color: $background;
   }
 
   // BLOCK BASKET TITLE SECOND
   .blockBasketTitleSecond {
     width: 100%;
-    height: 40%;
+    height: 125px;
     background-color: $background;
   }
 
@@ -759,7 +903,7 @@ const closeBasket = () => {
   // BLOCK BASKET PRICE MAIN
   .blockBasketPriceMain {
     width: 100%;
-    height: 10%;
+    height: 50px;
     background-color: $background;
   }
 
@@ -772,12 +916,12 @@ const closeBasket = () => {
   // BLOCK BASKET BTN MAIN
   .blockBasketBtnMain {
     width: 100%;
-    height: 50%;
+    height: 125px;
     background-color: $background;
   }
 
   .blockBasketBtnMainInPlus, .blockBasketBtnMainInMinus {
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: $text;
     background-color: $background;
     border: 1px solid $text;
@@ -788,7 +932,8 @@ const closeBasket = () => {
   }
 
   .blockBasketBtnMainOrderPrice {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+    margin: 0 25px 0 25px;
     color: $text;
   }
 
@@ -797,18 +942,28 @@ const closeBasket = () => {
 
   // BLOCK BASKET LINK IN BASKET
   .blockBasketLinkInBasket {
-    width: 20%;
+    width: 200px;
     height: 100%;
   }
 
   .linkInBasketBtn {
+    font-size: 0.9rem;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
     color: $background;
     background-color: $primary;
   }
 
+  .linkInBasketBtn:hover {
+    transition: all 0.3s ease-in-out;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary
+  }
+
   .linkInBasketBlockBtnSecondTitle {
-    font-size: 1.1rem;
-    padding-left: 4px;
+    margin-top: 30px;
+    font-size: 1.2rem;
     font-weight: 500;
     color: $text;
   }
@@ -823,22 +978,32 @@ const closeBasket = () => {
 
 @media screen and (min-width: 1920px) and (max-width: 2560px) {
   /*  стили для xl-устройств */
+  .mainBlockInBasketDynamic {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+  }
+
   // CARD MAIN
   .vCardBasket {
     width: 1600px;
-    height: 350px;
+    min-height: 350px;
     position: relative;
-    top: 35px;
-    left: 10%;
-    z-index: 1;
-    box-shadow: 0 0 0 1px rgba(55, 53, 53, 0.3);
+    margin: 0 auto;
+    padding: 50px;
+    box-shadow: 0 0 10.5px rgba(0, 0, 0, 0.24),
+    0 0 84px rgba(0, 0, 0, 0.12);
+    border-radius: 20px;
+    z-index: 2;
     background-color: $background;
   }
 
   // BLOCK BASKET TITLE MAIN
   .blockBasketTitleMain {
     width: 100%;
-    height: 15%;
+    height: 70px;
     position: relative;
     border-bottom: 2px solid $primary;
     background-color: $background;
@@ -865,13 +1030,16 @@ const closeBasket = () => {
   // BLOCK BASKET MAIN
   .blockBasketMain {
     width: 100%;
-    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    min-height: 300px;
+    margin-top: 30px;
     background-color: $background;
   }
 
   // BLOCK BASKET MAIN PHOTO
   .blockBasketPhotoMain {
-    width: 20%;
+    width: 250px;
     height: 300px;
     background-color: $background;
   }
@@ -883,17 +1051,16 @@ const closeBasket = () => {
 
   // BLOCK BASKET TITLE PRICE BTN
   .blockBasketTitlePriceBtn {
-    width: 80%;
-    height: 300px;
-    border-right: 1px solid $primary;
-    border-left: 1px solid $primary;
+    width: 900px;
+    min-height: 300px;
+    padding-left: 24px;
     background-color: $background;
   }
 
   // BLOCK BASKET TITLE SECOND
   .blockBasketTitleSecond {
     width: 100%;
-    height: 40%;
+    height: 125px;
     background-color: $background;
   }
 
@@ -907,7 +1074,7 @@ const closeBasket = () => {
   // BLOCK BASKET PRICE MAIN
   .blockBasketPriceMain {
     width: 100%;
-    height: 10%;
+    height: 75px;
     background-color: $background;
   }
 
@@ -920,7 +1087,7 @@ const closeBasket = () => {
   // BLOCK BASKET BTN MAIN
   .blockBasketBtnMain {
     width: 100%;
-    height: 50%;
+    height: 100px;
     background-color: $background;
   }
 
@@ -936,7 +1103,8 @@ const closeBasket = () => {
   }
 
   .blockBasketBtnMainOrderPrice {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    margin: 0 25px 0 25px;
     color: $text;
   }
 
@@ -945,17 +1113,28 @@ const closeBasket = () => {
 
   // BLOCK BASKET LINK IN BASKET
   .blockBasketLinkInBasket {
-    width: 15%;
+    width: 300px;
     height: 100%;
   }
 
   .linkInBasketBtn {
+    font-size: 1.2rem;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
     color: $background;
     background-color: $primary;
   }
 
+  .linkInBasketBtn:hover {
+    transition: all 0.3s ease-in-out;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary
+  }
+
   .linkInBasketBlockBtnSecondTitle {
-    font-size: 1.1rem;
+    margin-top: 30px;
+    font-size: 1.4rem;
     font-weight: 500;
     color: $text;
   }
@@ -970,22 +1149,31 @@ const closeBasket = () => {
 
 @media screen and (min-width: 2560px) {
   /*  стили для xxl-устройств */
+  .mainBlockInBasketDynamic {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+  }
+
   // CARD MAIN
   .vCardBasket {
     width: 1600px;
-    height: 350px;
+    min-height: 350px;
     position: relative;
-    top: 20%;
-    left: 10%;
+    margin: 0 auto;
+    padding: 50px;
+    box-shadow: 0 0 10.5px rgba(0, 0, 0, 0.24),
+    0 0 84px rgba(0, 0, 0, 0.12);
+    border-radius: 20px;
     z-index: 1;
-    box-shadow: 0 0 0 1px rgba(55, 53, 53, 0.3);
     background-color: $background;
   }
 
   // BLOCK BASKET TITLE MAIN
   .blockBasketTitleMain {
     width: 100%;
-    height: 15%;
+    height: 70px;
     position: relative;
     border-bottom: 2px solid $primary;
     background-color: $background;
@@ -1012,13 +1200,16 @@ const closeBasket = () => {
   // BLOCK BASKET MAIN
   .blockBasketMain {
     width: 100%;
-    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    min-height: 300px;
+    margin-top: 30px;
     background-color: $background;
   }
 
   // BLOCK BASKET MAIN PHOTO
   .blockBasketPhotoMain {
-    width: 20%;
+    width: 250px;
     height: 300px;
     background-color: $background;
   }
@@ -1030,17 +1221,16 @@ const closeBasket = () => {
 
   // BLOCK BASKET TITLE PRICE BTN
   .blockBasketTitlePriceBtn {
-    width: 80%;
-    height: 300px;
-    border-right: 1px solid $primary;
-    border-left: 1px solid $primary;
+    width: 900px;
+    min-height: 300px;
+    padding-left: 24px;
     background-color: $background;
   }
 
   // BLOCK BASKET TITLE SECOND
   .blockBasketTitleSecond {
     width: 100%;
-    height: 40%;
+    height: 125px;
     background-color: $background;
   }
 
@@ -1054,7 +1244,7 @@ const closeBasket = () => {
   // BLOCK BASKET PRICE MAIN
   .blockBasketPriceMain {
     width: 100%;
-    height: 10%;
+    height: 75px;
     background-color: $background;
   }
 
@@ -1067,7 +1257,7 @@ const closeBasket = () => {
   // BLOCK BASKET BTN MAIN
   .blockBasketBtnMain {
     width: 100%;
-    height: 50%;
+    height: 100px;
     background-color: $background;
   }
 
@@ -1083,7 +1273,8 @@ const closeBasket = () => {
   }
 
   .blockBasketBtnMainOrderPrice {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    margin: 0 25px 0 25px;
     color: $text;
   }
 
@@ -1092,17 +1283,28 @@ const closeBasket = () => {
 
   // BLOCK BASKET LINK IN BASKET
   .blockBasketLinkInBasket {
-    width: 15%;
+    width: 300px;
     height: 100%;
   }
 
   .linkInBasketBtn {
+    font-size: 1.2rem;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
     color: $background;
     background-color: $primary;
   }
 
+  .linkInBasketBtn:hover {
+    transition: all 0.3s ease-in-out;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary
+  }
+
   .linkInBasketBlockBtnSecondTitle {
-    font-size: 1.1rem;
+    margin-top: 30px;
+    font-size: 1.4rem;
     font-weight: 500;
     color: $text;
   }

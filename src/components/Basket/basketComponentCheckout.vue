@@ -162,6 +162,8 @@ const clickInInfo = () => {
     dayAndTime: '',
     processing: 'Ожидание обработки'
   }
+  localStorage.setItem("basket_object", JSON.stringify([]))
+  localStorage.setItem("basket_click_user", JSON.stringify(true))
   router.push({name: 'basketComponent'})
 }
 
