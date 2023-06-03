@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <div class="d-flex flex-wrap">
+  <div class="d-flex flex-wrap justify-center">
     <!--      ALL-->
     <router-view name="gasolineToolsAll"></router-view>
     <!--      Generator-->

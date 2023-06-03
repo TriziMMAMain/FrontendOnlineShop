@@ -1,22 +1,20 @@
 // - import
 import {defineStore} from 'pinia'
 import _ from 'lodash'
-const instrumentJsonCordless = ''
-const instrumentJsonGasoline = ''
-const instrumentJsonNetwork = ''
-const instrumentJsonPneumotool = ''
+import axios from "axios";
+
 
 export const useBasketStore = defineStore({
     id: 'basketStore',
     state: () => ({
-        instrumentJsonCordless: instrumentJsonCordless,
-        instrumentJsonGasoline: instrumentJsonGasoline,
-        instrumentJsonNetwork: instrumentJsonNetwork,
-        instrumentJsonPneumotool: instrumentJsonPneumotool,
+        // Fetching user
+        userId: null,
+        //
         basket: [],
         basketArray: [],
     }),
     actions: {
+        //
         async setLocalStorageBasketObject(array) {
             let arrayForBasket = [];
             arrayForBasket = JSON.parse(localStorage.getItem("basket_object"))
@@ -29,23 +27,40 @@ export const useBasketStore = defineStore({
         },
         async toLocalStorageInBasketItem(arrayFirst) {
             await localStorage.setItem("basket_array", JSON.stringify(arrayFirst))
-            console.log(`Good`)
         },
-        async getLocalStorageInBasketItem() {
-            let importItemInBasket = await JSON.parse(localStorage.getItem("basket_array"))
-            this.basket.push(importItemInBasket)
+        // Post axios user
+        async postAxiosUser(data) {
+            try {
+                const responseData = await axios.post('http://localhost:3000/api/user', data)
+                return true
+            } catch (err) {
+                this.error = err
+                console.error(err);
+                return false
+            }
         },
-        findByCordlessID(id) {
-            return _.find(this.instrumentJsonCordless, {'id': id})
+        async postAxiosUserById(data) {
+            try {
+                const responseData = await axios.post('http://localhost:3000/api/user/id', data)
+                return true
+            } catch (err) {
+                this.error = err
+                console.error(err);
+                return false
+            }
         },
-        findByGasolineID(id) {
-            return _.find(this.instrumentJsonGasoline, {'id': id})
-        },
-        findByNetworkID(id) {
-            return _.find(this.instrumentJsonNetwork, {'id': id})
-        },
-        findByPneuomotoolID(id) {
-            return _.find(this.instrumentJsonPneumotool, {'id': id})
+        // Fetching user
+        async fetchingUserId() {
+            try {
+                const response = await axios.get('http://localhost:3000/user/id')
+                this.userId = response.data
+                localStorage.setItem("user_id", JSON.stringify(this.userId))
+                return true
+            } catch (error) {
+                this.error = error
+                console.log(error)
+                return false
+            }
         },
     },
     getters: {

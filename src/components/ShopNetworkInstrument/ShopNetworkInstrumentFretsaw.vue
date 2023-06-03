@@ -4,12 +4,11 @@ import {ref} from 'vue'
 import {useRouter} from 'vue-router'
 import _ from 'lodash'
 import {useInstrumentStore} from '../../stores/counter.js'
-import {useBasketStore} from "../../stores/counterBasket";
 import {useDisplay} from 'vuetify'
 import axios from "axios";
 
 const {name} = useDisplay()
-const {importBasketId} = useBasketStore()
+const {postAxiosInstrumentById} = useInstrumentStore()
 
 const router = useRouter()
 
@@ -124,35 +123,16 @@ const heightFuncVBtn = () => {
 const networkFretsawArray = ref([])
 const networkLocal = ref([])
 
-const fetchingInstrumentFilterName = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/api/instruments/get/network');
-    if (response.ok) {
-      networkLocal.value = await response.json();
-    } else {
-      throw new Error(`Error fetching instrument: ${response.statusText}`);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-fetchingInstrumentFilterName()
-    .then(() => {
-      networkFretsaw()
-      console.log(`Fetching network drill good`);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+networkLocal.value = JSON.parse(localStorage.getItem("network"))
 
-const networkFretsaw = async () => {
-  for (let i = 0; i < networkLocal.value.length; i++) {
-    if (networkLocal.value[i].typeThis === 'Лобзик электрический') {
-      networkFretsawArray.value.push(networkLocal.value[i])
+const networkFretsaw = async (network) => {
+  for (let i = 0; i < network.length; i++) {
+    if (network[i].typeThis === 'Лобзик электрический') {
+      networkFretsawArray.value.push(network[i])
     }
   }
-  console.log(`network`, networkFretsawArray.value)
 }
+networkFretsaw(networkLocal.value)
 
 
 const viewDetails = async (id) => {
@@ -160,7 +140,8 @@ const viewDetails = async (id) => {
   for (let i = 0; i < networkFretsawArray.value.length; i++) {
     dataInstrument.value = _.filter(networkFretsawArray.value, {id: id})
   }
-  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  postAxiosInstrumentById(dataInstrument.value)
+
 
   await router.push({name: 'networkInstrumentFretsawId', params: {id: id}}) // /id/:id
   localStorage.setItem("id_network", JSON.stringify(id))
@@ -173,7 +154,7 @@ const buyInBasket = async (id) => {
   for (let i = 0; i < networkFretsawArray.value.length; i++) {
     dataInstrument.value = _.filter(networkFretsawArray.value, {id: id})
   }
-  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  postAxiosInstrumentById(dataInstrument.value)
   counterClick.value = counterClick.value + 1
   if (counterClick.value === 1) {
     localStorage.setItem("basket_id", JSON.stringify(id))

@@ -1,11 +1,14 @@
 <script setup="">
 // core
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
+import {useInstrumentStore} from '../../../stores/counter'
 import BasketComponentDynamic from "../../Basket/basketComponentDynamic.vue"
 import {Promise} from "core-js";
+import {ProccesingSuccessfuly, ProcessingError} from "../../../notification/toasting";
 import {useDisplay} from 'vuetify'
 
 const {name} = useDisplay()
+const {fetchingInstrumentById} = useInstrumentStore()
 
 const widthFuncInBtn = () => {
   if (name.value === 'xs') {
@@ -55,52 +58,38 @@ const heightFuncInCarousel = () => {
 // local
 const arrayScrewdriversId = ref([])
 const cordlessLocalCopy = ref([])
+const loadingComponent = ref(false)
 //
+const trueOrFalsePhoto = ref(false)
 
-const fetchingInstrumentFilterById = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
-    if (response.ok) {
-      cordlessLocalCopy.value = await response.json()
-      arrayScrewdriversId.value = await cordlessLocalCopy.value[0]
-    } else {
-      throw new Error(`Error fetching instrument: ${response.statusText}`);
-    }
-  } catch (error) {
-    console.log(error);
+onMounted(async () => {
+  await fetchingInstrumentById()
+  loadingComponent.value = JSON.parse(localStorage.getItem('fetching_instrument_by_id'))
+
+  if (loadingComponent.value) {
+    await updateLocalData()
+  } else {
+    console.log('error 500')
+    ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
   }
-};
-let trueOrFalsePhoto = ref(false)
 
-const arrayScrewdriversIdFunc = async () => {
-  try {
-    await Promise.all([
-      fetchingInstrumentFilterById()
-          .then(() => {
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-    ])
-    const isImgArrayValid = async () => {
-      for (let i = 0; i < arrayScrewdriversId.value.imgArray.length; i++) {
-        try {
-          new URL(arrayScrewdriversId.value.imgArray[i].src);
-        } catch (_) {
-          trueOrFalsePhoto.value = false
-          return false;
-        }
-      }
-      trueOrFalsePhoto.value = true
-      return true;
+  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(false))
+})
+const updateLocalData = async () => {
+  cordlessLocalCopy.value = await JSON.parse(localStorage.getItem('filter_by_id'))
+  arrayScrewdriversId.value = cordlessLocalCopy.value[0]
+
+  for (let i = 0; i < arrayScrewdriversId.value.imgArray.length; i++) {
+    try {
+      arrayScrewdriversId.value.imgArray[i].src
+    } catch {
+      trueOrFalsePhoto.value = false
+      return
     }
-    await isImgArrayValid()
-  } catch (error) {
-    console.log(error);
   }
-};
 
-arrayScrewdriversIdFunc();
+  trueOrFalsePhoto.value = true
+}
 
 
 const items = [
@@ -133,11 +122,9 @@ let counterClickBasket = ref(false)
 
 const buyInBasket = (id) => {
   counterClick.value = counterClick.value + 1
-  counterClickBasket.value = !counterClickBasket.value
+  counterClickBasket.value = true
   localStorage.setItem("basket_click", JSON.stringify(counterClickBasket.value))
   basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
-
-  console.log(id)
   localStorage.setItem("basket_id", JSON.stringify(id))
 }
 
@@ -188,7 +175,7 @@ const buyInBasket = (id) => {
           >
             <v-carousel-item
                 class="w-100"
-                v-for="(item, i) in cordlessLocalCopy.imgArray"
+                v-for="(item, i) in arrayScrewdriversId.imgArray"
                 :key="i"
                 :src="item.src"
             >
@@ -209,7 +196,7 @@ const buyInBasket = (id) => {
             Основные характеристики
           </h1>
           <!--          -->
-          <v-card-text v-for="item in cordlessLocalCopy.featureTopTitle"
+          <v-card-text v-for="item in arrayScrewdriversId.featureTopTitle"
                        key="item"
                        class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
@@ -253,7 +240,7 @@ const buyInBasket = (id) => {
           <v-table class="cardMainContainerShopSideFeatureMiddleTopVTable" density="compact">
             <tbody>
             <tr
-                v-for="item in cordlessLocalCopy.featureMiddle"
+                v-for="item in arrayScrewdriversId.featureMiddle"
                 :key="item.feature"
             >
               <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.feature }}</td>
@@ -269,7 +256,7 @@ const buyInBasket = (id) => {
           <h1 class="textCardFeatureDown">Преимущества {{ i.name }}</h1>
           <ul class="cardMainContainerShopSideFeatureDownTopUl">
             <li class="cardMainContainerShopSideFeatureDownTopLi"
-                v-for="i in cordlessLocalCopy.featureDownArray"
+                v-for="i in arrayScrewdriversId.featureDownArray"
                 :key="i.featureDown">{{ i.featureDown }}
             </li>
           </ul>

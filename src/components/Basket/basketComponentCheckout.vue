@@ -3,9 +3,13 @@ import {ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import _ from 'lodash'
 import {useBasketStore} from '../../stores/counterBasket.js'
+import axios from 'axios';
+import {ProccesingSuccessfuly} from "../../notification/toasting";
+import {useRouter} from 'vue-router'
 
-
+const router = useRouter()
 const {name} = useDisplay()
+const {postAxiosUser} = useBasketStore()
 
 const numberInPriceSum = localStorage.getItem("basket_array_price_sum")
 
@@ -24,7 +28,6 @@ const weightFunc = () => {
     return ''
   }
 }
-
 const heightFunc = () => {
   if (name.value === 'xxl') {
     return '100'
@@ -40,7 +43,6 @@ const heightFunc = () => {
     return ''
   }
 }
-
 const weightFuncSecond = () => {
   if (name.value === 'xxl') {
     return '550'
@@ -56,7 +58,6 @@ const weightFuncSecond = () => {
     return ''
   }
 }
-
 const heightFuncSecond = () => {
   if (name.value === 'xxl') {
     return '72'
@@ -124,12 +125,6 @@ const local = JSON.parse(localStorage.getItem("basket_object"))
 
 // node js
 
-//import axios module
-import axios from 'axios';
-import {ProccesingSuccessfuly} from "../../notification/toasting";
-import {useRouter} from 'vue-router'
-const router = useRouter()
-
 const formData = ref({
   newId: 0,
   name: '',
@@ -142,13 +137,10 @@ const formData = ref({
   processing: 'Ожидание обработки'
 })
 
-const clickInInfo = () => {
+const clickInInfo = async () => {
   const newIdMath = ref(Math.floor(Math.random() * 1000000))
   formData.value.newId = newIdMath.value
-  console.log(`formData`, formData.value)
-  axios.post('http://localhost:3000/api/user', formData.value)
-      .then(response => console.log(response.data))
-      .catch(error => console.log(error))
+  await postAxiosUser(formData.value)
   localStorage.setItem("id_user_basket", JSON.stringify(formData.value.newId))
   ProccesingSuccessfuly('Вы подтвердили свой заказ, ожидайте!')
   formData.value = {
@@ -164,7 +156,7 @@ const clickInInfo = () => {
   }
   localStorage.setItem("basket_object", JSON.stringify([]))
   localStorage.setItem("basket_click_user", JSON.stringify(true))
-  router.push({name: 'basketComponent'})
+  await router.push({name: 'basketComponent'})
 }
 
 // node js end
@@ -187,11 +179,9 @@ const checkValueTitle = () => {
     trueOrFalseTitleDelivery.value = false
   }
   if (formData.value.deliveryType[0] === 'Самовывоз') {
-    console.log(`Самовывоз`)
     trueOrFalseTitle.value = false
     trueOrFalseTitleDelivery.value = true
   } else if (formData.value.deliveryType[0] === 'Доставка') {
-    console.log(`Доставка`)
     trueOrFalseTitle.value = true
     trueOrFalseTitleDelivery.value = false
   }
@@ -1203,4 +1193,3 @@ checkValueTitle()
   }
 }
 </style>
-<!--  СДЕЛАТЬ СТИЛИ НОРМАЛЬНЫЕ!!!-->

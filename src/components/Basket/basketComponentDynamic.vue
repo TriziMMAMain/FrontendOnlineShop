@@ -1,7 +1,8 @@
 <script setup="">
 // import
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import _ from "lodash";
+import {useInstrumentStore} from '../../stores/counter.js'
 import {useBasketStore} from '../../stores/counterBasket.js'
 import {useDisplay} from 'vuetify'
 import {Promise} from "core-js";
@@ -11,22 +12,8 @@ const {name} = useDisplay()
 // variable
 localStorage.setItem("basket_array", JSON.stringify([]))
 const getLocalStoreIdBasket = JSON.parse(localStorage.getItem("basket_id"))
-const {
-  toLocalStorageInBasketItem,
-  getLocalStorageInBasketItem,
-  setLocalStorageBasketObject,
-  findByCordlessID,
-  findByGasolineID,
-  findByNetworkID,
-  findByPneuomotoolID
-} = useBasketStore()
-
-const arrayInstrumentInBasket = []
-
-const cordlessId = findByCordlessID(getLocalStoreIdBasket)
-const gasolineId = findByGasolineID(getLocalStoreIdBasket)
-const networkId = findByNetworkID(getLocalStoreIdBasket)
-const pneuomotoolId = findByPneuomotoolID(getLocalStoreIdBasket)
+const {fetchingInstrumentById} = useInstrumentStore()
+const {setLocalStorageBasketObject,} = useBasketStore()
 
 const widthFuncPlusAndMinus = () => {
   if (name.value === 'xxl') {
@@ -102,41 +89,27 @@ let orderClick = ref(0)
 let basketArraySecond = ref([])
 let isLoading = ref(false)
 
-const fetchingInstrumentFilterById = async () => {
-
-  try {
-    const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
-    if (response.ok) {
-      cordlessLocal.value = await response.json()
-      basketArrayCopy.value = await cordlessLocal.value
-    } else {
-      throw new Error(`Error fetching instrument: ${response.statusText}`);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-
-};
+onMounted(async () => {
+  await cordlessLocalCopyFun()
+})
 
 const cordlessLocalCopyFun = async () => {
   isLoading.value = true
   try {
-    // получаем данные с сервера
-    await fetchingInstrumentFilterById()
-    console.log(`loading`, isLoading.value)
-    // ожидаем получения данных из базы данных
-    await new Promise((resolve) => setTimeout(resolve, 100))
+    if (await fetchingInstrumentById()) {
+      basketArrayCopy.value = JSON.parse(localStorage.getItem("filter_by_id"))
 
-    // определяем orderPrice и orderSumPrice после окончательной установки basketArrayCopy
-    orderPrice.value = basketArrayCopy.value[0].price
-    orderSumPrice.value = orderPrice.value * orderInInstrument.value
+      await new Promise((resolve) => setTimeout(resolve, 100))
+
+      orderPrice.value = basketArrayCopy.value[0].price
+      orderSumPrice.value = orderPrice.value * orderInInstrument.value
+    }
+
   } catch (error) {
     console.log(error)
   }
   isLoading.value = false
 }
-
-cordlessLocalCopyFun();
 
 
 const VBtnClickInPLus = async () => {

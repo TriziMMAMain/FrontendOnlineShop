@@ -1,6 +1,6 @@
 <script setup="">
 // - Import
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import axios from 'axios'
 import {useRouter} from 'vue-router'
 import {useInstrumentStore} from '../stores/counter.js'
@@ -8,9 +8,10 @@ import {useBasketStore} from "../stores/counterBasket.js";
 import {useDisplay} from 'vuetify'
 import {Promise} from "core-js";
 import _ from "lodash";
+import {ProcessingError} from "../notification/toasting";
 
 const {name} = useDisplay()
-const {reloadWindow} = useInstrumentStore()
+const {postAxiosInstrumentById, fetchingInstrumentByName} = useInstrumentStore()
 const {importBasketId} = useBasketStore()
 const router = useRouter()
 
@@ -123,61 +124,51 @@ const heightFuncVBtn = () => {
 const instrumentFilterName = ref('')
 const arrayLocalStorage = ref([])
 
-const fetchingInstrumentFilterName = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/api/instrument/get/filter/name');
-    if (response.ok) {
-      instrumentFilterName.value = await response.json();
-      console.log(`instrument`, instrumentFilterName.value)
-    } else {
-      throw new Error(`Error fetching instrument: ${response.statusText}`);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-fetchingInstrumentFilterName()
-    .then(() => {
-      console.log(`Fetching name good`);
-      arrayLocalStorage.value.push(instrumentFilterName.value)
-    })
-    .catch((error) => {
-      console.log(error);
-    })
 
 let dataInstrument = ref([])
+
+
+onMounted(() => {
+  instrumentFilterName.value = JSON.parse(localStorage.getItem("filter_by_name"))
+  arrayLocalStorage.value.push(instrumentFilterName.value)
+})
+
 
 const checkCordlessInstrument = async (idInstrument, routerPush) => {
   for (let i = 0; i < arrayLocalStorage.value.length; i++) {
     dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
   }
-  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_cordless", JSON.stringify(idInstrument))
-  await router.push({name: routerPush, params: {id: idInstrument}}) // DRILL
+  await router.push({name: routerPush, params: {id: idInstrument}})
+  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
 const checkGasolineInstrument = async (idInstrument, routerPush) => {
   for (let i = 0; i < arrayLocalStorage.value.length; i++) {
     dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
   }
-  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_gasoline", JSON.stringify(idInstrument))
-  await router.push({name: routerPush, params: {id: idInstrument}}) // DRILL
+  await router.push({name: routerPush, params: {id: idInstrument}})
+  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
 const checkNetworkInstrument = async (idInstrument, routerPush) => {
   for (let i = 0; i < arrayLocalStorage.value.length; i++) {
     dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
   }
-  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_network", JSON.stringify(idInstrument))
-  await router.push({name: routerPush, params: {id: idInstrument}}) // DRILL
+  await router.push({name: routerPush, params: {id: idInstrument}})
+  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
 const checkPneumoInstrument = async (idInstrument, routerPush) => {
   for (let i = 0; i < arrayLocalStorage.value.length; i++) {
     dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
   }
-  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_pneumotool", JSON.stringify(idInstrument))
-  await router.push({name: routerPush, params: {id: idInstrument}}) // DRILL
+  await router.push({name: routerPush, params: {id: idInstrument}})
+  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
 
 const addInBasketIdCordless = (idInstrument) => {
@@ -199,8 +190,6 @@ const addInBasketIdPneumo = (idInstrument) => {
 
 
 const viewDetails = async (id) => {
-  console.log(`id`, id)
-  console.log(`array`, arrayLocalStorage.value)
 
   if (arrayLocalStorage.value[0].type === 'Аккумуляторный инструмент') {
     if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная дрель-шуруповерт') {

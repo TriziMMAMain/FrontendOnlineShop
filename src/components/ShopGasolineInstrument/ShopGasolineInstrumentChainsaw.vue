@@ -4,12 +4,11 @@ import {ref} from 'vue'
 import {useRouter} from 'vue-router'
 import _ from 'lodash'
 import {useInstrumentStore} from '../../stores/counter.js'
-import {useBasketStore} from "../../stores/counterBasket";
 import {useDisplay} from 'vuetify'
 import axios from "axios";
 
 const {name} = useDisplay()
-const {importBasketId} = useBasketStore()
+const {postAxiosInstrumentById} = useInstrumentStore()
 
 const router = useRouter()
 
@@ -121,46 +120,26 @@ const heightFuncVBtn = () => {
 }
 
 //
-const gasolineMotoblockArray = ref([])
+const gasolineChainsawArray = ref([])
 const gasolineLocal = ref([])
 
-const fetchingInstrumentFilterName = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/api/instruments/get/gasoline');
-    if (response.ok) {
-      gasolineLocal.value = await response.json();
-    } else {
-      throw new Error(`Error fetching instrument: ${response.statusText}`);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-fetchingInstrumentFilterName()
-    .then(() => {
-      gasolineGenerator()
-      console.log(`Fetching gasoline chainsaw good`);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+gasolineLocal.value = JSON.parse(localStorage.getItem("gasoline"))
 
-const gasolineGenerator = async () => {
-  for (let i = 0; i < gasolineLocal.value.length; i++) {
-    if (gasolineLocal.value[i].typeThis === 'Бензопила') {
-      gasolineMotoblockArray.value.push(gasolineLocal.value[i])
+const gasolineChainsaw = async (gasoline) => {
+  for (let i = 0; i < gasoline.length; i++) {
+    if (gasoline[i].typeThis === 'Бензопила') {
+      gasolineChainsawArray.value.push(gasoline[i])
     }
   }
-  console.log(`gasoline`, gasolineMotoblockArray.value)
 }
-
+gasolineChainsaw(gasolineLocal.value)
 
 const viewDetails = async (id) => {
   let dataInstrument = ref([])
-  for (let i = 0; i < gasolineMotoblockArray.value.length; i++) {
-    dataInstrument.value = _.filter(gasolineMotoblockArray.value, {id: id})
+  for (let i = 0; i < gasolineChainsawArray.value.length; i++) {
+    dataInstrument.value = _.filter(gasolineChainsawArray.value, {id: id})
   }
-  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  postAxiosInstrumentById(dataInstrument.value)
 
   await router.push({name: 'gasolineInstrumentChainsawId', params: {id: id}}) // /id/:id
   localStorage.setItem("id_gasoline", JSON.stringify(id))
@@ -170,10 +149,10 @@ const viewDetails = async (id) => {
 let counterClick = ref(0)
 const buyInBasket = async (id) => {
   let dataInstrument = ref([])
-  for (let i = 0; i < gasolineMotoblockArray.value.length; i++) {
-    dataInstrument.value = _.filter(gasolineMotoblockArray.value, {id: id})
+  for (let i = 0; i < gasolineChainsawArray.value.length; i++) {
+    dataInstrument.value = _.filter(gasolineChainsawArray.value, {id: id})
   }
-  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  postAxiosInstrumentById(dataInstrument.value)
   counterClick.value = counterClick.value + 1
   if (counterClick.value === 1) {
     localStorage.setItem("basket_id", JSON.stringify(id))
@@ -194,7 +173,7 @@ const buyInBasket = async (id) => {
       color="background"
       elevation="5"
       class="vCardMain pa-5 mr-10 mb-16"
-      v-for="i in gasolineMotoblockArray">
+      v-for="i in gasolineChainsawArray">
     <v-row>
       <!--      FIRST COL-->
       <v-col :cols="firstColFunc()"

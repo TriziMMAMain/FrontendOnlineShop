@@ -4,12 +4,11 @@ import {ref} from 'vue'
 import {useRouter} from 'vue-router'
 import _ from 'lodash'
 import {useInstrumentStore} from '../../stores/counter.js'
-import {useBasketStore} from "../../stores/counterBasket";
 import {useDisplay} from 'vuetify'
 import axios from "axios";
 
 const {name} = useDisplay()
-const {importBasketId} = useBasketStore()
+const {postAxiosInstrumentById} = useInstrumentStore()
 
 const router = useRouter()
 
@@ -125,43 +124,24 @@ const cordlessDrillArray = ref([])
 const cordlessLocal = ref([])
 const functionAwait = ref('')
 
-const fetchingInstrumentFilterName = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/api/instruments/get/cordless');
-    if (response.ok) {
-      cordlessLocal.value = await response.json();
-    } else {
-      throw new Error(`Error fetching instrument: ${response.statusText}`);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-fetchingInstrumentFilterName()
-    .then(() => {
-      cordlessDrill()
-      console.log(`Fetching cordless drill good`);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+cordlessLocal.value = JSON.parse(localStorage.getItem("cordless"))
 
-const cordlessDrill = async () => {
-  for (let i = 0; i < cordlessLocal.value.length; i++) {
-    if (cordlessLocal.value[i].typeThis === 'Аккумуляторная дрель-шуруповерт') {
-      cordlessDrillArray.value.push(cordlessLocal.value[i])
+const cordlessDrill = async (cordless) => {
+  for (let i = 0; i < cordless.length; i++) {
+    if (cordless[i].typeThis === 'Аккумуляторная дрель-шуруповерт') {
+      cordlessDrillArray.value.push(cordless[i])
     }
   }
-  console.log(`cordless`, cordlessDrillArray.value)
 }
-
+cordlessDrill(cordlessLocal.value)
 
 const viewDetails = async (id) => {
   let dataInstrument = ref([])
   for (let i = 0; i < cordlessDrillArray.value.length; i++) {
     dataInstrument.value = _.filter(cordlessDrillArray.value, {id: id})
   }
-  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  postAxiosInstrumentById(dataInstrument.value)
+
 
   await router.push({name: 'cordlessInstrumentDrillsID', params: {id: id}}) // /id/:id
   localStorage.setItem("id_cordless", JSON.stringify(id))
@@ -174,7 +154,7 @@ const buyInBasket = async (id) => {
   for (let i = 0; i < cordlessDrillArray.value.length; i++) {
     dataInstrument.value = _.filter(cordlessDrillArray.value, {id: id})
   }
-  const response = await axios.post('http://localhost:3000/api/instrument/instrument-find-by-id', dataInstrument.value)
+  postAxiosInstrumentById(dataInstrument.value)
   counterClick.value = counterClick.value + 1
   if (counterClick.value === 1) {
     localStorage.setItem("basket_id", JSON.stringify(id))
@@ -221,7 +201,7 @@ const buyInBasket = async (id) => {
           <div v-for="item in i.featureTopTitle"
                key="item"
                class="textCardFeatureDiv">
-            <p class="textCardFeature">{{ item.featureTopTitleInfoTitle }}
+            <p class="textCardFeature">{{ item.featureTopTitleInfoTitle, ':' }}
               <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></p></div>
         </div>
 

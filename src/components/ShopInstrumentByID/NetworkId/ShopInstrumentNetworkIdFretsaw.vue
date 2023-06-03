@@ -1,12 +1,14 @@
 <script setup="">
 // core
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
+import {useInstrumentStore} from '../../../stores/counter'
 import BasketComponentDynamic from "../../Basket/basketComponentDynamic.vue"
 import {Promise} from "core-js";
-import {ProccesingSuccessfuly} from "../../../notification/toasting";
+import {ProccesingSuccessfuly, ProcessingError} from "../../../notification/toasting";
 import {useDisplay} from 'vuetify'
 
 const {name} = useDisplay()
+const {fetchingInstrumentById} = useInstrumentStore()
 
 const widthFuncInBtn = () => {
   if (name.value === 'xs') {
@@ -57,52 +59,37 @@ const heightFuncInCarousel = () => {
 const networkFretsawId = ref([])
 const networkLocal = ref([])
 const loadingComponent = ref(true)
+let trueOrFalsePhoto = ref(false)
 //
 
-const fetchingInstrumentFilterById = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
-    if (response.ok) {
-      networkLocal.value = await response.json()
-      networkFretsawId.value = await networkLocal.value[0]
-    } else {
-      throw new Error(`Error fetching instrument: ${response.statusText}`);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-let trueOrFalsePhoto = ref(false)
-const networkLocalCopyFun = async () => {
-  try {
-    await Promise.all([
-      fetchingInstrumentFilterById()
-          .then(() => {
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-    ])
+onMounted(async () => {
+  await fetchingInstrumentById()
+  loadingComponent.value = JSON.parse(localStorage.getItem('fetching_instrument_by_id'))
 
-    const isImgArrayValid = async () => {
-      for (let i = 0; i < networkFretsawId.value.imgArray.length; i++) {
-        try {
-          new URL(networkFretsawId.value.imgArray[i].src);
-        } catch (_) {
-          trueOrFalsePhoto.value = false
-          return false;
-        }
-      }
-      trueOrFalsePhoto.value = true
-      return true;
-    }
-    await isImgArrayValid()
-  } catch (error) {
-    console.log(error);
+  if (loadingComponent.value) {
+    await updateLocalData()
+  } else {
+    console.log('error 500')
+    ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
   }
-};
 
-networkLocalCopyFun();
+  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(false))
+})
+const updateLocalData = async () => {
+  networkLocal.value = JSON.parse(localStorage.getItem('filter_by_id'))
+  networkFretsawId.value = networkLocal.value[0]
+
+  for (let i = 0; i < networkFretsawId.value.imgArray.length; i++) {
+    try {
+      networkFretsawId.value.imgArray[i].src
+    } catch {
+      trueOrFalsePhoto.value = false
+      return
+    }
+  }
+
+  trueOrFalsePhoto.value = true
+}
 
 
 
@@ -136,7 +123,7 @@ let counterClickBasket = ref(false)
 
 const buyInBasket = (id) => {
   counterClick.value = counterClick.value + 1
-  counterClickBasket.value = !counterClickBasket.value
+  counterClickBasket.value = true
   localStorage.setItem("basket_click", JSON.stringify(counterClickBasket.value))
   basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
   console.log(id)

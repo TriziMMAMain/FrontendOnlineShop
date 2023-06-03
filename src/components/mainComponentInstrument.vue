@@ -1,26 +1,6 @@
 <script setup="">
 // - Import
 import {ref} from 'vue'
-import {useInstrumentStore} from '../stores/counter.js'
-
-const {
-  filterCrodlessInstrument,
-  filterGasolineInstrument,
-  filterNetworkInstrument,
-  filterPneumotoolInstrument
-} = useInstrumentStore()
-filterCrodlessInstrument()
-filterGasolineInstrument()
-filterNetworkInstrument()
-filterPneumotoolInstrument()
-
-//
-
-
-//
-
-
-// ---
 
 </script>
 

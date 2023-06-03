@@ -126,43 +126,220 @@ const router = useRouter()
 @import '../assets/mixins.scss';
 
 
-.v-checkbox {
-  width: 100%;
-  height: 80px;
-  font-size: 0.7rem;
+@media screen and (max-width: 600px) {
+  .catalogTitle {
+    text-align: center;
+    font-size: 1.5rem;
+  }
+
+  .v-expansion-panel {
+    color: $text;
+    background-color: $background;
+  }
+
+  .titleLeftInExpansion {
+    font-size: 1.2rem;
+
+  }
+  .textExpansion, .textExpansionMain {
+    font-size: 0.8rem;
+    line-height: 1.1;
+    color: $text;
+    padding-top: 6px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .textExpansion:hover, .textExpansionMain:hover {
+    color: $primary;
+    transition: all 0.3s;
+  }
+  .textExpansionMain {
+    line-height: 1;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: $primary
+  }
 }
 
-.catalogTitle {
-  text-align: center;
-  font-size: 1.5rem;
+@media screen and (min-width: 600px) and (max-width: 960px) {
+  .catalogTitle {
+    text-align: center;
+    font-size: 1.5rem;
+  }
+
+  .v-expansion-panel {
+    color: $text;
+    background-color: $background;
+  }
+
+  .titleLeftInExpansion {
+    font-size: 1.3rem;
+
+  }
+  .textExpansion, .textExpansionMain {
+    font-size: 0.9rem;
+    line-height: 1.1;
+    color: $text;
+    padding-top: 6px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .textExpansion:hover, .textExpansionMain:hover {
+    color: $primary;
+    transition: all 0.3s;
+  }
+  .textExpansionMain {
+    line-height: 1;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: $primary
+  }
 }
 
-.myBtnVCard {
-  color: $primary;
-  background-color: $background;
-  font-weight: 600;
+@media screen and (min-width: 960px) and (max-width: 1280px) {
+  .catalogTitle {
+    text-align: center;
+    font-size: 1.5rem;
+  }
+
+  .v-expansion-panel {
+    color: $text;
+    background-color: $background;
+  }
+
+  .titleLeftInExpansion {
+    font-size: 1.3rem;
+
+  }
+  .textExpansion, .textExpansionMain {
+    font-size: 0.9rem;
+    line-height: 1.1;
+    color: $text;
+    padding-top: 6px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .textExpansion:hover, .textExpansionMain:hover {
+    color: $primary;
+    transition: all 0.3s;
+  }
+  .textExpansionMain {
+    line-height: 1;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: $primary
+  }
 }
 
-.v-expansion-panel {
-  color: $text;
-  background-color: $background;
-}
-.titleLeftInExpansion {
-  font-size: 1.1rem;
+@media screen and (min-width: 1280px) and (max-width: 1920px) {
+  .catalogTitle {
+    text-align: center;
+    font-size: 1.5rem;
+  }
 
+  .v-expansion-panel {
+    color: $text;
+    background-color: $background;
+  }
+
+  .titleLeftInExpansion {
+    font-size: 1.3rem;
+
+  }
+  .textExpansion, .textExpansionMain {
+    font-size: 1rem;
+    line-height: 1.1;
+    color: $text;
+    padding-top: 6px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .textExpansion:hover, .textExpansionMain:hover {
+    color: $primary;
+    transition: all 0.3s;
+  }
+  .textExpansionMain {
+    line-height: 1;
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: $primary
+  }
 }
-.textExpansion, .textExpansionMain {
-  color: $text;
-  padding-top: 4px;
-  text-decoration: none;
-  transition: all 0.3s;
+
+@media screen and (min-width: 1920px) and (max-width: 2560px) {
+  .catalogTitle {
+    text-align: center;
+    font-size: 1.6rem;
+  }
+
+  .v-expansion-panel {
+    color: $text;
+    background-color: $background;
+  }
+
+  .titleLeftInExpansion {
+    font-size: 1.4rem;
+
+  }
+  .textExpansion, .textExpansionMain {
+    font-size: 1.1rem;
+    line-height: 1.1;
+    color: $text;
+    padding-top: 6px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .textExpansion:hover, .textExpansionMain:hover {
+    color: $primary;
+    transition: all 0.3s;
+  }
+  .textExpansionMain {
+    line-height: 1;
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: $primary;
+  }
 }
-.textExpansion:hover, .textExpansionMain:hover {
-  color: $primary;
-  transition: all 0.3s;
+
+@media screen and (min-width: 2560px) {
+  .catalogTitle {
+    text-align: center;
+    font-size: 1.6rem;
+  }
+
+  .v-expansion-panel {
+    color: $text;
+    background-color: $background;
+  }
+
+  .titleLeftInExpansion {
+    font-size: 1.3rem;
+
+  }
+  .textExpansion, .textExpansionMain {
+    font-size: 1.4rem;
+    line-height: 1.1;
+    color: $text;
+    padding-top: 6px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .textExpansion:hover, .textExpansionMain:hover {
+    color: $primary;
+    transition: all 0.3s;
+  }
+  .textExpansionMain {
+    line-height: 1;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: $primary;
+  }
 }
-.textExpansionMain {
-  font-size: 1.2rem;
-  margin-bottom: 12px;
-}
+
 </style>

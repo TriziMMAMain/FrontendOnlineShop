@@ -1,40 +1,23 @@
 <script setup="">
-
 // core
 import {computed, onMounted, ref} from 'vue'
-//
+import _ from 'lodash'
 import {useDisplay} from 'vuetify'
-
-const {name} = useDisplay()
-import {useRoute} from 'vue-router'
-
-const router = useRouter()
-// store
 import {useBasketStore} from '../../stores/counterBasket.js'
 import {useInstrumentStore} from '../../stores/counter.js'
 import {useRouter} from "vue-router/dist/vue-router";
 import axios from "axios";
+import {ProccesingSuccessfuly} from "../../notification/toasting";
 
-const {
-  filterCrodlessInstrument,
-  filterGasolineInstrument,
-  filterNetworkInstrument,
-  filterPneumotoolInstrument
-} = useInstrumentStore()
-filterCrodlessInstrument()
-filterGasolineInstrument()
-filterNetworkInstrument()
-filterPneumotoolInstrument()
+import {useRoute} from 'vue-router'
+const {name} = useDisplay()
+const router = useRouter()
 
+const {filterByNameInstrument, postAxiosInstrumentById} = useInstrumentStore()
 const {
   getLocalStorageInBasketObject,
-  getBasket,
-  basketArray,
-  importBasketId,
-  findByCordlessID,
-  findByGasolineID,
-  findByNetworkID,
-  findByPneuomotoolID
+  postAxiosUserById,
+  fetchingUserId,
 } = useBasketStore()
 getLocalStorageInBasketObject()
 
@@ -68,15 +51,65 @@ const heightFunc = () => {
     return '36'
   }
 }
-
-const deleteArray = () => {
-  localStorage.setItem("basket_object", JSON.stringify([]))
+const widthFuncVBtnBasket = () => {
+  if (name.value === 'xxl') {
+    return '48'
+  } else if (name.value === 'xl') {
+    return '48'
+  } else if (name.value === 'lg') {
+    return '32'
+  } else if (name.value === 'md') {
+    return '32'
+  } else if (name.value === 'sm') {
+    return '32'
+  } else if (name.value === 'xs') {
+    return '32'
+  }
 }
+const heightFuncVBtnBasket = () => {
+  if (name.value === 'xxl') {
+    return '48'
+  } else if (name.value === 'xl') {
+    return '48'
+  } else if (name.value === 'lg') {
+    return '32'
+  } else if (name.value === 'md') {
+    return '32'
+  } else if (name.value === 'sm') {
+    return '32'
+  } else if (name.value === 'xs') {
+    return '32'
+  }
+}
+const sizeFuncVBtnBasket = () => {
+  if (name.value === 'xxl') {
+    return 'large'
+  } else if (name.value === 'xl') {
+    return 'default'
+  } else if (name.value === 'lg') {
+    return 'x-small'
+  } else if (name.value === 'md') {
+    return 'x-small'
+  } else if (name.value === 'sm') {
+    return 'x-small'
+  } else if (name.value === 'xs') {
+    return 'x-small'
+  }
+}
+
+// Basket, Amount
+
+let counterTrueFalseInBasket = ref(false)
 
 const arrayObjectsInInstrumentCopy = JSON.parse(localStorage.getItem("basket_object"))
 
 let arrayAmount = []
 let arraySum = []
+
+
+const deleteArray = () => {
+  localStorage.setItem("basket_object", JSON.stringify([]))
+}
 
 const forIArray = (array) => {
   for (let i = 0; i < array.length; i++) {
@@ -96,7 +129,6 @@ const forIArrayAmount = (array) => {
   localStorage.setItem("basket_array_amount", JSON.stringify(numberInAmount.value))
 }
 forIArrayAmount(arrayAmount)
-
 const forIArraySum = (array) => {
   for (let i = 0; i < array.length; i++) {
     numberInPriceSum.value = numberInPriceSum.value + array[i]
@@ -105,36 +137,27 @@ const forIArraySum = (array) => {
 }
 forIArraySum(arraySum)
 
-const linkInSearch = ref('/search/instrument/id/')
+
 const clickInBasket = async (array) => {
-  linkInSearch.value = linkInSearch.value + array.id
-  const data = ref({
-    string: array.name
-  })
-  const responseData = await axios.post('http://localhost:3000/api/instrument/filter/name', data.value)
-
-
+  try {
+    const data = ref({
+      string: array.name
+    })
+    if (await postAxiosInstrumentById(data.value)) {
+      await filterByNameInstrument(array.name)
+      await router.push({name: 'searchInstrumentByName', params: {id: array.id}})
+    }
+    window.location.reload()
+  } catch (err) {
+    console.log(err);
+  }
 }
+
+// User
 
 const userIdData = ref('')
 const userIdDataMain = ref('')
 const titleInProcessing = ref('Ожидание обработки')
-
-const fetchingUserIdFilter = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/user/id');
-    if (response.ok) {
-      userIdDataMain.value = await response.json();
-      userIdData.value = userIdDataMain.value[0].instrumentArray
-      console.log(userIdData.value);
-    } else {
-      throw new Error(`Error fetching user: ${response.statusText}`);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 const trueOrFalseDiv = ref(JSON.parse(localStorage.getItem("basket_click_user")))
 
 const getIdUser = async () => {
@@ -142,28 +165,48 @@ const getIdUser = async () => {
   const dataUserId = ref({
     userId: userId.value
   })
-  const responseDataUserId = await axios.post('http://localhost:3000/api/user/id', dataUserId.value)
-  setTimeout(() => {
-    fetchingUserIdFilter()
-        .then(() => {
-          console.log(`Fetching user id good`);
-          if (userIdDataMain.value[0].processing === 'Ожидание обработки') {
-            titleInProcessing.value = 'Ожидание обработки'
-          } else if (userIdDataMain.value[0].processing === 'Принят в обработку') {
-            titleInProcessing.value = 'Принят в обработку'
-          } else if (userIdDataMain.value[0].processing === 'Отклонен в обработке') {
-            titleInProcessing.value = 'Отклонен в обработке'
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
+  if (await postAxiosUserById(dataUserId.value)) {
+    if (await fetchingUserId()) {
+      userIdDataMain.value = JSON.parse(localStorage.getItem("user_id"))
+      userIdData.value = userIdDataMain.value[0].instrumentArray
+      console.log(`Fetching user id good`);
+      if (userIdDataMain.value[0].processing === 'Ожидание обработки') {
+        titleInProcessing.value = 'Ожидание обработки'
+      } else if (userIdDataMain.value[0].processing === 'Принят в обработку') {
+        titleInProcessing.value = 'Принят в обработку'
+      } else if (userIdDataMain.value[0].processing === 'Отклонен в обработке') {
+        titleInProcessing.value = 'Отклонен в обработке'
+      }
+    } else {
+      console.log('error server');
+    }
+  } else {
+    console.log('error server');
+  }
 
-  }, 100)
 
 }
 
-onMounted(getIdUser)
+const clickToDeleteInBasket = (name) => {
+  const data = ref('')
+  data.value = _.remove(arrayObjectsInInstrumentCopy, {name: name})
+  localStorage.setItem("basket_object", JSON.stringify(arrayObjectsInInstrumentCopy))
+  ProccesingSuccessfuly(`Вы успешно удалили "${name}"`)
+  setTimeout(() => {
+    window.location.reload()
+  }, 2000)
+}
+
+onMounted(async () => {
+  await getIdUser()
+
+
+  if (arrayObjectsInInstrumentCopy.length === 0) {
+    counterTrueFalseInBasket.value = true
+  } else {
+    counterTrueFalseInBasket.value = false
+  }
+})
 </script>
 
 <template>
@@ -177,41 +220,54 @@ onMounted(getIdUser)
   </div>
   <div class="blockBasketInSite">
     <div class="blockFirstBasket">
-      <div class="blockMainBasketInfo d-flex ">
-        <div class="blockMainBasketInfoText">
-          <h1 class="blockMainBasketInfoTextTitle">Наименование</h1>
-        </div>
-        <div class="blockMainBasketPriceAmountSum d-flex">
-          <h1 class="blockMainBasketPrice">Цена</h1>
-          <h1 class="blockMainBasketAmount">Кол-во</h1>
-          <h1 class="blockMainBasketSum">Сумма</h1>
-        </div>
+      <div class="blockTrueInBasketClear"
+           v-if="counterTrueFalseInBasket">
+        <h1 class="blockTrueInBasketClearTitle">Ваша корзина пока пуста</h1>
+        <p class="blockTrueInBasketClearText">Чтобы добавить товар, перейдите в наш каталог, выберите интересующую
+          вас категорию, затем выберите тип инструмента и нажмите на кнопку "Купить", или воспользуйтесь поисковой
+          строкой. После этого выбранный вами товар отобразится в корзине.</p>
       </div>
-
-
-
-      <div class="blockVCardFirstBasketDiv">
-        <div class="blockVCardFirstBasket"
-             v-for="item in arrayObjectsInInstrumentCopy">
-          <div class="blockVCardFirstBasketItemPhotoMain d-flex justify-center align-center">
-            <img :src="item.imgTitle" alt="" class="blockVCardFirstBasketItemPhoto">
+      <div v-else>
+        <div class="blockMainBasketInfo d-flex ">
+          <div class="blockMainBasketInfoText">
+            <h1 class="blockMainBasketInfoTextTitle">Наименование</h1>
           </div>
-          <div class="blockVCardFirstBasketItemInfoText">
-            <p class="blockVCardFirstBasketItemSubtitle">Код: {{ item.id }}</p>
-            <a
-                @click="clickInBasket(item)"
-                :href="linkInSearch"
-                class="blockVCardFirstBasketItemTitle">{{ item.name }}</a>
+          <div class="blockMainBasketPriceAmountSum d-flex">
+            <h1 class="blockMainBasketPrice">Цена</h1>
+            <h1 class="blockMainBasketAmount">Кол-во</h1>
+            <h1 class="blockMainBasketSum">Сумма</h1>
           </div>
-          <div class="blockVCardFirstBasketItemPriceAmountSum">
-            <div class="blockVCardFirstBasketItemPriceMain d-flex justify-center align-center">
-              <h1 class="blockVCardFirstBasketItemPriceMainTitle">{{ item.price }} р.</h1>
+        </div>
+        <div class="blockVCardFirstBasketDiv">
+          <div class="blockVCardFirstBasket"
+               v-for="item in arrayObjectsInInstrumentCopy">
+            <div class="absoluteCloseBlock">
+              <v-btn
+                  class="absoluteCloseVBtn"
+                  :width="widthFuncVBtnBasket()"
+                  :height="heightFuncVBtnBasket()"
+                  :size="sizeFuncVBtnBasket()"
+                  @click="clickToDeleteInBasket(item.name)" icon="fa-solid fa-x"></v-btn>
             </div>
-            <div class="blockVCardFirstBasketItemAmountMain d-flex justify-center align-center">
-              <h1 class="blockVCardFirstBasketItemAmountMainTitle">{{ item.orderSum }} шт</h1>
+            <div class="blockVCardFirstBasketItemPhotoMain d-flex justify-center align-center">
+              <img :src="item.imgTitle" alt="" class="blockVCardFirstBasketItemPhoto">
             </div>
-            <div class="blockVCardFirstBasketItemSumMain d-flex justify-center align-center">
-              <h1 class="blockVCardFirstBasketItemSumMainTitle">{{ item.priceOrder }} р.</h1>
+            <div class="blockVCardFirstBasketItemInfoText">
+              <p class="blockVCardFirstBasketItemSubtitle">Код: {{ item.id }}</p>
+              <h1
+                  @click="clickInBasket(item)"
+                  class="blockVCardFirstBasketItemTitle">{{ item.name }}</h1>
+            </div>
+            <div class="blockVCardFirstBasketItemPriceAmountSum">
+              <div class="blockVCardFirstBasketItemPriceMain d-flex justify-center align-center">
+                <h1 class="blockVCardFirstBasketItemPriceMainTitle">{{ item.price }} р.</h1>
+              </div>
+              <div class="blockVCardFirstBasketItemAmountMain d-flex justify-center align-center">
+                <h1 class="blockVCardFirstBasketItemAmountMainTitle">{{ item.orderSum }} шт</h1>
+              </div>
+              <div class="blockVCardFirstBasketItemSumMain d-flex justify-center align-center">
+                <h1 class="blockVCardFirstBasketItemSumMainTitle">{{ item.priceOrder }} р.</h1>
+              </div>
             </div>
           </div>
         </div>
@@ -227,10 +283,9 @@ onMounted(getIdUser)
           </div>
           <div class="blockVCardFirstBasketItemInfoText">
             <p class="blockVCardFirstBasketItemSubtitle">Код: {{ item.id }}</p>
-            <a
+            <h1
                 @click="clickInBasket(item)"
-                :href="linkInSearch"
-                class="blockVCardFirstBasketItemTitle">{{ item.name }}</a>
+                class="blockVCardFirstBasketItemTitle">{{ item.name }}</h1>
           </div>
           <div class="blockVCardFirstBasketItemPriceAmountSum">
             <div class="blockVCardFirstBasketItemPriceMain d-flex justify-center align-center">
@@ -245,7 +300,6 @@ onMounted(getIdUser)
           </div>
         </div>
       </div>
-
     </div>
     <div class="blockSecondBasket ">
       <div class="blockSecondBasketDiv">
@@ -264,6 +318,7 @@ onMounted(getIdUser)
               href="/checkout/"
               :width="widthFunc()"
               :height="heightFunc()"
+              :disabled="counterTrueFalseInBasket"
               class="secondBasketVBtnDesign"
           >Оформить заказ
           </v-btn>
@@ -333,6 +388,52 @@ onMounted(getIdUser)
   }
 
   // FIRST BASKET
+
+  // True block
+
+  .blockTrueInBasketClear {
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .blockTrueInBasketClearTitle {
+    font-size: 1.5rem;
+    color: $primary;
+  }
+
+  .blockTrueInBasketClearText {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding-top: 10px;
+    color: $text;
+  }
+
+  //
+
+  // Close Basket Item
+
+  .absoluteCloseBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .absoluteCloseVBtn {
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .absoluteCloseVBtn:hover {
+    color: $primary;
+    background-color: $background;
+    transition: all 0.3s ease-in-out;
+  }
+
+  //
 
   .blockFirstBasket {
     width: 70%;
@@ -430,6 +531,7 @@ onMounted(getIdUser)
   .blockVCardFirstBasketItemTitle {
     color: $text;
     font-size: 0.8rem;
+    font-weight: 550;
   }
 
   // PRICE AMOUNT SUM
@@ -598,6 +700,52 @@ onMounted(getIdUser)
 
   // FIRST BASKET
 
+  // True block
+
+  .blockTrueInBasketClear {
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .blockTrueInBasketClearTitle {
+    font-size: 1.5rem;
+    color: $primary;
+  }
+
+  .blockTrueInBasketClearText {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding-top: 10px;
+    color: $text;
+  }
+
+  //
+
+  // Close Basket Item
+
+  .absoluteCloseBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .absoluteCloseVBtn {
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .absoluteCloseVBtn:hover {
+    color: $primary;
+    background-color: $background;
+    transition: all 0.3s ease-in-out;
+  }
+
+  //
+
   .blockFirstBasket {
     width: 70%;
     min-height: 100vh;
@@ -694,6 +842,7 @@ onMounted(getIdUser)
   .blockVCardFirstBasketItemTitle {
     color: $text;
     font-size: 0.8rem;
+    font-weight: 550;
   }
 
   // PRICE AMOUNT SUM
@@ -862,6 +1011,52 @@ onMounted(getIdUser)
 
   // FIRST BASKET
 
+  // True block
+
+  .blockTrueInBasketClear {
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .blockTrueInBasketClearTitle {
+    font-size: 1.7rem;
+    color: $primary;
+  }
+
+  .blockTrueInBasketClearText {
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding-top: 10px;
+    color: $text;
+  }
+
+  //
+
+  // Close Basket Item
+
+  .absoluteCloseBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .absoluteCloseVBtn {
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .absoluteCloseVBtn:hover {
+    color: $primary;
+    background-color: $background;
+    transition: all 0.3s ease-in-out;
+  }
+
+  //
+
   .blockFirstBasket {
     width: 70%;
     min-height: 100vh;
@@ -961,6 +1156,7 @@ onMounted(getIdUser)
   .blockVCardFirstBasketItemTitle {
     color: $text;
     font-size: 0.8rem;
+    font-weight: 550;
   }
 
   // PRICE AMOUNT SUM
@@ -1129,6 +1325,52 @@ onMounted(getIdUser)
 
   // FIRST BASKET
 
+  // True block
+
+  .blockTrueInBasketClear {
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .blockTrueInBasketClearTitle {
+    font-size: 2rem;
+    color: $primary;
+  }
+
+  .blockTrueInBasketClearText {
+    font-size: 1rem;
+    font-weight: 500;
+    padding-top: 30px;
+    color: $text;
+  }
+
+  //
+
+  // Close Basket Item
+
+  .absoluteCloseBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .absoluteCloseVBtn {
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .absoluteCloseVBtn:hover {
+    color: $primary;
+    background-color: $background;
+    transition: all 0.3s ease-in-out;
+  }
+
+  //
+
   .blockFirstBasket {
     width: 70%;
     min-height: 100vh;
@@ -1229,6 +1471,7 @@ onMounted(getIdUser)
   .blockVCardFirstBasketItemTitle {
     color: $text;
     font-size: 1.2rem;
+    font-weight: 550;
   }
 
   // PRICE AMOUNT SUM
@@ -1397,6 +1640,51 @@ onMounted(getIdUser)
 
   // FIRST BASKET
 
+  // True block
+
+  .blockTrueInBasketClear {
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .blockTrueInBasketClearTitle {
+    font-size: 2.5rem;
+    color: $primary;
+  }
+
+  .blockTrueInBasketClearText {
+    font-size: 1.3rem;
+    font-weight: 500;
+    padding-top: 30px;
+    color: $text;
+  }
+
+  //
+
+  // Close Basket Item
+
+  .absoluteCloseBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .absoluteCloseVBtn {
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .absoluteCloseVBtn:hover {
+    color: $primary;
+    background-color: $background;
+    transition: all 0.3s ease-in-out;
+  }
+
+  //
   .blockFirstBasket {
     width: 70%;
     min-height: 100vh;
@@ -1494,6 +1782,7 @@ onMounted(getIdUser)
   .blockVCardFirstBasketItemTitle {
     color: $text;
     font-size: 1.5rem;
+    font-weight: 550;
   }
 
   // PRICE AMOUNT SUM
@@ -1662,6 +1951,52 @@ onMounted(getIdUser)
 
   // FIRST BASKET
 
+  // True block
+
+  .blockTrueInBasketClear {
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .blockTrueInBasketClearTitle {
+    font-size: 2.5rem;
+    color: $primary;
+  }
+
+  .blockTrueInBasketClearText {
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding-top: 30px;
+    color: $text;
+  }
+
+  //
+
+  // Close Basket Item
+
+  .absoluteCloseBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .absoluteCloseVBtn {
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .absoluteCloseVBtn:hover {
+    color: $primary;
+    background-color: $background;
+    transition: all 0.3s ease-in-out;
+  }
+
+  //
+
   .blockFirstBasket {
     width: 70%;
     min-height: 100vh;
@@ -1723,6 +2058,7 @@ onMounted(getIdUser)
     margin-top: 50px;
     padding: 25px;
     border-radius: 20px;
+    position: relative;
     box-shadow: 0 0 10.5px rgba(0, 0, 0, 0.24),
     0 0 84px rgba(0, 0, 0, 0.12);
     background-color: $background;
@@ -1756,6 +2092,7 @@ onMounted(getIdUser)
   .blockVCardFirstBasketItemTitle {
     color: $text;
     font-size: 1.8rem;
+    font-weight: 550;
   }
 
   // PRICE AMOUNT SUM

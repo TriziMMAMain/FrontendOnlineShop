@@ -1,12 +1,14 @@
 <script setup="">
 // core
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
+import {useInstrumentStore} from '../../../stores/counter'
 import BasketComponentDynamic from "../../Basket/basketComponentDynamic.vue"
 import {Promise} from "core-js";
-import {ProccesingSuccessfuly} from "../../../notification/toasting";
+import {ProccesingSuccessfuly, ProcessingError} from "../../../notification/toasting";
 import {useDisplay} from 'vuetify'
 
 const {name} = useDisplay()
+const {fetchingInstrumentById} = useInstrumentStore()
 
 const widthFuncInBtn = () => {
   if (name.value === 'xs') {
@@ -56,54 +58,44 @@ const heightFuncInCarousel = () => {
 // local
 const cordlessLocalCopy = ref([])
 const cordlessLocal = ref([])
-const loadingComponent = ref(true)
+const loadingComponent = ref(false)
+const trueOrFalsePhoto = ref(false)
 //
 
-const fetchingInstrumentFilterById = async () => {
+const updateLocalData = async () => {
+  cordlessLocal.value = JSON.parse(localStorage.getItem('filter_by_id'))
+  cordlessLocalCopy.value = cordlessLocal.value[0]
+
+  for (let i = 0; i < cordlessLocalCopy.value.imgArray.length; i++) {
+    try {
+      cordlessLocalCopy.value.imgArray[i].src
+    } catch {
+      trueOrFalsePhoto.value = false
+      return
+    }
+  }
+
+  trueOrFalsePhoto.value = true
+}
+
+onMounted(async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/instruments/get/instrument-find-by-id');
-    if (response.ok) {
-      cordlessLocal.value = await response.json()
-      cordlessLocalCopy.value = await cordlessLocal.value[0]
+    await fetchingInstrumentById()
+    loadingComponent.value = JSON.parse(localStorage.getItem('fetching_instrument_by_id'))
+
+    if (loadingComponent.value) {
+      await updateLocalData()
     } else {
-      throw new Error(`Error fetching instrument: ${response.statusText}`);
+      console.log('error 500')
+      ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
     }
-  } catch (error) {
-    console.log(error);
+
+    localStorage.setItem('fetching_instrument_by_id', JSON.stringify(false))
+  } catch (err) {
+    console.log(err);
   }
-};
-let trueOrFalsePhoto = ref(false)
-const cordlessLocalCopyFun = async () => {
-  try {
-    await Promise.all([
-      fetchingInstrumentFilterById()
-          .then(() => {
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-    ])
 
-    const isImgArrayValid = async () => {
-      for (let i = 0; i < cordlessLocalCopy.value.imgArray.length; i++) {
-        try {
-          new URL(cordlessLocalCopy.value.imgArray[i].src);
-        } catch (_) {
-          trueOrFalsePhoto.value = false
-          return false; // если возникла ошибка, вернуть false
-        }
-      }
-      trueOrFalsePhoto.value = true
-      return true; // если все изображения были загружены успешно, вернуть true
-    }
-    await isImgArrayValid()
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-cordlessLocalCopyFun();
-
+})
 
 const items = [
   {
@@ -134,10 +126,9 @@ let counterClickBasket = ref(false)
 
 const buyInBasket = (id) => {
   counterClick.value = counterClick.value + 1
-  counterClickBasket.value = !counterClickBasket.value
+  counterClickBasket.value = true
   localStorage.setItem("basket_click", JSON.stringify(counterClickBasket.value))
   basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
-  console.log(id)
   localStorage.setItem("basket_id", JSON.stringify(id))
 }
 
@@ -147,9 +138,9 @@ const buyInBasket = (id) => {
 
 <template>
   <v-container
-               fluid
-               class="cardMainShopSideContainer w-100"
-               v-for="i in [cordlessLocalCopy]"
+      fluid
+      class="cardMainShopSideContainer w-100"
+      v-for="i in [cordlessLocalCopy]"
   >
     <div class="basketComponentDynamicBlockMain"
          v-if="basketClick">
@@ -195,12 +186,14 @@ const buyInBasket = (id) => {
           </v-carousel>
         </div>
         <div class="d-flex justify-center align-center"
-             v-else><v-progress-circular
-            color="primary"
-            indeterminate
-            :size="128"
-            :width="12"
-        ></v-progress-circular></div>
+             v-else>
+          <v-progress-circular
+              color="primary"
+              indeterminate
+              :size="128"
+              :width="12"
+          ></v-progress-circular>
+        </div>
       </div>
       <div class="cardMainShopSideFeatureMain d-flex justify-start flex-nowrap align-start mt-10">
         <div class="cardMainShopSideFeature pa-4">
@@ -224,7 +217,8 @@ const buyInBasket = (id) => {
             <p class="vCardTextShopPriceComponent">
               Есть на складе в количестве {{ i.availability }} шт
             </p>
-            <p class="vCardTextShopPriceComponentDelivery">Можно забрать самоовывозом или вызвать курьера на дом бесплатно</p>
+            <p class="vCardTextShopPriceComponentDelivery">Можно забрать самоовывозом или вызвать курьера на дом
+              бесплатно</p>
             <div class="vCardBtnShopPriceComponentMain d-flex justify-center">
               <v-btn class="vCardBtnShopPriceComponent"
                      :width="widthFuncInBtn()"
@@ -405,11 +399,9 @@ const buyInBasket = (id) => {
     height: 350px;
     padding: 15px;
     border-radius: 10px;
-    box-shadow:
-        0 1.5px 5.7px rgba(0, 0, 0, 0.24),
-        0 4.9px 19.2px rgba(0, 0, 0, 0.143),
-        0 22px 86px rgba(0, 0, 0, 0.097)
-  ;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
   }
 
   .vCardFeatureTitle {
@@ -665,11 +657,9 @@ const buyInBasket = (id) => {
     height: 350px;
     padding: 15px;
     border-radius: 10px;
-    box-shadow:
-        0 1.5px 5.7px rgba(0, 0, 0, 0.24),
-        0 4.9px 19.2px rgba(0, 0, 0, 0.143),
-        0 22px 86px rgba(0, 0, 0, 0.097)
-  ;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
   }
 
   .vCardFeatureTitle {
@@ -925,11 +915,9 @@ const buyInBasket = (id) => {
     height: 350px;
     padding: 25px;
     border-radius: 10px;
-    box-shadow:
-        0 1.5px 5.7px rgba(0, 0, 0, 0.24),
-        0 4.9px 19.2px rgba(0, 0, 0, 0.143),
-        0 22px 86px rgba(0, 0, 0, 0.097)
-  ;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
   }
 
   .vCardFeatureTitle {
@@ -1183,11 +1171,9 @@ const buyInBasket = (id) => {
     height: 450px;
     padding: 25px;
     border-radius: 10px;
-    box-shadow:
-        0 1.5px 5.7px rgba(0, 0, 0, 0.24),
-        0 4.9px 19.2px rgba(0, 0, 0, 0.143),
-        0 22px 86px rgba(0, 0, 0, 0.097)
-  ;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
   }
 
   .vCardFeatureTitle {
@@ -1441,11 +1427,9 @@ const buyInBasket = (id) => {
     height: 450px;
     padding: 25px;
     border-radius: 10px;
-    box-shadow:
-        0 1.5px 5.7px rgba(0, 0, 0, 0.24),
-        0 4.9px 19.2px rgba(0, 0, 0, 0.143),
-        0 22px 86px rgba(0, 0, 0, 0.097)
-  ;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
   }
 
   .vCardFeatureTitle {
@@ -1699,11 +1683,9 @@ const buyInBasket = (id) => {
     height: 450px;
     padding: 25px;
     border-radius: 10px;
-    box-shadow:
-        0 1.5px 5.7px rgba(0, 0, 0, 0.24),
-        0 4.9px 19.2px rgba(0, 0, 0, 0.143),
-        0 22px 86px rgba(0, 0, 0, 0.097)
-  ;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
   }
 
   .vCardFeatureTitle {
