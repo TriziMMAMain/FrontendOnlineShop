@@ -1,0 +1,936 @@
+<script setup="">
+// - Import
+import {onMounted, ref} from 'vue'
+import axios from 'axios'
+import {useRouter} from 'vue-router'
+import {useInstrumentStore} from '../../stores/counter.js'
+import {useBasketStore} from "../../stores/counterBasket.js";
+import {useDisplay} from 'vuetify'
+import {Promise} from "core-js";
+import _ from "lodash";
+import {ProcessingError} from "../../notification/toasting";
+
+const {name} = useDisplay()
+const {postAxiosInstrumentById, fetchingInstrumentByName} = useInstrumentStore()
+const {importBasketId} = useBasketStore()
+const router = useRouter()
+
+const heightFunc = () => {
+  if (name.value === 'xs') {
+    return '230'
+  } else if (name.value === 'sm') {
+    return '200'
+  } else if (name.value === 'md') {
+    return '250'
+  } else if (name.value === 'lg') {
+    return '300'
+  } else if (name.value === 'xl') {
+    return '400'
+  } else if (name.value === 'xxl') {
+    return '400'
+  }
+}
+const weightFunc = () => {
+  if (name.value === 'xs') {
+    return '500'
+  } else if (name.value === 'sm') {
+    return '550'
+  } else if (name.value === 'md') {
+    return '900'
+  } else if (name.value === 'lg') {
+    return '1200'
+  } else if (name.value === 'xl') {
+    return '1700'
+  } else if (name.value === 'xxl') {
+    return '1100'
+  }
+}
+const firstColFunc = () => {
+  if (name.value === 'xs') {
+    return '3'
+  } else if (name.value === 'sm') {
+    return '3'
+  } else if (name.value === 'md') {
+    return '3'
+  } else if (name.value === 'lg') {
+    return '3'
+  } else if (name.value === 'xl') {
+    return '3'
+  } else if (name.value === 'xxl') {
+    return '3'
+  }
+}
+const secondColFunc = () => {
+  if (name.value === 'xs') {
+    return '6'
+  } else if (name.value === 'sm') {
+    return '6'
+  } else if (name.value === 'md') {
+    return '6'
+  } else if (name.value === 'lg') {
+    return '6'
+  } else if (name.value === 'xl') {
+    return '6'
+  } else if (name.value === 'xxl') {
+    return '6'
+  }
+}
+const thirdColFunc = () => {
+  if (name.value === 'xs') {
+    return '3'
+  } else if (name.value === 'sm') {
+    return '3'
+  } else if (name.value === 'md') {
+    return '3'
+  } else if (name.value === 'lg') {
+    return '3'
+  } else if (name.value === 'xl') {
+    return '3'
+  } else if (name.value === 'xxl') {
+    return '3'
+  }
+}
+const weightFuncVBtn = () => {
+  if (name.value === 'xs') {
+    return '170'
+  } else if (name.value === 'sm') {
+    return '110'
+  } else if (name.value === 'md') {
+    return '170'
+  } else if (name.value === 'lg') {
+    return '220'
+  } else if (name.value === 'xl') {
+    return '300'
+  } else if (name.value === 'xxl') {
+    return '220'
+  }
+}
+const heightFuncVBtn = () => {
+  if (name.value === 'xs') {
+    return '32'
+  } else if (name.value === 'sm') {
+    return '32'
+  } else if (name.value === 'md') {
+    return '48'
+  } else if (name.value === 'lg') {
+    return '48'
+  } else if (name.value === 'xl') {
+    return '62'
+  } else if (name.value === 'xxl') {
+    return '62'
+  }
+}
+
+const instrumentFilterName = ref('')
+const arrayLocalStorage = ref([])
+
+
+let dataInstrument = ref([])
+
+
+onMounted(() => {
+
+})
+
+
+const checkCordlessInstrument = async (idInstrument, routerPush) => {
+  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
+    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
+  }
+  postAxiosInstrumentById(dataInstrument.value)
+  localStorage.setItem("id_cordless", JSON.stringify(idInstrument))
+  await router.push({name: routerPush, params: {id: idInstrument}})
+  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
+}
+const checkGasolineInstrument = async (idInstrument, routerPush) => {
+  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
+    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
+  }
+  postAxiosInstrumentById(dataInstrument.value)
+  localStorage.setItem("id_gasoline", JSON.stringify(idInstrument))
+  await router.push({name: routerPush, params: {id: idInstrument}})
+  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
+}
+const checkNetworkInstrument = async (idInstrument, routerPush) => {
+  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
+    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
+  }
+  postAxiosInstrumentById(dataInstrument.value)
+  localStorage.setItem("id_network", JSON.stringify(idInstrument))
+  await router.push({name: routerPush, params: {id: idInstrument}})
+  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
+}
+const checkPneumoInstrument = async (idInstrument, routerPush) => {
+  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
+    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
+  }
+  postAxiosInstrumentById(dataInstrument.value)
+  localStorage.setItem("id_pneumotool", JSON.stringify(idInstrument))
+  await router.push({name: routerPush, params: {id: idInstrument}})
+  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
+}
+
+const addInBasketIdCordless = (idInstrument) => {
+  localStorage.setItem("id_cordless", JSON.stringify(idInstrument))
+  localStorage.setItem("basket_click", JSON.stringify(true))
+}
+const addInBasketIdGasoline = (idInstrument) => {
+  localStorage.setItem("id_gasoline", JSON.stringify(idInstrument))
+  localStorage.setItem("basket_click", JSON.stringify(true))
+}
+const addInBasketIdNetwork = (idInstrument) => {
+  localStorage.setItem("id_network", JSON.stringify(idInstrument))
+  localStorage.setItem("basket_click", JSON.stringify(true))
+}
+const addInBasketIdPneumo = (idInstrument) => {
+  localStorage.setItem("id_pneumotool", JSON.stringify(idInstrument))
+  localStorage.setItem("basket_click", JSON.stringify(true))
+}
+
+
+const viewDetails = async (id) => {
+
+  if (arrayLocalStorage.value[0].type === 'Аккумуляторный инструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная дрель-шуруповерт') {
+      // CORDLESS DRILL
+      await checkCordlessInstrument(id, 'cordlessInstrumentDrillsID')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная болгарка') {
+      //  CORDLESS GRINDERES
+      await checkCordlessInstrument(id, 'cordlessInstrumentGrindersID')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторный перфоратор') {
+      //  CORDLESS SCREWDRIVERS
+      await checkCordlessInstrument(id, 'cordlessInstrumentScrewdriversID')
+    }
+
+  }
+  if (arrayLocalStorage.value[0].type === 'Бензоинструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Бензогенератор') {
+      // GASOLINE GENERATOR
+      await checkGasolineInstrument(id, 'gasolineInstrumentGeneratorId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Бензиновый мотоблок') {
+      // GASOLINE MOTOBLOCK
+      await checkGasolineInstrument(id, 'gasolineInstrumentMotoblockId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Бензопила') {
+      // GASOLINE CHAINSAW
+      await checkGasolineInstrument(id, 'gasolineInstrumentChainsawId')
+    }
+  }
+  if (arrayLocalStorage.value[0].type === 'Сетевой инструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Дрель') {
+      // NETWORK DRILL
+      await checkNetworkInstrument(id, 'networkInstrumentDrillId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Лобзик электрический') {
+      // NETWORK FRETSAW
+      await checkNetworkInstrument(id, 'networkInstrumentFretsawId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Перфоратор') {
+      // NETWORK PERFORATOR
+      await checkNetworkInstrument(id, 'networkInstrumentPerforatorId')
+    }
+  }
+  if (arrayLocalStorage.value[0].type === 'Пневмоинструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Компрессор') {
+      // PNEUMO
+      await checkPneumoInstrument(id, 'pneumotoolInstrumentId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Пневматическая отбойная молотковая машина') {
+      // PNEUMO
+      await checkPneumoInstrument(id, 'pneumotoolInstrumentJackhammerId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Гвоздезабивной пистолет пневматический') {
+      // PNEUMO
+      await checkPneumoInstrument(id, 'pneumotoolInstrumentNailGunId')
+    }
+  }
+}
+
+// - Logical
+let counterClick = ref(0)
+
+const buyInBasket = async (id) => {
+  if (arrayLocalStorage.value[0].type === 'Аккумуляторный инструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная дрель-шуруповерт') {
+      // CORDLESS DRILL
+      addInBasketIdCordless(id)
+      await checkCordlessInstrument(id, 'cordlessInstrumentDrillsID')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная болгарка') {
+      //  CORDLESS GRINDERES
+      addInBasketIdCordless(id)
+      await checkCordlessInstrument(id, 'cordlessInstrumentGrindersID')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторный перфоратор') {
+      //  CORDLESS SCREWDRIVERS
+      addInBasketIdCordless(id)
+      await checkCordlessInstrument(id, 'cordlessInstrumentScrewdriversID')
+    }
+
+  }
+  if (arrayLocalStorage.value[0].type === 'Бензоинструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Бензогенератор') {
+      // GASOLINE GENERATOR
+      addInBasketIdGasoline(id)
+      await checkGasolineInstrument(id, 'gasolineInstrumentGeneratorId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Бензиновый мотоблок') {
+      // GASOLINE MOTOBLOCK
+      addInBasketIdGasoline(id)
+      await checkGasolineInstrument(id, 'gasolineInstrumentMotoblockId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Бензопила') {
+      // GASOLINE CHAINSAW
+      addInBasketIdGasoline(id)
+      await checkGasolineInstrument(id, 'gasolineInstrumentChainsawId')
+    }
+  }
+  if (arrayLocalStorage.value[0].type === 'Сетевой инструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Дрель') {
+      // NETWORK DRILL
+      addInBasketIdNetwork(id)
+      await checkNetworkInstrument(id, 'networkInstrumentDrillId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Лобзик электрический') {
+      // NETWORK FRETSAW
+      addInBasketIdNetwork(id)
+      await checkNetworkInstrument(id, 'networkInstrumentFretsawId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Перфоратор') {
+      // NETWORK PERFORATOR
+      addInBasketIdNetwork(id)
+      await checkNetworkInstrument(id, 'networkInstrumentPerforatorId')
+    }
+  }
+  if (arrayLocalStorage.value[0].type === 'Пневмоинструмент') {
+    if (arrayLocalStorage.value[0].typeThis === 'Компрессор') {
+      // PNEUMO
+      addInBasketIdPneumo(id)
+      await checkPneumoInstrument(id, 'pneumotoolInstrumentId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Пневматическая отбойная молотковая машина') {
+      // PNEUMO
+      addInBasketIdPneumo(id)
+      await checkPneumoInstrument(id, 'pneumotoolInstrumentJackhammerId')
+    } else if (arrayLocalStorage.value[0].typeThis === 'Гвоздезабивной пистолет пневматический') {
+      // PNEUMO
+      addInBasketIdPneumo(id)
+      await checkPneumoInstrument(id, 'pneumotoolInstrumentNailGunId')
+    }
+  }
+
+
+}
+</script>
+
+<template>
+  <!--        CARD -->
+  <v-card
+      :width="weightFunc()"
+      :height="heightFunc()"
+      color="background"
+      elevation="5"
+      class="vCardMain pa-5 mr-10 mb-16"
+      v-for="i in [instrumentFilterName]">
+    <v-row>
+      <!--      FIRST COL-->
+      <v-col :cols="firstColFunc()"
+             class="d-flex justify-center align-center">
+        <!--    CARD ITEM START-->
+        <v-card-item>
+          <div class="photoInCardBlock">
+            <img class="photoInCard" :src="i.imgTitle" alt="">
+          </div>
+          <v-card-subtitle class="vCardSubtitleMain">Код: {{ i.id }}</v-card-subtitle>
+        </v-card-item>
+        <!--    CARD ITEM END-->
+      </v-col>
+      <!--      SECOND COL-->
+      <v-col :cols="secondColFunc()"
+             class="pa-1">
+        <!--        TITLE-->
+        <div class="blockTitleCard">
+          <button @click="viewDetails(i.id)" class="cardTextHref mt-1">{{ i.name }}</button>
+        </div>
+        <!--        SPAN AND TEXT-->
+        <div
+            class="textCardFeatureMain">
+          <div v-for="item in i.featureTopTitle"
+               key="item"
+               class="textCardFeatureDiv">
+            <p class="textCardFeature">{{ item.featureTopTitleInfoTitle }}
+              <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></p></div>
+        </div>
+
+      </v-col>
+      <!--      THIRD COL-->
+      <v-col :cols="thirdColFunc()"
+             class="pa-1">
+        <!--    CARD ACTIONS START-->
+
+        <v-card-actions
+            class="d-flex justify-center flex-wrap pa-0 pr-1">
+          <p class="textCardPrice pt-3 pb-3">
+            {{ i.price }} рублей
+          </p>
+          <v-btn
+              @click="buyInBasket(i.id)"
+              elevation="1"
+              class="vBtnBuy"
+              :width="weightFuncVBtn()"
+              :height="heightFuncVBtn()"
+              prepend-icon="fa-solid fa-cart-shopping"
+          >
+            Купить
+          </v-btn>
+        </v-card-actions>
+        <p class="textCardAvailability">
+          В наличии имеется > {{ i.availability }}
+        </p>
+
+        <!--    CARD ACTIONS END-->
+      </v-col>
+    </v-row>
+  </v-card>
+  <!--        END CARD-->
+</template>
+
+<style lang="scss" scoped>
+// - import
+@import '../../assets/mixins';
+
+
+// Media
+
+@media screen and (max-width: 600px) {
+  /*  стили для xl-устройств */
+  .vCardMain {
+
+  }
+
+  .vCardSubtitleMain {
+    z-index: 1;
+    font-size: 0.6rem;
+    position: absolute;
+    bottom: 3px;
+    right: 30px;
+  }
+
+  .photoInCardBlock {
+    width: 100%;
+    height: 100%;
+  }
+
+  .photoInCard {
+    width: 120px;
+    height: 120px;
+  }
+
+  .blockTitleCard {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cardTextHref {
+    font-size: 0.8rem;
+    text-decoration: none;
+    text-align: center;
+    color: $textSpan;
+    font-weight: 500;
+  }
+
+  .textCardFeatureMain {
+    margin-top: 8px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
+  }
+
+  .textCardFeature {
+    font-size: 0.7rem;
+  }
+
+  .spanTextCard {
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .textCardPrice {
+    font-size: 0.8rem;
+    text-align: right;
+    font-weight: 600;
+    color: $primary;
+  }
+
+
+  .v-card-text {
+    color: $text;
+  }
+
+  .textCardAvailability {
+    text-align: center;
+    padding-top: 8px;
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: $success;
+  }
+
+  .vBtnBuy {
+    font-size: 0.8rem;
+    color: $background;
+    background: $primary;
+  }
+
+  .vBtnBuy:hover {
+    color: $primary;
+    background: $background;
+    border: 1px solid $primary;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 960px) {
+  /*  стили для xl-устройств */
+  .vCardMain {
+
+  }
+
+  .vCardSubtitleMain {
+    z-index: 1;
+    font-size: 0.6rem;
+    position: absolute;
+    bottom: 3px;
+    right: 30px;
+  }
+
+  .photoInCardBlock {
+    width: 100%;
+    height: 100%;
+  }
+
+  .photoInCard {
+    width: 120px;
+    height: 120px;
+  }
+
+  .blockTitleCard {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cardTextHref {
+    font-size: 0.8rem;
+    text-decoration: none;
+    text-align: center;
+    color: $textSpan;
+    font-weight: 500;
+  }
+
+  .textCardFeatureMain {
+    margin-top: 8px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
+  }
+
+  .textCardFeature {
+    font-size: 0.7rem;
+  }
+
+  .spanTextCard {
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .textCardPrice {
+    font-size: 0.8rem;
+    text-align: right;
+    font-weight: 600;
+    color: $primary;
+  }
+
+
+  .v-card-text {
+    color: $text;
+  }
+
+  .textCardAvailability {
+    text-align: center;
+    padding-top: 8px;
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: $success;
+  }
+
+  .vBtnBuy {
+    font-size: 0.8rem;
+    color: $background;
+    background: $primary;
+  }
+
+  .vBtnBuy:hover {
+    color: $primary;
+    background: $background;
+    border: 1px solid $primary;
+  }
+}
+
+@media screen and (min-width: 960px) and (max-width: 1280px) {
+  /*  стили для xl-устройств */
+  .vCardMain {
+
+  }
+
+  .vCardSubtitleMain {
+    z-index: 1;
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 10px;
+    right: 30px;
+  }
+
+  .photoInCardBlock {
+    width: 100%;
+    height: 100%;
+  }
+
+  .photoInCard {
+    width: 160px;
+    height: 160px;
+  }
+
+  .blockTitleCard {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cardTextHref {
+    font-size: 1.2rem;
+    text-decoration: none;
+    text-align: center;
+    color: $textSpan;
+    font-weight: 500;
+  }
+
+  .textCardFeatureMain {
+    margin-top: 4px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
+  }
+
+  .textCardFeature {
+    font-size: 0.8rem;
+  }
+
+  .spanTextCard {
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .textCardPrice {
+    font-size: 1.2rem;
+    text-align: right;
+    font-weight: 600;
+    color: $primary;
+  }
+
+
+  .v-card-text {
+    color: $text;
+  }
+
+  .textCardAvailability {
+    text-align: center;
+    padding-top: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: $success;
+  }
+
+  .vBtnBuy {
+    font-size: 1.2rem;
+    color: $background;
+    background: $primary;
+  }
+
+  .vBtnBuy:hover {
+    color: $primary;
+    background: $background;
+    border: 1px solid $primary;
+  }
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1920px) {
+  /*  стили для xl-устройств */
+  .vCardMain {
+
+  }
+
+  .v-btn {
+    color: $primary;
+    background-color: $background;
+  }
+
+  .vCardSubtitleMain {
+    z-index: 1;
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 10px;
+    right: 60px;
+  }
+
+  .photoInCardBlock {
+    width: 100%;
+    height: 100%;
+  }
+
+  .photoInCard {
+    width: 230px;
+    height: 230px;
+  }
+
+  .blockTitleCard {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cardTextHref {
+    font-size: 1.3rem;
+    text-decoration: none;
+    text-align: center;
+    color: $textSpan;
+    font-weight: 500;
+  }
+
+  .textCardFeatureMain {
+    margin-top: 12px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 2px;
+  }
+
+  .textCardFeature {
+    font-size: 1.1rem;
+  }
+
+  .spanTextCard {
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .textCardPrice {
+    font-size: 1.3rem;
+    text-align: right;
+    font-weight: 600;
+    color: $primary;
+  }
+
+
+  .v-card-text {
+    color: $text;
+  }
+
+  .textCardAvailability {
+    text-align: center;
+    padding-top: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: $success;
+  }
+
+  .vBtnBuy {
+    font-size: 1.2rem;
+    color: $background;
+    background: $primary;
+  }
+
+  .vBtnBuy:hover {
+    color: $primary;
+    background: $background;
+    border: 1px solid $primary;
+  }
+}
+
+@media screen and (min-width: 1920px) and (max-width: 2560px) {
+  /*  стили для xxl-устройств */
+  .vCardMain {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .v-btn {
+    color: $primary;
+    background-color: $background;
+  }
+
+  .vCardSubtitleMain {
+    z-index: 1;
+    font-size: 1.2rem;
+    position: absolute;
+    bottom: 10px;
+    right: 30px;
+  }
+
+  .photoInCardBlock {
+    width: 100%;
+    height: 100%;
+  }
+
+  .photoInCard {
+    width: 300px;
+    height: 300px;
+  }
+
+  .blockTitleCard {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cardTextHref {
+    font-size: 1.8rem;
+    text-decoration: none;
+    text-align: center;
+    color: $textSpan;
+  }
+
+  .textCardFeatureMain {
+    margin-top: 12px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
+  }
+
+  .textCardFeature {
+    font-size: 1.5rem;
+  }
+
+  .spanTextCard {
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .textCardPrice {
+    font-size: 1.8rem;
+    text-align: right;
+    font-weight: 600;
+    color: $primary;
+  }
+
+
+  .v-card-text {
+    color: $text;
+  }
+
+  .textCardAvailability {
+    text-align: center;
+    padding-top: 8px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: $success;
+  }
+
+  .vBtnBuy {
+    font-size: 1.4rem;
+    color: $background;
+    background: $primary;
+  }
+
+  .vBtnBuy:hover {
+    color: $primary;
+    background: $background;
+    border: 1px solid $primary;
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  /*  стили для xxl-устройств */
+  .vCardMain {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .v-btn {
+    color: $primary;
+    background-color: $background;
+  }
+
+  .vCardSubtitleMain {
+    z-index: 1;
+    font-size: 1.2rem;
+    position: absolute;
+    bottom: 10px;
+    right: 30px;
+  }
+
+  .photoInCardBlock {
+    width: 100%;
+    height: 100%;
+  }
+
+  .photoInCard {
+    width: 250px;
+    height: 250px;
+  }
+
+  .blockTitleCard {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cardTextHref {
+    font-size: 1.8rem;
+    text-decoration: none;
+    text-align: center;
+    color: $textSpan;
+  }
+
+  .textCardFeatureMain {
+    margin-top: 12px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
+  }
+
+  .textCardFeature {
+    font-size: 1.5rem;
+  }
+
+  .spanTextCard {
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .textCardPrice {
+    font-size: 1.8rem;
+    text-align: right;
+    font-weight: 600;
+    color: $primary;
+  }
+
+
+  .v-card-text {
+    color: $text;
+  }
+
+  .textCardAvailability {
+    text-align: center;
+    padding-top: 8px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: $success;
+  }
+
+  .vBtnBuy {
+    font-size: 1.4rem;
+    color: $background;
+    background: $primary;
+  }
+
+  .vBtnBuy:hover {
+    color: $primary;
+    background: $background;
+    border: 1px solid $primary;
+  }
+}
+
+</style>

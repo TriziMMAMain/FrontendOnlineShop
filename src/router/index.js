@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 
 import MainComponents from '../components/mainComponentInstrument.vue'
 import homeComponentSite from '../components/homeComponentSite.vue'
-import SearchInstrumentByName from '../components/searchInstrumentByName.vue'
+import SearchInstrumentByName from '../components/searchInstrument/searchInstrumentByName.vue'
 // basket
 import basketComponentSite from '../components/Basket/basketComponentSite.vue'
 import BasketComponentCheckout from '../components/Basket/basketComponentCheckout.vue'

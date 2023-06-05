@@ -3,12 +3,12 @@
 import {onMounted, ref} from 'vue'
 import axios from 'axios'
 import {useRouter} from 'vue-router'
-import {useInstrumentStore} from '../stores/counter.js'
-import {useBasketStore} from "../stores/counterBasket.js";
+import {useInstrumentStore} from '../../stores/counter.js'
+import {useBasketStore} from "../../stores/counterBasket.js";
 import {useDisplay} from 'vuetify'
 import {Promise} from "core-js";
 import _ from "lodash";
-import {ProcessingError} from "../notification/toasting";
+import {ProcessingError} from "../../notification/toasting";
 
 const {name} = useDisplay()
 const {postAxiosInstrumentById, fetchingInstrumentByName} = useInstrumentStore()
@@ -386,7 +386,7 @@ const buyInBasket = async (id) => {
 
 <style lang="scss" scoped>
 // - import
-@import '../assets/mixins';
+@import '../../assets/mixins';
 
 
 // Media

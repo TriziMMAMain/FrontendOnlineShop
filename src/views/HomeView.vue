@@ -6,8 +6,7 @@ import axios from 'axios'
 import {useRouter} from 'vue-router'
 import {useInstrumentStore} from "../stores/counter.js"
 import {useDisplay} from 'vuetify'
-// import _ from 'lodash'
-
+import CatalogInstrument from '../components/catalogInstrument.vue'
 import FilterInstrument from '../components/filterInstrument.vue'
 import MainComponentInstrument from '../components/mainComponentInstrument.vue'
 import {ProcessingError} from "../notification/toasting";
@@ -162,14 +161,68 @@ const heightFuncVBtn = () => {
     return '48'
   }
 }
+const widthFuncNavigationDrawer = () => {
+  if (name.value === 'xs') {
+    return '400'
+  } else if (name.value === 'sm') {
+    return '500'
+  } else if (name.value === 'md') {
+    return '600'
+  } else if (name.value === 'lg') {
+    return '600'
+  } else if (name.value === 'xl') {
+    return '600'
+  } else if (name.value === 'xxl') {
+    return '600'
+  }
+}
+const widthFuncVBtnNavigationDrawer = () =>   {
+  if (name.value === 'xs') {
+    return '150'
+  } else if (name.value === 'sm') {
+    return '200'
+  } else if (name.value === 'md') {
+    return '200'
+  } else if (name.value === 'lg') {
+    return '200'
+  } else if (name.value === 'xl') {
+    return '200'
+  } else if (name.value === 'xxl') {
+    return '250'
+  }
+}
+const heightFuncVBtnNavigationDrawer = () => {
+  if (name.value === 'xs') {
+    return '36'
+  } else if (name.value === 'sm') {
+    return '36'
+  } else if (name.value === 'md') {
+    return '46'
+  } else if (name.value === 'lg') {
+    return '52'
+  } else if (name.value === 'xl') {
+    return '52'
+  } else if (name.value === 'xxl') {
+    return '60'
+  }
+}
 //
 const instrumentAllNameArray = ref([])
 
-
+// Navigation
 let navigationDrawer = ref(false)
+const trueOrFalseNavigationDrawer = ref(true)
+
 const navigationDrawerClick = () => {
   navigationDrawer.value = !navigationDrawer.value
 }
+const clickToCatalog = () => {
+  trueOrFalseNavigationDrawer.value = true
+}
+const clickToFilter = () => {
+  trueOrFalseNavigationDrawer.value = false
+}
+//
 
 let filterAllName = ref("")
 const arrayFilter = ref("")
@@ -200,6 +253,8 @@ setInterval(() => {
   loadingPage.value = JSON.parse(localStorage.getItem("loading_page"))
 })
 
+
+//
 </script>
 
 <template>
@@ -234,13 +289,29 @@ setInterval(() => {
 
     <v-navigation-drawer
         v-model="navigationDrawer"
-        width="400"
+        :width="widthFuncNavigationDrawer()"
         color="background"
         elevation="0"
         border="none"
         temporary
-        class="d-flex justify-center align-center">
-      <FilterInstrument></FilterInstrument>
+        class="pa-4">
+      <div class="actionsVBtnNavigationDrawer w-100 d-flex justify-space-evenly">
+        <v-btn
+            class="VBtnNavigationDrawer"
+            :width="widthFuncVBtnNavigationDrawer()"
+            :height="heightFuncVBtnNavigationDrawer()"
+            @click="clickToCatalog()">Каталог</v-btn>
+        <v-btn
+            class="VBtnNavigationDrawer"
+            :width="widthFuncVBtnNavigationDrawer()"
+            :height="heightFuncVBtnNavigationDrawer()"
+            @click="clickToFilter()">Фильтр</v-btn>
+      </div>
+      <div class="blockNavigationDrawer d-flex justify-center ma-6">
+        <CatalogInstrument v-if="trueOrFalseNavigationDrawer"></CatalogInstrument>
+        <FilterInstrument v-else></FilterInstrument>
+      </div>
+
     </v-navigation-drawer>
     <v-main>
       <v-container class="d-flex justify-start flex-wrap">
@@ -374,6 +445,19 @@ setInterval(() => {
     background-color: $background;
   }
 
+  .VBtnNavigationDrawer {
+    font-size: 0.8rem;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .VBtnNavigationDrawer:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 600px) and (max-width: 960px) {
@@ -450,6 +534,20 @@ setInterval(() => {
   .vAutocompleteMain {
     color: $text;
     background-color: $background;
+  }
+
+  .VBtnNavigationDrawer {
+    font-size: 0.8rem;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .VBtnNavigationDrawer:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
   }
 }
 
@@ -529,6 +627,20 @@ setInterval(() => {
     color: $text;
     background-color: $background;
   }
+
+  .VBtnNavigationDrawer {
+    font-size: 1.1rem;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .VBtnNavigationDrawer:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 1280px) and (max-width: 1920px) {
@@ -606,6 +718,20 @@ setInterval(() => {
   .vAutocompleteMain {
     color: $text;
     background-color: $background;
+  }
+
+  .VBtnNavigationDrawer {
+    font-size: 1.5rem;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .VBtnNavigationDrawer:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
   }
 }
 
@@ -686,6 +812,20 @@ setInterval(() => {
     color: $text;
     background-color: $background;
   }
+
+  .VBtnNavigationDrawer {
+    font-size: 1.5rem;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .VBtnNavigationDrawer:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 2560px) {
@@ -745,6 +885,7 @@ setInterval(() => {
     text-align: center;
     color: $background;
     background-color: $primary;
+    transition: all 0.3s ease-in-out;
   }
 
   .btnMainContainerStart:hover, .btnMainContainerFilter:hover {
@@ -765,6 +906,21 @@ setInterval(() => {
     color: $text;
     background-color: $background;
   }
+
+  .VBtnNavigationDrawer {
+    font-size: 1.5rem;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .VBtnNavigationDrawer:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
 }
 
 </style>
