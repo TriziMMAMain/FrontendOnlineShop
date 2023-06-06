@@ -1,7 +1,20 @@
 {
   "version": 2,
   "builds": [
-    { "src": "yarn build", "use": "@vercel/static" }
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "optimize": {
+          "include": [
+            "vue",
+            "lodash"
+          ]
+        },
+        "devCommand": "yarn run dev",
+        "buildCommand": "yarn run build"
+      }
+    }
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/index.html" }
