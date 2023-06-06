@@ -4,19 +4,14 @@
     {
       "src": "package.json",
       "use": "@vercel/static-build",
-      "config": {
-        "optimize": {
-          "include": [
-            "vue",
-            "lodash"
-          ]
-        },
-        "devCommand": "yarn run dev",
-        "buildCommand": "yarn run build"
-      }
+      "devCommand": "yarn dev",
+      "buildCommand": "yarn build"
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
