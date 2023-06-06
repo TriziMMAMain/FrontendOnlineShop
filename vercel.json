@@ -6,10 +6,7 @@
       "use": "@vercel/static-build",
       "config": {
         "maxLambdaSize": "50mb",
-        "cmd": "npm run build && npm run export",
-        "env": {
-          "NODE_VERSION": "18"
-        }
+        "cmd": "yarn"
       }
     }
   ],
