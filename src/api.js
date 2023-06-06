@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const interceptors = axios.create({
-    baseURL: 'https://backend-online-shop-cnx9.vercel.app/',
+    baseURL: 'http://localhost:3000/',
 });
 
 interceptors.interceptors.request.use((config) => {

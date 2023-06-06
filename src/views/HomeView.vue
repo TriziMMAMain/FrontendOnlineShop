@@ -295,22 +295,26 @@ setInterval(() => {
         border="none"
         temporary
         class="pa-4">
+<!--      <div class="actionsVBtnNavigationDrawer w-100 d-flex justify-space-evenly">-->
+<!--        <v-btn-->
+<!--            class="VBtnNavigationDrawer"-->
+<!--            :width="widthFuncVBtnNavigationDrawer()"-->
+<!--            :height="heightFuncVBtnNavigationDrawer()"-->
+<!--            @click="clickToCatalog()">Каталог</v-btn>-->
+<!--        <v-btn-->
+<!--            class="VBtnNavigationDrawer"-->
+<!--            :width="widthFuncVBtnNavigationDrawer()"-->
+<!--            :height="heightFuncVBtnNavigationDrawer()"-->
+<!--            @click="clickToFilter()">Фильтр</v-btn>-->
+<!--      </div>-->
+<!--      <div class="blockNavigationDrawer d-flex justify-center ma-6">-->
+<!--        <CatalogInstrument v-if="trueOrFalseNavigationDrawer"></CatalogInstrument>-->
+<!--        <FilterInstrument v-else></FilterInstrument>-->
+<!--      </div>-->
       <div class="actionsVBtnNavigationDrawer w-100 d-flex justify-space-evenly">
-        <v-btn
-            class="VBtnNavigationDrawer"
-            :width="widthFuncVBtnNavigationDrawer()"
-            :height="heightFuncVBtnNavigationDrawer()"
-            @click="clickToCatalog()">Каталог</v-btn>
-        <v-btn
-            class="VBtnNavigationDrawer"
-            :width="widthFuncVBtnNavigationDrawer()"
-            :height="heightFuncVBtnNavigationDrawer()"
-            @click="clickToFilter()">Фильтр</v-btn>
+        <CatalogInstrument></CatalogInstrument>
       </div>
-      <div class="blockNavigationDrawer d-flex justify-center ma-6">
-        <CatalogInstrument v-if="trueOrFalseNavigationDrawer"></CatalogInstrument>
-        <FilterInstrument v-else></FilterInstrument>
-      </div>
+
 
     </v-navigation-drawer>
     <v-main>

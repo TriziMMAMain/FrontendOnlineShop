@@ -2,6 +2,7 @@
 import {defineStore} from 'pinia'
 import _ from 'lodash'
 import interceptors  from '../api.js';
+import {ProcessingError} from '../notification/toasting.js'
 
 export const useInstrumentStore = defineStore({
     id: 'instrumentStore',
@@ -66,6 +67,7 @@ export const useInstrumentStore = defineStore({
             } catch (error) {
                 this.error = error
                 console.log(error)
+                ProcessingError('Возникла ошибка. Перезагрузите страницу!')
                 return false
             }
         },
@@ -78,6 +80,7 @@ export const useInstrumentStore = defineStore({
             } catch (error) {
                 this.error = error
                 console.log(error)
+                ProcessingError('Возникла ошибка. Перезагрузите страницу!')
             }
         },
         async fetchingInstrumentGasoline() {
@@ -89,6 +92,7 @@ export const useInstrumentStore = defineStore({
             } catch (error) {
                 this.error = error
                 console.log(error)
+                ProcessingError('Возникла ошибка. Перезагрузите страницу!')
             }
         },
         async fetchingInstrumentNetwork() {
@@ -100,6 +104,7 @@ export const useInstrumentStore = defineStore({
             } catch (error) {
                 this.error = error
                 console.log(error)
+                ProcessingError('Возникла ошибка. Перезагрузите страницу!')
             }
         },
         async fetchingInstrumentPneumotool() {
@@ -111,6 +116,7 @@ export const useInstrumentStore = defineStore({
             } catch (error) {
                 this.error = error
                 console.log(error)
+                ProcessingError('Возникла ошибка. Перезагрузите страницу!')
             }
         },
         async fetchingInstrumentByName() {
@@ -121,6 +127,7 @@ export const useInstrumentStore = defineStore({
             } catch (error) {
                 this.error = error
                 console.log(error)
+                ProcessingError('Возникла ошибка. Перезагрузите страницу!')
             }
         },
         async fetchingInstrumentById() {
@@ -134,6 +141,7 @@ export const useInstrumentStore = defineStore({
                 this.error = error
                 console.log(error)
                 localStorage.setItem("fetching_instrument_by_id", JSON.stringify(false))
+                ProcessingError('Возникла ошибка. Перезагрузите страницу!')
                 return false
             }
         },
