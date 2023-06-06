@@ -1,7 +1,7 @@
 {
   "name": "vuetifystart",
   "version": "0.0.0",
-  "main": "./src/main.js",
+  "main": "main.js",
   "type": "module",
   "private": true,
   "scripts": {
