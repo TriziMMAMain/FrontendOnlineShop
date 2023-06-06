@@ -4,8 +4,16 @@
     {
       "src": "package.json",
       "use": "@vercel/static-build",
-      "devCommand": "yarn dev",
-      "buildCommand": "yarn build"
+      "config": {
+        "optimize": {
+          "include": [
+            "@vue/runtime-core",
+            "lodash"
+          ]
+        },
+        "devCommand": "yarn dev",
+        "buildCommand": "yarn build"
+      }
     }
   ],
   "routes": [
