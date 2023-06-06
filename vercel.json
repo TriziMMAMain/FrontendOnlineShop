@@ -8,6 +8,8 @@
         "optimize": {
           "include": [
             "@vue/runtime-core",
+            "@vue/compiler-sfc",
+            "vue",
             "lodash"
           ]
         },
