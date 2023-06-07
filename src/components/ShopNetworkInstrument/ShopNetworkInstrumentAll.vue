@@ -12,11 +12,9 @@ import ShopNetworkInstrumentPerforator from './ShopNetworkInstrumentPerforator.v
 
 <template>
   <!--        CARD -->
-  <div class="d-flex flex-wrap">
     <ShopNetworkInstrumentDrill></ShopNetworkInstrumentDrill>
     <ShopNetworkInstrumentFretsaw></ShopNetworkInstrumentFretsaw>
     <ShopNetworkInstrumentPerforator></ShopNetworkInstrumentPerforator>
-  </div>
 </template>
 
 <style lang="scss" scoped>

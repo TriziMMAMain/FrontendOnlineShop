@@ -12,11 +12,9 @@ import ShopPneumotoolInstrumentNailGun from './ShopPneumotoolInstrumentNailGun.v
 
 <template>
   <!--        CARD -->
-  <div class="d-flex flex-wrap">
     <ShopPneumotoolInstrumentCompressor></ShopPneumotoolInstrumentCompressor>
     <ShopPneumotoolInstrumentJackhammer></ShopPneumotoolInstrumentJackhammer>
     <ShopPneumotoolInstrumentNailGun></ShopPneumotoolInstrumentNailGun>
-  </div>
 </template>
 
 <style lang="scss" scoped>

@@ -12,11 +12,10 @@ import ShopGasolineInstrumentChainsaw from './ShopGasolineInstrumentChainsaw.vue
 
 <template>
   <!--        CARD -->
-  <div class="d-flex flex-wrap">
+
     <ShopGasolineInstrumentGenerator></ShopGasolineInstrumentGenerator>
     <ShopGasolineInstrumentMotoblock></ShopGasolineInstrumentMotoblock>
     <ShopGasolineInstrumentChainsaw></ShopGasolineInstrumentChainsaw>
-  </div>
 </template>
 
 <style lang="scss" scoped>

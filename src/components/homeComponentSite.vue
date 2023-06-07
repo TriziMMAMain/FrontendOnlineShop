@@ -1,5 +1,11 @@
 <script setup="">
 import {ref} from "vue";
+import {useRouter} from 'vue-router'
+import _ from 'lodash'
+import {useDisplay} from 'vuetify'
+
+const {name} = useDisplay()
+
 
 const photoInBlock = ref([
   {
@@ -21,7 +27,7 @@ const photoInBlock = ref([
 </script>
 
 <template>
-  <v-container fluid>
+  <v-container>
     <div class="blockHeader">
       <h1 class="headerTitle">Интернет магазин "<span class="headerTitleSpan">Все Инструменты Дон</span>"</h1>
       <div class="headerblockInfo">
@@ -52,25 +58,186 @@ const photoInBlock = ref([
 <style lang="scss" scoped>
 @import '../assets/mixins';
 
-
-@media screen and (max-width: 600px) {
-
-  .headerTitle {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
+@media screen and (max-width: 376px) {
+  // Стили для lg дисплея
+  .blockHeader {
+    width: 100%;
+    min-height: 150px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F5F5F5;
+    box-shadow: 0 0 1.7px rgba(0, 0, 0, 0.101),
+    0 0 5.6px rgba(0, 0, 0, 0.149),
+    0 0 25px rgba(0, 0, 0, 0.25);
   }
 
-  .infoPhone,
-  .infoCity {
-    margin: 5px;
-    font-size: 1rem;
+  .headerTitle {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    text-align: center;
+    color: $text;
+  }
+
+  .headerTitleSpan {
+    color: $primary;
+  }
+
+  .headerblockInfo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .infoPhone, .infoCity {
+    margin: 5px 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .infoPhone i, .infoCity i {
+    margin-right: 5px;
+    color: $text;
+  }
+
+  .infoPhoneText, .infoCityText {
+    margin: 0;
+    color: $primary;
+  }
+
+  .photoMainBlock {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 30px;
+  }
+
+  .photoTitle {
+    width: 100%;
+    font-size: 1.1rem;
+    margin-bottom: 120px;
+    text-align: center;
+    color: $text;
+  }
+
+  .photoSrc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .photoSrcAbsoluteText {
+    position: absolute;
+    top: -90px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 0.8rem;
+    color: $text;
   }
 
   .photoSrcLink {
+    min-width: 200px;
+    margin-bottom: 120px;
+    height: 100px;
+    display: block;
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+@media screen and (min-width: 376px) and (max-width: 600px) {
+  // Стили для lg дисплея
+  .blockHeader {
     width: 100%;
-    margin-bottom: 10px;
+    min-height: 150px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F5F5F5;
+    box-shadow: 0 0 1.7px rgba(0, 0, 0, 0.101),
+    0 0 5.6px rgba(0, 0, 0, 0.149),
+    0 0 25px rgba(0, 0, 0, 0.25);
   }
 
+  .headerTitle {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    text-align: center;
+    color: $text;
+  }
+
+  .headerTitleSpan {
+    color: $primary;
+  }
+
+  .headerblockInfo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .infoPhone, .infoCity {
+    margin: 5px 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .infoPhone i, .infoCity i {
+    margin-right: 5px;
+    color: $text;
+  }
+
+  .infoPhoneText, .infoCityText {
+    margin: 0;
+    color: $primary;
+  }
+
+  .photoMainBlock {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 30px;
+  }
+
+  .photoTitle {
+    width: 100%;
+    font-size: 1.1rem;
+    margin-bottom: 120px;
+    text-align: center;
+    color: $text;
+  }
+
+  .photoSrc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .photoSrcAbsoluteText {
+    position: absolute;
+    top: -90px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 0.8rem;
+    color: $text;
+  }
+
+  .photoSrcLink {
+    min-width: 200px;
+    margin-bottom: 120px;
+    height: 100px;
+    display: block;
+    background-size: cover;
+    background-position: center;
+  }
 }
 
 @media screen and (min-width: 600px) and (max-width: 960px) {

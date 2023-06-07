@@ -187,6 +187,22 @@ const checkValueTitle = () => {
   }
 }
 checkValueTitle()
+
+const fluidFunc = () => {
+  if (name.value === 'xs') {
+    return ''
+  } else if (name.value === 'sm') {
+    return 'fluid'
+  } else if (name.value === 'md') {
+    return 'fluid'
+  } else if (name.value === 'lg') {
+    return 'fluid'
+  } else if (name.value === 'xl') {
+    return 'fluid'
+  } else if (name.value === 'xxl') {
+    return 'fluid'
+  }
+}
 </script>
 
 <template>

@@ -12,7 +12,7 @@ const {fetchingInstrumentById} = useInstrumentStore()
 
 const widthFuncInBtn = () => {
   if (name.value === 'xs') {
-    return '150'
+    return '220'
   } else if (name.value === 'sm') {
     return '150'
   } else if (name.value === 'md') {
@@ -134,8 +134,7 @@ const buyInBasket = (id) => {
 </script>
 
 <template>
-  <v-container
-      fluid
+  <div
       class="cardMainShopSideContainer w-100"
       v-for="i in [arrayScrewdriversId]"
   >
@@ -190,8 +189,8 @@ const buyInBasket = (id) => {
             :width="12"
         ></v-progress-circular></div>
       </div>
-      <div class="cardMainShopSideFeatureMain d-flex justify-start flex-nowrap align-start mt-10">
-        <div class="cardMainShopSideFeature pa-4">
+      <div class="cardMainShopSideFeatureMain mt-10">
+        <div class="cardMainShopSideFeature">
           <h1 class="textCardFeatureMain">
             Основные характеристики
           </h1>
@@ -273,7 +272,7 @@ const buyInBasket = (id) => {
           class="linkInPageVBreadcrumbs"
           :items="items"></v-breadcrumbs>
     </div>
-  </v-container>
+  </div>
 
 </template>
 
@@ -282,7 +281,7 @@ const buyInBasket = (id) => {
 
 // Media
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 376px) {
   /*  стили для xs-устройств */
   // Container
   .cardMainShopSideContainer {
@@ -350,12 +349,15 @@ const buyInBasket = (id) => {
 
   .cardMainShopSideFeatureMain {
     width: 100%;
+    min-height: 150px;
+    display: flex;
+    flex-wrap: wrap;
   }
 
   // Card Side Feature Middle Left
 
   .cardMainShopSideFeature {
-    width: 60%;
+    width: 100%;
     min-height: 350px;
     background-color: white;
   }
@@ -367,7 +369,7 @@ const buyInBasket = (id) => {
   }
 
   .textCardFeature {
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     line-height: 1.5;
     font-weight: 500;
     color: $text;
@@ -381,23 +383,21 @@ const buyInBasket = (id) => {
   // Card Side Middle Price Right
 
   .cardMainShopSidePrice {
-    width: 40%;
+    width: 100%;
     min-height: 350px;
     display: flex;
-    justify-content: end;
+    justify-content: center;
     //background-color: red;
   }
 
   .vCardFeature {
-    width: 200px;
+    width: 300px;
     height: 350px;
     padding: 15px;
     border-radius: 10px;
-    box-shadow:
-        0 1.5px 5.7px rgba(0, 0, 0, 0.24),
-        0 4.9px 19.2px rgba(0, 0, 0, 0.143),
-        0 22px 86px rgba(0, 0, 0, 0.097)
-  ;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
   }
 
   .vCardFeatureTitle {
@@ -407,14 +407,14 @@ const buyInBasket = (id) => {
 
   .vCardTitleShopPriceComponent {
     text-align: center;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: $primary;
   }
 
   .vCardTextShopPriceComponent, .vCardTextShopPriceComponentDelivery {
     padding-top: 10px;
-    font-size: 0.7rem;
+    font-size: 1rem;
     color: $success;
   }
 
@@ -459,7 +459,7 @@ const buyInBasket = (id) => {
   }
 
   .cardMainContainerShopSideFeatureTopText {
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 400;
     line-height: 1.8;
     color: $text;
@@ -494,12 +494,12 @@ const buyInBasket = (id) => {
   }
 
   .v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > td, .v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > th {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     padding: 10px;
   }
 
   .v-table--density-compact > .v-table__wrapper > table > tbody > tr > td, .v-table--density-compact > .v-table__wrapper > table > thead > tr > td, .v-table--density-compact > .v-table__wrapper > table > tfoot > tr > td {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     padding: 10px;
   }
 
@@ -529,7 +529,268 @@ const buyInBasket = (id) => {
   }
 
   .cardMainContainerShopSideFeatureDownTopLi {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 4px;
+    color: $text;
+  }
+
+  .cardMainContainerShopSideFeatureDownTopLi::marker {
+    color: $primary;
+  }
+
+
+}
+
+@media screen and (min-width: 376px) and (max-width: 600px) {
+  /*  стили для xs-устройств */
+  // Container
+  .cardMainShopSideContainer {
+    min-height: 100vh;
+    position: relative;
+  }
+  // Basket Dynamic
+  .basketComponentDynamicBlockMain {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    top: 12%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.09);
+    position: fixed;
+  }
+  // Link
+  .linkInPageVBreadcrumbs {
     font-size: 0.8rem;
+    font-weight: 450;
+    color: $text;
+
+  }
+  // Card Side Title
+
+  .cardMainShopSideTitle {
+    width: 100%;
+  }
+
+  .cardTextTitleInMainShop {
+    font-size: 1.3rem;
+    font-weight: 500;
+    padding: 4px;
+    margin: 4px;
+    color: $textSpan;
+  }
+
+  // Card Side Photo Feature Price
+  .cardMainShopSidePhotoFeaturePrice {
+    width: 100%;
+    background-color: white;
+  }
+
+  // Card Side Photo
+
+  .cardMainShopSidePhotoMain {
+    width: 100%;
+    height: 300px;
+  }
+
+  .cardMainShopSidePhoto {
+    width: 100%;
+    height: 300px;
+  }
+
+  .carouselMainComponent {
+    width: 100%;
+    background-color: white;
+  }
+
+  // Feature top
+
+  .cardMainShopSideFeatureMain {
+    width: 100%;
+    min-height: 150px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  // Card Side Feature Middle Left
+
+  .cardMainShopSideFeature {
+    width: 100%;
+    min-height: 350px;
+    background-color: white;
+  }
+
+  .textCardFeatureMain {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .textCardFeature {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    font-weight: 500;
+    color: $text;
+  }
+
+  .spanTextCard {
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  // Card Side Middle Price Right
+
+  .cardMainShopSidePrice {
+    width: 100%;
+    min-height: 350px;
+    display: flex;
+    justify-content: center;
+    //background-color: red;
+  }
+
+  .vCardFeature {
+    width: 300px;
+    height: 350px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
+  }
+
+  .vCardFeatureTitle {
+    width: 100%;
+    height: auto;
+  }
+
+  .vCardTitleShopPriceComponent {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: $primary;
+  }
+
+  .vCardTextShopPriceComponent, .vCardTextShopPriceComponentDelivery {
+    padding-top: 10px;
+    font-size: 1rem;
+    color: $success;
+  }
+
+  .vCardTextShopPriceComponentDelivery {
+    color: $info;
+  }
+
+  .vCardBtnShopPriceComponentMain {
+    width: 100%;
+    margin-top: 60px;
+  }
+
+  .vCardBtnShopPriceComponent {
+    font-size: 0.9rem;
+    border-radius: 10px;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vCardBtnShopPriceComponent:hover {
+    border: 1px solid $primary;
+    color: $primary;
+    background-color: $background;
+    transition: all 0.3s ease-in-out;
+  }
+
+  // Card Side Feature
+
+  .cardMainContainerShopSideFeature {
+    width: 100%;
+    padding: 0 12px 0 12px;
+    min-height: 300px;
+    margin-top: 60px;
+    //background-color: red;
+  }
+
+  .cardMainContainerShopSideFeatureTop {
+    width: 100%;
+    min-height: 100px;
+    //background-color: yellow;
+  }
+
+  .cardMainContainerShopSideFeatureTopText {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.8;
+    color: $text;
+  }
+
+  .cardMainContainerShopSideFeatureMiddle {
+    width: 100%;
+    min-height: 100px;
+    margin-top: 40px;
+    //background-color: grey;
+  }
+
+  .cardMainContainerShopSideFeatureMiddleTop {
+    width: 100%;
+    min-height: 100px;
+    //background-color: green;
+  }
+
+  .titleContainerShopSideFeatureMiddle, .textCardFeatureDown {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    color: $textSpan;
+  }
+
+  .cardMainContainerShopSideFeatureMiddleTopVTable {
+    width: 100%;
+  }
+
+  .cardMainContainerShopSideFeatureMiddleTopVTableText {
+    color: $text;
+    background-color: white;
+  }
+
+  .v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > td, .v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > th {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .v-table--density-compact > .v-table__wrapper > table > tbody > tr > td, .v-table--density-compact > .v-table__wrapper > table > thead > tr > td, .v-table--density-compact > .v-table__wrapper > table > tfoot > tr > td {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  // Card Side Feature Down
+
+  .cardMainContainerShopSideFeatureDown {
+    width: 100%;
+    min-height: 100px;
+    //background-color: blue;
+  }
+
+  .cardMainContainerShopSideFeatureDownTop {
+    width: 100%;
+    min-height: 100px;
+    //background-color: red;
+  }
+
+  .textCardFeatureDown {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .cardMainContainerShopSideFeatureDownTopUl {
+    width: 100%;
+    padding-left: 20px;
+    min-height: 100px;
+  }
+
+  .cardMainContainerShopSideFeatureDownTopLi {
+    font-size: 0.9rem;
     font-weight: 500;
     margin-top: 4px;
     color: $text;
@@ -610,6 +871,8 @@ const buyInBasket = (id) => {
 
   .cardMainShopSideFeatureMain {
     width: 100%;
+    min-height: 150px;
+    display: flex;
   }
 
   // Card Side Feature Middle Left
@@ -653,11 +916,9 @@ const buyInBasket = (id) => {
     height: 350px;
     padding: 15px;
     border-radius: 10px;
-    box-shadow:
-        0 1.5px 5.7px rgba(0, 0, 0, 0.24),
-        0 4.9px 19.2px rgba(0, 0, 0, 0.143),
-        0 22px 86px rgba(0, 0, 0, 0.097)
-  ;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
   }
 
   .vCardFeatureTitle {
@@ -871,6 +1132,8 @@ const buyInBasket = (id) => {
 
   .cardMainShopSideFeatureMain {
     width: 100%;
+    min-height: 150px;
+    display: flex;
   }
 
   // Card Side Feature Middle Left
@@ -913,11 +1176,9 @@ const buyInBasket = (id) => {
     height: 350px;
     padding: 25px;
     border-radius: 10px;
-    box-shadow:
-        0 1.5px 5.7px rgba(0, 0, 0, 0.24),
-        0 4.9px 19.2px rgba(0, 0, 0, 0.143),
-        0 22px 86px rgba(0, 0, 0, 0.097)
-  ;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
   }
 
   .vCardFeatureTitle {
@@ -1129,6 +1390,8 @@ const buyInBasket = (id) => {
 
   .cardMainShopSideFeatureMain {
     width: 100%;
+    min-height: 150px;
+    display: flex;
   }
 
   // Card Side Feature Middle Left
@@ -1171,11 +1434,9 @@ const buyInBasket = (id) => {
     height: 450px;
     padding: 25px;
     border-radius: 10px;
-    box-shadow:
-        0 1.5px 5.7px rgba(0, 0, 0, 0.24),
-        0 4.9px 19.2px rgba(0, 0, 0, 0.143),
-        0 22px 86px rgba(0, 0, 0, 0.097)
-  ;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
   }
 
   .vCardFeatureTitle {
@@ -1387,12 +1648,15 @@ const buyInBasket = (id) => {
 
   .cardMainShopSideFeatureMain {
     width: 100%;
+    min-height: 150px;
+    display: flex;
+    justify-content: space-around;
   }
 
   // Card Side Feature Middle Left
 
   .cardMainShopSideFeature {
-    width: 60%;
+    width: 30%;
     height: 350px;
     background-color: white;
   }
@@ -1429,11 +1693,9 @@ const buyInBasket = (id) => {
     height: 450px;
     padding: 25px;
     border-radius: 10px;
-    box-shadow:
-        0 1.5px 5.7px rgba(0, 0, 0, 0.24),
-        0 4.9px 19.2px rgba(0, 0, 0, 0.143),
-        0 22px 86px rgba(0, 0, 0, 0.097)
-  ;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
   }
 
   .vCardFeatureTitle {
@@ -1645,12 +1907,15 @@ const buyInBasket = (id) => {
 
   .cardMainShopSideFeatureMain {
     width: 100%;
+    min-height: 150px;
+    display: flex;
+    justify-content: space-around;
   }
 
   // Card Side Feature Middle Left
 
   .cardMainShopSideFeature {
-    width: 60%;
+    width: 20%;
     height: 350px;
     background-color: white;
   }
@@ -1687,11 +1952,9 @@ const buyInBasket = (id) => {
     height: 450px;
     padding: 25px;
     border-radius: 10px;
-    box-shadow:
-        0 1.5px 5.7px rgba(0, 0, 0, 0.24),
-        0 4.9px 19.2px rgba(0, 0, 0, 0.143),
-        0 22px 86px rgba(0, 0, 0, 0.097)
-  ;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
   }
 
   .vCardFeatureTitle {

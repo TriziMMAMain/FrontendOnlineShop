@@ -15,7 +15,7 @@ const router = useRouter()
 
 const heightFunc = () => {
   if (name.value === 'xs') {
-    return '230'
+    return '500'
   } else if (name.value === 'sm') {
     return '200'
   } else if (name.value === 'md') {
@@ -28,11 +28,11 @@ const heightFunc = () => {
     return '400'
   }
 }
-const weightFunc = () => {
+const widthFunc = () => {
   if (name.value === 'xs') {
-    return '500'
+    return '340'
   } else if (name.value === 'sm') {
-    return '550'
+    return '500'
   } else if (name.value === 'md') {
     return '900'
   } else if (name.value === 'lg') {
@@ -45,7 +45,7 @@ const weightFunc = () => {
 }
 const firstColFunc = () => {
   if (name.value === 'xs') {
-    return '3'
+    return '6'
   } else if (name.value === 'sm') {
     return '3'
   } else if (name.value === 'md') {
@@ -60,7 +60,7 @@ const firstColFunc = () => {
 }
 const secondColFunc = () => {
   if (name.value === 'xs') {
-    return '6'
+    return ''
   } else if (name.value === 'sm') {
     return '6'
   } else if (name.value === 'md') {
@@ -75,7 +75,7 @@ const secondColFunc = () => {
 }
 const thirdColFunc = () => {
   if (name.value === 'xs') {
-    return '3'
+    return '6'
   } else if (name.value === 'sm') {
     return '3'
   } else if (name.value === 'md') {
@@ -88,7 +88,7 @@ const thirdColFunc = () => {
     return '3'
   }
 }
-const weightFuncVBtn = () => {
+const widthtFuncVBtn = () => {
   if (name.value === 'xs') {
     return '170'
   } else if (name.value === 'sm') {
@@ -169,13 +169,13 @@ const buyInBasket = async (id) => {
 <template>
   <!--        CARD -->
   <v-card
-      :width="weightFunc()"
+      :width="widthFunc()"
       :height="heightFunc()"
       color="background"
       elevation="5"
       class="vCardMain pa-5 mr-10 mb-16"
       v-for="i in pneumoJackhammerArray">
-    <v-row>
+    <v-row class="d-sm-flex">
       <!--      FIRST COL-->
       <v-col :cols="firstColFunc()"
              class="d-flex justify-center align-center">
@@ -190,7 +190,7 @@ const buyInBasket = async (id) => {
       </v-col>
       <!--      SECOND COL-->
       <v-col :cols="secondColFunc()"
-             class="pa-1">
+             class="secondCol pa-1">
         <!--        TITLE-->
         <div class="blockTitleCard">
           <button @click="viewDetails(i.id)" class="cardTextHref mt-1">{{ i.name }}</button>
@@ -201,9 +201,10 @@ const buyInBasket = async (id) => {
           <div v-for="item in i.featureTopTitle"
                key="item"
                class="textCardFeatureDiv">
-            <p class="textCardFeature">{{ item.featureTopTitleInfoTitle }}
+            <p class="textCardFeature">{{ item.featureTopTitleInfoTitle, ':' }}
               <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></p></div>
         </div>
+
 
       </v-col>
       <!--      THIRD COL-->
@@ -212,7 +213,7 @@ const buyInBasket = async (id) => {
         <!--    CARD ACTIONS START-->
 
         <v-card-actions
-            class="d-flex justify-center flex-wrap pa-0 pr-1">
+            class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
           <p class="textCardPrice pt-3 pb-3">
             {{ i.price }} рублей
           </p>
@@ -220,7 +221,7 @@ const buyInBasket = async (id) => {
               @click="buyInBasket(i.id)"
               elevation="1"
               class="vBtnBuy"
-              :width="weightFuncVBtn()"
+              :width="widthtFuncVBtn()"
               :height="heightFuncVBtn()"
               prepend-icon="fa-solid fa-cart-shopping"
           >
@@ -245,15 +246,23 @@ const buyInBasket = async (id) => {
 
 // Media
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 376px) {
   /*  стили для xl-устройств */
   .vCardMain {
 
   }
 
+  .secondCol {
+    width: 95%;
+    position: absolute;
+    top: 172px;
+    left: 10px;
+  }
+
+
   .vCardSubtitleMain {
     z-index: 1;
-    font-size: 0.6rem;
+    font-size: 1rem;
     position: absolute;
     bottom: 3px;
     right: 30px;
@@ -276,11 +285,11 @@ const buyInBasket = async (id) => {
   }
 
   .cardTextHref {
-    font-size: 0.8rem;
+    font-size: 1.2rem;
     text-decoration: none;
     text-align: center;
     color: $textSpan;
-    font-weight: 500;
+    font-weight: 550;
   }
 
   .textCardFeatureMain {
@@ -292,7 +301,7 @@ const buyInBasket = async (id) => {
   }
 
   .textCardFeature {
-    font-size: 0.7rem;
+    font-size: 1rem;
   }
 
   .spanTextCard {
@@ -301,7 +310,7 @@ const buyInBasket = async (id) => {
   }
 
   .textCardPrice {
-    font-size: 0.8rem;
+    font-size: 1rem;
     text-align: right;
     font-weight: 600;
     color: $primary;
@@ -315,7 +324,103 @@ const buyInBasket = async (id) => {
   .textCardAvailability {
     text-align: center;
     padding-top: 8px;
-    font-size: 0.6rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: $success;
+  }
+
+  .vBtnBuy {
+    font-size: 0.8rem;
+    color: $background;
+    background: $primary;
+  }
+
+  .vBtnBuy:hover {
+    color: $primary;
+    background: $background;
+    border: 1px solid $primary;
+  }
+}
+
+@media screen and (min-width: 376px) and (max-width: 600px) {
+  /*  стили для xl-устройств */
+  .vCardMain {
+
+  }
+
+  .secondCol {
+    width: 95%;
+    position: absolute;
+    top: 172px;
+    left: 10px;
+  }
+
+
+  .vCardSubtitleMain {
+    z-index: 1;
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 3px;
+    right: 30px;
+  }
+
+  .photoInCardBlock {
+    width: 100%;
+    height: 100%;
+  }
+
+  .photoInCard {
+    width: 120px;
+    height: 120px;
+  }
+
+  .blockTitleCard {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cardTextHref {
+    font-size: 1.1rem;
+    text-decoration: none;
+    text-align: center;
+    color: $textSpan;
+    font-weight: 550;
+  }
+
+  .textCardFeatureMain {
+    margin-top: 8px;
+  }
+
+  .textCardFeatureDiv {
+    margin-top: 4px;
+  }
+
+  .textCardFeature {
+    font-size: 0.9rem;
+  }
+
+  .spanTextCard {
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .textCardPrice {
+    font-size: 1.2rem;
+    text-align: right;
+    font-weight: 600;
+    color: $primary;
+  }
+
+
+  .v-card-text {
+    color: $text;
+  }
+
+  .textCardAvailability {
+    text-align: center;
+    padding-top: 8px;
+    font-size: 0.8rem;
     font-weight: 500;
     color: $success;
   }

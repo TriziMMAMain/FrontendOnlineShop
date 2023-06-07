@@ -133,7 +133,7 @@ const heightFunc = () => {
 }
 const widthFunc = () => {
   if (name.value === 'xs') {
-    return '150'
+    return '120'
   } else if (name.value === 'sm') {
     return '170'
   } else if (name.value === 'md') {
@@ -253,7 +253,21 @@ setInterval(() => {
   loadingPage.value = JSON.parse(localStorage.getItem("loading_page"))
 })
 
-
+const fluidFunc = () => {
+  if (name.value === 'xs') {
+    return ''
+  } else if (name.value === 'sm') {
+    return 'fluid'
+  } else if (name.value === 'md') {
+    return 'fluid'
+  } else if (name.value === 'lg') {
+    return 'fluid'
+  } else if (name.value === 'xl') {
+    return 'fluid'
+  } else if (name.value === 'xxl') {
+    return 'fluid'
+  }
+}
 //
 </script>
 
@@ -264,7 +278,7 @@ setInterval(() => {
         color="background" elevation="1">
       <v-row>
         <v-col
-            cols="8"
+            cols="7"
             class="d-flex flex-column flex-wrap">
           <v-app-bar-title
               class="vAppBarTitleMainContainer">
@@ -295,8 +309,9 @@ setInterval(() => {
         border="none"
         temporary
         class="pa-4">
-<!--      <div class="actionsVBtnNavigationDrawer w-100 d-flex justify-space-evenly">-->
-<!--        <v-btn-->
+      <div class="actionsVBtnNavigationDrawer w-100 d-flex justify-space-evenly">
+        <CatalogInstrument></CatalogInstrument>
+        <!--        <v-btn-->
 <!--            class="VBtnNavigationDrawer"-->
 <!--            :width="widthFuncVBtnNavigationDrawer()"-->
 <!--            :height="heightFuncVBtnNavigationDrawer()"-->
@@ -306,21 +321,17 @@ setInterval(() => {
 <!--            :width="widthFuncVBtnNavigationDrawer()"-->
 <!--            :height="heightFuncVBtnNavigationDrawer()"-->
 <!--            @click="clickToFilter()">Фильтр</v-btn>-->
-<!--      </div>-->
+      </div>
 <!--      <div class="blockNavigationDrawer d-flex justify-center ma-6">-->
 <!--        <CatalogInstrument v-if="trueOrFalseNavigationDrawer"></CatalogInstrument>-->
 <!--        <FilterInstrument v-else></FilterInstrument>-->
 <!--      </div>-->
-      <div class="actionsVBtnNavigationDrawer w-100 d-flex justify-space-evenly">
-        <CatalogInstrument></CatalogInstrument>
-      </div>
-
 
     </v-navigation-drawer>
     <v-main>
       <v-container class="d-flex justify-start flex-wrap">
         <div class="btnBlockMainContainer d-flex flex-column">
-          <div class="blockActionBtnMain d-flex justify-space-between">
+          <div class="blockActionBtnMain ">
             <v-btn
                 :height="heightFunc()"
                 class="btnMainContainerStart d-flex align-center"
@@ -390,14 +401,14 @@ setInterval(() => {
     display: flex;
     align-items: center;
     color: $primary;
-    font-size: 1.3rem;
+    font-size: 0.9rem;
     font-weight: 500;
   }
 
   .basketComponent {
     width: 150px;
     height: 32px;
-    font-size: 1rem;
+    font-size: 0.7rem;
     font-weight: 500;
     text-decoration: none;
     border-radius: 4px;
@@ -420,12 +431,14 @@ setInterval(() => {
   .blockActionBtnMain {
     width: 100%;
     height: 50%;
+    display: flex;
+    justify-content: space-between;
   }
 
   .btnMainContainerStart, .btnMainContainerFilter {
-    width: 300px;
+    width: 150px;
     height: 50%;
-    font-size: 1rem;
+    font-size: 0.5rem;
     text-align: center;
     color: $background;
     background-color: $primary;
@@ -440,8 +453,8 @@ setInterval(() => {
   }
 
   .btnMainContainerFilter {
-    width: 250px;
-    font-size: 1rem;
+    width: 150px;
+    font-size: 0.5rem;
   }
 
   .vAutocompleteMain {
@@ -511,6 +524,8 @@ setInterval(() => {
   .blockActionBtnMain {
     width: 100%;
     height: 50%;
+    display: flex;
+    justify-content: space-between;
   }
 
   .btnMainContainerStart, .btnMainContainerFilter {
@@ -603,6 +618,8 @@ setInterval(() => {
   .blockActionBtnMain {
     width: 100%;
     height: 50%;
+    display: flex;
+    justify-content: space-between;
   }
 
   .btnMainContainerStart, .btnMainContainerFilter {
@@ -695,6 +712,8 @@ setInterval(() => {
   .blockActionBtnMain {
     width: 100%;
     height: 50%;
+    display: flex;
+    justify-content: space-between;
   }
 
   .btnMainContainerStart, .btnMainContainerFilter {
@@ -787,6 +806,8 @@ setInterval(() => {
   .blockActionBtnMain {
     width: 100%;
     height: 50%;
+    display: flex;
+    justify-content: space-between;
   }
 
   .btnMainContainerStart, .btnMainContainerFilter {
@@ -880,6 +901,8 @@ setInterval(() => {
   .blockActionBtnMain {
     width: 100%;
     height: 50%;
+    display: flex;
+    justify-content: space-between;
   }
 
   .btnMainContainerStart, .btnMainContainerFilter {
