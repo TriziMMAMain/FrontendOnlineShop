@@ -10,13 +10,14 @@ import axios from "axios";
 import {ProccesingSuccessfuly} from "../../notification/toasting";
 
 import {useRoute} from 'vue-router'
+
 const {name} = useDisplay()
 const router = useRouter()
 
 const {filterByNameInstrument, postAxiosInstrumentById} = useInstrumentStore()
 const {
   getLocalStorageInBasketObject,
-  postAxiosUserById,
+  fetchingUsers,
   fetchingUserId,
 } = useBasketStore()
 getLocalStorageInBasketObject()
@@ -162,27 +163,30 @@ const trueOrFalseDiv = ref(JSON.parse(localStorage.getItem("basket_click_user"))
 
 const getIdUser = async () => {
   const userId = ref(JSON.parse(localStorage.getItem("id_user_basket")))
-  const dataUserId = ref({
-    userId: userId.value
-  })
-  if (await postAxiosUserById(dataUserId.value)) {
+  if (await fetchingUsers()) {
     if (await fetchingUserId()) {
-      userIdDataMain.value = JSON.parse(localStorage.getItem("user_id"))
-      userIdData.value = userIdDataMain.value[0].instrumentArray
-      console.log(`Fetching user id good`);
-      if (userIdDataMain.value[0].processing === 'Ожидание обработки') {
-        titleInProcessing.value = 'Ожидание обработки'
-      } else if (userIdDataMain.value[0].processing === 'Принят в обработку') {
-        titleInProcessing.value = 'Принят в обработку'
-      } else if (userIdDataMain.value[0].processing === 'Отклонен в обработке') {
-        titleInProcessing.value = 'Отклонен в обработке'
+      if (JSON.parse(localStorage.getItem("basket_click_user"))) {
+        userIdDataMain.value = JSON.parse(localStorage.getItem("user_id"))
+        userIdData.value = userIdDataMain.value[0].instrumentArray
+        console.log(`Fetching user id good`);
+        if (userIdDataMain.value[0].processing === 'Ожидание обработки') {
+          titleInProcessing.value = 'Ожидание обработки'
+        } else if (userIdDataMain.value[0].processing === 'Принят в обработку') {
+          titleInProcessing.value = 'Принят в обработку'
+        } else if (userIdDataMain.value[0].processing === 'Отклонен в обработке') {
+          titleInProcessing.value = 'Отклонен в обработке'
+        }
+      } else {
+
       }
+
     } else {
-      console.log('error server');
+
     }
   } else {
-    console.log('error server');
+
   }
+
 
 
 }

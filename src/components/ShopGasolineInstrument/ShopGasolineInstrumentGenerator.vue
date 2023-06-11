@@ -134,10 +134,10 @@ const gasolineGenerator = async (gasoline) => {
 }
 gasolineGenerator(gasolineLocal.value)
 
-const viewDetails = async (id) => {
+const viewDetails = async (id, _id) => {
   let dataInstrument = ref([])
   for (let i = 0; i < gasolineGeneratorArray.value.length; i++) {
-    dataInstrument.value = _.filter(gasolineGeneratorArray.value, {id: id})
+    dataInstrument.value = _.filter(gasolineGeneratorArray.value, {"_id": _id})
   }
   postAxiosInstrumentById(dataInstrument.value)
 
@@ -147,10 +147,10 @@ const viewDetails = async (id) => {
 }
 // - Logical
 let counterClick = ref(0)
-const buyInBasket = async (id) => {
+const buyInBasket = async (id, _id) => {
   let dataInstrument = ref([])
   for (let i = 0; i < gasolineGeneratorArray.value.length; i++) {
-    dataInstrument.value = _.filter(gasolineGeneratorArray.value, {id: id})
+    dataInstrument.value = _.filter(gasolineGeneratorArray.value, {"_id": _id})
   }
   postAxiosInstrumentById(dataInstrument.value)
   counterClick.value = counterClick.value + 1
@@ -192,7 +192,7 @@ const buyInBasket = async (id) => {
              class="secondCol pa-1">
         <!--        TITLE-->
         <div class="blockTitleCard">
-          <button @click="viewDetails(i.id)" class="cardTextHref mt-1">{{ i.name }}</button>
+          <button @click="viewDetails(i.id, i._id)" class="cardTextHref mt-1">{{ i.name }}</button>
         </div>
         <!--        SPAN AND TEXT-->
         <div
@@ -217,7 +217,7 @@ const buyInBasket = async (id) => {
             {{ i.price }} рублей
           </p>
           <v-btn
-              @click="buyInBasket(i.id)"
+              @click="buyInBasket(i.id, i._id)"
               elevation="1"
               class="vBtnBuy"
               :width="widthtFuncVBtn()"

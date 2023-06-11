@@ -5,7 +5,7 @@ import {ref} from 'vue'
 </script>
 
 <template>
-  <div class="mainBlock">
+  <div class="mainBlock w-100">
     <v-row class="rowMain d-flex justify-start flex-column mt-1">
       <v-col class="w-100">
         <!--          HOME PAGE-->

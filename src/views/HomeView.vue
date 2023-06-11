@@ -30,20 +30,9 @@ const {
 
 visitsInSite()
 
-changeInstrumentInFile()
-    .then(() => {
-      console.log(`change`)
-    })
-    .catch((error) => {
-      ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
-      console.log(error)
-    })
-let checkValueInChange = false
 
 const fetchingPiniaInstrument = async () =>  {
   try {
-    checkValueInChange = JSON.parse(localStorage.getItem("result_change_file"))
-    if (checkValueInChange) {
       await fetchingInstrumentCordless()
           .then(() => {
             console.log(`fetching cordless`)
@@ -76,19 +65,15 @@ const fetchingPiniaInstrument = async () =>  {
             ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
             console.log(error)
           })
-      await fetchingInstrumentByName()
-          .then(() => {
-            console.log(`fetching instrument by name`)
-          })
-          .catch((error) => {
-            ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
-            console.log(error)
-          })
+    await fetchingInstrumentByName()
+        .then(() => {
+          console.log(`fetching instrument name`)
+        })
+        .catch((error) => {
+          ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
+          console.log(error)
+        })
       instrumentAllNameArray.value = JSON.parse(localStorage.getItem("filter_instrument_all_name"))
-    } else {
-      console.log(`error 500`)
-      ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
-    }
   } catch (err) {
     ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
     console.log(err)

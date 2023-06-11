@@ -62,7 +62,7 @@ const loadingComponent = ref(false)
 const trueOrFalsePhoto = ref(false)
 //
 
-const updateLocalData = async () => {
+const updateLocalData = () => {
   cordlessLocal.value = JSON.parse(localStorage.getItem('filter_by_id'))
   cordlessLocalCopy.value = cordlessLocal.value[0]
 
@@ -84,7 +84,7 @@ onMounted(async () => {
     loadingComponent.value = JSON.parse(localStorage.getItem('fetching_instrument_by_id'))
 
     if (loadingComponent.value) {
-      await updateLocalData()
+      updateLocalData()
     } else {
       console.log('error 500')
       ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
@@ -124,12 +124,12 @@ setInterval(() => {
 let counterClick = ref(0)
 let counterClickBasket = ref(false)
 
-const buyInBasket = (id) => {
+const buyInBasket = (_id) => {
   counterClick.value = counterClick.value + 1
   counterClickBasket.value = true
   localStorage.setItem("basket_click", JSON.stringify(counterClickBasket.value))
   basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
-  localStorage.setItem("basket_id", JSON.stringify(id))
+  localStorage.setItem("basket_id", JSON.stringify(_id))
 }
 
 //
@@ -221,7 +221,7 @@ const buyInBasket = (id) => {
               <v-btn class="vCardBtnShopPriceComponent"
                      :width="widthFuncInBtn()"
                      :height="heightFuncInBtn()"
-                     @click="buyInBasket(i.id)">
+                     @click="buyInBasket(i._id)">
                 <v-icon icon="fa-solid fa-cart-shopping" start></v-icon>
                 Купить
               </v-btn>

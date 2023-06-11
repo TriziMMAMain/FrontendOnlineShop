@@ -38,6 +38,7 @@ export const useInstrumentStore = defineStore({
                 visits = 1;
                 localStorage.setItem('basket_object', JSON.stringify([]))
                 localStorage.setItem("basket_click_user", JSON.stringify(false))
+                localStorage.setItem("user_id", JSON.stringify(null))
             } else {
                 const newVisits = visits + 1;
                 localStorage.setItem('visits', JSON.stringify(newVisits));
@@ -46,19 +47,9 @@ export const useInstrumentStore = defineStore({
             }
         },
         // Fetching instrument
-        async changeInstrumentInFile() {
-            try {
-                const response = await interceptors.get('api/instrument/change')
-                localStorage.setItem("result_change_file", JSON.stringify(true))
-            } catch (error) {
-                localStorage.setItem("result_change_file", JSON.stringify(false))
-                this.error = error
-                console.log(error)
-            }
-        },
         async fetchingInstrumentAll() {
             try {
-                const response = await interceptors.get('api/instruments/get/instrument/all')
+                const response = await interceptors.get('api/instruments/get/all')
                 this.allLocalCopyPinia = response.data
                 let uniqueBrands = _.uniqBy(this.allLocalCopyPinia, 'brand').map(instrument => instrument.brand)
                 localStorage.setItem("all_instrument", JSON.stringify(this.allLocalCopyPinia))
@@ -119,11 +110,11 @@ export const useInstrumentStore = defineStore({
                 ProcessingError('Возникла ошибка. Перезагрузите страницу!')
             }
         },
+
+
         async fetchingInstrumentByName() {
             try {
                 await this.fetchingInstrumentAllName(this.instrumentNameCordless, this.instrumentNameGasoline, this.instrumentNameNetwork, this.instrumentNamePneumo)
-                const response = await interceptors.get('api/instrument/get/filter/name')
-                this.instrumentLocalCopyByName = response.data
             } catch (error) {
                 this.error = error
                 console.log(error)
@@ -132,9 +123,6 @@ export const useInstrumentStore = defineStore({
         },
         async fetchingInstrumentById() {
             try {
-                const response = await interceptors.get('api/instruments/get/instrument-find-by-id')
-                this.instrumentLocalCopyById = response.data
-                await localStorage.setItem("filter_by_id", JSON.stringify(this.instrumentLocalCopyById))
                 await localStorage.setItem("fetching_instrument_by_id", JSON.stringify(true))
                 return true
             } catch (error) {
@@ -158,7 +146,7 @@ export const useInstrumentStore = defineStore({
         },
         async postAxiosInstrumentById(data) {
             try {
-                const responseData = await interceptors.post('api/instrument/instrument-find-by-id', data)
+                localStorage.setItem("filter_by_id", JSON.stringify(data))
                 return true
             } catch (err) {
                 this.error = err
@@ -235,6 +223,7 @@ export const useInstrumentStore = defineStore({
             localStorage.setItem("filter_instrument_all_name", JSON.stringify(this.instrumentNameAll))
         },
         // Filter
+
         // by name
         async filterByNameInstrument(string) {
             try {

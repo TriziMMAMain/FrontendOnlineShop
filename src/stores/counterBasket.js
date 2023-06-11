@@ -1,13 +1,15 @@
 // - import
 import {defineStore} from 'pinia'
 import _ from 'lodash'
-import axios from "axios";
+import interceptors  from '../api.js';
+
 
 
 export const useBasketStore = defineStore({
     id: 'basketStore',
     state: () => ({
         // Fetching user
+        users: null,
         userId: null,
         //
         basket: [],
@@ -28,20 +30,10 @@ export const useBasketStore = defineStore({
         async toLocalStorageInBasketItem(arrayFirst) {
             await localStorage.setItem("basket_array", JSON.stringify(arrayFirst))
         },
-        // Post axios user
+        // Post interceptors user
         async postAxiosUser(data) {
             try {
-                const responseData = await axios.post('http://localhost:3000/api/user', data)
-                return true
-            } catch (err) {
-                this.error = err
-                console.error(err);
-                return false
-            }
-        },
-        async postAxiosUserById(data) {
-            try {
-                const responseData = await axios.post('http://localhost:3000/api/user/id', data)
+                const responseData = await interceptors.post('api/user/add', data)
                 return true
             } catch (err) {
                 this.error = err
@@ -50,11 +42,22 @@ export const useBasketStore = defineStore({
             }
         },
         // Fetching user
+        async fetchingUsers() {
+            try {
+                const response = await interceptors.get('api/users/get/all')
+                this.users = response.data
+                return true
+            } catch (error) {
+                this.error = error
+                console.log(error)
+                return false
+            }
+        },
         async fetchingUserId() {
             try {
-                const response = await axios.get('http://localhost:3000/user/id')
-                this.userId = response.data
-                localStorage.setItem("user_id", JSON.stringify(this.userId))
+                // const response = await interceptors.get('user/id')
+                // this.userId = response.data
+                // localStorage.setItem("user_id", JSON.stringify(this.userId))
                 return true
             } catch (error) {
                 this.error = error

@@ -339,7 +339,7 @@ const buyInBasket = async (id) => {
              class="secondCol pa-1">
         <!--        TITLE-->
         <div class="blockTitleCard">
-          <button @click="viewDetails(i.id)" class="cardTextHref mt-1">{{ i.name }}</button>
+          <button @click="viewDetails(i.id, i._id)" class="cardTextHref mt-1">{{ i.name }}</button>
         </div>
         <!--        SPAN AND TEXT-->
         <div
@@ -364,7 +364,7 @@ const buyInBasket = async (id) => {
             {{ i.price }} рублей
           </p>
           <v-btn
-              @click="buyInBasket(i.id)"
+              @click="buyInBasket(i.id, i._id)"
               elevation="1"
               class="vBtnBuy"
               :width="widthtFuncVBtn()"

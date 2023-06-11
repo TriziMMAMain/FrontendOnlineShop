@@ -140,6 +140,7 @@ const formData = ref({
 const clickInInfo = async () => {
   const newIdMath = ref(Math.floor(Math.random() * 1000000))
   formData.value.newId = newIdMath.value
+  console.log(formData.value);
   await postAxiosUser(formData.value)
   localStorage.setItem("id_user_basket", JSON.stringify(formData.value.newId))
   ProccesingSuccessfuly('Вы подтвердили свой заказ, ожидайте!')

@@ -120,13 +120,12 @@ setInterval(() => {
 let counterClick = ref(0)
 let counterClickBasket = ref(false)
 
-const buyInBasket = (id) => {
+const buyInBasket = (_id) => {
   counterClick.value = counterClick.value + 1
   counterClickBasket.value = true
   localStorage.setItem("basket_click", JSON.stringify(counterClickBasket.value))
   basketClick.value = JSON.parse(localStorage.getItem("basket_click"))
-  console.log(id)
-  localStorage.setItem("basket_id", JSON.stringify(id))
+  localStorage.setItem("basket_id", JSON.stringify(_id))
 }
 
 </script>
@@ -214,7 +213,7 @@ const buyInBasket = (id) => {
               <v-btn class="vCardBtnShopPriceComponent"
                      :width="widthFuncInBtn()"
                      :height="heightFuncInBtn()"
-                     @click="buyInBasket(i.id)">
+                     @click="buyInBasket(i._id)">
                 <v-icon icon="fa-solid fa-cart-shopping" start></v-icon>
                 Купить
               </v-btn>
