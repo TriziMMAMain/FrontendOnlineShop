@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const interceptors = axios.create({
-    baseURL: 'http://localhost:3000/',
+    baseURL: 'https://backend-online-shop-mongodb.onrender.com/',
 });
 
 export default interceptors;
