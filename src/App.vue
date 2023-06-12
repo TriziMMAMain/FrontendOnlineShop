@@ -2,7 +2,7 @@
 // - import
 import HomeView from './views/HomeView.vue'
 
-
+console.log("lets go")
 </script>
 
 <template>
