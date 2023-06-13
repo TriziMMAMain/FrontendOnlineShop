@@ -325,15 +325,6 @@ const routes = [
                 },
             },
         ]
-    },
-
-    {
-        path: '/admin-panel/', // /admin-panel/
-        name: 'adminPanel',
-        components: {
-            adminPanel: AdminView,
-        },
-
     }
 ]
 
