@@ -58,7 +58,7 @@ const widthFuncBtnBuy = () => {
   } else if (name.value === 'sm') {
     return '130'
   } else if (name.value === 'xs') {
-    return '100'
+    return '300'
   }
 }
 const heightFuncBtnBuy = () => {
@@ -73,7 +73,7 @@ const heightFuncBtnBuy = () => {
   } else if (name.value === 'sm') {
     return '56'
   } else if (name.value === 'xs') {
-    return '40'
+    return '56'
   }
 }
 
@@ -258,7 +258,6 @@ const closeBasket = () => {
     </div>
   </div>
 
-
 </template>
 
 <style lang="scss" scoped>
@@ -266,8 +265,182 @@ const closeBasket = () => {
 
 
 // Media
+@media screen and (max-width: 376px) {
+  /*  стили для xs-устройств */
+  .mainBlockInBasketDynamic {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    margin-top: 70px;
+    z-index: 2;
+  }
 
-@media screen and (max-width: 600px) {
+  // CARD MAIN
+  .vCardBasket {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    padding: 15px;
+    border-radius: 20px;
+    z-index: 2;
+    background-color: $background;
+  }
+
+  // BLOCK BASKET TITLE MAIN
+  .blockBasketTitleMain {
+    width: 100%;
+    height: 50px;
+    position: relative;
+    border-bottom: 2px solid $primary;
+    background-color: $background;
+  }
+
+  .titleMainBlock {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .titleMainBlockClose {
+    color: $text;
+    background-color: $background;
+    border: none;
+  }
+
+  .titleMainTitle {
+    font-size: 1rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  // BLOCK BASKET MAIN
+  .blockBasketMain {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    min-height: 300px;
+    margin-top: 20px;
+    background-color: $background;
+  }
+
+  // BLOCK BASKET MAIN PHOTO
+  .blockBasketPhotoMain {
+    width: 20%;
+    height: 300px;
+    background-color: $background;
+  }
+
+  .photoMainImg {
+    width: 100px;
+    height: 100px;
+  }
+
+  // BLOCK BASKET TITLE PRICE BTN
+  .blockBasketTitlePriceBtn {
+    width: 55%;
+    min-height: 400px;
+    padding-left: 24px;
+    background-color: $background;
+  }
+
+  // BLOCK BASKET TITLE SECOND
+  .blockBasketTitleSecond {
+    width: 100%;
+    height: 125px;
+    background-color: $background;
+  }
+
+  // BLOCK BASKET TITLE SECOND BLOCK ONE
+  .titleSecondTitle {
+    font-size: 1rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  // BLOCK BASKET PRICE MAIN
+  .blockBasketPriceMain {
+    width: 100%;
+    height: 50px;
+    background-color: $background;
+  }
+
+  .priceMainTitle {
+    font-size: 1rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  // BLOCK BASKET BTN MAIN
+  .blockBasketBtnMain {
+    width: 100%;
+    height: 125px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: $background;
+  }
+
+  .blockBasketBtnMainInPlus, .blockBasketBtnMainInMinus {
+    font-size: 1rem;
+    color: $text;
+    background-color: $background;
+    border: 1px solid $text;
+  }
+
+  .blockBasketBtnMainInPlus {
+
+  }
+
+  .blockBasketBtnMainOrderPrice {
+    font-size: 1.5rem;
+    margin: 0 25px 0 25px;
+    color: $text;
+  }
+
+  .blockBasketBtnMainInMinus {
+  }
+
+  // BLOCK BASKET LINK IN BASKET
+  .blockBasketLinkInBasket {
+    width: 20%;
+    height: 100%;
+  }
+
+  .linkInBasketBtn {
+    font-size: 1rem;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: $background;
+    background-color: $primary;
+  }
+
+  .linkInBasketBtn:hover {
+    transition: all 0.3s ease-in-out;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary
+  }
+
+  .linkInBasketBlockBtnSecondTitle {
+    margin-top: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: $text;
+  }
+
+  .linkInBasketBlockBtnSecondTitleSpan {
+    font-weight: 700;
+    color: $textSpan;
+  }
+
+  //  DONE!!!
+}
+
+@media screen and (min-width: 376px) and (max-width: 600px) {
   /*  стили для xs-устройств */
   .mainBlockInBasketDynamic {
     width: 100%;

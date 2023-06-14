@@ -298,12 +298,11 @@ const buyInBasket = (_id) => {
     width: 100%;
     height: 100%;
     z-index: 1;
-    top: 12%;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.09);
+    background: $background;
     position: fixed;
   }
   // Link
