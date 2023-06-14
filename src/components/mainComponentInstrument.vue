@@ -7,7 +7,7 @@ import {ref} from 'vue'
 <template>
   <div class="mainBlock w-100">
     <v-row class="rowMain d-flex justify-start flex-column mt-1">
-      <v-col class="w-100">
+      <v-col class="w-100 d-sm-flex justify-sm-center">
         <!--          HOME PAGE-->
         <router-view name="homeComponentSite"></router-view>
         <!--      SEARCH INSTRUMENT BY NAME-->

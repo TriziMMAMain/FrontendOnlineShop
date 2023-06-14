@@ -167,74 +167,76 @@ const buyInBasket = async (id, _id) => {
 
 <template>
   <!--        CARD -->
-  <v-card
-      :width="widthFunc()"
-      :height="heightFunc()"
-      color="background"
-      elevation="5"
-      class="vCardMain pa-5 mr-10 mb-16"
-      v-for="i in cordlessDrillArray">
-    <v-row class="d-sm-flex">
-      <!--      FIRST COL-->
-      <v-col :cols="firstColFunc()"
-             class="d-flex justify-center align-center">
-        <!--    CARD ITEM START-->
-        <v-card-item>
-          <div class="photoInCardBlock">
-            <img class="photoInCard" :src="i.imgTitle" alt="">
+  <div class="widthBlock">
+    <v-card
+        width="100%"
+        :height="heightFunc()"
+        color="background"
+        elevation="5"
+        class="vCardMain pa-5 mr-10 mb-16"
+        v-for="i in cordlessDrillArray">
+      <v-row class="d-sm-flex">
+        <!--      FIRST COL-->
+        <v-col :cols="firstColFunc()"
+               class="d-flex justify-center align-center">
+          <!--    CARD ITEM START-->
+          <v-card-item>
+            <div class="photoInCardBlock">
+              <img class="photoInCard" :src="i.imgTitle" alt="">
+            </div>
+            <v-card-subtitle class="vCardSubtitleMain">Код: {{ i.id }}</v-card-subtitle>
+          </v-card-item>
+          <!--    CARD ITEM END-->
+        </v-col>
+        <!--      SECOND COL-->
+        <v-col :cols="secondColFunc()"
+               class="secondCol pa-1">
+          <!--        TITLE-->
+          <div class="blockTitleCard">
+            <button @click="viewDetails(i.id, i._id)" class="cardTextHref mt-1">{{ i.name }}</button>
           </div>
-          <v-card-subtitle class="vCardSubtitleMain">Код: {{ i.id }}</v-card-subtitle>
-        </v-card-item>
-        <!--    CARD ITEM END-->
-      </v-col>
-      <!--      SECOND COL-->
-      <v-col :cols="secondColFunc()"
-             class="secondCol pa-1">
-        <!--        TITLE-->
-        <div class="blockTitleCard">
-          <button @click="viewDetails(i.id, i._id)" class="cardTextHref mt-1">{{ i.name }}</button>
-        </div>
-        <!--        SPAN AND TEXT-->
-        <div
-            class="textCardFeatureMain">
-          <div v-for="item in i.featureTopTitle"
-               key="item"
-               class="textCardFeatureDiv">
-            <p class="textCardFeature">{{ item.featureTopTitleInfoTitle, ':' }}
-              <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></p></div>
-        </div>
+          <!--        SPAN AND TEXT-->
+          <div
+              class="textCardFeatureMain">
+            <div v-for="item in i.featureTopTitle"
+                 key="item"
+                 class="textCardFeatureDiv">
+              <p class="textCardFeature">{{ item.featureTopTitleInfoTitle, ':' }}
+                <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></p></div>
+          </div>
 
 
-      </v-col>
-      <!--      THIRD COL-->
-      <v-col :cols="thirdColFunc()"
-             class="pa-1">
-        <!--    CARD ACTIONS START-->
+        </v-col>
+        <!--      THIRD COL-->
+        <v-col :cols="thirdColFunc()"
+               class="pa-1">
+          <!--    CARD ACTIONS START-->
 
-        <v-card-actions
-            class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
-          <p class="textCardPrice pt-3 pb-3">
-            {{ i.price }} рублей
+          <v-card-actions
+              class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
+            <p class="textCardPrice pt-3 pb-3">
+              {{ i.price }} рублей
+            </p>
+            <v-btn
+                @click="buyInBasket(i.id, i._id)"
+                elevation="1"
+                class="vBtnBuy"
+                :width="widthtFuncVBtn()"
+                :height="heightFuncVBtn()"
+                prepend-icon="fa-solid fa-cart-shopping"
+            >
+              Купить
+            </v-btn>
+          </v-card-actions>
+          <p class="textCardAvailability">
+            В наличии имеется > {{ i.availability }}
           </p>
-          <v-btn
-              @click="buyInBasket(i.id, i._id)"
-              elevation="1"
-              class="vBtnBuy"
-              :width="widthtFuncVBtn()"
-              :height="heightFuncVBtn()"
-              prepend-icon="fa-solid fa-cart-shopping"
-          >
-            Купить
-          </v-btn>
-        </v-card-actions>
-        <p class="textCardAvailability">
-          В наличии имеется > {{ i.availability }}
-        </p>
 
-        <!--    CARD ACTIONS END-->
-      </v-col>
-    </v-row>
-  </v-card>
+          <!--    CARD ACTIONS END-->
+        </v-col>
+      </v-row>
+    </v-card>
+  </div>
   <!--        END CARD-->
 </template>
 
@@ -247,6 +249,10 @@ const buyInBasket = async (id, _id) => {
 
 @media screen and (max-width: 376px) {
   /*  стили для xl-устройств */
+  .widthBlock {
+    width: 100%;
+  }
+
   .vCardMain {
 
   }
@@ -343,6 +349,10 @@ const buyInBasket = async (id, _id) => {
 
 @media screen and (min-width: 376px) and (max-width: 599px) {
   /*  стили для xl-устройств */
+  .widthBlock {
+    width: 100%;
+  }
+
   .vCardMain {
 
   }
@@ -439,6 +449,10 @@ const buyInBasket = async (id, _id) => {
 
 @media screen and (min-width: 600px) and (max-width: 960px) {
   /*  стили для xl-устройств */
+  .widthBlock {
+    width: 540px;
+  }
+
   .vCardMain {
 
   }
@@ -527,6 +541,10 @@ const buyInBasket = async (id, _id) => {
 
 @media screen and (min-width: 960px) and (max-width: 1280px) {
   /*  стили для xl-устройств */
+  .widthBlock {
+    width: 900px;
+  }
+
   .vCardMain {
 
   }
@@ -615,6 +633,10 @@ const buyInBasket = async (id, _id) => {
 
 @media screen and (min-width: 1280px) and (max-width: 1920px) {
   /*  стили для xl-устройств */
+  .widthBlock {
+    width: 1200px;
+  }
+
   .vCardMain {
 
   }
@@ -708,6 +730,10 @@ const buyInBasket = async (id, _id) => {
 
 @media screen and (min-width: 1920px) and (max-width: 2560px) {
   /*  стили для xxl-устройств */
+  .widthBlock {
+    width: 1700px;
+  }
+
   .vCardMain {
     display: flex;
     justify-content: space-around;
@@ -801,6 +827,10 @@ const buyInBasket = async (id, _id) => {
 
 @media screen and (min-width: 2560px) {
   /*  стили для xxl-устройств */
+  .widthBlock {
+    width: 1100px;
+  }
+
   .vCardMain {
     display: flex;
     justify-content: space-around;

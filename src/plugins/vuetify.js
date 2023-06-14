@@ -43,5 +43,4 @@ export const vuetify = createVuetify({
             myCustomTheme,
         }
     }
-
 })
