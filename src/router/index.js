@@ -45,9 +45,6 @@ import ShopPneumotoolInstrumentJackhammerId from '../components/ShopInstrumentBy
 import ShopPneumotoolInstrumentNailGun from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrumentNailGun.vue'
 import ShopPneumotoolInstrumentNailGunId from '../components/ShopInstrumentByID/PneumotoolId/ShopInstrumentPneumotoolIdNailGun.vue'
 // Admin
-import AdminView from '../views/AdminView.vue'
-// import AdminPanelUsers from '../components/AdminPanelComponents/usersComponent.vue'
-// import AdminPanelInstrument from '../components/AdminPanelComponents/instrumentComponent.vue'
 
 const routes = [
     {
