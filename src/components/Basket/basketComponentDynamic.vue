@@ -447,6 +447,7 @@ const closeBasket = () => {
     height: 100vh;
     display: flex;
     align-items: center;
+    margin-top: 70px;
     z-index: 2;
   }
 
@@ -456,8 +457,6 @@ const closeBasket = () => {
     height: 100vh;
     position: relative;
     padding: 15px;
-    box-shadow: 0 0 10.5px rgba(0, 0, 0, 0.24),
-    0 0 84px rgba(0, 0, 0, 0.12);
     border-radius: 20px;
     z-index: 2;
     background-color: $background;
@@ -485,7 +484,7 @@ const closeBasket = () => {
   }
 
   .titleMainTitle {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 500;
     color: $text;
   }
@@ -515,7 +514,7 @@ const closeBasket = () => {
   // BLOCK BASKET TITLE PRICE BTN
   .blockBasketTitlePriceBtn {
     width: 55%;
-    min-height: 300px;
+    min-height: 400px;
     padding-left: 24px;
     background-color: $background;
   }
@@ -529,7 +528,7 @@ const closeBasket = () => {
 
   // BLOCK BASKET TITLE SECOND BLOCK ONE
   .titleSecondTitle {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
     color: $text;
   }
@@ -551,11 +550,13 @@ const closeBasket = () => {
   .blockBasketBtnMain {
     width: 100%;
     height: 125px;
+    display: flex;
+    flex-wrap: wrap;
     background-color: $background;
   }
 
   .blockBasketBtnMainInPlus, .blockBasketBtnMainInMinus {
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: $text;
     background-color: $background;
     border: 1px solid $text;
@@ -581,9 +582,13 @@ const closeBasket = () => {
   }
 
   .linkInBasketBtn {
-    font-size: 0.5rem;
+    font-size: 1rem;
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: $background;
     background-color: $primary;
   }
