@@ -168,8 +168,9 @@ const buyInBasket = async (id) => {
 
 <template>
   <!--        CARD -->
-  <v-card
-      :width="widthFunc()"
+  <div class="widthBlock">
+    <v-card
+        width="100%"
       :height="heightFunc()"
       color="background"
       elevation="5"
@@ -236,6 +237,7 @@ const buyInBasket = async (id) => {
       </v-col>
     </v-row>
   </v-card>
+  </div>
   <!--        END CARD-->
 </template>
 
@@ -245,8 +247,13 @@ const buyInBasket = async (id) => {
 
 
 // Media
+
 @media screen and (max-width: 376px) {
   /*  стили для xl-устройств */
+  .widthBlock {
+    width: 100%;
+  }
+
   .vCardMain {
 
   }
@@ -341,8 +348,12 @@ const buyInBasket = async (id) => {
   }
 }
 
-@media screen and (min-width: 376px) and (max-width: 600px) {
+@media screen and (min-width: 376px) and (max-width: 599px) {
   /*  стили для xl-устройств */
+  .widthBlock {
+    width: 100%;
+  }
+
   .vCardMain {
 
   }
@@ -439,6 +450,10 @@ const buyInBasket = async (id) => {
 
 @media screen and (min-width: 600px) and (max-width: 960px) {
   /*  стили для xl-устройств */
+  .widthBlock {
+    width: 540px;
+  }
+
   .vCardMain {
 
   }
@@ -527,6 +542,10 @@ const buyInBasket = async (id) => {
 
 @media screen and (min-width: 960px) and (max-width: 1280px) {
   /*  стили для xl-устройств */
+  .widthBlock {
+    width: 900px;
+  }
+
   .vCardMain {
 
   }
@@ -615,6 +634,10 @@ const buyInBasket = async (id) => {
 
 @media screen and (min-width: 1280px) and (max-width: 1920px) {
   /*  стили для xl-устройств */
+  .widthBlock {
+    width: 1200px;
+  }
+
   .vCardMain {
 
   }
@@ -708,6 +731,10 @@ const buyInBasket = async (id) => {
 
 @media screen and (min-width: 1920px) and (max-width: 2560px) {
   /*  стили для xxl-устройств */
+  .widthBlock {
+    width: 1700px;
+  }
+
   .vCardMain {
     display: flex;
     justify-content: space-around;
@@ -801,6 +828,10 @@ const buyInBasket = async (id) => {
 
 @media screen and (min-width: 2560px) {
   /*  стили для xxl-устройств */
+  .widthBlock {
+    width: 1100px;
+  }
+
   .vCardMain {
     display: flex;
     justify-content: space-around;

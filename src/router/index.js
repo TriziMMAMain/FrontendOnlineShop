@@ -8,7 +8,7 @@ import basketComponentSite from '../components/Basket/basketComponentSite.vue'
 import BasketComponentCheckout from '../components/Basket/basketComponentCheckout.vue'
 // Cordless
 import ShopCordless from '../components/ShopCordlessInstrument/ShopCordlessInstrument.vue'
-import ShopCordlessAll from '../components/ShopCordlessInstrument/ShopCrodlessInstrumentAll.vue'
+import ShopCordlessAll from '../components/ShopCordlessInstrument/ShopCordlessInstrumentAll.vue'
 import ShopCordlessDrill from '../components/ShopCordlessInstrument/ShopCordlessInstrumentDrill.vue'
 import ShopCordlessGrinders from '../components/ShopCordlessInstrument/ShopCordlessInstrumentGrinders.vue'
 import ShopCordlessScrewdrivers from '../components/ShopCordlessInstrument/ShopCordlessInstrumentScrewdrivers.vue'

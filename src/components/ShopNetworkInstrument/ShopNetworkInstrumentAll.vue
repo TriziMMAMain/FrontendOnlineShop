@@ -12,9 +12,11 @@ import ShopNetworkInstrumentPerforator from './ShopNetworkInstrumentPerforator.v
 
 <template>
   <!--        CARD -->
+  <v-container class="pa-0">
     <ShopNetworkInstrumentDrill></ShopNetworkInstrumentDrill>
     <ShopNetworkInstrumentFretsaw></ShopNetworkInstrumentFretsaw>
     <ShopNetworkInstrumentPerforator></ShopNetworkInstrumentPerforator>
+  </v-container>
 </template>
 
 <style lang="scss" scoped>
