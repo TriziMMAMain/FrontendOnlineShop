@@ -163,7 +163,7 @@ const titleInProcessing = ref('Ожидание обработки')
 const trueOrFalseDiv = ref(JSON.parse(localStorage.getItem("basket_click_user")))
 
 let dateClickUserOrder = ref(null)
-
+localStorage.setItem("basket_click_user", JSON.stringify(false))
 const getIdUser = async () => {
   const userId = ref(JSON.parse(localStorage.getItem("id_user_basket")))
 
