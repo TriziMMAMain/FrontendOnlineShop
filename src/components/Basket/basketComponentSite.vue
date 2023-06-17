@@ -214,45 +214,75 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="blockTitleInSite d-flex">
-    <h1 class="blockTitleInSiteTitle">Корзина</h1>
-    <v-btn
-        @click="deleteArray"
-        class="blockTitleInSiteBtnDelete d-flex justify-center align-center"
-        href="/basket/">Удалить все товары
-    </v-btn>
-  </div>
-  <div class="blockBasketInSite">
-    <div class="blockFirstBasket">
-      <div class="blockTrueInBasketClear"
-           v-if="counterTrueFalseInBasket">
-        <h1 class="blockTrueInBasketClearTitle">Ваша корзина пока пуста</h1>
-        <p class="blockTrueInBasketClearText">Чтобы добавить товар, перейдите в наш каталог, выберите интересующую
-          вас категорию, затем выберите тип инструмента и нажмите на кнопку "Купить", или воспользуйтесь поисковой
-          строкой. После этого выбранный вами товар отобразится в корзине.</p>
-      </div>
-      <div v-else>
-        <div class="blockMainBasketInfo d-flex ">
-          <div class="blockMainBasketInfoText">
-            <h1 class="blockMainBasketInfoTextTitle">Наименование</h1>
+  <v-container class="d-flex flex-column flex-wrap">
+    <div class="blockTitleInSite d-flex">
+      <h1 class="blockTitleInSiteTitle">Корзина</h1>
+      <v-btn
+          @click="deleteArray"
+          class="blockTitleInSiteBtnDelete d-flex justify-center align-center"
+          href="/basket/">Удалить все товары
+      </v-btn>
+    </div>
+    <div class="blockBasketInSite">
+      <div class="blockFirstBasket">
+        <div class="blockTrueInBasketClear"
+             v-if="counterTrueFalseInBasket">
+          <h1 class="blockTrueInBasketClearTitle">Ваша корзина пока пуста</h1>
+          <p class="blockTrueInBasketClearText">Чтобы добавить товар, перейдите в наш каталог, выберите интересующую
+            вас категорию, затем выберите тип инструмента и нажмите на кнопку "Купить", или воспользуйтесь поисковой
+            строкой. После этого выбранный вами товар отобразится в корзине.</p>
+        </div>
+        <div v-else>
+          <div class="blockMainBasketInfo d-flex ">
+            <div class="blockMainBasketInfoText">
+              <h1 class="blockMainBasketInfoTextTitle">Наименование</h1>
+            </div>
+            <div class="blockMainBasketPriceAmountSum d-flex">
+              <h1 class="blockMainBasketPrice">Цена</h1>
+              <h1 class="blockMainBasketAmount">Кол-во</h1>
+              <h1 class="blockMainBasketSum">Сумма</h1>
+            </div>
           </div>
-          <div class="blockMainBasketPriceAmountSum d-flex">
-            <h1 class="blockMainBasketPrice">Цена</h1>
-            <h1 class="blockMainBasketAmount">Кол-во</h1>
-            <h1 class="blockMainBasketSum">Сумма</h1>
+          <div class="blockVCardFirstBasketDiv">
+            <div class="blockVCardFirstBasket"
+                 v-for="item in arrayObjectsInInstrumentCopy">
+              <div class="absoluteCloseBlock">
+                <v-btn
+                    class="absoluteCloseVBtn"
+                    :width="widthFuncVBtnBasket()"
+                    :height="heightFuncVBtnBasket()"
+                    :size="sizeFuncVBtnBasket()"
+                    @click="clickToDeleteInBasket(item.name)" icon="fa-solid fa-x"></v-btn>
+              </div>
+              <div class="blockVCardFirstBasketItemPhotoMain d-flex justify-center align-center">
+                <img :src="item.imgTitle" alt="" class="blockVCardFirstBasketItemPhoto">
+              </div>
+              <div class="blockVCardFirstBasketItemInfoText">
+                <p class="blockVCardFirstBasketItemSubtitle">Код: {{ item.id }}</p>
+                <h1
+                    @click="clickInBasket(item)"
+                    class="blockVCardFirstBasketItemTitle">{{ item.name }}</h1>
+              </div>
+              <div class="blockVCardFirstBasketItemPriceAmountSum">
+                <div class="blockVCardFirstBasketItemPriceMain d-flex justify-center align-center">
+                  <h1 class="blockVCardFirstBasketItemPriceMainTitle">{{ item.price }} р.</h1>
+                </div>
+                <div class="blockVCardFirstBasketItemAmountMain d-flex justify-center align-center">
+                  <h1 class="blockVCardFirstBasketItemAmountMainTitle">{{ item.orderSum }} шт</h1>
+                </div>
+                <div class="blockVCardFirstBasketItemSumMain d-flex justify-center align-center">
+                  <h1 class="blockVCardFirstBasketItemSumMainTitle">{{ item.priceOrder }} р.</h1>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="blockVCardFirstBasketDiv">
+        <div class="blockVCardFirstBasketDiv"
+             v-if="trueOrFalseDiv"
+        >
+          <h1 class="titleInProcessing">{{ titleInProcessing }}</h1>
           <div class="blockVCardFirstBasket"
-               v-for="item in arrayObjectsInInstrumentCopy">
-            <div class="absoluteCloseBlock">
-              <v-btn
-                  class="absoluteCloseVBtn"
-                  :width="widthFuncVBtnBasket()"
-                  :height="heightFuncVBtnBasket()"
-                  :size="sizeFuncVBtnBasket()"
-                  @click="clickToDeleteInBasket(item.name)" icon="fa-solid fa-x"></v-btn>
-            </div>
+               v-for="item in userIdData">
             <div class="blockVCardFirstBasketItemPhotoMain d-flex justify-center align-center">
               <img :src="item.imgTitle" alt="" class="blockVCardFirstBasketItemPhoto">
             </div>
@@ -276,62 +306,32 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div class="blockVCardFirstBasketDiv"
-           v-if="trueOrFalseDiv"
-      >
-        <h1 class="titleInProcessing">{{ titleInProcessing }}</h1>
-        <div class="blockVCardFirstBasket"
-             v-for="item in userIdData">
-          <div class="blockVCardFirstBasketItemPhotoMain d-flex justify-center align-center">
-            <img :src="item.imgTitle" alt="" class="blockVCardFirstBasketItemPhoto">
-          </div>
-          <div class="blockVCardFirstBasketItemInfoText">
-            <p class="blockVCardFirstBasketItemSubtitle">Код: {{ item.id }}</p>
-            <h1
-                @click="clickInBasket(item)"
-                class="blockVCardFirstBasketItemTitle">{{ item.name }}</h1>
-          </div>
-          <div class="blockVCardFirstBasketItemPriceAmountSum">
-            <div class="blockVCardFirstBasketItemPriceMain d-flex justify-center align-center">
-              <h1 class="blockVCardFirstBasketItemPriceMainTitle">{{ item.price }} р.</h1>
-            </div>
-            <div class="blockVCardFirstBasketItemAmountMain d-flex justify-center align-center">
-              <h1 class="blockVCardFirstBasketItemAmountMainTitle">{{ item.orderSum }} шт</h1>
-            </div>
-            <div class="blockVCardFirstBasketItemSumMain d-flex justify-center align-center">
-              <h1 class="blockVCardFirstBasketItemSumMainTitle">{{ item.priceOrder }} р.</h1>
-            </div>
+      <div class="blockSecondBasket ">
+        <div class="blockSecondBasketDiv">
+          <h1 class="secondBasketMainTitle">Ваш заказ</h1>
+          <h1 class="secondBasketChoiceTitle">Выбрано товаров на кол-во:
+            <span class="secondBasketSpanInText">{{ numberInAmount }} шт</span></h1>
+          <h1 class="secondBasketPriceTitle">Общая стоимость заказа:
+            <span class="secondBasketSpanInText">{{ numberInPriceSum }} рублей</span></h1>
+          <v-divider
+              :thickness="2"
+              class="border-opacity-25"
+              color="background"
+          ></v-divider>
+          <div class="secondBlockVBtnBlock d-flex justify-center align-center">
+            <v-btn
+                href="/checkout/"
+                :width="widthFunc()"
+                :height="heightFunc()"
+                :disabled="counterTrueFalseInBasket"
+                class="secondBasketVBtnDesign"
+            >Оформить заказ
+            </v-btn>
           </div>
         </div>
       </div>
     </div>
-    <div class="blockSecondBasket ">
-      <div class="blockSecondBasketDiv">
-        <h1 class="secondBasketMainTitle">Ваш заказ</h1>
-        <h1 class="secondBasketChoiceTitle">Выбрано товаров на кол-во:
-          <span class="secondBasketSpanInText">{{ numberInAmount }} шт</span></h1>
-        <h1 class="secondBasketPriceTitle">Общая стоимость заказа:
-          <span class="secondBasketSpanInText">{{ numberInPriceSum }} рублей</span></h1>
-        <v-divider
-            :thickness="2"
-            class="border-opacity-25"
-            color="background"
-        ></v-divider>
-        <div class="secondBlockVBtnBlock d-flex justify-center align-center">
-          <v-btn
-              href="/checkout/"
-              :width="widthFunc()"
-              :height="heightFunc()"
-              :disabled="counterTrueFalseInBasket"
-              class="secondBasketVBtnDesign"
-          >Оформить заказ
-          </v-btn>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
+  </v-container>
 </template>
 
 <style lang="scss" scoped>

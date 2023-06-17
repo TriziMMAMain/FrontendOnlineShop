@@ -1,6 +1,6 @@
 <script setup="">
 // - Import
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import _ from 'lodash'
 import {useInstrumentStore} from '../../stores/counter.js'
@@ -163,6 +163,17 @@ const buyInBasket = async (id, _id) => {
   }
 }
 
+const availabilityTrue = ref(false)
+const trueAvailabilityText = ref(true)
+onMounted(() => {
+  if (gasolineMotoblockArray.value[0].availability === 0) {
+    availabilityTrue.value = true
+    trueAvailabilityText.value = false
+  } else {
+    availabilityTrue.value = false
+    trueAvailabilityText.value = true
+  }
+})
 </script>
 
 <template>
@@ -214,8 +225,11 @@ const buyInBasket = async (id, _id) => {
 
         <v-card-actions
             class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
-          <p class="textCardPrice pt-3 pb-3">
+          <p class="textCardPrice pt-3 pb-3" v-if="trueAvailabilityText">
             {{ i.price }} рублей
+          </p>
+          <p class="textCardPrice pt-3 pb-3" v-else>
+            Последняя цена {{ i.price }} рублей
           </p>
           <v-btn
               @click="buyInBasket(i.id, i._id)"
@@ -223,13 +237,17 @@ const buyInBasket = async (id, _id) => {
               class="vBtnBuy"
               :width="widthtFuncVBtn()"
               :height="heightFuncVBtn()"
+              :disabled="availabilityTrue"
               prepend-icon="fa-solid fa-cart-shopping"
           >
             Купить
           </v-btn>
         </v-card-actions>
-        <p class="textCardAvailability">
-          В наличии имеется > {{ i.availability }}
+        <p class="textCardAvailability" v-if="trueAvailabilityText">
+          В наличии имеется > {{ i.availability }} шт
+        </p>
+        <p class="textCardAvailabilityFalse" v-else>
+          Нет в наличии
         </p>
 
         <!--    CARD ACTIONS END-->
@@ -316,7 +334,7 @@ const buyInBasket = async (id, _id) => {
 
   .textCardPrice {
     font-size: 1rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -326,12 +344,16 @@ const buyInBasket = async (id, _id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 1rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {
@@ -347,7 +369,7 @@ const buyInBasket = async (id, _id) => {
   }
 }
 
-@media screen and (min-width: 376px) and (max-width: 599px) {
+@media screen and (min-width: 376px) and (max-width: 600px) {
   /*  стили для xl-устройств */
   .widthBlock {
     width: 100%;
@@ -416,7 +438,7 @@ const buyInBasket = async (id, _id) => {
 
   .textCardPrice {
     font-size: 1.2rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -426,12 +448,16 @@ const buyInBasket = async (id, _id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 0.8rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {
@@ -508,7 +534,7 @@ const buyInBasket = async (id, _id) => {
 
   .textCardPrice {
     font-size: 0.8rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -518,12 +544,16 @@ const buyInBasket = async (id, _id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 0.6rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {
@@ -600,7 +630,7 @@ const buyInBasket = async (id, _id) => {
 
   .textCardPrice {
     font-size: 1.2rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -610,12 +640,16 @@ const buyInBasket = async (id, _id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 0.8rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {
@@ -697,7 +731,7 @@ const buyInBasket = async (id, _id) => {
 
   .textCardPrice {
     font-size: 1.3rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -707,12 +741,16 @@ const buyInBasket = async (id, _id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 0.9rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {
@@ -794,7 +832,7 @@ const buyInBasket = async (id, _id) => {
 
   .textCardPrice {
     font-size: 1.8rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -804,12 +842,16 @@ const buyInBasket = async (id, _id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 1.3rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {
@@ -891,7 +933,7 @@ const buyInBasket = async (id, _id) => {
 
   .textCardPrice {
     font-size: 1.8rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -901,12 +943,16 @@ const buyInBasket = async (id, _id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 1.3rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {

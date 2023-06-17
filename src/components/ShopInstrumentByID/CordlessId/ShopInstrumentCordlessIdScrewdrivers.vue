@@ -59,24 +59,11 @@ const heightFuncInCarousel = () => {
 const arrayScrewdriversId = ref([])
 const cordlessLocalCopy = ref([])
 const loadingComponent = ref(false)
+const avalibilityTrue = ref(null)
 //
 const trueOrFalsePhoto = ref(false)
-
-onMounted(async () => {
-  await fetchingInstrumentById()
-  loadingComponent.value = JSON.parse(localStorage.getItem('fetching_instrument_by_id'))
-
-  if (loadingComponent.value) {
-    await updateLocalData()
-  } else {
-    console.log('error 500')
-    ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
-  }
-
-  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(false))
-})
-const updateLocalData = async () => {
-  cordlessLocalCopy.value = await JSON.parse(localStorage.getItem('filter_by_id'))
+const updateLocalData = () => {
+  cordlessLocalCopy.value = JSON.parse(localStorage.getItem('filter_by_id'))
   arrayScrewdriversId.value = cordlessLocalCopy.value[0]
 
   for (let i = 0; i < arrayScrewdriversId.value.imgArray.length; i++) {
@@ -90,6 +77,25 @@ const updateLocalData = async () => {
 
   trueOrFalsePhoto.value = true
 }
+onMounted(async () => {
+  await fetchingInstrumentById()
+  loadingComponent.value = JSON.parse(localStorage.getItem('fetching_instrument_by_id'))
+
+  if (loadingComponent.value) {
+    updateLocalData()
+    if (cordlessLocalCopy.value.availability === 0) {
+      avalibilityTrue.value = false
+    } else {
+      avalibilityTrue.value = true
+    }
+  } else {
+    console.log('error 500')
+    ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
+  }
+
+  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(false))
+})
+
 
 
 const items = [
@@ -201,7 +207,7 @@ const buyInBasket = (_id) => {
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
         </div>
         <div class="cardMainShopSidePrice">
-          <div class="vCardFeature">
+          <div class="vCardFeature" v-if="avalibilityTrue">
             <div class="vCardFeatureTitle">
               <h1 class="vCardTitleShopPriceComponent">
                 {{ i.price }} р.
@@ -211,7 +217,8 @@ const buyInBasket = (_id) => {
             <p class="vCardTextShopPriceComponent">
               Есть на складе в количестве {{ i.availability }} шт
             </p>
-            <p class="vCardTextShopPriceComponentDelivery">Можно забрать самоовывозом или вызвать курьера на дом бесплатно</p>
+            <p class="vCardTextShopPriceComponentDelivery">Можно забрать самоовывозом или вызвать курьера на дом
+              бесплатно</p>
             <div class="vCardBtnShopPriceComponentMain d-flex justify-center">
               <v-btn class="vCardBtnShopPriceComponent"
                      :width="widthFuncInBtn()"
@@ -221,6 +228,23 @@ const buyInBasket = (_id) => {
                 Купить
               </v-btn>
             </div>
+          </div>
+          <div class="vCardFeature" v-else>
+            <div class="vCardFeatureTitle">
+              <h1 class="vCardTitleShopPriceComponentFalse">
+                Нет в наличии
+              </h1>
+            </div>
+            <p class="vCardTextShopPriceComponentFalse">
+              Последняя цена
+              <br>
+              <span class="vCardTextShopPriceComponentFalseSpan"> {{ i.price }} р.
+                <v-icon icon="fa-solid fa-tag"
+                        size="ml"
+                        end></v-icon></span></p>
+            <p class="vCardTextShopPriceComponentFalseOrder">
+              Узнать о поступлении данного товара можно по телефону: <br> +7 (949) 412 91 53
+            </p>
           </div>
         </div>
       </div>
@@ -404,7 +428,7 @@ const buyInBasket = (_id) => {
     height: auto;
   }
 
-  .vCardTitleShopPriceComponent {
+  .vCardTitleShopPriceComponent, .vCardTitleShopPriceComponentFalse {
     text-align: center;
     font-size: 1.4rem;
     font-weight: 600;
@@ -418,6 +442,29 @@ const buyInBasket = (_id) => {
   }
 
   .vCardTextShopPriceComponentDelivery {
+    color: $info;
+  }
+
+  .vCardTitleShopPriceComponentFalse {
+
+  }
+
+  .vCardTextShopPriceComponentFalse {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .vCardTextShopPriceComponentFalseSpan {
+    font-size: 1.4rem;
+    color: $text;
+  }
+
+  .vCardTextShopPriceComponentFalseOrder {
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: 550;
     color: $info;
   }
 
@@ -664,7 +711,7 @@ const buyInBasket = (_id) => {
     height: auto;
   }
 
-  .vCardTitleShopPriceComponent {
+  .vCardTitleShopPriceComponent, .vCardTitleShopPriceComponentFalse {
     text-align: center;
     font-size: 1.4rem;
     font-weight: 600;
@@ -678,6 +725,29 @@ const buyInBasket = (_id) => {
   }
 
   .vCardTextShopPriceComponentDelivery {
+    color: $info;
+  }
+
+  .vCardTitleShopPriceComponentFalse {
+
+  }
+
+  .vCardTextShopPriceComponentFalse {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .vCardTextShopPriceComponentFalseSpan {
+    font-size: 1.4rem;
+    color: $text;
+  }
+
+  .vCardTextShopPriceComponentFalseOrder {
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: 550;
     color: $info;
   }
 
@@ -924,7 +994,7 @@ const buyInBasket = (_id) => {
     height: auto;
   }
 
-  .vCardTitleShopPriceComponent {
+  .vCardTitleShopPriceComponent, .vCardTitleShopPriceComponentFalse {
     text-align: center;
     font-size: 1.3rem;
     font-weight: 600;
@@ -938,6 +1008,29 @@ const buyInBasket = (_id) => {
   }
 
   .vCardTextShopPriceComponentDelivery {
+    color: $info;
+  }
+
+  .vCardTitleShopPriceComponentFalse {
+
+  }
+
+  .vCardTextShopPriceComponentFalse {
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .vCardTextShopPriceComponentFalseSpan {
+    font-size: 1.3rem;
+    color: $text;
+  }
+
+  .vCardTextShopPriceComponentFalseOrder {
+    margin-top: 20px;
+    font-size: 0.8rem;
+    font-weight: 550;
     color: $info;
   }
 
@@ -1184,7 +1277,7 @@ const buyInBasket = (_id) => {
     height: auto;
   }
 
-  .vCardTitleShopPriceComponent {
+  .vCardTitleShopPriceComponent, .vCardTitleShopPriceComponentFalse {
     text-align: center;
     font-size: 1.5rem;
     font-weight: 600;
@@ -1198,6 +1291,29 @@ const buyInBasket = (_id) => {
   }
 
   .vCardTextShopPriceComponentDelivery {
+    color: $info;
+  }
+
+  .vCardTitleShopPriceComponentFalse {
+
+  }
+
+  .vCardTextShopPriceComponentFalse {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .vCardTextShopPriceComponentFalseSpan {
+    font-size: 1.5rem;
+    color: $text;
+  }
+
+  .vCardTextShopPriceComponentFalseOrder {
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: 550;
     color: $info;
   }
 
@@ -1442,7 +1558,7 @@ const buyInBasket = (_id) => {
     height: auto;
   }
 
-  .vCardTitleShopPriceComponent {
+  .vCardTitleShopPriceComponent, .vCardTitleShopPriceComponentFalse {
     text-align: center;
     font-size: 1.7rem;
     font-weight: 600;
@@ -1456,6 +1572,29 @@ const buyInBasket = (_id) => {
   }
 
   .vCardTextShopPriceComponentDelivery {
+    color: $info;
+  }
+
+  .vCardTitleShopPriceComponentFalse {
+
+  }
+
+  .vCardTextShopPriceComponentFalse {
+    margin-top: 20px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .vCardTextShopPriceComponentFalseSpan {
+    font-size: 1.7rem;
+    color: $text;
+  }
+
+  .vCardTextShopPriceComponentFalseOrder {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: 550;
     color: $info;
   }
 
@@ -1701,7 +1840,7 @@ const buyInBasket = (_id) => {
     height: auto;
   }
 
-  .vCardTitleShopPriceComponent {
+  .vCardTitleShopPriceComponent, .vCardTitleShopPriceComponentFalse {
     text-align: center;
     font-size: 2rem;
     font-weight: 600;
@@ -1716,6 +1855,34 @@ const buyInBasket = (_id) => {
 
   .vCardTextShopPriceComponentDelivery {
     color: $info;
+  }
+
+  .vCardTitleShopPriceComponentFalse {
+
+  }
+
+  .vCardTextShopPriceComponentFalse {
+    margin-top: 20px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .vCardTextShopPriceComponentFalseSpan {
+    font-size: 2rem;
+    color: $text;
+  }
+
+  .vCardTextShopPriceComponentFalseOrder {
+    margin-top: 20px;
+    font-size: 1.6rem;
+    font-weight: 550;
+    color: $info;
+  }
+
+  .vCardBtnShopPriceComponentMain {
+    width: 100%;
+    margin-top: 60px;
   }
 
   .vCardBtnShopPriceComponentMain {
@@ -1960,7 +2127,7 @@ const buyInBasket = (_id) => {
     height: auto;
   }
 
-  .vCardTitleShopPriceComponent {
+  .vCardTitleShopPriceComponent, .vCardTitleShopPriceComponentFalse {
     text-align: center;
     font-size: 2rem;
     font-weight: 600;
@@ -1974,6 +2141,29 @@ const buyInBasket = (_id) => {
   }
 
   .vCardTextShopPriceComponentDelivery {
+    color: $info;
+  }
+
+  .vCardTitleShopPriceComponentFalse {
+
+  }
+
+  .vCardTextShopPriceComponentFalse {
+    margin-top: 20px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: $textSpan;
+  }
+
+  .vCardTextShopPriceComponentFalseSpan {
+    font-size: 2rem;
+    color: $text;
+  }
+
+  .vCardTextShopPriceComponentFalseOrder {
+    margin-top: 20px;
+    font-size: 1.7rem;
+    font-weight: 550;
     color: $info;
   }
 
