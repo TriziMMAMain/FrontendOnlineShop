@@ -34,6 +34,8 @@ export const useBasketStore = defineStore({
         async postAxiosUser(data) {
             try {
                 const responseData = await interceptors.post('api/user/add', data)
+                console.log(responseData.data);
+                localStorage.setItem("id_user_basket", JSON.stringify(data.newId))
                 return true
             } catch (err) {
                 this.error = err
@@ -53,11 +55,10 @@ export const useBasketStore = defineStore({
                 return false
             }
         },
-        async fetchingUserId() {
+        async fetchingUserId(id) {
             try {
-                // const response = await interceptors.get('user/id')
-                // this.userId = response.data
-                // localStorage.setItem("user_id", JSON.stringify(this.userId))
+                this.userId = _.filter(this.users, {newId: id})
+                localStorage.setItem("user_id", JSON.stringify(this.userId))
                 return true
             } catch (error) {
                 this.error = error

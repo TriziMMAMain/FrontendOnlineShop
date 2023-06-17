@@ -8,9 +8,10 @@ import {useInstrumentStore} from '../../stores/counter.js'
 import {useRouter} from "vue-router/dist/vue-router";
 import axios from "axios";
 import {ProccesingSuccessfuly} from "../../notification/toasting";
-
+import {formatDateAndTime} from '../../moment/moment.js'
 import {useRoute} from 'vue-router'
 
+const {date, time} = formatDateAndTime()
 const {name} = useDisplay()
 const router = useRouter()
 
@@ -161,13 +162,17 @@ const userIdDataMain = ref('')
 const titleInProcessing = ref('Ожидание обработки')
 const trueOrFalseDiv = ref(JSON.parse(localStorage.getItem("basket_click_user")))
 
+let dateClickUserOrder = ref(null)
+
 const getIdUser = async () => {
   const userId = ref(JSON.parse(localStorage.getItem("id_user_basket")))
+
   if (await fetchingUsers()) {
-    if (await fetchingUserId()) {
+    if (await fetchingUserId(userId.value)) {
       if (JSON.parse(localStorage.getItem("basket_click_user"))) {
         userIdDataMain.value = JSON.parse(localStorage.getItem("user_id"))
         userIdData.value = userIdDataMain.value[0].instrumentArray
+        dateClickUserOrder.value = userIdDataMain.value[0].dateClick
         console.log(`Fetching user id good`);
         if (userIdDataMain.value[0].processing === 'Ожидание обработки') {
           titleInProcessing.value = 'Ожидание обработки'
@@ -183,9 +188,8 @@ const getIdUser = async () => {
     } else {
 
     }
-  } else {
-
   }
+
 
 
 
@@ -200,7 +204,13 @@ const clickToDeleteInBasket = (name) => {
     window.location.reload()
   }, 2000)
 }
-
+const funcDisabled = () => {
+  if (titleInProcessing.value === 'Ожидание обработки' || counterTrueFalseInBasket.value === true) {
+    return true
+  } else {
+    return false
+  }
+}
 onMounted(async () => {
   await getIdUser()
 
@@ -280,7 +290,7 @@ onMounted(async () => {
         <div class="blockVCardFirstBasketDiv"
              v-if="trueOrFalseDiv"
         >
-          <h1 class="titleInProcessing">{{ titleInProcessing }}</h1>
+          <h1 class="titleInProcessing">{{ titleInProcessing }}, заказ был сделан в {{ dateClickUserOrder }}</h1>
           <div class="blockVCardFirstBasket"
                v-for="item in userIdData">
             <div class="blockVCardFirstBasketItemPhotoMain d-flex justify-center align-center">
@@ -323,7 +333,7 @@ onMounted(async () => {
                 href="/checkout/"
                 :width="widthFunc()"
                 :height="heightFunc()"
-                :disabled="counterTrueFalseInBasket"
+                :disabled="funcDisabled()"
                 class="secondBasketVBtnDesign"
             >Оформить заказ
             </v-btn>

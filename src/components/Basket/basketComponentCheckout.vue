@@ -6,7 +6,9 @@ import {useBasketStore} from '../../stores/counterBasket.js'
 import axios from 'axios';
 import {ProccesingSuccessfuly} from "../../notification/toasting";
 import {useRouter} from 'vue-router'
+import { formatDateAndTime } from "../../moment/moment.js";
 
+const {date, time} = formatDateAndTime()
 const router = useRouter()
 const {name} = useDisplay()
 const {postAxiosUser} = useBasketStore()
@@ -124,7 +126,7 @@ const checkboxDeliveryRulesUser = [
 const local = JSON.parse(localStorage.getItem("basket_object"))
 
 // node js
-
+console.log(typeof date, typeof time);
 const formData = ref({
   newId: 0,
   name: '',
@@ -134,15 +136,18 @@ const formData = ref({
   address: '',
   instrumentArray: local,
   dayAndTime: '',
-  processing: 'Ожидание обработки'
+  processing: 'Ожидание обработки',
+  dateClick: date,
+  timeClick: time
 })
+
 
 const clickInInfo = async () => {
   const newIdMath = ref(Math.floor(Math.random() * 1000000))
   formData.value.newId = newIdMath.value
+
   console.log(formData.value);
   await postAxiosUser(formData.value)
-  localStorage.setItem("id_user_basket", JSON.stringify(formData.value.newId))
   ProccesingSuccessfuly('Вы подтвердили свой заказ, ожидайте!')
   formData.value = {
     newId: 0,
