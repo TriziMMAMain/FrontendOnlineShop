@@ -159,7 +159,7 @@ const clickInBasket = async (array) => {
 
 const userIdData = ref('')
 const userIdDataMain = ref('')
-const titleInProcessing = ref('Ожидание обработки')
+const titleInProcessing = ref(null)
 const trueOrFalseDiv = ref(JSON.parse(localStorage.getItem("basket_click_user")))
 
 let dateClickUserOrder = ref(null)
