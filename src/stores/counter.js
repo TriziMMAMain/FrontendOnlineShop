@@ -16,6 +16,7 @@ export const useInstrumentStore = defineStore({
         pneumoLocalCopyPinia: null,
         instrumentLocalCopyByName: null,
         instrumentLocalCopyById: null,
+        instrumentFilterByParams: null,
         // Fetching user
         userId: null,
         // Filter by name instrument
@@ -52,7 +53,9 @@ export const useInstrumentStore = defineStore({
                 const response = await interceptors.get('api/instruments/get/all')
                 this.allLocalCopyPinia = response.data
                 let uniqueBrands = _.uniqBy(this.allLocalCopyPinia, 'brand').map(instrument => instrument.brand)
+                let uniqueType = _.uniqBy(this.allLocalCopyPinia, 'type').map(instrument => instrument.type)
                 localStorage.setItem("all_instrument", JSON.stringify(this.allLocalCopyPinia))
+                localStorage.setItem("all_instrument_type", JSON.stringify(uniqueType))
                 localStorage.setItem("all_instrument_brand", JSON.stringify(uniqueBrands))
                 return true
             } catch (error) {
@@ -263,7 +266,30 @@ export const useInstrumentStore = defineStore({
         },
         // by type, typeThis, brand, price, avalibility
         async filterByParams(dataObj) {
-            console.log(this.allLocalCopyPinia);
+            if (await this.filterByParamsMain(dataObj)) {
+                return true
+            } else {
+                return false
+            }
+
+        },
+        async filterByParamsMain(dataObj) {
+            const instrumentFilteredType = _.filter(this.allLocalCopyPinia, {type: dataObj.type});
+            const instrumentFilteredTypeThis = _.filter(instrumentFilteredType, {typeThis: dataObj.typeThis});
+            const instrumentFilteredBrand = _.filter(instrumentFilteredTypeThis, {brand: dataObj.brand});
+            const instrumentFilteredAvalibilitySecond = _.filter(instrumentFilteredBrand, {avalibilitySecond: dataObj.avalibilitySecond});
+            const instrumentFiltered = _.filter(instrumentFilteredAvalibilitySecond, (instrument) => {
+                return instrument.price < dataObj.price;
+            });
+
+            if (instrumentFiltered.length >= 1) {
+                this.instrumentFilterByParams = instrumentFiltered
+                localStorage.setItem("instrument_filter_by_params", JSON.stringify(this.instrumentFilterByParams))
+                return true
+            } else {
+                ProcessingError('Такого инструмента нету!')
+                return false
+            }
         },
     },
     getters: {

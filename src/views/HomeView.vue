@@ -31,40 +31,40 @@ const {
 visitsInSite()
 
 
-const fetchingPiniaInstrument = async () =>  {
+const fetchingPiniaInstrument = async () => {
   try {
-      await fetchingInstrumentCordless()
-          .then(() => {
-            console.log(`fetching cordless`)
-          })
-          .catch((error) => {
-            ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
-            console.log(error)
-          })
-      await fetchingInstrumentGasoline()
-          .then(() => {
-            console.log(`fetching gasoline`)
-          })
-          .catch((error) => {
-            ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
-            console.log(error)
-          })
-      await fetchingInstrumentNetwork()
-          .then(() => {
-            console.log(`fetching network`)
-          })
-          .catch((error) => {
-            ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
-            console.log(error)
-          })
-      await fetchingInstrumentPneumotool()
-          .then(() => {
-            console.log(`fetching pneumotool`)
-          })
-          .catch((error) => {
-            ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
-            console.log(error)
-          })
+    await fetchingInstrumentCordless()
+        .then(() => {
+          console.log(`fetching cordless`)
+        })
+        .catch((error) => {
+          ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
+          console.log(error)
+        })
+    await fetchingInstrumentGasoline()
+        .then(() => {
+          console.log(`fetching gasoline`)
+        })
+        .catch((error) => {
+          ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
+          console.log(error)
+        })
+    await fetchingInstrumentNetwork()
+        .then(() => {
+          console.log(`fetching network`)
+        })
+        .catch((error) => {
+          ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
+          console.log(error)
+        })
+    await fetchingInstrumentPneumotool()
+        .then(() => {
+          console.log(`fetching pneumotool`)
+        })
+        .catch((error) => {
+          ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
+          console.log(error)
+        })
     await fetchingInstrumentByName()
         .then(() => {
           console.log(`fetching instrument name`)
@@ -73,7 +73,7 @@ const fetchingPiniaInstrument = async () =>  {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
           console.log(error)
         })
-      instrumentAllNameArray.value = JSON.parse(localStorage.getItem("filter_instrument_all_name"))
+    instrumentAllNameArray.value = JSON.parse(localStorage.getItem("filter_instrument_all_name"))
   } catch (err) {
     ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
     console.log(err)
@@ -161,7 +161,7 @@ const widthFuncNavigationDrawer = () => {
     return '600'
   }
 }
-const widthFuncVBtnNavigationDrawer = () =>   {
+const widthFuncVBtnNavigationDrawer = () => {
   if (name.value === 'xs') {
     return '150'
   } else if (name.value === 'sm') {
@@ -195,8 +195,8 @@ const heightFuncVBtnNavigationDrawer = () => {
 const instrumentAllNameArray = ref([])
 
 // Navigation
-let navigationDrawer = ref(false)
-const trueOrFalseNavigationDrawer = ref(true)
+let navigationDrawer = ref(true)
+const trueOrFalseNavigationDrawer = ref(false)
 
 const navigationDrawerClick = () => {
   navigationDrawer.value = !navigationDrawer.value
@@ -281,7 +281,8 @@ const fluidFunc = () => {
           <v-btn
               :width="widthFunc()"
               :height="heightFuncVBtn()"
-              class="basketComponent d-flex justify-center align-center" href="/basket/">Корзина</v-btn>
+              class="basketComponent d-flex justify-center align-center" href="/basket/">Корзина
+          </v-btn>
         </v-col>
       </v-row>
     </v-app-bar>
@@ -295,22 +296,23 @@ const fluidFunc = () => {
         temporary
         class="pa-4">
       <div class="actionsVBtnNavigationDrawer w-100 d-flex justify-space-evenly">
-        <CatalogInstrument></CatalogInstrument>
-        <!--        <v-btn-->
-<!--            class="VBtnNavigationDrawer"-->
-<!--            :width="widthFuncVBtnNavigationDrawer()"-->
-<!--            :height="heightFuncVBtnNavigationDrawer()"-->
-<!--            @click="clickToCatalog()">Каталог</v-btn>-->
-<!--        <v-btn-->
-<!--            class="VBtnNavigationDrawer"-->
-<!--            :width="widthFuncVBtnNavigationDrawer()"-->
-<!--            :height="heightFuncVBtnNavigationDrawer()"-->
-<!--            @click="clickToFilter()">Фильтр</v-btn>-->
+        <v-btn
+            class="VBtnNavigationDrawer"
+            :width="widthFuncVBtnNavigationDrawer()"
+            :height="heightFuncVBtnNavigationDrawer()"
+            @click="clickToCatalog()">Каталог
+        </v-btn>
+        <v-btn
+            class="VBtnNavigationDrawer"
+            :width="widthFuncVBtnNavigationDrawer()"
+            :height="heightFuncVBtnNavigationDrawer()"
+            @click="clickToFilter()">Фильтр
+        </v-btn>
       </div>
-<!--      <div class="blockNavigationDrawer d-flex justify-center ma-6">-->
-<!--        <CatalogInstrument v-if="trueOrFalseNavigationDrawer"></CatalogInstrument>-->
-<!--        <FilterInstrument v-else></FilterInstrument>-->
-<!--      </div>-->
+      <div class="blockNavigationDrawer d-flex justify-center ma-6">
+        <CatalogInstrument v-if="trueOrFalseNavigationDrawer"></CatalogInstrument>
+        <FilterInstrument v-else></FilterInstrument>
+      </div>
 
     </v-navigation-drawer>
     <v-main>
@@ -346,13 +348,15 @@ const fluidFunc = () => {
             ></v-autocomplete>
           </div>
         </div>
-          <div class="w-100 d-flex justify-center align-center flex-wrap"
-              v-if="loadingPage"><v-progress-circular
+        <div class="w-100 d-flex justify-center align-center flex-wrap"
+             v-if="loadingPage">
+          <v-progress-circular
               color="primary"
               indeterminate
               :size="128"
               :width="12"
-          ></v-progress-circular></div>
+          ></v-progress-circular>
+        </div>
         <MainComponentInstrument v-else></MainComponentInstrument>
       </v-container>
     </v-main>

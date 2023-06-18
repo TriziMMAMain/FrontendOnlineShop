@@ -128,8 +128,9 @@ const arrayLocalStorage = ref([])
 let dataInstrument = ref([])
 
 
-onMounted(() => {
-
+onMounted(async () => {
+  arrayLocalStorage.value = JSON.parse(localStorage.getItem("instrument_filter_by_params"))
+  instrumentFilterName.value = arrayLocalStorage.value
 })
 
 
@@ -320,7 +321,7 @@ const buyInBasket = async (id) => {
       color="background"
       elevation="5"
       class="vCardMain pa-5 mr-10 mb-16"
-      v-for="i in [instrumentFilterName]">
+      v-for="i in instrumentFilterName">
     <v-row class="d-sm-flex">
       <!--      FIRST COL-->
       <v-col :cols="firstColFunc()"

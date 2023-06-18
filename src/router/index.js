@@ -3,6 +3,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import MainComponents from '../components/mainComponentInstrument.vue'
 import homeComponentSite from '../components/homeComponentSite.vue'
 import SearchInstrumentByName from '../components/searchInstrument/searchInstrumentByName.vue'
+import SearchInstrumentByParams from '../components/searchInstrument/searchInsrumentByFilter.vue'
 // basket
 import basketComponentSite from '../components/Basket/basketComponentSite.vue'
 import BasketComponentCheckout from '../components/Basket/basketComponentCheckout.vue'
@@ -83,6 +84,14 @@ const routes = [
         components: {
             searchInstrumentByName: SearchInstrumentByName,
         },
+    },
+
+    {
+        path: '/search/instrument/',
+        name: 'searchInstrumentByParams',
+        components: {
+            searchInstrumentByParams: SearchInstrumentByParams
+        }
     },
 
     {

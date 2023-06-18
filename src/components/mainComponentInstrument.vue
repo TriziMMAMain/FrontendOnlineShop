@@ -12,6 +12,8 @@ import {ref} from 'vue'
         <router-view name="homeComponentSite"></router-view>
         <!--      SEARCH INSTRUMENT BY NAME-->
         <router-view name="searchInstrumentByName"></router-view>
+        <!--        SEARCH INSTRUMENT BY PARAMS-->
+        <router-view name="searchInstrumentByParams"></router-view>
         <!--          BASKET COMPONENT-->
         <router-view name="basketComponentSite"></router-view>
         <router-view name="basketComponentCheckout"></router-view>
@@ -48,13 +50,18 @@ import {ref} from 'vue'
   }
 }
 
-@media screen and (min-width: 600px) and (max-width: 960px) {}
+@media screen and (min-width: 600px) and (max-width: 960px) {
+}
 
-@media screen and (min-width: 960px) and (max-width: 1280px) {}
+@media screen and (min-width: 960px) and (max-width: 1280px) {
+}
 
-@media screen and (min-width: 1280px) and (max-width: 1920px) {}
+@media screen and (min-width: 1280px) and (max-width: 1920px) {
+}
 
-@media screen and (min-width: 1920px) and (max-width: 2560px) {}
+@media screen and (min-width: 1920px) and (max-width: 2560px) {
+}
 
-@media screen and (min-width: 2560px) {}
+@media screen and (min-width: 2560px) {
+}
 </style>
