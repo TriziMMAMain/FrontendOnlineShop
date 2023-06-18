@@ -35,7 +35,7 @@ const widthFunc = () => {
   } else if (name.value === 'sm') {
     return '130'
   } else if (name.value === 'xs') {
-    return '120'
+    return '180'
   }
 }
 const heightFunc = () => {
@@ -98,7 +98,36 @@ const sizeFuncVBtnBasket = () => {
     return 'x-small'
   }
 }
-
+const navigationDrawerMenuBasket = () => {
+  if (name.value === 'xxl') {
+    return false
+  } else if (name.value === 'xl') {
+    return false
+  } else if (name.value === 'lg') {
+    return false
+  } else if (name.value === 'md') {
+    return false
+  } else if (name.value === 'sm') {
+    return false
+  } else if (name.value === 'xs') {
+    return true
+  }
+}
+const navigationDrawerMenuBasketSecond = () => {
+  if (name.value === 'xxl') {
+    return true
+  } else if (name.value === 'xl') {
+    return true
+  } else if (name.value === 'lg') {
+    return true
+  } else if (name.value === 'md') {
+    return true
+  } else if (name.value === 'sm') {
+    return true
+  } else if (name.value === 'xs') {
+    return false
+  }
+}
 // Basket, Amount
 
 let counterTrueFalseInBasket = ref(false)
@@ -155,6 +184,12 @@ const clickInBasket = async (array) => {
   }
 }
 
+const trueOrFalseBlockSecondBasket = ref(false)
+
+const clickInNavigationDrawer = () => {
+  trueOrFalseBlockSecondBasket.value = !trueOrFalseBlockSecondBasket.value
+}
+
 // User
 
 const userIdData = ref('')
@@ -191,8 +226,6 @@ const getIdUser = async () => {
   }
 
 
-
-
 }
 
 const clickToDeleteInBasket = (name) => {
@@ -225,12 +258,17 @@ onMounted(async () => {
 
 <template>
   <v-container class="d-flex flex-column flex-wrap">
-    <div class="blockTitleInSite d-flex">
+    <div class="blockTitleInSite d-flex flex-sm-wrap flex-sm-column">
       <h1 class="blockTitleInSiteTitle">Корзина</h1>
       <v-btn
           @click="deleteArray"
           class="blockTitleInSiteBtnDelete d-flex justify-center align-center"
           href="/basket/">Удалить все товары
+      </v-btn>
+      <v-btn
+          class="blockTitleInSiteBtnDelete"
+          v-if="navigationDrawerMenuBasket()"
+          @click="clickInNavigationDrawer()">Открыть ваш заказ
       </v-btn>
     </div>
     <div class="blockBasketInSite">
@@ -243,7 +281,7 @@ onMounted(async () => {
             строкой. После этого выбранный вами товар отобразится в корзине.</p>
         </div>
         <div v-else>
-          <div class="blockMainBasketInfo d-flex ">
+          <div class="blockMainBasketInfo">
             <div class="blockMainBasketInfoText">
               <h1 class="blockMainBasketInfoTextTitle">Наименование</h1>
             </div>
@@ -316,27 +354,38 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div class="blockSecondBasket ">
-        <div class="blockSecondBasketDiv">
-          <h1 class="secondBasketMainTitle">Ваш заказ</h1>
-          <h1 class="secondBasketChoiceTitle">Выбрано товаров на кол-во:
-            <span class="secondBasketSpanInText">{{ numberInAmount }} шт</span></h1>
-          <h1 class="secondBasketPriceTitle">Общая стоимость заказа:
-            <span class="secondBasketSpanInText">{{ numberInPriceSum }} рублей</span></h1>
-          <v-divider
-              :thickness="2"
-              class="border-opacity-25"
-              color="background"
-          ></v-divider>
-          <div class="secondBlockVBtnBlock d-flex justify-center align-center">
+      <div class="blockSecondBasketCounter" v-if="trueOrFalseBlockSecondBasket || navigationDrawerMenuBasketSecond()">
+        <div class="blockSecondBasket">
+          <div class="blockSecondBasketDiv">
             <v-btn
-                href="/checkout/"
-                :width="widthFunc()"
-                :height="heightFunc()"
-                :disabled="funcDisabled()"
-                class="secondBasketVBtnDesign"
-            >Оформить заказ
-            </v-btn>
+                v-if="trueOrFalseBlockSecondBasket"
+                :width="widthFuncVBtnBasket()"
+                :height="heightFuncVBtnBasket()"
+                :size="sizeFuncVBtnBasket()"
+                @click="clickInNavigationDrawer()"
+                icon="fa-solid fa-x"
+                class="absoluteCloseVBtnSecond"
+            ></v-btn>
+            <h1 class="secondBasketMainTitle">Ваш заказ</h1>
+            <h1 class="secondBasketChoiceTitle">Выбрано товаров на кол-во:
+              <span class="secondBasketSpanInText">{{ numberInAmount }} шт</span></h1>
+            <h1 class="secondBasketPriceTitle">Общая стоимость заказа:
+              <span class="secondBasketSpanInText">{{ numberInPriceSum }} рублей</span></h1>
+            <v-divider
+                :thickness="2"
+                class="border-opacity-25"
+                color="background"
+            ></v-divider>
+            <div class="secondBlockVBtnBlock d-flex justify-center align-center">
+              <v-btn
+                  href="/checkout/"
+                  :width="widthFunc()"
+                  :height="heightFunc()"
+                  :disabled="funcDisabled()"
+                  class="secondBasketVBtnDesign"
+              >Оформить заказ
+              </v-btn>
+            </div>
           </div>
         </div>
       </div>
@@ -350,7 +399,7 @@ onMounted(async () => {
 
 // Media
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 377px) {
   /*  стили для xs-устройств */
   .blockVCardFirstBasketItemPriceTitle {
     color: $textSpan;
@@ -662,6 +711,344 @@ onMounted(async () => {
   }
 }
 
+@media screen and (min-width: 377px) and (max-width: 600px) {
+  /*  стили для xs-устройств */
+  .blockVCardFirstBasketItemPriceTitle {
+    color: $textSpan;
+  }
+
+
+  // MAIN BLOCK
+
+  // --- MAIN BLOCK TITLE
+
+  .blockTitleInSite {
+    width: 100%;
+    min-height: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: $background;
+  }
+
+  .blockTitleInSiteTitle {
+    color: $text;
+    font-size: 1.8rem;
+  }
+
+  .blockTitleInSiteBtnDelete {
+    //width: 300px;
+    height: 36px;
+    margin-top: 4px;
+    margin-left: 20px;
+    font-weight: 600;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .blockTitleInSiteBtnDelete:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  // BLOCK BASKET
+
+  .blockBasketInSite {
+    width: 100%;
+    min-height: 100vh;
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    background-color: $background;
+  }
+
+  // FIRST BASKET
+
+  // True block
+
+  .blockTrueInBasketClear {
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .blockTrueInBasketClearTitle {
+    font-size: 1.5rem;
+    color: $primary;
+  }
+
+  .blockTrueInBasketClearText {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding-top: 10px;
+    color: $text;
+  }
+
+  //
+
+  // Close Basket Item
+
+  .absoluteCloseBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .absoluteCloseVBtn, .absoluteCloseVBtnSecond {
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .absoluteCloseVBtn:hover, .absoluteCloseVBtnSecond:hover {
+    color: $primary;
+    background-color: $background;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .absoluteCloseVBtnSecond {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  //
+
+  .blockFirstBasket {
+    width: 100%;
+    min-height: 100vh;
+    background-color: $background;
+  }
+
+  .blockMainBasketInfo {
+    width: 100%;
+    display: none;
+  }
+
+  .blockMainBasketInfoText {
+    width: 50%;
+  }
+
+  .blockMainBasketInfoTextTitle {
+    font-size: 1rem;
+    color: $textSpan;
+  }
+
+  .blockMainBasketPriceAmountSum {
+    width: 50%;
+  }
+
+  .blockMainBasketPrice, .blockMainBasketAmount, .blockMainBasketSum {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    color: $textSpan;
+    background-color: $background;
+  }
+
+  .blockMainBasketAmount {
+    width: 90%;
+    background-color: $background;
+  }
+
+  .blockMainBasketSum {
+    background-color: $background;
+  }
+
+  // --- FIRST BASKET V-CARD
+
+  .blockVCardFirstBasketDiv {
+    width: 100%;
+  }
+
+  .titleInProcessing {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-top: 30px;
+    color: $text;
+  }
+
+  .blockVCardFirstBasket {
+    width: 100%;
+    min-height: 150px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    padding: 12px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 0 10.5px rgba(0, 0, 0, 0.24),
+    0 0 84px rgba(0, 0, 0, 0.12);
+    background-color: $background;
+  }
+
+  // PHOTO
+
+  .blockVCardFirstBasketItemPhotoMain {
+    width: 60px;
+    background-color: $background;
+  }
+
+  .blockVCardFirstBasketItemPhoto {
+    width: 60px;
+    height: 60px;
+  }
+
+  // NAME
+
+  .blockVCardFirstBasketItemInfoText {
+    width: 130px;
+    padding-left: 15px;
+    background-color: $background;
+  }
+
+  .blockVCardFirstBasketItemSubtitle {
+    color: $textSpan;
+    font-size: 0.6rem;
+  }
+
+  .blockVCardFirstBasketItemTitle {
+    color: $text;
+    font-size: 0.8rem;
+    font-weight: 550;
+  }
+
+  // PRICE AMOUNT SUM
+
+  .blockVCardFirstBasketItemPriceAmountSum {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
+  }
+
+  .blockVCardFirstBasketItemPriceMain, .blockVCardFirstBasketItemAmountMain, .blockVCardFirstBasketItemSumMain {
+    width: 100%;
+  }
+
+  .blockVCardFirstBasketItemPriceMainTitle, .blockVCardFirstBasketItemAmountMainTitle, .blockVCardFirstBasketItemSumMainTitle {
+    text-align: center;
+    color: $text;
+    font-size: 0.8rem;
+  }
+
+  // PRICE
+
+  .blockVCardFirstBasketItemPriceMain {
+  }
+
+  .blockVCardFirstBasketItemPriceMainTitle {
+  }
+
+  // AMOUNT
+
+  .blockVCardFirstBasketItemAmountMain {
+    width: 90%;
+  }
+
+  .blockVCardFirstBasketItemAmountMainTitle {
+  }
+
+  // SUM
+
+  .blockVCardFirstBasketItemSumMain {
+  }
+
+  .blockVCardFirstBasketItemSumMainTitle {
+  }
+
+
+  //
+
+  // SECOND BASKET
+
+  .blockSecondBasketCounter {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    backdrop-filter: blur(10px);
+  }
+
+  .blockSecondBasket {
+    width: 300px;
+  }
+
+  .blockSecondBasketDiv {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 0 10.5px rgba(0, 0, 0, 0.24),
+    0 0 84px rgba(0, 0, 0, 0.12);
+    background-color: $background;
+  }
+
+  .secondBasketMainTitle {
+    width: 100%;
+    height: 70px;
+    text-align: center;
+    font-size: 1.5rem;
+    padding-top: 20px;
+    color: $text;
+  }
+
+  .secondBasketChoiceTitle, .secondBasketPriceTitle {
+    width: 100%;
+    height: 60px;
+    font-weight: 500;
+    font-size: 1rem;
+    padding-left: 12px;
+    padding-right: 12px;
+    color: $text;
+  }
+
+  .secondBasketChoiceTitle {
+
+  }
+
+  .secondBasketPriceTitle {
+    height: 60px;
+  }
+
+  .secondBlockVBtnBlock {
+    width: 100%;
+    height: 110px;
+  }
+
+  .secondBasketSpanInText {
+    color: $textSpan;
+    font-weight: 600;
+  }
+
+  .secondBasketVBtnDesign {
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 10px;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .secondBasketVBtnDesign:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+}
+
 @media screen and (min-width: 600px) and (max-width: 960px) {
   /*  стили для sm-устройств */
   .blockVCardFirstBasketItemPriceTitle {
@@ -907,8 +1294,12 @@ onMounted(async () => {
 
   // SECOND BASKET
 
-  .blockSecondBasket {
+  .blockSecondBasketCounter {
     width: 25%;
+  }
+
+  .blockSecondBasket {
+    width: 100%;
   }
 
   .blockSecondBasketDiv {
@@ -1219,8 +1610,12 @@ onMounted(async () => {
 
   // SECOND BASKET
 
-  .blockSecondBasket {
+  .blockSecondBasketCounter {
     width: 25%;
+  }
+
+  .blockSecondBasket {
+    width: 100%;
   }
 
   .blockSecondBasketDiv {
@@ -1534,8 +1929,12 @@ onMounted(async () => {
 
   // SECOND BASKET
 
-  .blockSecondBasket {
+  .blockSecondBasketCounter {
     width: 25%;
+  }
+
+  .blockSecondBasket {
+    width: 100%;
   }
 
   .blockSecondBasketDiv {
@@ -1845,8 +2244,12 @@ onMounted(async () => {
 
   // SECOND BASKET
 
-  .blockSecondBasket {
+  .blockSecondBasketCounter {
     width: 25%;
+  }
+
+  .blockSecondBasket {
+    width: 100%;
   }
 
   .blockSecondBasketDiv {
@@ -2155,8 +2558,12 @@ onMounted(async () => {
 
   // SECOND BASKET
 
-  .blockSecondBasket {
+  .blockSecondBasketCounter {
     width: 25%;
+  }
+
+  .blockSecondBasket {
+    width: 100%;
   }
 
   .blockSecondBasketDiv {
