@@ -212,7 +212,7 @@ const fluidFunc = () => {
 </script>
 
 <template>
-  <v-container class="mainBlockInSite d-flex" fluid>
+  <v-container class="mainBlockInSite" fluid>
     <div class="blockFormMain">
       <v-form v-model="valid">
         <div class="divForNameNumberEmail">
@@ -346,12 +346,14 @@ const fluidFunc = () => {
   border-radius: 10px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 377px) {
   .mainBlockInSite {
     width: 100%;
     min-height: 150vh;
     margin-top: 40px;
     padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
     box-shadow: 0 0 1.7px rgba(0, 0, 0, 0.101),
     0 0 5.6px rgba(0, 0, 0, 0.149),
     0 0 25px rgba(0, 0, 0, 0.25);
@@ -359,8 +361,9 @@ const fluidFunc = () => {
   }
 
   .blockFormMain {
-    width: 60%;
+    width: 100%;
     min-height: 100vh;
+    padding: 15px;
   }
 
   .divForNameNumberEmail {
@@ -381,14 +384,14 @@ const fluidFunc = () => {
   //
 
   .blockConfirmPurchase {
-    width: 40%;
+    width: 100%;
     min-height: 100vh;
     display: flex;
-    justify-content: end;
+    justify-content: center;
   }
 
   .purchaseVCardMain {
-    width: 210px;
+    width: 300px;
     min-height: 350px;
     max-height: 550px;
     padding: 20px;
@@ -416,14 +419,163 @@ const fluidFunc = () => {
 
   .userDataTitle {
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin-top: 10px;
     margin-bottom: 10px;
     color: $text;
   }
 
   .userDataNameTitle, .userDataNumberTitle, .userDataEmailTitle, .userDataCheckbox {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: $primary;
+  }
+
+  .spanTextUserData {
     font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: $text;
+  }
+
+  .userDataNameTitle {
+  }
+
+  .userDataNumberTitle {
+  }
+
+  .userDataEmailTitle {
+  }
+
+  .userDataCheckbox {
+  }
+
+  .purchaseVCardBtnActions {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .vbtnUserData {
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+    font-size: 0.6rem;
+    border-radius: 10px;
+    margin-bottom: 30px;
+  }
+
+  .vbtnUserData:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .purchaseVCardSecondBlockButtonAction {
+    width: 100%;
+    min-height: 100px;
+  }
+
+  .buttonActionBtn {
+    font-size: 0.8rem;
+    border-radius: 10px;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .buttonActionBtn:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+@media screen and (min-width: 377px) and (max-width: 600px) {
+  .mainBlockInSite {
+    width: 100%;
+    min-height: 150vh;
+    margin-top: 40px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    box-shadow: 0 0 1.7px rgba(0, 0, 0, 0.101),
+    0 0 5.6px rgba(0, 0, 0, 0.149),
+    0 0 25px rgba(0, 0, 0, 0.25);
+    background-color: $background;
+  }
+
+  .blockFormMain {
+    width: 100%;
+    min-height: 100vh;
+    padding: 15px;
+  }
+
+  .divForNameNumberEmail {
+    width: 100%;
+    height: 250px;
+    background-color: $background;
+  }
+
+  .vTextFieldInForm {
+    width: 90%;
+    color: $primary;
+  }
+
+  .divForDelivery {
+    width: 100%;
+  }
+
+  //
+
+  .blockConfirmPurchase {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+
+  .purchaseVCardMain {
+    width: 300px;
+    min-height: 350px;
+    max-height: 550px;
+    padding: 20px;
+    box-shadow:
+        0 0 10px rgba(0, 0, 0, 0.35)
+  ;
+    background-color: $background;
+  }
+
+  .purchaseVCardMainTitle {
+    width: 100%;
+    min-height: 40px;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: $primary;
+    background-color: $background;
+  }
+
+  .purchaseVCardSecondBlockUserData {
+    width: 100%;
+    min-height: 150px;
+    background-color: $background;
+  }
+
+  .userDataTitle {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: $text;
+  }
+
+  .userDataNameTitle, .userDataNumberTitle, .userDataEmailTitle, .userDataCheckbox {
+    font-size: 1rem;
     font-weight: 500;
     line-height: 1.5;
     color: $primary;

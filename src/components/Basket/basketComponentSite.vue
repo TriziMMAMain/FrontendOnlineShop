@@ -412,7 +412,9 @@ onMounted(async () => {
 
   .blockTitleInSite {
     width: 100%;
-    height: 60px;
+    min-height: 60px;
+    display: flex;
+    flex-wrap: wrap;
     background-color: $background;
   }
 
@@ -422,10 +424,9 @@ onMounted(async () => {
   }
 
   .blockTitleInSiteBtnDelete {
-    width: 300px;
+    //width: 300px;
     height: 36px;
     margin-top: 4px;
-    margin-left: 20px;
     font-weight: 600;
     color: $background;
     background-color: $primary;
@@ -447,6 +448,7 @@ onMounted(async () => {
     margin-top: 50px;
     display: flex;
     justify-content: space-between;
+    position: relative;
     background-color: $background;
   }
 
@@ -484,28 +486,35 @@ onMounted(async () => {
     right: 5px;
   }
 
-  .absoluteCloseVBtn {
+  .absoluteCloseVBtn, .absoluteCloseVBtnSecond {
     color: $background;
     background-color: $primary;
     transition: all 0.3s ease-in-out;
   }
 
-  .absoluteCloseVBtn:hover {
+  .absoluteCloseVBtn:hover, .absoluteCloseVBtnSecond:hover {
     color: $primary;
     background-color: $background;
     transition: all 0.3s ease-in-out;
   }
 
+  .absoluteCloseVBtnSecond {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
   //
 
   .blockFirstBasket {
-    width: 70%;
+    width: 100%;
     min-height: 100vh;
     background-color: $background;
   }
 
   .blockMainBasketInfo {
     width: 100%;
+    display: none;
   }
 
   .blockMainBasketInfoText {
@@ -569,20 +578,20 @@ onMounted(async () => {
   // PHOTO
 
   .blockVCardFirstBasketItemPhotoMain {
-    width: 80px;
+    width: 60px;
     background-color: $background;
   }
 
   .blockVCardFirstBasketItemPhoto {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
   }
 
   // NAME
 
   .blockVCardFirstBasketItemInfoText {
-    width: 180px;
-    padding-left: 16px;
+    width: 130px;
+    padding-left: 15px;
     background-color: $background;
   }
 
@@ -602,6 +611,7 @@ onMounted(async () => {
   .blockVCardFirstBasketItemPriceAmountSum {
     width: 50%;
     display: flex;
+    flex-wrap: wrap;
     background-color: white;
   }
 
@@ -645,13 +655,27 @@ onMounted(async () => {
 
   // SECOND BASKET
 
+  .blockSecondBasketCounter {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    backdrop-filter: blur(10px);
+  }
+
   .blockSecondBasket {
-    width: 25%;
+    width: 300px;
   }
 
   .blockSecondBasketDiv {
     width: 100%;
     height: 300px;
+    position: relative;
     border-radius: 10px;
     box-shadow: 0 0 10.5px rgba(0, 0, 0, 0.24),
     0 0 84px rgba(0, 0, 0, 0.12);
@@ -660,18 +684,18 @@ onMounted(async () => {
 
   .secondBasketMainTitle {
     width: 100%;
-    height: 60px;
+    height: 70px;
     text-align: center;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     padding-top: 20px;
     color: $text;
   }
 
   .secondBasketChoiceTitle, .secondBasketPriceTitle {
     width: 100%;
-    height: 50px;
+    height: 60px;
     font-weight: 500;
-    font-size: 0.7rem;
+    font-size: 1rem;
     padding-left: 12px;
     padding-right: 12px;
     color: $text;
@@ -696,13 +720,14 @@ onMounted(async () => {
   }
 
   .secondBasketVBtnDesign {
-    font-size: 0.6rem;
+    font-size: 0.8rem;
     font-weight: 600;
     border-radius: 10px;
     color: $background;
     background-color: $primary;
     transition: all 0.3s ease-in-out;
   }
+
   .secondBasketVBtnDesign:hover {
     color: $primary;
     background-color: $background;
@@ -733,13 +758,13 @@ onMounted(async () => {
   .blockTitleInSiteTitle {
     color: $text;
     font-size: 1.8rem;
+    margin-right: 30px;
   }
 
   .blockTitleInSiteBtnDelete {
     //width: 300px;
     height: 36px;
     margin-top: 4px;
-    margin-left: 20px;
     font-weight: 600;
     color: $background;
     background-color: $primary;
@@ -1155,6 +1180,7 @@ onMounted(async () => {
 
   .blockMainBasketInfo {
     width: 100%;
+    display: flex;
   }
 
   .blockMainBasketInfoText {
@@ -1472,6 +1498,8 @@ onMounted(async () => {
     width: 100%;
     padding-left: 25px;
     padding-right: 25px;
+    display: flex;
+
   }
 
   .blockMainBasketInfoText {
@@ -1790,6 +1818,8 @@ onMounted(async () => {
     width: 100%;
     padding-left: 25px;
     padding-right: 25px;
+    display: flex;
+
   }
 
   .blockMainBasketInfoText {
@@ -2106,6 +2136,8 @@ onMounted(async () => {
 
   .blockMainBasketInfo {
     width: 100%;
+    display: flex;
+
   }
 
   .blockMainBasketInfoText {
@@ -2422,6 +2454,8 @@ onMounted(async () => {
 
   .blockMainBasketInfo {
     width: 100%;
+    display: flex;
+
   }
 
   .blockMainBasketInfoText {
