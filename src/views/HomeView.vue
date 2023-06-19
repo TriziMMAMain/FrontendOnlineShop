@@ -34,41 +34,31 @@ visitsInSite()
 const fetchingPiniaInstrument = async () => {
   try {
     await fetchingInstrumentCordless()
-        .then(() => {
-          console.log(`fetching cordless`)
-        })
+        .then(() => {})
         .catch((error) => {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
           console.log(error)
         })
     await fetchingInstrumentGasoline()
-        .then(() => {
-          console.log(`fetching gasoline`)
-        })
+        .then(() => {})
         .catch((error) => {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
           console.log(error)
         })
     await fetchingInstrumentNetwork()
-        .then(() => {
-          console.log(`fetching network`)
-        })
+        .then(() => {})
         .catch((error) => {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
           console.log(error)
         })
     await fetchingInstrumentPneumotool()
-        .then(() => {
-          console.log(`fetching pneumotool`)
-        })
+        .then(() => {})
         .catch((error) => {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
           console.log(error)
         })
     await fetchingInstrumentByName()
-        .then(() => {
-          console.log(`fetching instrument name`)
-        })
+        .then(() => {})
         .catch((error) => {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
           console.log(error)
@@ -195,8 +185,8 @@ const heightFuncVBtnNavigationDrawer = () => {
 const instrumentAllNameArray = ref([])
 
 // Navigation
-let navigationDrawer = ref(true)
-const trueOrFalseNavigationDrawer = ref(false)
+let navigationDrawer = ref(false)
+const trueOrFalseNavigationDrawer = ref(true)
 
 const navigationDrawerClick = () => {
   navigationDrawer.value = !navigationDrawer.value
