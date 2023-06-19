@@ -271,17 +271,17 @@ export const useInstrumentStore = defineStore({
             } else {
                 return false
             }
-
         },
         async filterByParamsMain(dataObj) {
+            console.log(dataObj);
             const instrumentFilteredType = _.filter(this.allLocalCopyPinia, {type: dataObj.type});
             const instrumentFilteredTypeThis = _.filter(instrumentFilteredType, {typeThis: dataObj.typeThis});
             const instrumentFilteredBrand = _.filter(instrumentFilteredTypeThis, {brand: dataObj.brand});
             const instrumentFilteredAvalibilitySecond = _.filter(instrumentFilteredBrand, {avalibilitySecond: dataObj.avalibilitySecond});
             const instrumentFiltered = _.filter(instrumentFilteredAvalibilitySecond, (instrument) => {
-                return instrument.price < dataObj.price;
+                return instrument.price <= dataObj.price;
             });
-
+            console.log(instrumentFiltered);
             if (instrumentFiltered.length >= 1) {
                 this.instrumentFilterByParams = instrumentFiltered
                 localStorage.setItem("instrument_filter_by_params", JSON.stringify(this.instrumentFilterByParams))

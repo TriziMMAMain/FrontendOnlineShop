@@ -12,6 +12,10 @@ const {fetchingInstrumentAll, filterByParams} = useInstrumentStore()
 
 // Autocomplete
 const products = ref([])
+const productsFilterType = ref([])
+const productsFilterTypeThis = ref([])
+const productsFilterBrand = ref([])
+const productsFilterPrice = ref([])
 
 const instrumentTypeArray = ref([])
 const instrumentTypeText = ref('') // string
@@ -22,101 +26,48 @@ const instrumentTypeThisText = ref('') // string
 const instrumentBrandArray = ref([])
 const instrumentBrandText = ref('') // string
 
-const instrumentPriceText = ref(null)
+const instrumentPriceArray = ref([])
+const instrumentPriceText = ref('')
 
 const instrumentAvailability = ref('') // true or false
 
 const disabledVAutocomplete = ref(true)
 const disabledVAutocompleteSecond = ref(true)
-// function
+const disabledVAutocompleteThird = ref(true)
 
-const filterTypeArray = () => {
-  if (instrumentTypeText.value === '') {
-    ProcessingError('Не выбран тип инструмента!')
-  } else if (instrumentTypeText.value === 'Аккумуляторный инструмент') {
-    const typeInstrument = ref(_.filter(products.value, {type: 'Аккумуляторный инструмент'}))
-    instrumentTypeThisArray.value = _.uniqBy(typeInstrument.value, 'typeThis').map(instrument => instrument.typeThis)
-    disabledVAutocomplete.value = false
-  } else if (instrumentTypeText.value === 'Бензоинструмент') {
-    const typeInstrument = ref(_.filter(products.value, {type: 'Бензоинструмент'}))
-    instrumentTypeThisArray.value = _.uniqBy(typeInstrument.value, 'typeThis').map(instrument => instrument.typeThis)
-    disabledVAutocomplete.value = false
-  } else if (instrumentTypeText.value === 'Сетевой инструмент') {
-    const typeInstrument = ref(_.filter(products.value, {type: 'Сетевой инструмент'}))
-    instrumentTypeThisArray.value = _.uniqBy(typeInstrument.value, 'typeThis').map(instrument => instrument.typeThis)
-    disabledVAutocomplete.value = false
-  } else if (instrumentTypeText.value === 'Пневмоинструмент') {
-    const typeInstrument = ref(_.filter(products.value, {type: 'Пневмоинструмент'}))
-    instrumentTypeThisArray.value = _.uniqBy(typeInstrument.value, 'typeThis').map(instrument => instrument.typeThis)
-    disabledVAutocomplete.value = false
-  }
-}
-const filterTypeThisArray = () => {
-  // Пусто
-  if (instrumentTypeThisText.value === '') {
-    ProcessingError('Не выбрана категория инструмента!')
-  }
-  // Cordless
-  if (instrumentTypeThisText.value === 'Аккумуляторный перфоратор') {
-    const brandInstrument = ref(_.filter(products.value, {typeThis: 'Аккумуляторный перфоратор'}))
-    instrumentBrandArray.value = _.uniqBy(brandInstrument.value, 'brand').map(instrument => instrument.brand)
-    disabledVAutocompleteSecond.value = false
-  } else if (instrumentTypeThisText.value === "Аккумуляторная болгарка") {
-    const brandInstrument = ref(_.filter(products.value, {typeThis: "Аккумуляторная болгарка"}))
-    instrumentBrandArray.value = _.uniqBy(brandInstrument.value, 'brand').map(instrument => instrument.brand)
-    disabledVAutocompleteSecond.value = false
-  } else if (instrumentTypeThisText.value === "Аккумуляторная дрель-шуруповерт") {
-    const brandInstrument = ref(_.filter(products.value, {typeThis: "Аккумуляторная дрель-шуруповерт"}))
-    instrumentBrandArray.value = _.uniqBy(brandInstrument.value, 'brand').map(instrument => instrument.brand)
-    disabledVAutocompleteSecond.value = false
-  }
-  // Gasoline
-  if (instrumentTypeThisText.value === "Бензиновый мотоблок") {
-    const brandInstrument = ref(_.filter(products.value, {typeThis: "Бензиновый мотоблок"}))
-    instrumentBrandArray.value = _.uniqBy(brandInstrument.value, 'brand').map(instrument => instrument.brand)
-    disabledVAutocompleteSecond.value = false
-  } else if (instrumentTypeThisText.value === "Бензогенератор") {
-    const brandInstrument = ref(_.filter(products.value, {typeThis: "Бензогенератор"}))
-    instrumentBrandArray.value = _.uniqBy(brandInstrument.value, 'brand').map(instrument => instrument.brand)
-    disabledVAutocompleteSecond.value = false
-  } else if (instrumentTypeThisText.value === "Бензопила") {
-    const brandInstrument = ref(_.filter(products.value, {typeThis: "Бензопила"}))
-    instrumentBrandArray.value = _.uniqBy(brandInstrument.value, 'brand').map(instrument => instrument.brand)
-    disabledVAutocompleteSecond.value = false
-  }
-  // Network
-  if (instrumentTypeThisText.value === "Дрель") {
-    const brandInstrument = ref(_.filter(products.value, {typeThis: "Дрель"}))
-    instrumentBrandArray.value = _.uniqBy(brandInstrument.value, 'brand').map(instrument => instrument.brand)
-    disabledVAutocompleteSecond.value = false
-  } else if (instrumentTypeThisText.value === "Лобзик электрический") {
-    const brandInstrument = ref(_.filter(products.value, {typeThis: "Лобзик электрический"}))
-    instrumentBrandArray.value = _.uniqBy(brandInstrument.value, 'brand').map(instrument => instrument.brand)
-    disabledVAutocompleteSecond.value = false
-  } else if (instrumentTypeThisText.value === "Перфоратор") {
-    const brandInstrument = ref(_.filter(products.value, {typeThis: "Перфоратор"}))
-    instrumentBrandArray.value = _.uniqBy(brandInstrument.value, 'brand').map(instrument => instrument.brand)
-    disabledVAutocompleteSecond.value = false
-  }
-  // Pneumo
-  if (instrumentTypeThisText.value === "Гвоздезабивной пистолет пневматический") {
-    const brandInstrument = ref(_.filter(products.value, {typeThis: "Гвоздезабивной пистолет пневматический"}))
-    instrumentBrandArray.value = _.uniqBy(brandInstrument.value, 'brand').map(instrument => instrument.brand)
-    disabledVAutocompleteSecond.value = false
-  } else if (instrumentTypeThisText.value === "Пневматическая отбойная молотковая машина") {
-    const brandInstrument = ref(_.filter(products.value, {typeThis: "Пневматическая отбойная молотковая машина"}))
-    instrumentBrandArray.value = _.uniqBy(brandInstrument.value, 'brand').map(instrument => instrument.brand)
-    disabledVAutocompleteSecond.value = false
-  } else if (instrumentTypeThisText.value === "Компрессор") {
-    const brandInstrument = ref(_.filter(products.value, {typeThis: "Компрессор"}))
-    instrumentBrandArray.value = _.uniqBy(brandInstrument.value, 'brand').map(instrument => instrument.brand)
-    disabledVAutocompleteSecond.value = false
-  }
-}
-//
 
-const minPrice = ref(0);
-const maxPrice = ref(300000);
+const filterTypeArray = (products, instrumentTypeText) => {
+  productsFilterType.value = _.filter(products, item => item.type === instrumentTypeText)
+  if (productsFilterType.value.length >= 1) {
+    disabledVAutocomplete.value = false
+  } else {
+    disabledVAutocomplete.value = true
+  }
+  instrumentTypeThisArray.value = _.uniq(productsFilterType.value.map(item => item.typeThis))
+}
+const filterTypeThisArray = (products, instrumentTypeThisText) => {
+  productsFilterTypeThis.value = _.filter(products, item => item.typeThis === instrumentTypeThisText)
+  if (productsFilterTypeThis.value.length >= 1) {
+    disabledVAutocompleteSecond.value = false
+  } else {
+    disabledVAutocompleteSecond.value = true
+  }
+
+  instrumentBrandArray.value = _.uniq(productsFilterTypeThis.value.map(item => item.brand))
+}
+const filterBrandArray = (products, instrumentBrandText) => {
+  productsFilterBrand.value = _.filter(products, item => item.brand === instrumentBrandText)
+  if (productsFilterBrand.value.length >= 1) {
+    disabledVAutocompleteThird.value = false
+  } else {
+    disabledVAutocompleteThird.value = true
+  }
+
+  instrumentPriceArray.value = _.uniq(productsFilterBrand.value.map(item => item.price))
+}
+const filterPriceArray = (products, instrumentPriceText) => {
+  productsFilterPrice.value = _.filter(products, item => item.price === instrumentPriceText)
+}
 
 const clickToFilter = async () => {
   const data = ref({
@@ -146,7 +97,7 @@ onMounted(async () => {
 <template>
   <v-card
       width="500"
-      height="600"
+      height="800"
       color="background"
       class="mainBlock pa-4 ma-1"
       elevation="6">
@@ -161,12 +112,8 @@ onMounted(async () => {
           prepend-icon="fa-solid fa-magnifying-glass"
           placeholder="Введите тип инструмента"
           variant="filled"
+          @update:search="filterTypeArray(products, instrumentTypeText)"
       ></v-autocomplete>
-      <div class="actionVBtn">
-        <v-btn class="vBtnMain"
-               @click="filterTypeArray()">Тип инструмента выбран
-        </v-btn>
-      </div>
       <v-autocomplete
           clearable
           class="vAutocompleteMain"
@@ -177,12 +124,8 @@ onMounted(async () => {
           placeholder="Введите под категорию инструмента"
           variant="filled"
           :disabled="disabledVAutocomplete"
+          @update:search="filterTypeThisArray(productsFilterType, instrumentTypeThisText)"
       ></v-autocomplete>
-      <div class="actionVBtn">
-        <v-btn class="vBtnMain"
-               @click="filterTypeThisArray()">Категория инструмента выбрана
-        </v-btn>
-      </div>
       <v-autocomplete
           clearable
           class="vAutocompleteMain"
@@ -193,16 +136,22 @@ onMounted(async () => {
           placeholder="Введите бренд инструмента"
           variant="filled"
           :disabled="disabledVAutocompleteSecond"
+          @update:search="filterBrandArray(productsFilterTypeThis, instrumentBrandText)"
       ></v-autocomplete>
-      <v-slider
-          class="w-100"
+
+      <v-autocomplete
+          clearable
+          class="vAutocompleteMain"
+          type="text"
+          :items="instrumentPriceArray"
           v-model="instrumentPriceText"
-          min="0"
-          label="Выберите стоимость"
-          :max="maxPrice"
-          :step="1"
-      ></v-slider>
-      <p class="textPriceFrom">{{ instrumentPriceText }} рублей</p>
+          prepend-icon="fa-solid fa-magnifying-glass"
+          placeholder="Введите стоимость инструмента"
+          variant="filled"
+          :disabled="disabledVAutocompleteThird"
+          @update:search="filterPriceArray(productsFilterBrand, instrumentPriceText)"
+      ></v-autocomplete>
+
       <v-switch
           v-model="instrumentAvailability"
           label="В наличии"></v-switch>
