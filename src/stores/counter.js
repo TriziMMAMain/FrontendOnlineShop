@@ -44,7 +44,6 @@ export const useInstrumentStore = defineStore({
                 const newVisits = visits + 1;
                 localStorage.setItem('visits', JSON.stringify(newVisits));
                 visits = newVisits;
-                console.log(`visits`, visits)
             }
         },
         // Fetching instrument

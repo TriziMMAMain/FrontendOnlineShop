@@ -197,6 +197,7 @@ const userIdDataMain = ref('')
 const titleInProcessing = ref(null)
 const trueOrFalseDiv = ref(JSON.parse(localStorage.getItem("basket_click_user")))
 
+
 let dateClickUserOrder = ref(null)
 
 const getIdUser = async () => {
@@ -206,9 +207,12 @@ const getIdUser = async () => {
     if (await fetchingUserId(userId.value)) {
       if (JSON.parse(localStorage.getItem("basket_click_user"))) {
         userIdDataMain.value = JSON.parse(localStorage.getItem("user_id"))
-        userIdData.value = userIdDataMain.value[0].instrumentArray
+
+        userIdData.value = userIdDataMain.value[0].instrumentArraySecond
+
+        console.log(userIdData.value[0].instrumentArray);
         dateClickUserOrder.value = userIdDataMain.value[0].dateClick
-        console.log(`Fetching user id good`);
+
         if (userIdDataMain.value[0].processing === 'Ожидание обработки') {
           titleInProcessing.value = 'Ожидание обработки'
         } else if (userIdDataMain.value[0].processing === 'Принят в обработку') {
@@ -238,15 +242,15 @@ const clickToDeleteInBasket = (name) => {
   }, 2000)
 }
 const funcDisabled = () => {
-  if (titleInProcessing.value === 'Ожидание обработки' || counterTrueFalseInBasket.value === true) {
+  if (counterTrueFalseInBasket.value === true) {
     return true
   } else {
     return false
   }
+  return false
 }
 onMounted(async () => {
   await getIdUser()
-
 
   if (arrayObjectsInInstrumentCopy.length === 0) {
     counterTrueFalseInBasket.value = true
@@ -328,30 +332,31 @@ onMounted(async () => {
         <div class="blockVCardFirstBasketDiv"
              v-if="trueOrFalseDiv"
         >
-          <h1 class="titleInProcessing">{{ titleInProcessing }}, заказ был сделан в {{ dateClickUserOrder }}</h1>
-          <div class="blockVCardFirstBasket"
-               v-for="item in userIdData">
-            <div class="blockVCardFirstBasketItemPhotoMain d-flex justify-center align-center">
-              <img :src="item.imgTitle" alt="" class="blockVCardFirstBasketItemPhoto">
-            </div>
-            <div class="blockVCardFirstBasketItemInfoText">
-              <p class="blockVCardFirstBasketItemSubtitle">Код: {{ item.id }}</p>
-              <h1
-                  @click="clickInBasket(item)"
-                  class="blockVCardFirstBasketItemTitle">{{ item.name }}</h1>
-            </div>
-            <div class="blockVCardFirstBasketItemPriceAmountSum">
-              <div class="blockVCardFirstBasketItemPriceMain d-flex justify-center align-center">
-                <h1 class="blockVCardFirstBasketItemPriceMainTitle">{{ item.price }} р.</h1>
-              </div>
-              <div class="blockVCardFirstBasketItemAmountMain d-flex justify-center align-center">
-                <h1 class="blockVCardFirstBasketItemAmountMainTitle">{{ item.orderSum }} шт</h1>
-              </div>
-              <div class="blockVCardFirstBasketItemSumMain d-flex justify-center align-center">
-                <h1 class="blockVCardFirstBasketItemSumMainTitle">{{ item.priceOrder }} р.</h1>
+          <div class="blockVFor mt-10 w-100" v-for="(user, userIndex) in userIdData" :key="userIndex"><h1
+              class="titleInProcessing">Заказ под номером {{ user.orderId }}. Находиться в "{{ user.processing }}",
+            заказ был сделан в {{ user.dateClick }}, {{ user.timeClick }}</h1>
+            <div class="w-100">
+              <div class="blockVCardFirstBasket" v-for="(instrument, instrumentIndex) in user.instrumentArray"
+                   :key="instrumentIndex">
+                <div class="blockVCardFirstBasketItemPhotoMain d-flex justify-center align-center"><img
+                    :src="instrument.imgTitle" alt="" class="blockVCardFirstBasketItemPhoto"></div>
+                <div class="blockVCardFirstBasketItemInfoText"><p class="blockVCardFirstBasketItemSubtitle">Код:
+                  {{ instrument.id }}</p>
+                  <h1 @click="clickInBasket(instrument)" class="blockVCardFirstBasketItemTitle">{{
+                      instrument.name
+                    }}</h1></div>
+                <div class="blockVCardFirstBasketItemPriceAmountSum">
+                  <div class="blockVCardFirstBasketItemPriceMain d-flex justify-center align-center"><h1
+                      class="blockVCardFirstBasketItemPriceMainTitle">{{ instrument.price }} р.</h1></div>
+                  <div class="blockVCardFirstBasketItemAmountMain d-flex justify-center align-center"><h1
+                      class="blockVCardFirstBasketItemAmountMainTitle">{{ instrument.orderSum }} шт</h1></div>
+                  <div class="blockVCardFirstBasketItemSumMain d-flex justify-center align-center"><h1
+                      class="blockVCardFirstBasketItemSumMainTitle">{{ instrument.priceOrder }} р.</h1></div>
+                </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
       <div class="blockSecondBasketCounter" v-if="trueOrFalseBlockSecondBasket || navigationDrawerMenuBasketSecond()">

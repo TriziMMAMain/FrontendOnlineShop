@@ -1,17 +1,17 @@
 <script setup="">
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import _ from 'lodash'
 import {useBasketStore} from '../../stores/counterBasket.js'
 import axios from 'axios';
 import {ProccesingSuccessfuly} from "../../notification/toasting";
 import {useRouter} from 'vue-router'
-import { formatDateAndTime } from "../../moment/moment.js";
+import {formatDateAndTime} from "../../moment/moment.js";
 
 const {date, time} = formatDateAndTime()
 const router = useRouter()
 const {name} = useDisplay()
-const {postAxiosUser} = useBasketStore()
+const {postAxiosUser, updateAxiosUser, fetchingUsers} = useBasketStore()
 
 const numberInPriceSum = localStorage.getItem("basket_array_price_sum")
 
@@ -126,52 +126,72 @@ const checkboxDeliveryRulesUser = [
 const local = JSON.parse(localStorage.getItem("basket_object"))
 
 // node js
-console.log(typeof date, typeof time);
 const formData = ref({
   newId: 0,
   name: '',
   phone: '',
   email: '',
-  deliveryType: [],
-  address: '',
-  instrumentArray: local,
-  dayAndTime: '',
-  processing: 'Ожидание обработки',
-  dateClick: date,
-  timeClick: time
-})
-
-
-const clickInInfo = async () => {
-  const newIdMath = ref(Math.floor(Math.random() * 1000000))
-  formData.value.newId = newIdMath.value
-
-  console.log(formData.value);
-  await postAxiosUser(formData.value)
-  ProccesingSuccessfuly('Вы подтвердили свой заказ, ожидайте!')
-  formData.value = {
-    newId: 0,
-    name: '',
-    phone: '',
-    email: '',
+  instrumentArraySecond: {
+    orderId: 1213,
+    instrumentArray: local,
     deliveryType: [],
     address: '',
-    instrumentArray: local,
     dayAndTime: '',
-    processing: 'Ожидание обработки'
+    processing: 'Ожидание обработки',
+    dateClick: date,
+    timeClick: time
+  },
+})
+const formDataSecond = ref({
+  newId: 0,
+  instrumentArraySecond: {
+    orderId: 0,
+    instrumentArray: local,
+    deliveryType: [],
+    address: '',
+    dayAndTime: '',
+    processing: 'Ожидание обработки',
+    dateClick: date,
+    timeClick: time
+  },
+})
+const clickInInfo = async () => {
+  const getIdUserBasket = JSON.parse(localStorage.getItem("id_user_basket"))
+  const newIdMath = ref(Math.floor(Math.random() * 1000000))
+  const newIdMathOrder = ref(Math.floor(Math.random() * 1000000))
+
+
+  if (getIdUserBasket === null) {
+    formData.value.newId = newIdMath.value
+    formData.value.instrumentArraySecond.orderId = newIdMathOrder.value
+    await postAxiosUser(formData.value)
+  } else {
+    formData.value.newId = getIdUserBasket
+    formData.value.instrumentArraySecond.orderId = newIdMathOrder.value
+    formDataSecond.value.newId = getIdUserBasket
+    formDataSecond.value.instrumentArraySecond.orderId = newIdMathOrder.value
+    formDataSecond.value.instrumentArraySecond.deliveryType = formData.value.instrumentArraySecond.deliveryType
+    formDataSecond.value.instrumentArraySecond.address = formData.value.instrumentArraySecond.address
+    formDataSecond.value.instrumentArraySecond.dayAndTime = formData.value.instrumentArraySecond.dayAndTime
+    await updateAxiosUser(formData.value, formDataSecond.value)
   }
+
+
   localStorage.setItem("basket_object", JSON.stringify([]))
   localStorage.setItem("basket_click_user", JSON.stringify(true))
   await router.push({name: 'basketComponent'})
+  setTimeout(() => {
+    window.location.reload()
+  }, 2000)
 }
 
 // node js end
 
 const valueDelivery = ref('Самовывоз')
 const checkValueDelivery = () => {
-  if (formData.value.deliveryType[0] === 'Самовывоз') {
+  if (formData.value.instrumentArraySecond.deliveryType[0] === 'Самовывоз') {
     valueDelivery.value = 'Самовывоз'
-  } else if (formData.value.deliveryType[0] === 'Доставка') {
+  } else if (formData.value.instrumentArraySecond.deliveryType[0] === 'Доставка') {
     valueDelivery.value = 'Самовывоз'
   } else {
     valueDelivery.value = 'Адрес пункта выдачи: г.Донецк, Ленинский район, пр.Алымова дом 10'
@@ -180,35 +200,39 @@ const checkValueDelivery = () => {
 const trueOrFalseTitle = ref(false)
 const trueOrFalseTitleDelivery = ref(false)
 const checkValueTitle = () => {
-  if (formData.value.deliveryType[0] === undefined) {
+  if (formData.value.instrumentArraySecond.deliveryType[0] === undefined) {
     trueOrFalseTitle.value = false
     trueOrFalseTitleDelivery.value = false
   }
-  if (formData.value.deliveryType[0] === 'Самовывоз') {
+  if (formData.value.instrumentArraySecond.deliveryType[0] === 'Самовывоз') {
     trueOrFalseTitle.value = false
     trueOrFalseTitleDelivery.value = true
-  } else if (formData.value.deliveryType[0] === 'Доставка') {
+  } else if (formData.value.instrumentArraySecond.deliveryType[0] === 'Доставка') {
     trueOrFalseTitle.value = true
     trueOrFalseTitleDelivery.value = false
   }
 }
 checkValueTitle()
 
-const fluidFunc = () => {
-  if (name.value === 'xs') {
-    return ''
-  } else if (name.value === 'sm') {
-    return 'fluid'
-  } else if (name.value === 'md') {
-    return 'fluid'
-  } else if (name.value === 'lg') {
-    return 'fluid'
-  } else if (name.value === 'xl') {
-    return 'fluid'
-  } else if (name.value === 'xxl') {
-    return 'fluid'
+const checkVBtnDisabled = () => {
+  if (formData.value.name === ''
+      || formData.value.email === ''
+      || formData.value.phone === ''
+      || formData.value.instrumentArraySecond.deliveryType[0] === undefined) {
+    return true
+  } else {
+    return false
   }
 }
+
+onMounted(async () => {
+  await fetchingUsers()
+      .then(() => {
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+})
 </script>
 
 <template>
@@ -257,42 +281,42 @@ const fluidFunc = () => {
              @click="checkValueDelivery()">
           <v-checkbox
               color="primary"
-              v-model="formData.deliveryType"
+              v-model="formData.instrumentArraySecond.deliveryType"
               :label="valueDelivery"
               value="Самовывоз"
-              :disabled="formData.deliveryType[0] === 'Доставка'"
+              :disabled="formData.instrumentArraySecond.deliveryType[0] === 'Доставка'"
               hide-details
           ></v-checkbox>
           <v-checkbox
               color="primary"
-              v-model="formData.deliveryType"
+              v-model="formData.instrumentArraySecond.deliveryType"
               label="Доставка"
               value="Доставка"
-              :disabled="formData.deliveryType[0] === 'Самовывоз'"
+              :disabled="formData.instrumentArraySecond.deliveryType[0] === 'Самовывоз'"
               hide-details
           ></v-checkbox>
           <v-text-field
               class="vTextFieldInForm"
               color="text"
               bg-color="background"
-              v-model="formData.address"
+              v-model="formData.instrumentArraySecond.address"
               :rules="checkboxDeliveryRulesUser"
               :counter="3"
               label="Адрес доставки"
               prepend-icon="fa-solid fa-truck"
               variant="solo"
-              :disabled="formData.deliveryType[0] === 'Самовывоз' || formData.deliveryType[0] === undefined"
+              :disabled="formData.instrumentArraySecond.deliveryType[0] === 'Самовывоз' || formData.instrumentArraySecond.deliveryType[0] === undefined"
               required
           ></v-text-field>
           <v-text-field
               class="vTextFieldInForm"
               color="text"
               bg-color="background"
-              v-model="formData.dayAndTime"
+              v-model="formData.instrumentArraySecond.dayAndTime"
               label="Желаемая дата и время доставки на дом"
               prepend-icon="fa-solid fa-truck"
               variant="solo"
-              :disabled="formData.deliveryType[0] === 'Самовывоз' || formData.deliveryType[0] === undefined"
+              :disabled="formData.instrumentArraySecond.deliveryType[0] === 'Самовывоз' || formData.instrumentArraySecond.deliveryType[0] === undefined"
               required
           ></v-text-field>
         </div>
@@ -316,10 +340,12 @@ const fluidFunc = () => {
             </v-btn>
           </div>
           <h1 class="userDataCheckbox" v-if="trueOrFalseTitle"><span
-              class="spanTextUserData">{{ formData.deliveryType[0] + ':' }}
-            {{ formData.address + ';' }} {{ 'День и время доставки: ' + formData.dayAndTime }}</span></h1>
+              class="spanTextUserData">{{ formData.instrumentArraySecond.deliveryType[0] + ':' }}
+            {{
+              formData.instrumentArraySecond.address + ';'
+            }} {{ 'День и время доставки: ' + formData.instrumentArraySecond.dayAndTime }}</span></h1>
           <h1 class="userDataCheckbox" v-if="trueOrFalseTitleDelivery">
-            {{ formData.deliveryType[0] }}
+            {{ formData.instrumentArraySecond.deliveryType[0] }}
           </h1>
         </div>
         <div class="purchaseVCardSecondBlockButtonAction d-flex justify-center align-center">
@@ -327,6 +353,7 @@ const fluidFunc = () => {
               @click="clickInInfo()"
               :width="weightFunc()"
               :height="heightFunc()"
+              :disabled="checkVBtnDisabled()"
               class="buttonActionBtn">Подтвердить заказ
           </v-btn>
         </div>
@@ -369,6 +396,9 @@ const fluidFunc = () => {
   .divForNameNumberEmail {
     width: 100%;
     height: 250px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     background-color: $background;
   }
 
@@ -379,6 +409,9 @@ const fluidFunc = () => {
 
   .divForDelivery {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   //
@@ -395,9 +428,7 @@ const fluidFunc = () => {
     min-height: 350px;
     max-height: 550px;
     padding: 20px;
-    box-shadow:
-        0 0 10px rgba(0, 0, 0, 0.35)
-  ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
     background-color: $background;
   }
 
@@ -518,6 +549,9 @@ const fluidFunc = () => {
   .divForNameNumberEmail {
     width: 100%;
     height: 250px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     background-color: $background;
   }
 
@@ -528,6 +562,9 @@ const fluidFunc = () => {
 
   .divForDelivery {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   //
@@ -544,9 +581,7 @@ const fluidFunc = () => {
     min-height: 350px;
     max-height: 550px;
     padding: 20px;
-    box-shadow:
-        0 0 10px rgba(0, 0, 0, 0.35)
-  ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
     background-color: $background;
   }
 
@@ -649,7 +684,7 @@ const fluidFunc = () => {
     width: 100%;
     min-height: 150vh;
     margin-top: 40px;
-    padding: 10px;
+    padding: 20px;
     box-shadow: 0 0 1.7px rgba(0, 0, 0, 0.101),
     0 0 5.6px rgba(0, 0, 0, 0.149),
     0 0 25px rgba(0, 0, 0, 0.25);
@@ -657,13 +692,16 @@ const fluidFunc = () => {
   }
 
   .blockFormMain {
-    width: 60%;
+    width: 100%;
     min-height: 100vh;
   }
 
   .divForNameNumberEmail {
     width: 100%;
     height: 250px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     background-color: $background;
   }
 
@@ -674,25 +712,26 @@ const fluidFunc = () => {
 
   .divForDelivery {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   //
 
   .blockConfirmPurchase {
-    width: 40%;
+    width: 100%;
     min-height: 100vh;
     display: flex;
-    justify-content: end;
+    justify-content: center;
   }
 
   .purchaseVCardMain {
-    width: 210px;
+    width: 400px;
     min-height: 350px;
     max-height: 550px;
     padding: 20px;
-    box-shadow:
-        0 0 10px rgba(0, 0, 0, 0.35)
-  ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
     background-color: $background;
   }
 
@@ -799,6 +838,7 @@ const fluidFunc = () => {
     box-shadow: 0 0 1.7px rgba(0, 0, 0, 0.101),
     0 0 5.6px rgba(0, 0, 0, 0.149),
     0 0 25px rgba(0, 0, 0, 0.25);
+    display: flex;
     background-color: $background;
   }
 
@@ -836,9 +876,7 @@ const fluidFunc = () => {
     width: 320px;
     min-height: 750px;
     padding: 20px;
-    box-shadow:
-        0 0 10px rgba(0, 0, 0, 0.35)
-    ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
     background-color: $background;
   }
 
@@ -945,6 +983,7 @@ const fluidFunc = () => {
     box-shadow: 0 0 1.7px rgba(0, 0, 0, 0.101),
     0 0 5.6px rgba(0, 0, 0, 0.149),
     0 0 25px rgba(0, 0, 0, 0.25);
+    display: flex;
     background-color: $background;
   }
 
@@ -982,9 +1021,7 @@ const fluidFunc = () => {
     width: 450px;
     min-height: 750px;
     padding: 20px;
-    box-shadow:
-        0 0 10px rgba(0, 0, 0, 0.35)
-  ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
     background-color: $background;
   }
 
@@ -1090,6 +1127,7 @@ const fluidFunc = () => {
     box-shadow: 0 0 1.7px rgba(0, 0, 0, 0.101),
     0 0 5.6px rgba(0, 0, 0, 0.149),
     0 0 25px rgba(0, 0, 0, 0.25);
+    display: flex;
     background-color: $background;
   }
 
@@ -1127,9 +1165,7 @@ const fluidFunc = () => {
     width: 650px;
     min-height: 750px;
     padding: 20px;
-    box-shadow:
-        0 0 10px rgba(0, 0, 0, 0.35)
-  ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
     background-color: $background;
   }
 
@@ -1233,6 +1269,7 @@ const fluidFunc = () => {
     box-shadow: 0 0 1.7px rgba(0, 0, 0, 0.101),
     0 0 5.6px rgba(0, 0, 0, 0.149),
     0 0 25px rgba(0, 0, 0, 0.25);
+    display: flex;
     background-color: $background;
   }
 
@@ -1270,9 +1307,7 @@ const fluidFunc = () => {
     width: 650px;
     min-height: 750px;
     padding: 20px;
-    box-shadow:
-        0 0 10px rgba(0, 0, 0, 0.35)
-  ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
     background-color: $background;
   }
 

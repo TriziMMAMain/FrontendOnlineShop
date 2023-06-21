@@ -2,6 +2,7 @@
 import {defineStore} from 'pinia'
 import _ from 'lodash'
 import interceptors  from '../api.js';
+import {ProccesingSuccessfuly, ProcessingError} from "../notification/toasting.js";
 
 
 
@@ -30,16 +31,36 @@ export const useBasketStore = defineStore({
         async toLocalStorageInBasketItem(arrayFirst) {
             await localStorage.setItem("basket_array", JSON.stringify(arrayFirst))
         },
-        // Post interceptors user
-        async postAxiosUser(data) {
+        // Update interceptors user
+        async updateAxiosUser(data, dataSecond) {
             try {
-                const responseData = await interceptors.post('api/user/add', data)
-                console.log(responseData.data);
-                localStorage.setItem("id_user_basket", JSON.stringify(data.newId))
+                const filterNewId = _.filter(this.users, { newId: dataSecond.newId })
+                if (filterNewId.length === 0) {
+                    await this.postAxiosUser(data)
+                } else {
+                    const responseData = await interceptors.post(`users/update/${dataSecond.newId}`, dataSecond)
+                    ProccesingSuccessfuly('Вы подтвердили свой заказ, ожидайте!')
+                }
+
                 return true
             } catch (err) {
                 this.error = err
                 console.error(err);
+                ProcessingError('Возможно вы ввели не корректные данные!')
+                return false
+            }
+        },
+        // Post interceptors user
+        async postAxiosUser(data) {
+            try {
+                const responseData = await interceptors.post('api/user/add', data)
+                localStorage.setItem("id_user_basket", JSON.stringify(data.newId))
+                ProccesingSuccessfuly('Вы подтвердили свой заказ, ожидайте!')
+                return true
+            } catch (err) {
+                this.error = err
+                console.error(err);
+                ProcessingError('Возможно вы ввели не корректные данные!')
                 return false
             }
         },

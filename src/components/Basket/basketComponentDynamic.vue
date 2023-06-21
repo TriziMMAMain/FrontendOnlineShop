@@ -79,15 +79,20 @@ const heightFuncBtnBuy = () => {
 
 // logical
 
-const cordlessLocal = ref([])
+const basketObjectAll = ref([])
 
 let basketArrayCopy = ref([])
 let orderPrice = ref('')
 let orderSumPrice = ref('')
 let orderInInstrument = ref(1)
 let orderClick = ref(0)
+let itemAvailability = ref("0")
 let basketArraySecond = ref([])
 let isLoading = ref(false)
+let btnDisabledPlus = ref(false)
+let btnDisabledMinus = ref(false)
+let btnDisabledMain = ref(false)
+
 
 onMounted(async () => {
   await cordlessLocalCopyFun()
@@ -97,12 +102,26 @@ const cordlessLocalCopyFun = async () => {
   isLoading.value = true
   try {
     if (await fetchingInstrumentById()) {
+      basketObjectAll.value = JSON.parse(localStorage.getItem("basket_object"))
       basketArrayCopy.value = JSON.parse(localStorage.getItem("filter_by_id"))
 
-      await new Promise((resolve) => setTimeout(resolve, 100))
+      const checkoutBasketObject = _.filter(basketObjectAll.value, {name: basketArrayCopy.value[0].name})
+      if (checkoutBasketObject.length === 0) {
+        await new Promise((resolve) => setTimeout(resolve, 100))
 
-      orderPrice.value = basketArrayCopy.value[0].price
-      orderSumPrice.value = orderPrice.value * orderInInstrument.value
+        itemAvailability.value = basketArrayCopy.value[0].availability
+        orderPrice.value = basketArrayCopy.value[0].price
+        orderSumPrice.value = orderPrice.value * orderInInstrument.value
+      } else {
+        itemAvailability.value = basketArrayCopy.value[0].availability
+        orderPrice.value = basketArrayCopy.value[0].price
+        orderSumPrice.value = orderPrice.value * orderInInstrument.value
+        btnDisabledPlus.value = true
+        btnDisabledMinus.value = true
+        btnDisabledMain.value = true
+        ProcessingError('Данный товар уже находиться в корзине')
+      }
+      
     }
 
   } catch (error) {
@@ -115,6 +134,15 @@ const cordlessLocalCopyFun = async () => {
 const VBtnClickInPLus = async () => {
   try {
     orderInInstrument.value = orderInInstrument.value + 1;
+
+    if (orderInInstrument.value === itemAvailability.value) {
+      ProcessingError('Достигнуто максимальное кол-во товара')
+      btnDisabledPlus.value = true
+      btnDisabledMinus.value = false
+    } else {
+      btnDisabledPlus.value = false
+      btnDisabledMinus.value = false
+    }
     orderSumPrice.value = await orderPrice.value * orderInInstrument.value;
   } catch (error) {
     console.log(error);
@@ -123,7 +151,7 @@ const VBtnClickInPLus = async () => {
 
 const VBtnClickInMinus = async () => {
   try {
-    if (orderInInstrument.value >= 1) {
+    if (orderInInstrument.value > 1) {
       orderInInstrument.value = await new Promise((resolve, reject) => {
         try {
           const newValue = orderInInstrument.value - 1;
@@ -132,12 +160,14 @@ const VBtnClickInMinus = async () => {
           reject(error);
         }
       });
-
+      btnDisabledMinus.value = false
+      btnDisabledPlus.value = false
       orderSumPrice.value = await orderPrice.value * orderInInstrument.value;
+    } else if (orderInInstrument.value === 1) {
+      btnDisabledMinus.value = true
+      btnDisabledPlus.value = false
 
-    } else if (orderInInstrument.value === 0) {
-      orderInInstrument.value = orderInInstrument.value + 1;
-      orderSumPrice.value = await orderPrice.value;
+      orderSumPrice.value = orderPrice.value / 1
     }
 
   } catch (error) {
@@ -228,6 +258,7 @@ const closeBasket = () => {
                 class="blockBasketBtnMainInPlus"
                 :width="widthFuncPlusAndMinus()"
                 :height="heightFuncPlusAndMinus()"
+                :disabled="btnDisabledPlus"
                 @click="VBtnClickInPLus">+
             </v-btn>
             <p class="blockBasketBtnMainOrderPrice">{{ orderInInstrument }}</p>
@@ -235,6 +266,7 @@ const closeBasket = () => {
                 class="blockBasketBtnMainInMinus"
                 :width="widthFuncPlusAndMinus()"
                 :height="heightFuncPlusAndMinus()"
+                :disabled="btnDisabledMinus"
                 @click="VBtnClickInMinus">-
             </v-btn>
           </div>
@@ -243,7 +275,7 @@ const closeBasket = () => {
         <div class="blockBasketLinkInBasket">
           <v-btn
               @click="VBtnClickInBasket"
-              :disabled="orderInInstrumentFunc()"
+              :disabled="orderInInstrumentFunc() || btnDisabledMain"
               :width="widthFuncBtnBuy()"
               :height="heightFuncBtnBuy()"
               class="linkInBasketBtn">Добавить в корзину

@@ -316,11 +316,11 @@ const fluidFunc = () => {
                 @click="navigationDrawerClick">
               Каталог инструмента
             </v-btn>
-            <v-btn
-                :height="heightFunc()"
-                class="btnMainContainerFilter d-flex align-center"
-                @click="filterAllNameBtn(filterAllName)">Найти инструмент
-            </v-btn>
+<!--            <v-btn-->
+<!--                :height="heightFunc()"-->
+<!--                class="btnMainContainerFilter d-flex align-center"-->
+<!--                @click="filterAllNameBtn(filterAllName)">Найти инструмент-->
+<!--            </v-btn>-->
           </div>
           <div class="blockActionSecond pt-1">
             <p class="autocompleteTextLabel pt-1 pl-10 pb-1">
@@ -335,6 +335,8 @@ const fluidFunc = () => {
                 prepend-icon="fa-solid fa-magnifying-glass"
                 placeholder="Введите название инструмента"
                 variant="filled"
+                @update:modelValue="filterAllNameBtn(filterAllName)"
+
             ></v-autocomplete>
           </div>
         </div>
