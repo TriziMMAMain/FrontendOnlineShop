@@ -50,6 +50,24 @@ export const useBasketStore = defineStore({
                 return false
             }
         },
+        // Update orderId
+        async updateAxiosUserByOrderId(data) {
+            try {
+                const responseData = await interceptors.patch(`/users/update/order/${data.orderId}`, data)
+                    .then(() => {
+                        ProccesingSuccessfuly(`Вы успешно удалили заказ под номером ${data.orderId}`)
+                        setTimeout(() => {
+                            window.location.reload()
+                        }, 2000)
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        ProcessingError(`При обработки заказ под номером ${data.orderId}, произошла ошибки`)
+                    })
+            } catch (err) {
+                console.log(err);
+            }
+        },
         // Post interceptors user
         async postAxiosUser(data) {
             try {

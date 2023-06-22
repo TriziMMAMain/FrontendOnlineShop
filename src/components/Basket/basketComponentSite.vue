@@ -20,6 +20,7 @@ const {
   getLocalStorageInBasketObject,
   fetchingUsers,
   fetchingUserId,
+  updateAxiosUserByOrderId
 } = useBasketStore()
 getLocalStorageInBasketObject()
 
@@ -51,6 +52,36 @@ const heightFunc = () => {
     return '36'
   } else if (name.value === 'xs') {
     return '36'
+  }
+}
+const widthFuncVBtnOrder = () => {
+  if (name.value === 'xxl') {
+    return '500'
+  } else if (name.value === 'xl') {
+    return '500'
+  } else if (name.value === 'lg') {
+    return '450'
+  } else if (name.value === 'md') {
+    return '400'
+  } else if (name.value === 'sm') {
+    return '320'
+  } else if (name.value === 'xs') {
+    return '300'
+  }
+}
+const heightFuncVBtnOrder = () => {
+  if (name.value === 'xxl') {
+    return '72'
+  } else if (name.value === 'xl') {
+    return '72'
+  } else if (name.value === 'lg') {
+    return '54'
+  } else if (name.value === 'md') {
+    return '49'
+  } else if (name.value === 'sm') {
+    return '40'
+  } else if (name.value === 'xs') {
+    return '40'
   }
 }
 const widthFuncVBtnBasket = () => {
@@ -209,8 +240,6 @@ const getIdUser = async () => {
         userIdDataMain.value = JSON.parse(localStorage.getItem("user_id"))
 
         userIdData.value = userIdDataMain.value[0].instrumentArraySecond
-
-        console.log(userIdData.value[0].instrumentArray);
         dateClickUserOrder.value = userIdDataMain.value[0].dateClick
 
         if (userIdDataMain.value[0].processing === 'Ожидание обработки') {
@@ -230,6 +259,16 @@ const getIdUser = async () => {
   }
 
 
+}
+const deleteInfoUserOrderId = async (data) => {
+  await updateAxiosUserByOrderId(data)
+}
+const disabledVBtnOrderId = (data) => {
+  if (data.processing === 'Ожидание обработки') {
+    return true
+  } else {
+    return false
+  }
 }
 
 const clickToDeleteInBasket = (name) => {
@@ -335,6 +374,15 @@ onMounted(async () => {
           <div class="blockVFor mt-10 w-100" v-for="(user, userIndex) in userIdData" :key="userIndex"><h1
               class="titleInProcessing">Заказ под номером {{ user.orderId }}. Находиться в "{{ user.processing }}",
             заказ был сделан в {{ user.dateClick }}, {{ user.timeClick }}</h1>
+            <div class="actionsVBtnOrder mt-10 d-flex justify-center">
+              <v-btn
+                  class="vBtnOrderId"
+                  :width="widthFuncVBtnOrder()"
+                  :height="heightFuncVBtnOrder()"
+                  :disabled="disabledVBtnOrderId(user)"
+                  @click="deleteInfoUserOrderId(user)"
+              >Удалить заказ под номером: {{ user.orderId }}</v-btn>
+            </div>
             <div class="w-100">
               <div class="blockVCardFirstBasket" v-for="(instrument, instrumentIndex) in user.instrumentArray"
                    :key="instrumentIndex">
@@ -554,6 +602,21 @@ onMounted(async () => {
   }
 
   // --- FIRST BASKET V-CARD
+
+  .vBtnOrderId {
+    font-size: 0.7rem;
+    border-radius: 10px;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnOrderId:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 
   .blockVCardFirstBasketDiv {
     width: 100%;
@@ -892,6 +955,20 @@ onMounted(async () => {
   }
 
   // --- FIRST BASKET V-CARD
+  .vBtnOrderId {
+    font-size: 0.7rem;
+    border-radius: 10px;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnOrderId:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 
   .blockVCardFirstBasketDiv {
     width: 100%;
@@ -1220,6 +1297,20 @@ onMounted(async () => {
   }
 
   // --- FIRST BASKET V-CARD
+  .vBtnOrderId {
+    font-size: 0.8rem;
+    border-radius: 10px;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnOrderId:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 
   .blockVCardFirstBasketDiv {
     width: 100%;
@@ -1538,6 +1629,20 @@ onMounted(async () => {
   }
 
   // --- FIRST BASKET V-CARD
+  .vBtnOrderId {
+    font-size: 1rem;
+    border-radius: 10px;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnOrderId:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 
   .blockVCardFirstBasketDiv {
     width: 100%;
@@ -1858,6 +1963,20 @@ onMounted(async () => {
   }
 
   // --- FIRST BASKET V-CARD
+  .vBtnOrderId {
+    font-size: 1.1rem;
+    border-radius: 10px;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnOrderId:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 
   .blockVCardFirstBasketDiv {
     width: 100%;
@@ -2177,6 +2296,21 @@ onMounted(async () => {
 
   // --- FIRST BASKET V-CARD
 
+  .vBtnOrderId {
+    font-size: 1.1rem;
+    border-radius: 10px;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnOrderId:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
   .blockVCardFirstBasketDiv {
     width: 100%;
     margin-top: 40px;
@@ -2494,6 +2628,21 @@ onMounted(async () => {
   }
 
   // --- FIRST BASKET V-CARD
+
+  .vBtnOrderId {
+    font-size: 1.1rem;
+    border-radius: 10px;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnOrderId:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 
   .blockVCardFirstBasketDiv {
     width: 100%;
