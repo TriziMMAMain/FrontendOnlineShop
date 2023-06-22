@@ -8,15 +8,11 @@ import SearchInstrumentByParams from '../components/searchInstrument/searchInsru
 import basketComponentSite from '../components/Basket/basketComponentSite.vue'
 import BasketComponentCheckout from '../components/Basket/basketComponentCheckout.vue'
 // Cordless
+import ExampleInstrument from '../components/ShopCordlessInstrument/ShopCordlessInstruments.vue'
 import ShopCordless from '../components/ShopCordlessInstrument/ShopCordlessInstrument.vue'
 import ShopCordlessAll from '../components/ShopCordlessInstrument/ShopCordlessInstrumentAll.vue'
-import ShopCordlessDrill from '../components/ShopCordlessInstrument/ShopCordlessInstrumentDrill.vue'
-import ShopCordlessGrinders from '../components/ShopCordlessInstrument/ShopCordlessInstrumentGrinders.vue'
-import ShopCordlessScrewdrivers from '../components/ShopCordlessInstrument/ShopCordlessInstrumentScrewdrivers.vue'
 // Cordless ID
-import ShopInstrumentId from '../components/ShopInstrumentByID/CordlessId/ShopInstrumentCordlessIdDrill.vue'
-import ShopInstrumentGrindersId from '../components/ShopInstrumentByID/CordlessId/ShopInstrumentCordlessIdGrinders.vue'
-import ShopInstrumentScrewdriversId from '../components/ShopInstrumentByID/CordlessId/ShopInstrumentCordlessIdScrewdrivers.vue'
+import CordlessShopExampleId from '../components/ShopInstrumentByID/CordlessId/ShopCordlessInstrumentsId.vue'
 // Gasoline
 import ShopGasoline from '../components/ShopGasolineInstrument/ShopGasolineInstrument.vue'
 import ShopGasolineAll from '../components/ShopGasolineInstrument/ShopGasolineInstrumentAll.vue'
@@ -112,14 +108,14 @@ const routes = [
                 path: 'drills/', // /cordless-instrument/cordless-drills/
                 name: 'cordlessInstrumentDrills',
                 components: {
-                    cordlessToolsDrill: ShopCordlessDrill,
+                    cordlessInstrument: ExampleInstrument
                 },
             },
             {
                 path: 'drills/id/:id/', // // /cordless-instrument/cordless-drills/id/1
                 name: 'cordlessInstrumentDrillsID',
                 components: {
-                    cordlessToolsDrillId: ShopInstrumentId,
+                    cordlessInstrumentId: CordlessShopExampleId
                 },
             },
             // done!
@@ -127,7 +123,7 @@ const routes = [
                 path: 'grinders/', // /cordless-instrument/cordless-grinders/
                 name: 'cordlessInstrumentGrinders',
                 components: {
-                    cordlessToolsGrinders: ShopCordlessGrinders,
+                    cordlessInstrument: ExampleInstrument
                 },
 
             },
@@ -135,7 +131,7 @@ const routes = [
                 path: 'grinders/id/:id/', // /cordless-instrument/cordless-grinders/
                 name: 'cordlessInstrumentGrindersID',
                 components: {
-                    cordlessToolsGrindersId: ShopInstrumentGrindersId,
+                    cordlessInstrumentId: CordlessShopExampleId
                 },
             },
             // done!
@@ -143,14 +139,14 @@ const routes = [
                 path: 'screwdrivers/', // /cordless-instrument/cordless-screwdrivers/
                 name: 'cordlessInstrumentScrewdrivers',
                 components: {
-                    cordlessToolsScrewdrivers: ShopCordlessScrewdrivers,
+                    cordlessInstrument: ExampleInstrument
                 },
             },
             {
                 path: 'screwdrivers/id/:id/', // /cordless-instrument/cordless-screwdrivers/id/id
                 name: 'cordlessInstrumentScrewdriversID',
                 components: {
-                    cordlessToolsScrewdriversID: ShopInstrumentScrewdriversId,
+                    cordlessInstrumentId: CordlessShopExampleId
                 },
 
             },

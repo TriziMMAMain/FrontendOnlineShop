@@ -63,6 +63,8 @@ const trueOrFalsePhoto = ref(false)
 const avalibilityTrue = ref(null)
 //
 
+let items = ref([])
+
 const updateLocalData = () => {
   cordlessLocal.value = JSON.parse(localStorage.getItem('filter_by_id'))
   cordlessLocalCopy.value = cordlessLocal.value[0]
@@ -91,6 +93,61 @@ onMounted(async () => {
       } else {
         avalibilityTrue.value = true
       }
+      if (cordlessLocalCopy.value.typeThis === 'Аккумуляторная дрель-шуруповерт') {
+        items.value = [
+          {
+            title: 'Главная',
+            disabled: false,
+            href: '/home/',
+          },
+          {
+            title: 'Аккумуляторный инструмент',
+            disabled: false,
+            href: '/cordless-instrument/catalog/',
+          },
+          {
+            title: 'Аккумуляторные дрели',
+            disabled: false,
+            href: '/cordless-instrument/drills/',
+          },
+        ]
+      } else if (cordlessLocalCopy.value.typeThis === 'Аккумуляторная болгарка') {
+        items.value = [
+          {
+            title: 'Главная',
+            disabled: false,
+            href: '/home/',
+          },
+          {
+            title: 'Аккумуляторный инструмент',
+            disabled: false,
+            href: '/cordless-instrument/catalog',
+          },
+          {
+            title: 'Аккумуляторные болгарки',
+            disabled: false,
+            href: '/cordless-instrument/grinders/',
+          },
+        ]
+      } else if (cordlessLocalCopy.value.typeThis === 'Аккумуляторный перфоратор') {
+        items.value = [
+          {
+            title: 'Главная',
+            disabled: false,
+            href: '/home/',
+          },
+          {
+            title: 'Аккумуляторный инструмент',
+            disabled: false,
+            href: '/cordless-instrument/catalog',
+          },
+          {
+            title: 'Аккумуляторные перфораторы',
+            disabled: false,
+            href: '/cordless-instrument/screwdrivers/',
+          },
+        ]
+      }
     } else {
       console.log('error 500')
       ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
@@ -102,23 +159,7 @@ onMounted(async () => {
 
 })
 
-const items = [
-  {
-    title: 'Главная',
-    disabled: false,
-    href: '/home/',
-  },
-  {
-    title: 'Аккумуляторный инструмент',
-    disabled: false,
-    href: '/cordless-instrument/catalog/',
-  },
-  {
-    title: 'Аккумуляторные дрели',
-    disabled: false,
-    href: '/cordless-instrument/drills/',
-  },
-]
+
 
 let basketClick = ref(false)
 setInterval(() => {
@@ -245,9 +286,9 @@ const buyInBasket = (_id) => {
                 <v-icon icon="fa-solid fa-tag"
                         size="ml"
                         end></v-icon></span></p>
-              <p class="vCardTextShopPriceComponentFalseOrder">
-                Узнать о поступлении данного товара можно по телефону: <br> +7 (949) 412 91 53
-              </p>
+            <p class="vCardTextShopPriceComponentFalseOrder">
+              Узнать о поступлении данного товара можно по телефону: <br> +7 (949) 412 91 53
+            </p>
           </div>
         </div>
       </div>

@@ -1,8 +1,6 @@
 <script setup="">
 // - Import
-import ShopCordlessDrill from './ShopCordlessInstrumentDrill.vue'
-import ShopCordlessGrinders from './ShopCordlessInstrumentGrinders.vue'
-import ShopCordlessScrewdrivers from './ShopCordlessInstrumentScrewdrivers.vue'
+import ExampleShopCordless from './ShopCordlessInstruments.vue'
 
 
 
@@ -11,9 +9,7 @@ import ShopCordlessScrewdrivers from './ShopCordlessInstrumentScrewdrivers.vue'
 <template>
     <!--        CARD -->
   <v-container class="pa-0">
-    <ShopCordlessDrill></ShopCordlessDrill>
-    <ShopCordlessGrinders></ShopCordlessGrinders>
-    <ShopCordlessScrewdrivers></ShopCordlessScrewdrivers>
+    <ExampleShopCordless></ExampleShopCordless>
   </v-container>
 
 

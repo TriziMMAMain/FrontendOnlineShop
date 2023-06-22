@@ -13,15 +13,10 @@
   <div class="d-flex flex-wrap justify-center d-sm-flex justify-sm-center">
     <!--      ALL-->
     <router-view name="cordlessToolsAll"></router-view>
-    <!--      Drills-->
-    <router-view name="cordlessToolsDrill"></router-view>
-    <router-view name="cordlessToolsDrillId"></router-view>
-    <!--      Screwdrivers-->
-    <router-view name="cordlessToolsScrewdrivers"></router-view>
-    <router-view name="cordlessToolsScrewdriversID"></router-view>
-    <!--      Grindres-->
-    <router-view name="cordlessToolsGrinders"></router-view>
-    <router-view name="cordlessToolsGrindersId"></router-view>
+    <!--      Cordless instruments -->
+    <router-view name="cordlessInstrument"></router-view>
+    <router-view name="cordlessInstrumentId"></router-view>
+
     <router-view></router-view>
   </div>
 </template>

@@ -3,9 +3,17 @@
 import {ref} from 'vue'
 
 // router
-import { useRouter } from 'vue-router'
+import {useRouter} from 'vue-router'
+
 const router = useRouter()
 
+const clickToTitle = () => {
+  localStorage.setItem("name_type_this_true_or_false", JSON.stringify(false))
+}
+const clickTo = (nameTypeThis) => {
+  localStorage.setItem("name_type_this", JSON.stringify(nameTypeThis))
+  localStorage.setItem("name_type_this_true_or_false", JSON.stringify(true))
+}
 //
 
 //
@@ -41,10 +49,14 @@ const router = useRouter()
           <!--          START TEXT-->
           <v-expansion-panel-text>
             <v-card-text class="d-flex justify-center flex-column">
-              <router-link to="/cordless-instrument/catalog/" class="textExpansionMain">Каталог аккмуляторного инструмента</router-link>
-              <router-link to="/cordless-instrument/drills" class="textExpansion">Аккумуляторные дрели</router-link>
-              <router-link to="/cordless-instrument/screwdrivers" class="textExpansion">Аккумуляторные перфораторы</router-link>
-              <router-link to="/cordless-instrument/grinders" class="textExpansion">Аккумуляторные болгарки</router-link>
+              <a @click="clickToTitle()" href="/cordless-instrument/catalog/" class="textExpansionMain">Каталог
+                аккмуляторного инструмента</a>
+              <a @click="clickTo('Аккумуляторная дрель-шуруповерт')"
+                 href="/cordless-instrument/drills" class="textExpansion">Аккумуляторные дрели</a>
+              <a @click="clickTo('Аккумуляторный перфоратор')"
+                 href="/cordless-instrument/screwdrivers" class="textExpansion">Аккумуляторные перфораторы</a>
+              <a @click="clickTo('Аккумуляторная болгарка')"
+                 href="/cordless-instrument/grinders" class="textExpansion">Аккумуляторные болгарки</a>
             </v-card-text>
           </v-expansion-panel-text>
           <!--           END TEXT-->
@@ -62,7 +74,9 @@ const router = useRouter()
           <!--          START TEXT-->
           <v-expansion-panel-text>
             <v-card-text class="d-flex justify-center flex-column">
-              <router-link to="/gasoline-instrument/catalog/" class="textExpansionMain">Каталог бензинового инструмента</router-link>
+              <router-link to="/gasoline-instrument/catalog/" class="textExpansionMain">Каталог бензинового
+                инструмента
+              </router-link>
               <router-link to="/gasoline-instrument/generator/" class="textExpansion">Бензогенераторы</router-link>
               <router-link to="/gasoline-instrument/motoblock/" class="textExpansion">Мотоблоки</router-link>
               <router-link to="/gasoline-instrument/chainsaw/" class="textExpansion">Бензопилы</router-link>
@@ -83,7 +97,8 @@ const router = useRouter()
           <!--          START TEXT-->
           <v-expansion-panel-text>
             <v-card-text class="d-flex justify-center flex-column">
-              <router-link to="/network-instrument/catalog/" class="textExpansionMain">Каталог сетевого инструмента</router-link>
+              <router-link to="/network-instrument/catalog/" class="textExpansionMain">Каталог сетевого инструмента
+              </router-link>
               <router-link to="/network-instrument/drill/" class="textExpansion">Сетевые дрели</router-link>
               <router-link to="/network-instrument/fretsaw/" class="textExpansion">Сетевые лобзики</router-link>
               <router-link to="/network-instrument/perforator/" class="textExpansion">Сетевые перфораторы</router-link>
@@ -104,10 +119,13 @@ const router = useRouter()
           <!--          START TEXT-->
           <v-expansion-panel-text>
             <v-card-text class="d-flex justify-center flex-column">
-              <router-link to="/pneumotool-instrument/catalog/" class="textExpansionMain">Каталог пневматического инструмента</router-link>
+              <router-link to="/pneumotool-instrument/catalog/" class="textExpansionMain">Каталог пневматического
+                инструмента
+              </router-link>
               <router-link to="/pneumotool-instrument/compressor/" class="textExpansion">Компрессоры</router-link>
               <router-link to="/pneumotool-instrument/jackhammer/" class="textExpansion">Отбойный молоток</router-link>
-              <router-link to="/pneumotool-instrument/nail-gun/" class="textExpansion">Гвоздезабивной пистолет</router-link>
+              <router-link to="/pneumotool-instrument/nail-gun/" class="textExpansion">Гвоздезабивной пистолет
+              </router-link>
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->

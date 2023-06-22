@@ -1,6 +1,6 @@
 <script setup="">
 // - Import
-import {onMounted, ref} from 'vue'
+import {onMounted, ref, computed} from 'vue'
 import {useRouter} from 'vue-router'
 import _ from 'lodash'
 import {useInstrumentStore} from '../../stores/counter.js'
@@ -119,61 +119,86 @@ const heightFuncVBtn = () => {
   }
 }
 
-
 //
-const cordlessScrewdriversArray = ref([])
+const cordlessInstrumentArray = ref([])
 const cordlessLocal = ref([])
+const typeThis = ref(null)
+const trueOrFalseTypeThis = ref(null)
+const functionAwait = ref('')
 
 cordlessLocal.value = JSON.parse(localStorage.getItem("cordless"))
+typeThis.value = JSON.parse(localStorage.getItem("name_type_this"))
+trueOrFalseTypeThis.value = JSON.parse(localStorage.getItem("name_type_this_true_or_false"))
 
-
-const cordlessDrill = async (cordless) => {
-  for (let i = 0; i < cordless.length; i++) {
-    if (cordless[i].typeThis === 'Аккумуляторный перфоратор') {
-      cordlessScrewdriversArray.value.push(cordless[i])
+const cordlessDrill = async (cordless, typeThisSecond, trueOrFalse) => {
+  try {
+    if (trueOrFalse) {
+      let filterArray = ref(null)
+      filterArray.value = _.filter(cordless, {typeThis: typeThisSecond})
+      cordlessInstrumentArray.value = filterArray.value
+    } else {
+      for (let i = 0; i < cordless.length; i++) {
+        cordlessInstrumentArray.value.push(cordless[i])
+      }
     }
+    return true
+  } catch (err) {
+    console.log(err);
+    return false
   }
 }
-cordlessDrill(cordlessLocal.value)
 
-const viewDetails = async (id, _id) => {
+const viewDetails = async (id, _id, data) => {
   let dataInstrument = ref([])
-  for (let i = 0; i < cordlessScrewdriversArray.value.length; i++) {
-    dataInstrument.value = _.filter(cordlessScrewdriversArray.value, {"_id": _id})
+
+  for (let i = 0; i < cordlessInstrumentArray.value.length; i++) {
+    dataInstrument.value = _.filter(cordlessInstrumentArray.value, {"_id": _id})
   }
   postAxiosInstrumentById(dataInstrument.value)
-  await router.push({name: 'cordlessInstrumentScrewdriversID', params: {id: id}}) // /id/:id
+
+
+  await router.push({name: 'examplecordlessInstrumentId', params: {id: id}}) // /id/:id
   localStorage.setItem("id_cordless", JSON.stringify(id))
 }
 // - Logical
 let counterClick = ref(0)
-const buyInBasket = async (id, _id) => {
+const buyInBasket = async (id, _id, data) => {
   let dataInstrument = ref([])
-  for (let i = 0; i < cordlessScrewdriversArray.value.length; i++) {
-    dataInstrument.value = _.filter(cordlessScrewdriversArray.value, {"_id": _id})
+  for (let i = 0; i < cordlessInstrumentArray.value.length; i++) {
+    dataInstrument.value = _.filter(cordlessInstrumentArray.value, {"_id": _id})
   }
   postAxiosInstrumentById(dataInstrument.value)
+
   counterClick.value = counterClick.value + 1
   if (counterClick.value === 1) {
     localStorage.setItem("basket_id", JSON.stringify(id))
     localStorage.setItem("basket_click", JSON.stringify(true))
     localStorage.setItem("id_cordless", JSON.stringify(id))
-    await router.push({name: 'cordlessInstrumentScrewdriversID', params: {id: id}})
-
+    await router.push({name: 'examplecordlessInstrumentId', params: {id: id}})
   }
 }
 
 const availabilityTrue = ref(false)
 const trueAvailabilityText = ref(true)
-onMounted(() => {
-  if (cordlessScrewdriversArray.value[0].availability === 0) {
-    availabilityTrue.value = true
-    trueAvailabilityText.value = false
-  } else {
-    availabilityTrue.value = false
-    trueAvailabilityText.value = true
+onMounted(async () => {
+  if (await cordlessDrill(cordlessLocal.value, typeThis.value, trueOrFalseTypeThis.value)) {
+    if (cordlessInstrumentArray.value[0].availability === 0) {
+      availabilityTrue.value = true
+      trueAvailabilityText.value = false
+    } else {
+      availabilityTrue.value = false
+      trueAvailabilityText.value = true
+    }
   }
 })
+
+const usersToShow = ref(10)
+const visibleItems = computed(() => cordlessInstrumentArray.value.slice(0, usersToShow.value))
+const allItemsShown = computed(() => usersToShow.value >= cordlessInstrumentArray.value.length)
+
+function showMore() {
+  usersToShow.value += 10
+}
 </script>
 
 <template>
@@ -185,7 +210,7 @@ onMounted(() => {
         color="background"
         elevation="5"
         class="vCardMain pa-5 mr-10 mb-16"
-        v-for="i in cordlessScrewdriversArray">
+        v-for="i in visibleItems" :key="i">
       <v-row class="d-sm-flex">
         <!--      FIRST COL-->
         <v-col :cols="firstColFunc()"
@@ -204,7 +229,7 @@ onMounted(() => {
                class="secondCol pa-1">
           <!--        TITLE-->
           <div class="blockTitleCard">
-            <button @click="viewDetails(i.id, i._id)" class="cardTextHref mt-1">{{ i.name }}</button>
+            <button @click="viewDetails(i.id, i._id, i)" class="cardTextHref mt-1">{{ i.name }}</button>
           </div>
           <!--        SPAN AND TEXT-->
           <div
@@ -232,7 +257,7 @@ onMounted(() => {
               Последняя цена {{ i.price }} рублей
             </p>
             <v-btn
-                @click="buyInBasket(i.id, i._id)"
+                @click="buyInBasket(i.id, i._id, i)"
                 elevation="1"
                 class="vBtnBuy"
                 :width="widthtFuncVBtn()"
@@ -249,11 +274,13 @@ onMounted(() => {
           <p class="textCardAvailabilityFalse" v-else>
             Нет в наличии
           </p>
-
           <!--    CARD ACTIONS END-->
         </v-col>
       </v-row>
     </v-card>
+    <v-btn class="vBtnColor"
+        width="100%"
+        v-if="!allItemsShown" @click="showMore()">Load more</v-btn>
   </div>
   <!--        END CARD-->
 </template>
@@ -261,7 +288,18 @@ onMounted(() => {
 <style lang="scss" scoped>
 // - import
 @import '../../assets/mixins';
+.vBtnColor {
+  color: $background;
+  background-color: $primary;
+  transition: all 0.3s ease-in-out;
+}
 
+.vBtnColor:hover {
+  color: $primary;
+  background-color: $background;
+  border: 1px solid $primary;
+  transition: all 0.3s ease-in-out;
+}
 
 // Media
 

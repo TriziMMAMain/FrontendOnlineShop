@@ -21,6 +21,16 @@ app.use(Toast, {
     maxToasts: 2,
     newestOnTop: true
 })
+router.afterEach(() => {
+    requestAnimationFrame(() => {
+        const top = document.getElementById('app').offsetTop;
+        window.scrollTo({
+            top,
+            behavior: 'auto',
+            block: 'start',
+        });
+    });
+});
 app.use(router)
 app.use(vuetify)
 app.mount('#app')
