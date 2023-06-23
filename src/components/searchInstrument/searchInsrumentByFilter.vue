@@ -234,6 +234,14 @@ const buyInBasket = async (id) => {
     await checkPneumoInstrument(id, routerPush.value)
   }
 }
+
+const availabilityTrue = (data) => {
+  if (data === 0) {
+    return false
+  } else {
+    return true
+  }
+}
 </script>
 
 <template>
@@ -284,12 +292,13 @@ const buyInBasket = async (id) => {
         <!--    CARD ACTIONS START-->
 
         <v-card-actions
+            v-if="availabilityTrue(i.availability)"
             class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
           <p class="textCardPrice pt-3 pb-3">
             {{ i.price }} рублей
           </p>
           <v-btn
-              @click="buyInBasket(i.id, i._id)"
+              @click="buyInBasket(i.id, i._id, i)"
               elevation="1"
               class="vBtnBuy"
               :width="widthtFuncVBtn()"
@@ -298,10 +307,31 @@ const buyInBasket = async (id) => {
           >
             Купить
           </v-btn>
+          <p class="textCardAvailability">
+            В наличии имеется > {{ i.availability }} шт
+          </p>
         </v-card-actions>
-        <p class="textCardAvailability">
-          В наличии имеется > {{ i.availability }}
-        </p>
+        <v-card-actions
+            v-else
+            class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
+          <p class="textCardPrice pt-3 pb-3">
+            Последняя цена {{ i.price }} рублей
+          </p>
+          <v-btn
+              @click="buyInBasket(i.id, i._id, i)"
+              elevation="1"
+              class="vBtnBuy"
+              :width="widthtFuncVBtn()"
+              :height="heightFuncVBtn()"
+              :disabled="true"
+              prepend-icon="fa-solid fa-cart-shopping"
+          >
+            Купить
+          </v-btn>
+          <p class="textCardAvailabilityFalse">
+            Нет в наличии
+          </p>
+        </v-card-actions>
 
         <!--    CARD ACTIONS END-->
       </v-col>
@@ -314,7 +344,18 @@ const buyInBasket = async (id) => {
 <style lang="scss" scoped>
 // - import
 @import '../../assets/mixins';
+.vBtnColor {
+  color: $background;
+  background-color: $primary;
+  transition: all 0.3s ease-in-out;
+}
 
+.vBtnColor:hover {
+  color: $primary;
+  background-color: $background;
+  border: 1px solid $primary;
+  transition: all 0.3s ease-in-out;
+}
 
 // Media
 
@@ -387,7 +428,7 @@ const buyInBasket = async (id) => {
 
   .textCardPrice {
     font-size: 1rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -397,12 +438,16 @@ const buyInBasket = async (id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 1rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {
@@ -418,7 +463,7 @@ const buyInBasket = async (id) => {
   }
 }
 
-@media screen and (min-width: 376px) and (max-width: 599px) {
+@media screen and (min-width: 376px) and (max-width: 600px) {
   /*  стили для xl-устройств */
   .widthBlock {
     width: 100%;
@@ -487,7 +532,7 @@ const buyInBasket = async (id) => {
 
   .textCardPrice {
     font-size: 1.2rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -497,12 +542,16 @@ const buyInBasket = async (id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 0.8rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {
@@ -579,7 +628,7 @@ const buyInBasket = async (id) => {
 
   .textCardPrice {
     font-size: 0.8rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -589,12 +638,16 @@ const buyInBasket = async (id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 0.6rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {
@@ -671,7 +724,7 @@ const buyInBasket = async (id) => {
 
   .textCardPrice {
     font-size: 1.2rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -681,12 +734,16 @@ const buyInBasket = async (id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 0.8rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {
@@ -768,7 +825,7 @@ const buyInBasket = async (id) => {
 
   .textCardPrice {
     font-size: 1.3rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -778,12 +835,16 @@ const buyInBasket = async (id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 0.9rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {
@@ -865,7 +926,7 @@ const buyInBasket = async (id) => {
 
   .textCardPrice {
     font-size: 1.8rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -875,12 +936,16 @@ const buyInBasket = async (id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 1.3rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {
@@ -962,7 +1027,7 @@ const buyInBasket = async (id) => {
 
   .textCardPrice {
     font-size: 1.8rem;
-    text-align: right;
+    text-align: center;
     font-weight: 600;
     color: $primary;
   }
@@ -972,12 +1037,16 @@ const buyInBasket = async (id) => {
     color: $text;
   }
 
-  .textCardAvailability {
+  .textCardAvailability, .textCardAvailabilityFalse {
     text-align: center;
     padding-top: 8px;
     font-size: 1.3rem;
     font-weight: 500;
     color: $success;
+  }
+
+  .textCardAvailabilityFalse {
+    color: $text;
   }
 
   .vBtnBuy {

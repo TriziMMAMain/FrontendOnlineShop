@@ -126,19 +126,11 @@ const arrayLocalStorage = ref([])
 
 
 let dataInstrument = ref([])
-const availabilityTrue = ref(false)
 const trueAvailabilityText = ref(true)
 
 onMounted(() => {
   instrumentFilterName.value = JSON.parse(localStorage.getItem("filter_by_name"))
   arrayLocalStorage.value.push(instrumentFilterName.value)
-  if (arrayLocalStorage.value[0].availability === 0) {
-    availabilityTrue.value = true
-    trueAvailabilityText.value = false
-  } else {
-    availabilityTrue.value = false
-    trueAvailabilityText.value = true
-  }
 })
 
 
@@ -242,6 +234,14 @@ const buyInBasket = async (id) => {
     await checkPneumoInstrument(id, routerPush.value)
   }
 }
+
+const availabilityTrue = (data) => {
+  if (data === 0) {
+    return false
+  } else {
+    return true
+  }
+}
 </script>
 
 <template>
@@ -292,31 +292,46 @@ const buyInBasket = async (id) => {
         <!--    CARD ACTIONS START-->
 
         <v-card-actions
+            v-if="availabilityTrue(i.availability)"
             class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
-          <p class="textCardPrice pt-3 pb-3" v-if="trueAvailabilityText">
+          <p class="textCardPrice pt-3 pb-3">
             {{ i.price }} рублей
           </p>
-          <p class="textCardPrice pt-3 pb-3" v-else>
-            Последняя цена {{ i.price }} рублей
-          </p>
           <v-btn
-              @click="buyInBasket(i.id, i._id)"
+              @click="buyInBasket(i.id, i._id, i)"
               elevation="1"
               class="vBtnBuy"
               :width="widthtFuncVBtn()"
               :height="heightFuncVBtn()"
-              :disabled="availabilityTrue"
               prepend-icon="fa-solid fa-cart-shopping"
           >
             Купить
           </v-btn>
+          <p class="textCardAvailability">
+            В наличии имеется > {{ i.availability }} шт
+          </p>
         </v-card-actions>
-        <p class="textCardAvailability" v-if="trueAvailabilityText">
-          В наличии имеется > {{ i.availability }} шт
-        </p>
-        <p class="textCardAvailabilityFalse" v-else>
-          Нет в наличии
-        </p>
+        <v-card-actions
+            v-else
+            class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
+          <p class="textCardPrice pt-3 pb-3">
+            Последняя цена {{ i.price }} рублей
+          </p>
+          <v-btn
+              @click="buyInBasket(i.id, i._id, i)"
+              elevation="1"
+              class="vBtnBuy"
+              :width="widthtFuncVBtn()"
+              :height="heightFuncVBtn()"
+              :disabled="true"
+              prepend-icon="fa-solid fa-cart-shopping"
+          >
+            Купить
+          </v-btn>
+          <p class="textCardAvailabilityFalse">
+            Нет в наличии
+          </p>
+        </v-card-actions>
 
         <!--    CARD ACTIONS END-->
       </v-col>
@@ -329,7 +344,18 @@ const buyInBasket = async (id) => {
 <style lang="scss" scoped>
 // - import
 @import '../../assets/mixins';
+.vBtnColor {
+  color: $background;
+  background-color: $primary;
+  transition: all 0.3s ease-in-out;
+}
 
+.vBtnColor:hover {
+  color: $primary;
+  background-color: $background;
+  border: 1px solid $primary;
+  transition: all 0.3s ease-in-out;
+}
 
 // Media
 
