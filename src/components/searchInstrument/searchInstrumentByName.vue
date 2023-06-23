@@ -148,7 +148,7 @@ const checkCordlessInstrument = async (idInstrument, routerPush) => {
   }
   postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_cordless", JSON.stringify(idInstrument))
-  await router.push({name: routerPush, params: {id: idInstrument}})
+  await router.push({name: `${routerPush} ID`, params: {id: idInstrument}})
   localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
 const checkGasolineInstrument = async (idInstrument, routerPush) => {
@@ -157,7 +157,7 @@ const checkGasolineInstrument = async (idInstrument, routerPush) => {
   }
   postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_gasoline", JSON.stringify(idInstrument))
-  await router.push({name: routerPush, params: {id: idInstrument}})
+  await router.push({name: `${routerPush} ID`, params: {id: idInstrument}})
   localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
 const checkNetworkInstrument = async (idInstrument, routerPush) => {
@@ -166,7 +166,7 @@ const checkNetworkInstrument = async (idInstrument, routerPush) => {
   }
   postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_network", JSON.stringify(idInstrument))
-  await router.push({name: routerPush, params: {id: idInstrument}})
+  await router.push({name: `${routerPush} ID`, params: {id: idInstrument}})
   localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
 const checkPneumoInstrument = async (idInstrument, routerPush) => {
@@ -175,7 +175,7 @@ const checkPneumoInstrument = async (idInstrument, routerPush) => {
   }
   postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_pneumotool", JSON.stringify(idInstrument))
-  await router.push({name: routerPush, params: {id: idInstrument}})
+  await router.push({name: `${routerPush} ID`, params: {id: idInstrument}})
   localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
 
@@ -200,53 +200,20 @@ const addInBasketIdPneumo = (idInstrument) => {
 const viewDetails = async (id) => {
 
   if (arrayLocalStorage.value[0].type === 'Аккумуляторный инструмент') {
-    if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная дрель-шуруповерт') {
-      // CORDLESS DRILL
-      await checkCordlessInstrument(id, 'cordlessInstrumentDrillsID')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная болгарка') {
-      //  CORDLESS GRINDERES
-      await checkCordlessInstrument(id, 'cordlessInstrumentGrindersID')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторный перфоратор') {
-      //  CORDLESS SCREWDRIVERS
-      await checkCordlessInstrument(id, 'cordlessInstrumentScrewdriversID')
-    }
-
+    let routerPush = ref(arrayLocalStorage.value[0].typeThis)
+    await checkCordlessInstrument(id, routerPush.value)
   }
   if (arrayLocalStorage.value[0].type === 'Бензоинструмент') {
-    if (arrayLocalStorage.value[0].typeThis === 'Бензогенератор') {
-      // GASOLINE GENERATOR
-      await checkGasolineInstrument(id, 'gasolineInstrumentGeneratorId')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Бензиновый мотоблок') {
-      // GASOLINE MOTOBLOCK
-      await checkGasolineInstrument(id, 'gasolineInstrumentMotoblockId')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Бензопила') {
-      // GASOLINE CHAINSAW
-      await checkGasolineInstrument(id, 'gasolineInstrumentChainsawId')
-    }
+    let routerPush = ref(arrayLocalStorage.value[0].typeThis)
+    await checkGasolineInstrument(id, routerPush.value)
   }
   if (arrayLocalStorage.value[0].type === 'Сетевой инструмент') {
-    if (arrayLocalStorage.value[0].typeThis === 'Дрель') {
-      // NETWORK DRILL
-      await checkNetworkInstrument(id, 'networkInstrumentDrillId')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Лобзик электрический') {
-      // NETWORK FRETSAW
-      await checkNetworkInstrument(id, 'networkInstrumentFretsawId')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Перфоратор') {
-      // NETWORK PERFORATOR
-      await checkNetworkInstrument(id, 'networkInstrumentPerforatorId')
-    }
+    let routerPush = ref(arrayLocalStorage.value[0].typeThis)
+    await checkNetworkInstrument(id, routerPush.value)
   }
   if (arrayLocalStorage.value[0].type === 'Пневмоинструмент') {
-    if (arrayLocalStorage.value[0].typeThis === 'Компрессор') {
-      // PNEUMO
-      await checkPneumoInstrument(id, 'pneumotoolInstrumentId')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Пневматическая отбойная молотковая машина') {
-      // PNEUMO
-      await checkPneumoInstrument(id, 'pneumotoolInstrumentJackhammerId')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Гвоздезабивной пистолет пневматический') {
-      // PNEUMO
-      await checkPneumoInstrument(id, 'pneumotoolInstrumentNailGunId')
-    }
+    let routerPush = ref(arrayLocalStorage.value[0].typeThis)
+    await checkPneumoInstrument(id, routerPush.value)
   }
 }
 
@@ -255,68 +222,25 @@ let counterClick = ref(0)
 
 const buyInBasket = async (id) => {
   if (arrayLocalStorage.value[0].type === 'Аккумуляторный инструмент') {
-    if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная дрель-шуруповерт') {
-      // CORDLESS DRILL
-      addInBasketIdCordless(id)
-      await checkCordlessInstrument(id, 'cordlessInstrumentDrillsID')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторная болгарка') {
-      //  CORDLESS GRINDERES
-      addInBasketIdCordless(id)
-      await checkCordlessInstrument(id, 'cordlessInstrumentGrindersID')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Аккумуляторный перфоратор') {
-      //  CORDLESS SCREWDRIVERS
-      addInBasketIdCordless(id)
-      await checkCordlessInstrument(id, 'cordlessInstrumentScrewdriversID')
-    }
-
+    addInBasketIdCordless(id)
+    let routerPush = ref(arrayLocalStorage.value[0].typeThis)
+    await checkCordlessInstrument(id, routerPush.value)
   }
   if (arrayLocalStorage.value[0].type === 'Бензоинструмент') {
-    if (arrayLocalStorage.value[0].typeThis === 'Бензогенератор') {
-      // GASOLINE GENERATOR
-      addInBasketIdGasoline(id)
-      await checkGasolineInstrument(id, 'gasolineInstrumentGeneratorId')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Бензиновый мотоблок') {
-      // GASOLINE MOTOBLOCK
-      addInBasketIdGasoline(id)
-      await checkGasolineInstrument(id, 'gasolineInstrumentMotoblockId')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Бензопила') {
-      // GASOLINE CHAINSAW
-      addInBasketIdGasoline(id)
-      await checkGasolineInstrument(id, 'gasolineInstrumentChainsawId')
-    }
+    addInBasketIdGasoline(id)
+    let routerPush = ref(arrayLocalStorage.value[0].typeThis)
+    await checkGasolineInstrument(id, routerPush.value)
   }
   if (arrayLocalStorage.value[0].type === 'Сетевой инструмент') {
-    if (arrayLocalStorage.value[0].typeThis === 'Дрель') {
-      // NETWORK DRILL
-      addInBasketIdNetwork(id)
-      await checkNetworkInstrument(id, 'networkInstrumentDrillId')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Лобзик электрический') {
-      // NETWORK FRETSAW
-      addInBasketIdNetwork(id)
-      await checkNetworkInstrument(id, 'networkInstrumentFretsawId')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Перфоратор') {
-      // NETWORK PERFORATOR
-      addInBasketIdNetwork(id)
-      await checkNetworkInstrument(id, 'networkInstrumentPerforatorId')
-    }
+    addInBasketIdNetwork(id)
+    let routerPush = ref(arrayLocalStorage.value[0].typeThis)
+    await checkNetworkInstrument(id, routerPush.value)
   }
   if (arrayLocalStorage.value[0].type === 'Пневмоинструмент') {
-    if (arrayLocalStorage.value[0].typeThis === 'Компрессор') {
-      // PNEUMO
-      addInBasketIdPneumo(id)
-      await checkPneumoInstrument(id, 'pneumotoolInstrumentId')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Пневматическая отбойная молотковая машина') {
-      // PNEUMO
-      addInBasketIdPneumo(id)
-      await checkPneumoInstrument(id, 'pneumotoolInstrumentJackhammerId')
-    } else if (arrayLocalStorage.value[0].typeThis === 'Гвоздезабивной пистолет пневматический') {
-      // PNEUMO
-      addInBasketIdPneumo(id)
-      await checkPneumoInstrument(id, 'pneumotoolInstrumentNailGunId')
-    }
+    addInBasketIdPneumo(id)
+    let routerPush = ref(arrayLocalStorage.value[0].typeThis)
+    await checkPneumoInstrument(id, routerPush.value)
   }
-
-
 }
 </script>
 
