@@ -6,6 +6,7 @@ import BasketComponentDynamic from "../../Basket/basketComponentDynamic.vue"
 import {Promise} from "core-js";
 import {ProccesingSuccessfuly, ProcessingError} from "../../../notification/toasting";
 import {useDisplay} from 'vuetify'
+import router from "../../../router/index.js";
 
 const {name} = useDisplay()
 const {fetchingInstrumentById} = useInstrumentStore()
@@ -96,55 +97,43 @@ onMounted(async () => {
       if (cordlessLocalCopy.value.typeThis === 'Аккумуляторная дрель-шуруповерт') {
         items.value = [
           {
-            title: 'Главная',
-            disabled: false,
-            href: '/home/',
+            title: 'Главная'
           },
           {
             title: 'Аккумуляторный инструмент',
-            disabled: false,
-            href: '/cordless-instrument/catalog/',
+            clickToBreadcrumbs: 'cordlessInstrumentAll'
           },
           {
             title: 'Аккумуляторные дрели',
-            disabled: false,
-            href: '/cordless-instrument/drills/',
+            clickToBreadcrumbs: 'Аккумуляторная дрель-шуруповерт'
           },
         ]
       } else if (cordlessLocalCopy.value.typeThis === 'Аккумуляторная болгарка') {
         items.value = [
           {
-            title: 'Главная',
-            disabled: false,
-            href: '/home/',
+            title: 'Главная'
           },
           {
             title: 'Аккумуляторный инструмент',
-            disabled: false,
-            href: '/cordless-instrument/catalog',
+            clickToBreadcrumbs: 'cordlessInstrumentAll'
           },
           {
             title: 'Аккумуляторные болгарки',
-            disabled: false,
-            href: '/cordless-instrument/grinders/',
+            clickToBreadcrumbs: 'Аккумуляторная болгарка'
           },
         ]
       } else if (cordlessLocalCopy.value.typeThis === 'Аккумуляторный перфоратор') {
         items.value = [
           {
-            title: 'Главная',
-            disabled: false,
-            href: '/home/',
+            title: 'Главная'
           },
           {
             title: 'Аккумуляторный инструмент',
-            disabled: false,
-            href: '/cordless-instrument/catalog',
+            clickToBreadcrumbs: 'cordlessInstrumentAll'
           },
           {
             title: 'Аккумуляторные перфораторы',
-            disabled: false,
-            href: '/cordless-instrument/screwdrivers/',
+            clickToBreadcrumbs: 'Аккумуляторный перфоратор'
           },
         ]
       }
@@ -158,7 +147,6 @@ onMounted(async () => {
   }
 
 })
-
 
 
 let basketClick = ref(false)
@@ -178,6 +166,21 @@ const buyInBasket = (_id) => {
   localStorage.setItem("basket_id", JSON.stringify(_id))
 }
 
+const linkInPageByItems = (item) => {
+  if (item.clickToBreadcrumbs === undefined) {
+    router.push({name: 'homeComponent'})
+  } else if (item.clickToBreadcrumbs === 'cordlessInstrumentAll') {
+    localStorage.setItem("name_type_this", JSON.stringify(item.clickToBreadcrumbs))
+    localStorage.setItem("name_type_this_true_or_false", JSON.stringify(false))
+    router.push({name: 'cordlessInstrumentAll'})
+  } else {
+    localStorage.setItem("name_type_this", JSON.stringify(item.clickToBreadcrumbs))
+    localStorage.setItem("name_type_this_true_or_false", JSON.stringify(true))
+    router.push({name: `${item.clickToBreadcrumbs}`})
+  }
+
+}
+
 //
 </script>
 
@@ -190,9 +193,10 @@ const buyInBasket = (_id) => {
          v-if="basketClick">
       <BasketComponentDynamic></BasketComponentDynamic>
     </div>
-    <div class="linkInPage">
-      <v-breadcrumbs class="linkInPageVBreadcrumbs"
-                     :items="items"></v-breadcrumbs>
+    <div class="linkInPage d-flex mb-4">
+      <p class="linkInPageVBreadcrumbs pl-6"
+         v-for="item in items"
+         @click="linkInPageByItems(item)">{{ item.title }} <span class="pa-4">/</span></p>
     </div>
     <v-divider
         :thickness="3"
@@ -335,10 +339,10 @@ const buyInBasket = (_id) => {
         :thickness="3"
         color="error"
     ></v-divider>
-    <div class="linkInPage">
-      <v-breadcrumbs
-          class="linkInPageVBreadcrumbs"
-          :items="items"></v-breadcrumbs>
+    <div class="linkInPage d-flex mt-4">
+      <p class="linkInPageVBreadcrumbs pl-6"
+         v-for="item in items"
+         @click="linkInPageByItems(item)">{{ item.title }} <span class="pa-4">/</span></p>
     </div>
   </div>
 
@@ -374,6 +378,11 @@ const buyInBasket = (_id) => {
     font-weight: 450;
     color: $text;
 
+  }
+
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
   }
   // Card Side Title
 
@@ -657,6 +666,11 @@ const buyInBasket = (_id) => {
     font-weight: 450;
     color: $text;
 
+  }
+
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
   }
   // Card Side Title
 
@@ -942,6 +956,11 @@ const buyInBasket = (_id) => {
     color: $text;
 
   }
+
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
   // Card Side Title
 
   .cardMainShopSideTitle {
@@ -1225,6 +1244,11 @@ const buyInBasket = (_id) => {
     color: $text;
 
   }
+
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
   // Card Side Title
 
   .cardMainShopSideTitle {
@@ -1503,6 +1527,11 @@ const buyInBasket = (_id) => {
     font-weight: 500;
     color: $text;
 
+  }
+
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
   }
   //
 
@@ -1784,6 +1813,11 @@ const buyInBasket = (_id) => {
     font-weight: 500;
     color: $text;
 
+  }
+
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
   }
   //
 
@@ -2070,7 +2104,12 @@ const buyInBasket = (_id) => {
     font-size: 1.5rem;
     font-weight: 500;
     color: $text;
+    transition: all 0.3s ease-in-out;
+  }
 
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
   }
   //
 

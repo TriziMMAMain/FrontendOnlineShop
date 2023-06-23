@@ -72,8 +72,11 @@ const fetchingPiniaInstrument = async () => {
 
 onMounted(async () => {
   localStorage.setItem("loading_page", JSON.stringify(true))
+  loadingPage.value = JSON.parse(localStorage.getItem("loading_page"))
   await fetchingPiniaInstrument()
   localStorage.setItem("loading_page", JSON.stringify(false))
+  loadingPage.value = JSON.parse(localStorage.getItem("loading_page"))
+
 })
 
 const sizeFunc = () => {
@@ -224,9 +227,9 @@ const filterAllNameBtn = async (string) => {
   }
 }
 const loadingPage = ref(false)
-setInterval(() => {
-  loadingPage.value = JSON.parse(localStorage.getItem("loading_page"))
-})
+
+
+
 
 const fluidFunc = () => {
   if (name.value === 'xs') {

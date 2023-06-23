@@ -74,12 +74,12 @@ const clickTo = (nameTypeThis) => {
           <!--          START TEXT-->
           <v-expansion-panel-text>
             <v-card-text class="d-flex justify-center flex-column">
-              <router-link to="/gasoline-instrument/catalog/" class="textExpansionMain">Каталог бензинового
+              <a  @click="clickToTitle()" href="/gasoline-instrument/catalog/" class="textExpansionMain">Каталог бензинового
                 инструмента
-              </router-link>
-              <router-link to="/gasoline-instrument/generator/" class="textExpansion">Бензогенераторы</router-link>
-              <router-link to="/gasoline-instrument/motoblock/" class="textExpansion">Мотоблоки</router-link>
-              <router-link to="/gasoline-instrument/chainsaw/" class="textExpansion">Бензопилы</router-link>
+              </a>
+              <a @click="clickTo('Бензогенератор')" href="/gasoline-instrument/generator/" class="textExpansion">Бензогенераторы</a>
+              <a @click="clickTo('Бензиновый мотоблок')"  href="/gasoline-instrument/motoblock/" class="textExpansion">Мотоблоки</a>
+              <a @click="clickTo('Бензопила')"  href="/gasoline-instrument/chainsaw/" class="textExpansion">Бензопилы</a>
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->
@@ -97,11 +97,11 @@ const clickTo = (nameTypeThis) => {
           <!--          START TEXT-->
           <v-expansion-panel-text>
             <v-card-text class="d-flex justify-center flex-column">
-              <router-link to="/network-instrument/catalog/" class="textExpansionMain">Каталог сетевого инструмента
-              </router-link>
-              <router-link to="/network-instrument/drill/" class="textExpansion">Сетевые дрели</router-link>
-              <router-link to="/network-instrument/fretsaw/" class="textExpansion">Сетевые лобзики</router-link>
-              <router-link to="/network-instrument/perforator/" class="textExpansion">Сетевые перфораторы</router-link>
+              <a @click="clickToTitle()" href="/network-instrument/catalog/" class="textExpansionMain">Каталог сетевого инструмента
+              </a>
+              <a @click="clickTo('Дрель')" href="/network-instrument/drill/" class="textExpansion">Сетевые дрели</a>
+              <a @click="clickTo('Лобзик электрический')" href="/network-instrument/fretsaw/" class="textExpansion">Сетевые лобзики</a>
+              <a @click="clickTo('Перфоратор')" href="/network-instrument/perforator/" class="textExpansion">Сетевые перфораторы</a>
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->
@@ -119,13 +119,13 @@ const clickTo = (nameTypeThis) => {
           <!--          START TEXT-->
           <v-expansion-panel-text>
             <v-card-text class="d-flex justify-center flex-column">
-              <router-link to="/pneumotool-instrument/catalog/" class="textExpansionMain">Каталог пневматического
+              <a @click="clickToTitle()" href="/pneumotool-instrument/catalog/" class="textExpansionMain">Каталог пневматического
                 инструмента
-              </router-link>
-              <router-link to="/pneumotool-instrument/compressor/" class="textExpansion">Компрессоры</router-link>
-              <router-link to="/pneumotool-instrument/jackhammer/" class="textExpansion">Отбойный молоток</router-link>
-              <router-link to="/pneumotool-instrument/nail-gun/" class="textExpansion">Гвоздезабивной пистолет
-              </router-link>
+              </a>
+              <a @click="clickTo('Компрессор')" href="/pneumotool-instrument/compressor/" class="textExpansion">Компрессоры</a>
+              <a @click="clickTo('Пневматическая отбойная молотковая машина')" href="/pneumotool-instrument/jackhammer/" class="textExpansion">Отбойный молоток</a>
+              <a @click="clickTo('Гвоздезабивной пистолет пневматический')" href="/pneumotool-instrument/nail-gun/" class="textExpansion">Гвоздезабивной пистолет
+              </a>
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->

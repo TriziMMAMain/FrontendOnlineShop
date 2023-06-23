@@ -1,8 +1,6 @@
 <script setup="">
 // - Import
-import ShopPneumotoolInstrumentCompressor from './ShopPneumotoolInstrumentCompressor.vue'
-import ShopPneumotoolInstrumentJackhammer from './ShopPneumotoolInstrumentJackhammer.vue'
-import ShopPneumotoolInstrumentNailGun from './ShopPneumotoolInstrumentNailGun.vue'
+import ShopPneumotoolInstruments from './ShopPneumotoolInstruments.vue'
 //
 
 
@@ -13,9 +11,7 @@ import ShopPneumotoolInstrumentNailGun from './ShopPneumotoolInstrumentNailGun.v
 <template>
   <!--        CARD -->
   <v-container class="pa-0">
-    <ShopPneumotoolInstrumentCompressor></ShopPneumotoolInstrumentCompressor>
-    <ShopPneumotoolInstrumentJackhammer></ShopPneumotoolInstrumentJackhammer>
-    <ShopPneumotoolInstrumentNailGun></ShopPneumotoolInstrumentNailGun>
+    <ShopPneumotoolInstruments></ShopPneumotoolInstruments>
   </v-container>
 </template>
 

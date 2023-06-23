@@ -6,6 +6,7 @@ import BasketComponentDynamic from "../../Basket/basketComponentDynamic.vue"
 import {Promise} from "core-js";
 import {ProccesingSuccessfuly, ProcessingError} from "../../../notification/toasting";
 import {useDisplay} from 'vuetify'
+import router from "../../../router/index.js";
 
 const {name} = useDisplay()
 const {fetchingInstrumentById} = useInstrumentStore()
@@ -56,19 +57,20 @@ const heightFuncInCarousel = () => {
   }
 }
 // local
+const gasolineInstruments = ref([])
 const gasolineLocal = ref([])
-const gasolineGeneratorId = ref([])
 const loadingComponent = ref(true)
-let trueOrFalsePhoto = ref(false)
 const avalibilityTrue = ref(null)
-//
+let trueOrFalsePhoto = ref(false)
+const items = ref([])
+
 const updateLocalData = () => {
   gasolineLocal.value = JSON.parse(localStorage.getItem('filter_by_id'))
-  gasolineGeneratorId.value = gasolineLocal.value[0]
+  gasolineInstruments.value = gasolineLocal.value[0]
 
-  for (let i = 0; i < gasolineGeneratorId.value.imgArray.length; i++) {
+  for (let i = 0; i < gasolineInstruments.value.imgArray.length; i++) {
     try {
-      gasolineGeneratorId.value.imgArray[i].src
+      gasolineInstruments.value.imgArray[i].src
     } catch {
       trueOrFalsePhoto.value = false
       return
@@ -78,43 +80,72 @@ const updateLocalData = () => {
   trueOrFalsePhoto.value = true
 }
 onMounted(async () => {
-  await fetchingInstrumentById()
-  loadingComponent.value = JSON.parse(localStorage.getItem('fetching_instrument_by_id'))
-
-  if (loadingComponent.value) {
-    updateLocalData()
-    if (gasolineGeneratorId.value.availability === 0) {
-      avalibilityTrue.value = false
-    } else {
-      avalibilityTrue.value = true
-    }
-  } else {
-    console.log('error 500')
-    ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
-  }
-
   localStorage.setItem('fetching_instrument_by_id', JSON.stringify(false))
+
+  try {
+    await fetchingInstrumentById()
+    loadingComponent.value = JSON.parse(localStorage.getItem('fetching_instrument_by_id'))
+
+    if (loadingComponent.value) {
+      updateLocalData()
+      if (gasolineInstruments.value.availability === 0) {
+        avalibilityTrue.value = false
+      } else {
+        avalibilityTrue.value = true
+      }
+      if (gasolineInstruments.value.typeThis === 'Бензогенератор') {
+        items.value = [
+          {
+            title: 'Главная'
+          },
+          {
+            title: 'Бензиновый инструмент',
+            clickToBreadcrumbs: 'gasolineInstrumentAll',
+          },
+          {
+            title: 'Бензогенераторы',
+            clickToBreadcrumbs: 'Бензогенератор'
+          },
+        ]
+      } else if (gasolineInstruments.value.typeThis === 'Бензопила') {
+        items.value = [
+          {
+            title: 'Главная',
+          },
+          {
+            title: 'Бензиновый инструмент',
+            clickToBreadcrumbs: 'gasolineInstrumentAll',
+          },
+          {
+            title: 'Бензопилы',
+            clickToBreadcrumbs: 'Бензопила'
+          },
+        ]
+      } else if (gasolineInstruments.value.typeThis === 'Бензиновый мотоблок') {
+        items.value = [
+          {
+            title: 'Главная',
+          },
+          {
+            title: 'Бензиновый инструмент',
+            clickToBreadcrumbs: 'gasolineInstrumentAll',
+          },
+          {
+            title: 'Бензиновый мотоблок',
+            clickToBreadcrumbs: 'Бензиновый мотоблок'
+          },
+        ]
+      }
+    } else {
+      console.log('error 500')
+      ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
+    }
+
+    localStorage.setItem('fetching_instrument_by_id', JSON.stringify(false))
+  } catch (err) {
+    console.log(err);
+  }
 })
-
-
-const items = [
-  {
-    title: 'Главная',
-    disabled: false,
-    href: '/home/',
-  },
-  {
-    title: 'Бензиновый инструмент',
-    disabled: false,
-    href: '/gasoline-instrument/catalog/',
-  },
-  {
-    title: 'Бензогенераторы',
-    disabled: false,
-    href: '/gasoline-instrument/generator/',
-  },
-]
-
 
 let basketClick = ref(false)
 setInterval(() => {
@@ -133,20 +164,34 @@ const buyInBasket = (_id) => {
   localStorage.setItem("basket_id", JSON.stringify(_id))
 }
 
+const linkInPageByItems = (item) => {
+  if (item.clickToBreadcrumbs === undefined) {
+    router.push({name: 'homeComponent'})
+  } else if (item.clickToBreadcrumbs === 'gasolineInstrumentAll') {
+    localStorage.setItem("name_type_this", JSON.stringify(item.clickToBreadcrumbs))
+    localStorage.setItem("name_type_this_true_or_false", JSON.stringify(false))
+    router.push({name: 'gasolineInstrumentAll'})
+  } else {
+    localStorage.setItem("name_type_this", JSON.stringify(item.clickToBreadcrumbs))
+    localStorage.setItem("name_type_this_true_or_false", JSON.stringify(true))
+    router.push({name: `${item.clickToBreadcrumbs}`})
+  }
+
+}
 </script>
 
 <template>
-  <div
-      class="cardMainShopSideContainer w-100"
-      v-for="i in [gasolineGeneratorId]"
+  <div class="cardMainShopSideContainer w-100"
+       v-for="i in [gasolineInstruments]"
   >
     <div class="basketComponentDynamicBlockMain"
          v-if="basketClick">
       <BasketComponentDynamic></BasketComponentDynamic>
     </div>
-    <div class="linkInPage">
-      <v-breadcrumbs class="linkInPageVBreadcrumbs"
-                     :items="items"></v-breadcrumbs>
+    <div class="linkInPage d-flex mt-4">
+      <p class="linkInPageVBreadcrumbs pl-6"
+         v-for="item in items"
+         @click="linkInPageByItems(item)">{{ item.title }} <span class="pa-4">/</span></p>
     </div>
     <v-divider
         :thickness="3"
@@ -176,7 +221,7 @@ const buyInBasket = (_id) => {
           >
             <v-carousel-item
                 class="w-100"
-                v-for="(item, i) in gasolineGeneratorId.imgArray"
+                v-for="(item, i) in gasolineInstruments.imgArray"
                 :key="i"
                 :src="item.src"
             >
@@ -184,14 +229,12 @@ const buyInBasket = (_id) => {
           </v-carousel>
         </div>
         <div class="d-flex justify-center align-center"
-             v-else>
-          <v-progress-circular
-              color="primary"
-              indeterminate
-              :size="128"
-              :width="12"
-          ></v-progress-circular>
-        </div>
+             v-else><v-progress-circular
+            color="primary"
+            indeterminate
+            :size="128"
+            :width="12"
+        ></v-progress-circular></div>
       </div>
       <div class="cardMainShopSideFeatureMain mt-10">
         <div class="cardMainShopSideFeature">
@@ -199,7 +242,7 @@ const buyInBasket = (_id) => {
             Основные характеристики
           </h1>
           <!--          -->
-          <v-card-text v-for="item in gasolineGeneratorId.featureTopTitle"
+          <v-card-text v-for="item in gasolineInstruments.featureTopTitle"
                        key="item"
                        class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
@@ -261,7 +304,7 @@ const buyInBasket = (_id) => {
           <v-table class="cardMainContainerShopSideFeatureMiddleTopVTable" density="compact">
             <tbody>
             <tr
-                v-for="item in gasolineGeneratorId.featureMiddle"
+                v-for="item in gasolineInstruments.featureMiddle"
                 :key="item.feature"
             >
               <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.feature }}</td>
@@ -277,7 +320,7 @@ const buyInBasket = (_id) => {
           <h1 class="textCardFeatureDown">Преимущества {{ i.name }}</h1>
           <ul class="cardMainContainerShopSideFeatureDownTopUl">
             <li class="cardMainContainerShopSideFeatureDownTopLi"
-                v-for="i in gasolineGeneratorId.featureDownArray"
+                v-for="i in gasolineInstruments.featureDownArray"
                 :key="i.featureDown">{{ i.featureDown }}
             </li>
           </ul>
@@ -289,10 +332,10 @@ const buyInBasket = (_id) => {
         :thickness="3"
         color="error"
     ></v-divider>
-    <div class="linkInPage">
-      <v-breadcrumbs
-          class="linkInPageVBreadcrumbs"
-          :items="items"></v-breadcrumbs>
+    <div class="linkInPage d-flex mt-4">
+      <p class="linkInPageVBreadcrumbs pl-6"
+         v-for="item in items"
+         @click="linkInPageByItems(item)">{{ item.title }} <span class="pa-4">/</span></p>
     </div>
   </div>
 
@@ -328,6 +371,11 @@ const buyInBasket = (_id) => {
     font-weight: 450;
     color: $text;
 
+  }
+
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
   }
   // Card Side Title
 
@@ -611,6 +659,11 @@ const buyInBasket = (_id) => {
     font-weight: 450;
     color: $text;
 
+  }
+
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
   }
   // Card Side Title
 
@@ -896,6 +949,11 @@ const buyInBasket = (_id) => {
     color: $text;
 
   }
+
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
   // Card Side Title
 
   .cardMainShopSideTitle {
@@ -1179,6 +1237,11 @@ const buyInBasket = (_id) => {
     color: $text;
 
   }
+
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
   // Card Side Title
 
   .cardMainShopSideTitle {
@@ -1457,6 +1520,11 @@ const buyInBasket = (_id) => {
     font-weight: 500;
     color: $text;
 
+  }
+
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
   }
   //
 
@@ -1738,6 +1806,11 @@ const buyInBasket = (_id) => {
     font-weight: 500;
     color: $text;
 
+  }
+
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
   }
   //
 
@@ -2024,7 +2097,12 @@ const buyInBasket = (_id) => {
     font-size: 1.5rem;
     font-weight: 500;
     color: $text;
+    transition: all 0.3s ease-in-out;
+  }
 
+  .linkInPageVBreadcrumbs:hover {
+    color: $primary;
+    transition: all 0.3s ease-in-out;
   }
   //
 
@@ -2281,4 +2359,3 @@ const buyInBasket = (_id) => {
 
 }
 </style>
-

@@ -1,8 +1,6 @@
 <script setup="">
 // - Import
-import ShopNetworkInstrumentDrill from './ShopNetworkInstrumentDrill.vue'
-import ShopNetworkInstrumentFretsaw from './ShopNetworkInstrumentFretsaw.vue'
-import ShopNetworkInstrumentPerforator from './ShopNetworkInstrumentPerforator.vue'
+import ShopNetworkInstruments from './ShopNetworkInstruments.vue'
 //
 
 
@@ -13,9 +11,7 @@ import ShopNetworkInstrumentPerforator from './ShopNetworkInstrumentPerforator.v
 <template>
   <!--        CARD -->
   <v-container class="pa-0">
-    <ShopNetworkInstrumentDrill></ShopNetworkInstrumentDrill>
-    <ShopNetworkInstrumentFretsaw></ShopNetworkInstrumentFretsaw>
-    <ShopNetworkInstrumentPerforator></ShopNetworkInstrumentPerforator>
+    <ShopNetworkInstruments></ShopNetworkInstruments>
   </v-container>
 </template>
 

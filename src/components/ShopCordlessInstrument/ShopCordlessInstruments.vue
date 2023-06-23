@@ -124,7 +124,7 @@ const cordlessInstrumentArray = ref([])
 const cordlessLocal = ref([])
 const typeThis = ref(null)
 const trueOrFalseTypeThis = ref(null)
-const functionAwait = ref('')
+
 
 cordlessLocal.value = JSON.parse(localStorage.getItem("cordless"))
 typeThis.value = JSON.parse(localStorage.getItem("name_type_this"))
@@ -149,6 +149,7 @@ const cordlessDrill = async (cordless, typeThisSecond, trueOrFalse) => {
 }
 
 const viewDetails = async (id, _id, data) => {
+  console.log(data.typeThis);
   let dataInstrument = ref([])
 
   for (let i = 0; i < cordlessInstrumentArray.value.length; i++) {
@@ -156,8 +157,7 @@ const viewDetails = async (id, _id, data) => {
   }
   postAxiosInstrumentById(dataInstrument.value)
 
-
-  await router.push({name: 'examplecordlessInstrumentId', params: {id: id}}) // /id/:id
+  await router.push({name: `${data.typeThis} ID`, params: {id: id}})
   localStorage.setItem("id_cordless", JSON.stringify(id))
 }
 // - Logical
@@ -174,31 +174,31 @@ const buyInBasket = async (id, _id, data) => {
     localStorage.setItem("basket_id", JSON.stringify(id))
     localStorage.setItem("basket_click", JSON.stringify(true))
     localStorage.setItem("id_cordless", JSON.stringify(id))
-    await router.push({name: 'examplecordlessInstrumentId', params: {id: id}})
+    await router.push({name: `${data.typeThis} ID`, params: {id: id}})
   }
 }
 
-const availabilityTrue = ref(false)
-const trueAvailabilityText = ref(true)
-onMounted(async () => {
-  if (await cordlessDrill(cordlessLocal.value, typeThis.value, trueOrFalseTypeThis.value)) {
-    if (cordlessInstrumentArray.value[0].availability === 0) {
-      availabilityTrue.value = true
-      trueAvailabilityText.value = false
-    } else {
-      availabilityTrue.value = false
-      trueAvailabilityText.value = true
-    }
-  }
-})
 
-const usersToShow = ref(10)
-const visibleItems = computed(() => cordlessInstrumentArray.value.slice(0, usersToShow.value))
-const allItemsShown = computed(() => usersToShow.value >= cordlessInstrumentArray.value.length)
+
+
+const instrumentShow = ref(10)
+const visibleItems = computed(() => cordlessInstrumentArray.value.slice(0, instrumentShow.value))
+const allItemsShown = computed(() => instrumentShow.value >= cordlessInstrumentArray.value.length)
 
 function showMore() {
-  usersToShow.value += 10
+  instrumentShow.value += 10
 }
+
+const availabilityTrue = (data) => {
+  if (data === 0) {
+    return false
+  } else {
+    return true
+  }
+}
+onMounted(async () => {
+  await cordlessDrill(cordlessLocal.value, typeThis.value, trueOrFalseTypeThis.value)
+})
 </script>
 
 <template>
@@ -249,11 +249,29 @@ function showMore() {
           <!--    CARD ACTIONS START-->
 
           <v-card-actions
+              v-if="availabilityTrue(i.availability)"
               class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
-            <p class="textCardPrice pt-3 pb-3" v-if="trueAvailabilityText">
+            <p class="textCardPrice pt-3 pb-3">
               {{ i.price }} рублей
             </p>
-            <p class="textCardPrice pt-3 pb-3" v-else>
+            <v-btn
+                @click="buyInBasket(i.id, i._id, i)"
+                elevation="1"
+                class="vBtnBuy"
+                :width="widthtFuncVBtn()"
+                :height="heightFuncVBtn()"
+                prepend-icon="fa-solid fa-cart-shopping"
+            >
+              Купить
+            </v-btn>
+            <p class="textCardAvailability">
+              В наличии имеется > {{ i.availability }} шт
+            </p>
+          </v-card-actions>
+          <v-card-actions
+              v-else
+              class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
+            <p class="textCardPrice pt-3 pb-3">
               Последняя цена {{ i.price }} рублей
             </p>
             <v-btn
@@ -262,18 +280,15 @@ function showMore() {
                 class="vBtnBuy"
                 :width="widthtFuncVBtn()"
                 :height="heightFuncVBtn()"
-                :disabled="availabilityTrue"
+                :disabled="true"
                 prepend-icon="fa-solid fa-cart-shopping"
             >
               Купить
             </v-btn>
+            <p class="textCardAvailabilityFalse">
+              Нет в наличии
+            </p>
           </v-card-actions>
-          <p class="textCardAvailability" v-if="trueAvailabilityText">
-            В наличии имеется > {{ i.availability }} шт
-          </p>
-          <p class="textCardAvailabilityFalse" v-else>
-            Нет в наличии
-          </p>
           <!--    CARD ACTIONS END-->
         </v-col>
       </v-row>

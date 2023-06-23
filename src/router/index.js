@@ -8,40 +8,30 @@ import SearchInstrumentByParams from '../components/searchInstrument/searchInsru
 import basketComponentSite from '../components/Basket/basketComponentSite.vue'
 import BasketComponentCheckout from '../components/Basket/basketComponentCheckout.vue'
 // Cordless
-import ExampleInstrument from '../components/ShopCordlessInstrument/ShopCordlessInstruments.vue'
+import ShopCordlessInstruments from '../components/ShopCordlessInstrument/ShopCordlessInstruments.vue'
 import ShopCordless from '../components/ShopCordlessInstrument/ShopCordlessInstrument.vue'
 import ShopCordlessAll from '../components/ShopCordlessInstrument/ShopCordlessInstrumentAll.vue'
 // Cordless ID
-import CordlessShopExampleId from '../components/ShopInstrumentByID/CordlessId/ShopCordlessInstrumentsId.vue'
+import ShopCordlessInstrumentsId from '../components/ShopInstrumentByID/CordlessId/ShopCordlessInstrumentsId.vue'
 // Gasoline
 import ShopGasoline from '../components/ShopGasolineInstrument/ShopGasolineInstrument.vue'
 import ShopGasolineAll from '../components/ShopGasolineInstrument/ShopGasolineInstrumentAll.vue'
-// import ShopGasoline from '../components/ShopGasolineInstrument/ShopGasolineInstrument.vue'
-import ShopGasolineGenerator from '../components/ShopGasolineInstrument/ShopGasolineInstrumentGenerator.vue'
-import ShopGasolineGeneratorId from '../components/ShopInstrumentByID/GasolineId/ShopInstrumentGasolineIdGenerator.vue'
-import ShopGasolineMotoblock from '../components/ShopGasolineInstrument/ShopGasolineInstrumentMotoblock.vue'
-import ShopGasolineMotoblockId from '../components/ShopInstrumentByID/GasolineId/ShopInstrumentGasolineIdMotoblock.vue'
-import ShopGasolineChainsaw from '../components/ShopGasolineInstrument/ShopGasolineInstrumentChainsaw.vue'
-import ShopGasolineChainsawId from '../components/ShopInstrumentByID/GasolineId/ShopInstrumentGasolineIdChainsaw.vue'
+import ShopGasolineInstruments from '../components/ShopGasolineInstrument/ShopGasolineInstruments.vue'
+// Gasoline ID
+import ShopGasolineInstrumentsId from '../components/ShopInstrumentByID/GasolineId/ShopGasolineInstrumentsId.vue'
 // Network
 import ShopNetwork from '../components/ShopNetworkInstrument/ShopNetworkInstrument.vue'
 import ShopNetworkInstrumentAll from '../components/ShopNetworkInstrument/ShopNetworkInstrumentAll.vue'
-import ShopNetworkInstrumentDrill from '../components/ShopNetworkInstrument/ShopNetworkInstrumentDrill.vue'
-import ShopNetworkInstrumentDrillId from '../components/ShopInstrumentByID/NetworkId/ShopInstrumentNetworkIdDrill.vue'
-import ShopNetworkInstrumentFretsaw from '../components/ShopNetworkInstrument/ShopNetworkInstrumentFretsaw.vue'
-import ShopNetworkInstrumentFretsawId from '../components/ShopInstrumentByID/NetworkId/ShopInstrumentNetworkIdFretsaw.vue'
-import ShopNetworkInstrumentPerforator from '../components/ShopNetworkInstrument/ShopNetworkInstrumentPerforator.vue'
-import ShopNetworkInstrumentPerforatorId from '../components/ShopInstrumentByID/NetworkId/ShopInstrumentNetworkIdPerforator.vue'
+import ShopNetworkInstruments from '../components/ShopNetworkInstrument/ShopNetworkInstruments.vue'
+// Network ID
+import ShopNetworkInstrumentsId from '../components/ShopInstrumentByID/NetworkId/ShopNetworkInstrumentsId.vue'
 // Pneumotool
 import ShopPneumotoolInstrument from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrument.vue'
 import ShopPneumotoolInstrumentAll from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrumentAll.vue'
-import ShopPneumotoolInstrumentCompressor from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrumentCompressor.vue'
-import ShopPneumotoolInstrumentCompressorId from '../components/ShopInstrumentByID/PneumotoolId/ShopInstrumentPneumotoolIdCompressor.vue'
-import ShopPneumotoolInstrumentJackhammer from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrumentJackhammer.vue'
-import ShopPneumotoolInstrumentJackhammerId from '../components/ShopInstrumentByID/PneumotoolId/ShopInstrumentPneumotoolIdJackhammer.vue'
-import ShopPneumotoolInstrumentNailGun from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstrumentNailGun.vue'
-import ShopPneumotoolInstrumentNailGunId from '../components/ShopInstrumentByID/PneumotoolId/ShopInstrumentPneumotoolIdNailGun.vue'
-// Admin
+import ShopPneumotoolInstruments from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstruments.vue'
+// Pneumotool ID
+import ShopPneumotoolInstrumentsId from '../components/ShopInstrumentByID/PneumotoolId/ShopPneumotoolInstrumentsId.vue'
+
 
 const routes = [
     {
@@ -99,54 +89,54 @@ const routes = [
         children: [
             {
                 path: 'catalog/',
-                name: 'crodlessInstrumentAll',
+                name: 'cordlessInstrumentAll',
                 components: {
                     cordlessToolsAll: ShopCordlessAll,
                 }
             },
             {
-                path: 'drills/', // /cordless-instrument/cordless-drills/
-                name: 'cordlessInstrumentDrills',
+                path: 'drills/',
+                name: 'Аккумуляторная дрель-шуруповерт',
                 components: {
-                    cordlessInstrument: ExampleInstrument
+                    cordlessInstrument: ShopCordlessInstruments
                 },
             },
             {
-                path: 'drills/id/:id/', // // /cordless-instrument/cordless-drills/id/1
-                name: 'cordlessInstrumentDrillsID',
+                path: 'drills/id/:id/',
+                name: 'Аккумуляторная дрель-шуруповерт ID',
                 components: {
-                    cordlessInstrumentId: CordlessShopExampleId
+                    cordlessInstrumentId: ShopCordlessInstrumentsId
                 },
             },
             // done!
             {
-                path: 'grinders/', // /cordless-instrument/cordless-grinders/
-                name: 'cordlessInstrumentGrinders',
+                path: 'grinders/',
+                name: 'Аккумуляторная болгарка',
                 components: {
-                    cordlessInstrument: ExampleInstrument
+                    cordlessInstrument: ShopCordlessInstruments
                 },
 
             },
             {
-                path: 'grinders/id/:id/', // /cordless-instrument/cordless-grinders/
-                name: 'cordlessInstrumentGrindersID',
+                path: 'grinders/id/:id/',
+                name: 'Аккумуляторная болгарка ID',
                 components: {
-                    cordlessInstrumentId: CordlessShopExampleId
+                    cordlessInstrumentId: ShopCordlessInstrumentsId
                 },
             },
             // done!
             {
-                path: 'screwdrivers/', // /cordless-instrument/cordless-screwdrivers/
-                name: 'cordlessInstrumentScrewdrivers',
+                path: 'screwdrivers/',
+                name: 'Аккумуляторный перфоратор',
                 components: {
-                    cordlessInstrument: ExampleInstrument
+                    cordlessInstrument: ShopCordlessInstruments
                 },
             },
             {
-                path: 'screwdrivers/id/:id/', // /cordless-instrument/cordless-screwdrivers/id/id
-                name: 'cordlessInstrumentScrewdriversID',
+                path: 'screwdrivers/id/:id/',
+                name: 'Аккумуляторный перфоратор ID',
                 components: {
-                    cordlessInstrumentId: CordlessShopExampleId
+                    cordlessInstrumentId: ShopCordlessInstrumentsId
                 },
 
             },
@@ -168,44 +158,44 @@ const routes = [
             },
             {
                 path: 'generator/',
-                name: 'gasolineInstrumentGenerator',
+                name: 'Бензогенератор',
                 components: {
-                    gasolineToolsGenerator: ShopGasolineGenerator,
+                    shopGasolineInstruments: ShopGasolineInstruments,
                 },
             },
             {
                 path: 'generator/id/:id/',
-                name: 'gasolineInstrumentGeneratorId',
+                name: 'Бензогенератор ID',
                 components: {
-                    gasolineToolsGeneratorId: ShopGasolineGeneratorId,
+                    shopGasolineInstrumentsId: ShopGasolineInstrumentsId,
                 },
             },
             {
                 path: 'motoblock/',
-                name: 'gasolineInstrumentMotoblock',
+                name: 'Бензиновый мотоблок',
                 components: {
-                    gasolineToolsMotoblock: ShopGasolineMotoblock,
+                    shopGasolineInstruments: ShopGasolineInstruments,
                 },
             },
             {
                 path: 'motoblock/id/:id/',
-                name: 'gasolineInstrumentMotoblockId',
+                name: 'Бензиновый мотоблок ID',
                 components: {
-                    gasolineToolsMotoblockId: ShopGasolineMotoblockId,
+                    shopGasolineInstrumentsId: ShopGasolineInstrumentsId,
                 },
             },
             {
                 path: 'chainsaw/',
-                name: 'gasolineInstrumentChainsaw',
+                name: 'Бензопила',
                 components: {
-                    gasolineToolsChainsaw: ShopGasolineChainsaw,
+                    shopGasolineInstruments: ShopGasolineInstruments,
                 },
             },
             {
                 path: 'chainsaw/id/:id/',
-                name: 'gasolineInstrumentChainsawId',
+                name: 'Бензопила ID',
                 components: {
-                    gasolineToolsChainsawId: ShopGasolineChainsawId,
+                    shopGasolineInstrumentsId: ShopGasolineInstrumentsId,
                 },
             },
         ]
@@ -226,44 +216,44 @@ const routes = [
             },
             {
                 path: 'drill/',
-                name: 'networkInstrumentDrill',
+                name: 'Дрель',
                 components: {
-                    networkToolsDrill: ShopNetworkInstrumentDrill,
+                    shopNetworkInstruments: ShopNetworkInstruments,
                 },
             },
             {
                 path: 'drill/id/:id/',
-                name: 'networkInstrumentDrillId',
+                name: 'Дрель ID',
                 components: {
-                    networkToolsDrillId: ShopNetworkInstrumentDrillId,
+                    shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
                 },
             },
             {
                 path: 'fretsaw/',
-                name: 'networkInstrumentFretsaw',
+                name: 'Лобзик электрический',
                 components: {
-                    networkToolsFretsaw: ShopNetworkInstrumentFretsaw,
+                    shopNetworkInstruments: ShopNetworkInstruments,
                 },
             },
             {
                 path: 'fretsaw/id/:id/',
-                name: 'networkInstrumentFretsawId',
+                name: 'Лобзик электрический ID',
                 components: {
-                    networkToolsFretsawId: ShopNetworkInstrumentFretsawId,
+                    shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
                 },
             },
             {
                 path: 'perforator/',
-                name: 'networkInstrumentPerforator',
+                name: 'Перфоратор',
                 components: {
-                    networkToolsPerforator: ShopNetworkInstrumentPerforator,
+                    shopNetworkInstruments: ShopNetworkInstruments,
                 },
             },
             {
                 path: 'perforator/id/:id/',
-                name: 'networkInstrumentPerforatorId',
+                name: 'Перфоратор ID',
                 components: {
-                    networkToolsPerforatorId: ShopNetworkInstrumentPerforatorId,
+                    shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
                 },
             },
         ]
@@ -284,46 +274,46 @@ const routes = [
             },
             {
                 path: 'compressor/', // /gasoline-instrument/gasoline-generator/
-                name: 'pneumotoolInstrument',
+                name: 'Компрессор',
                 components: {
-                    pneumotoolToolsCompressor: ShopPneumotoolInstrumentCompressor,
+                    shopPneumotoolInstruments: ShopPneumotoolInstruments,
                 },
             },
             {
                 path: 'compressor/id/:id', // /gasoline-instrument/gasoline-generator/
-                name: 'pneumotoolInstrumentId',
+                name: 'Компрессор ID',
                 components: {
-                    pneumotoolToolsCompressorId: ShopPneumotoolInstrumentCompressorId,
+                    shopPneumotoolInstrumentsId: ShopPneumotoolInstrumentsId,
                 },
             },
 
             {
                 path: 'jackhammer/',
-                name: 'pneumotoolInstrumentJackhammer',
+                name: 'Пневматическая отбойная молотковая машина',
                 components: {
-                    pneumotoolToolsJackhammer: ShopPneumotoolInstrumentJackhammer,
+                    shopPneumotoolInstruments: ShopPneumotoolInstruments,
                 },
             },
             {
                 path: 'jackhammer/id/:id',
-                name: 'pneumotoolInstrumentJackhammerId',
+                name: 'Пневматическая отбойная молотковая машина ID',
                 components: {
-                    pneumotoolToolsJackhammerId: ShopPneumotoolInstrumentJackhammerId,
+                    shopPneumotoolInstrumentsId: ShopPneumotoolInstrumentsId,
                 },
             },
 
             {
                 path: 'nail-gun/',
-                name: 'pneumotoolInstrumentNailGun',
+                name: 'Гвоздезабивной пистолет пневматический',
                 components: {
-                    pneumotoolToolsNailGun: ShopPneumotoolInstrumentNailGun,
+                    shopPneumotoolInstruments: ShopPneumotoolInstruments,
                 },
             },
             {
                 path: 'nail-gun/id/:id',
-                name: 'pneumotoolInstrumentNailGunId',
+                name: 'Гвоздезабивной пистолет пневматический ID',
                 components: {
-                    pneumotoolToolsNailGunId: ShopPneumotoolInstrumentNailGunId,
+                    shopPneumotoolInstrumentsId: ShopPneumotoolInstrumentsId,
                 },
             },
         ]
