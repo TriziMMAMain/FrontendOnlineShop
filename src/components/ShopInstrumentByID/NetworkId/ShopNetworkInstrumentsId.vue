@@ -56,6 +56,36 @@ const heightFuncInCarousel = () => {
     return '500'
   }
 }
+const navigationDrawerMenuBasket = () => {
+  if (name.value === 'xxl') {
+    return false
+  } else if (name.value === 'xl') {
+    return false
+  } else if (name.value === 'lg') {
+    return false
+  } else if (name.value === 'md') {
+    return false
+  } else if (name.value === 'sm') {
+    return false
+  } else if (name.value === 'xs') {
+    return true
+  }
+}
+const navigationDrawerMenuBasketSecond = () => {
+  if (name.value === 'xxl') {
+    return true
+  } else if (name.value === 'xl') {
+    return true
+  } else if (name.value === 'lg') {
+    return true
+  } else if (name.value === 'md') {
+    return true
+  } else if (name.value === 'sm') {
+    return true
+  } else if (name.value === 'xs') {
+    return false
+  }
+}
 // local
 const networkInstruments = ref([])
 const networkLocal = ref([])
@@ -291,42 +321,77 @@ const linkInPageByItems = (item) => {
       </div>
     </div>
 
-    <div class="cardMainContainerShopSideFeature d-flex flex-wrap">
-      <div class="cardMainContainerShopSideFeatureTop">
-        <p class="cardMainContainerShopSideFeatureTopText">
-          {{ i.featureTop }}
-        </p>
-      </div>
-
-      <div class="cardMainContainerShopSideFeatureMiddle">
-        <div class="cardMainContainerShopSideFeatureMiddleTop d-flex justify-start flex-column align-start">
-          <h1 class="titleContainerShopSideFeatureMiddle">Технические характеристики {{ i.name }}</h1>
-          <v-table class="cardMainContainerShopSideFeatureMiddleTopVTable" density="compact">
-            <tbody>
-            <tr
-                v-for="item in networkInstruments.featureMiddle"
-                :key="item.feature"
-            >
-              <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.feature }}</td>
-              <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.featureValue }}</td>
-            </tr>
-            </tbody>
-          </v-table>
+    <div class="cardMainContainerShopSideFeatureMain">
+      <div class="cardMainContainerShopSideFeature d-flex flex-wrap">
+        <div class="cardMainContainerShopSideFeatureTop">
+          <p class="cardMainContainerShopSideFeatureTopText">
+            {{ i.featureTop }}
+          </p>
+        </div>
+        <div class="cardMainContainerShopSideFeatureMiddle">
+          <div class="cardMainContainerShopSideFeatureMiddleTop d-flex justify-start flex-column align-start">
+            <h1 class="titleContainerShopSideFeatureMiddle">Технические характеристики {{ i.name }}</h1>
+            <v-table class="cardMainContainerShopSideFeatureMiddleTopVTable" density="compact">
+              <tbody>
+              <tr
+                  v-for="item in networkInstruments.featureMiddle"
+                  :key="item.feature"
+              >
+                <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.feature }}</td>
+                <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.featureValue }}</td>
+              </tr>
+              </tbody>
+            </v-table>
+          </div>
+        </div>
+        <div class="blockHomeOfTheBrandEquipmentDown" v-if="navigationDrawerMenuBasket()">
+          <div class="blockHomeOfTheBrandSecond">
+            <h1 class="titleHomeOfTheBrandSecond">Инструмент бренда <span
+                class="titleHomeOfTheBrandSpanSecond">{{ i.brand }}</span></h1>
+            <p class="textHomeOfTheBrandSecond"><span class="titleHomeOfTheBrandSpanSecond">{{
+                i.homeOfTheBrand
+              }}</span> - родина бренда</p>
+            <p class="textHomeOfTheBrandSecond"><span class="titleHomeOfTheBrandSpanSecond">{{
+                i.countryOfOrigin
+              }}</span> - страна производитель</p>
+          </div>
+          <div class="blockEquipmentSecond">
+            <h1 class="titleEquipmentSecond">Комплектация</h1>
+            <ul class="textEquipmentUlSecond">
+              <li class="textEquipmentSecond" v-for="equipment in i.equipmentArray">{{ equipment }}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="cardMainContainerShopSideFeatureDown mt-4">
+          <div class="cardMainContainerShopSideFeatureDownTop d-flex justify-start flex-column">
+            <h1 class="textCardFeatureDown">Преимущества {{ i.name }}</h1>
+            <ul class="cardMainContainerShopSideFeatureDownTopUl">
+              <li class="cardMainContainerShopSideFeatureDownTopLi"
+                  v-for="i in networkInstruments.featureDownArray"
+                  :key="i.featureDown">{{ i.featureDown }}
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-
-      <div class="cardMainContainerShopSideFeatureDown mt-4">
-        <div class="cardMainContainerShopSideFeatureDownTop d-flex justify-start flex-column">
-          <h1 class="textCardFeatureDown">Преимущества {{ i.name }}</h1>
-          <ul class="cardMainContainerShopSideFeatureDownTopUl">
-            <li class="cardMainContainerShopSideFeatureDownTopLi"
-                v-for="i in networkInstruments.featureDownArray"
-                :key="i.featureDown">{{ i.featureDown }}
-            </li>
+      <div class="blockHomeOfTheBrandEquipment" v-if="navigationDrawerMenuBasketSecond()">
+        <div class="blockHomeOfTheBrand">
+          <h1 class="titleHomeOfTheBrand">Инструмент бренда <span class="titleHomeOfTheBrandSpan">{{ i.brand }}</span>
+          </h1>
+          <p class="textHomeOfTheBrand"><span class="titleHomeOfTheBrandSpan">{{ i.homeOfTheBrand }}</span> - родина
+            бренда</p>
+          <p class="textHomeOfTheBrand"><span class="titleHomeOfTheBrandSpan">{{ i.countryOfOrigin }}</span> - страна
+            производитель</p>
+        </div>
+        <div class="blockEquipment">
+          <h1 class="titleEquipment">Комплектация</h1>
+          <ul class="textEquipmentUl">
+            <li class="textEquipment" v-for="equipment in i.equipmentArray">{{ equipment }}</li>
           </ul>
         </div>
       </div>
     </div>
+
     <br>
     <v-divider
         :thickness="3"
@@ -631,7 +696,76 @@ const linkInPageByItems = (item) => {
     color: $primary;
   }
 
+  // blockHomeOfTheBrandEquipment
 
+
+  .blockHomeOfTheBrandEquipmentDown {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  .blockHomeOfTheBrandSecond {
+    width: 45%;
+    padding: 15px;
+    border-radius: 10px;
+    max-height: 180px;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
+  }
+
+  .titleHomeOfTheBrandSecond {
+    width: 100%;
+    font-size: 1rem;
+    text-align: center;
+    color: $textSpan;
+    margin-bottom: 10px;
+  }
+
+  .titleHomeOfTheBrandSpanSecond {
+    color: $primary;
+    font-weight: 600;
+  }
+
+  .textHomeOfTheBrandSecond {
+    font-size: 0.8rem;
+    color: $text;
+  }
+
+  .textHomeOfTheBrandSecond {
+
+  }
+
+  // Block Equipment
+
+  .blockEquipmentSecond {
+    width: 40%;
+  }
+
+  .titleEquipmentSecond {
+    padding-top: 15px;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .textEquipmentUlSecond {
+    margin-top: 15px;
+    line-height: 1.5;
+  }
+
+  .textEquipmentSecond {
+    color: $text;
+    font-size: 0.8rem;
+  }
+
+  .textEquipmentSecond::marker {
+    color: $primary
+  }
+
+  //
 }
 
 @media screen and (min-width: 376px) and (max-width: 600px) {
@@ -824,6 +958,11 @@ const linkInPageByItems = (item) => {
 
   // Card Side Feature
 
+  .cardMainContainerShopSideFeatureMain {
+    margin-top: 120px;
+    width: 100%;
+  }
+
   .cardMainContainerShopSideFeature {
     width: 100%;
     padding: 0 12px 0 12px;
@@ -919,6 +1058,76 @@ const linkInPageByItems = (item) => {
     color: $primary;
   }
 
+  // blockHomeOfTheBrandEquipment
+
+
+  .blockHomeOfTheBrandEquipmentDown {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  .blockHomeOfTheBrandSecond {
+    width: 45%;
+    padding: 15px;
+    border-radius: 10px;
+    max-height: 180px;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
+  }
+
+  .titleHomeOfTheBrandSecond {
+    width: 100%;
+    font-size: 1rem;
+    text-align: center;
+    color: $textSpan;
+    margin-bottom: 10px;
+  }
+
+  .titleHomeOfTheBrandSpanSecond {
+    color: $primary;
+    font-weight: 600;
+  }
+
+  .textHomeOfTheBrandSecond {
+    font-size: 0.8rem;
+    color: $text;
+  }
+
+  .textHomeOfTheBrandSecond {
+
+  }
+
+  // Block Equipment
+
+  .blockEquipmentSecond {
+    width: 40%;
+  }
+
+  .titleEquipmentSecond {
+    padding-top: 15px;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .textEquipmentUlSecond {
+    margin-top: 15px;
+    line-height: 1.5;
+  }
+
+  .textEquipmentSecond {
+    color: $text;
+    font-size: 0.8rem;
+  }
+
+  .textEquipmentSecond::marker {
+    color: $primary
+  }
+
+  //
 
 }
 
@@ -1112,6 +1321,12 @@ const linkInPageByItems = (item) => {
 
   // Card Side Feature
 
+  .cardMainContainerShopSideFeatureMain {
+    margin-top: 120px;
+    width: 100%;
+    display: flex;
+  }
+
   .cardMainContainerShopSideFeature {
     width: 100%;
     padding: 0 12px 0 12px;
@@ -1207,7 +1422,68 @@ const linkInPageByItems = (item) => {
     color: $primary;
   }
 
+  // blockHomeOfTheBrandEquipment
 
+  .blockHomeOfTheBrandEquipment {
+    width: 30%;
+    margin-top: 50px;
+    margin-left: 30px;
+  }
+
+  .blockHomeOfTheBrand {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    min-height: 160px;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
+  }
+
+  .titleHomeOfTheBrand {
+    width: 100%;
+    font-size: 1rem;
+    text-align: center;
+    color: $textSpan;
+    margin-bottom: 10px;
+  }
+
+  .titleHomeOfTheBrandSpan {
+    color: $primary;
+    font-weight: 600;
+  }
+
+  .textHomeOfTheBrand {
+    font-size: 0.7rem;
+    color: $text;
+  }
+
+  // Block Equipment
+
+  .blockEquipment {
+    width: 100%;
+  }
+
+  .titleEquipment {
+    margin-top: 30px;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .textEquipmentUl {
+    margin-top: 15px;
+  }
+
+  .textEquipment {
+    color: $text;
+    font-size: 0.7rem;
+  }
+
+  .textEquipment::marker {
+    color: $primary
+  }
+
+  //
 }
 
 @media screen and (min-width: 960px) and (max-width: 1280px) {
@@ -1400,6 +1676,12 @@ const linkInPageByItems = (item) => {
 
   // Card Side Feature
 
+  .cardMainContainerShopSideFeatureMain {
+    margin-top: 120px;
+    width: 100%;
+    display: flex;
+  }
+
   .cardMainContainerShopSideFeature {
     width: 100%;
     min-height: 300px;
@@ -1439,7 +1721,7 @@ const linkInPageByItems = (item) => {
   }
 
   .cardMainContainerShopSideFeatureMiddleTopVTable {
-    width: 100%;
+    width: 80%;
   }
 
   .cardMainContainerShopSideFeatureMiddleTopVTableText {
@@ -1491,6 +1773,68 @@ const linkInPageByItems = (item) => {
     color: $primary;
   }
 
+  // blockHomeOfTheBrandEquipment
+
+  .blockHomeOfTheBrandEquipment {
+    width: 30%;
+    margin-left: 30px;
+  }
+
+  .blockHomeOfTheBrand {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    min-height: 160px;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
+  }
+
+  .titleHomeOfTheBrand {
+    width: 100%;
+    font-size: 1.2rem;
+    text-align: center;
+    color: $textSpan;
+    margin-bottom: 10px;
+  }
+
+  .titleHomeOfTheBrandSpan {
+    color: $primary;
+    font-weight: 600;
+  }
+
+  .textHomeOfTheBrand {
+    font-size: 0.8rem;
+    color: $text;
+  }
+
+  // Block Equipment
+
+  .blockEquipment {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .titleEquipment {
+    margin-top: 30px;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .textEquipmentUl {
+    margin-top: 15px;
+  }
+
+  .textEquipment {
+    color: $text;
+    font-size: 0.8rem;
+  }
+
+  .textEquipment::marker {
+    color: $primary
+  }
+
+  //
 
 }
 
@@ -1686,6 +2030,12 @@ const linkInPageByItems = (item) => {
 
   // Card Side Feature
 
+  .cardMainContainerShopSideFeatureMain {
+    margin-top: 120px;
+    width: 100%;
+    display: flex;
+  }
+
   .cardMainContainerShopSideFeature {
     width: 100%;
     min-height: 300px;
@@ -1725,6 +2075,7 @@ const linkInPageByItems = (item) => {
   }
 
   .cardMainContainerShopSideFeatureMiddleTopVTable {
+    margin-top: 20px;
     min-width: 80%;
   }
 
@@ -1776,6 +2127,68 @@ const linkInPageByItems = (item) => {
   .cardMainContainerShopSideFeatureDownTopLi::marker {
     color: $primary;
   }
+
+  // blockHomeOfTheBrandEquipment
+
+  .blockHomeOfTheBrandEquipment {
+    width: 30%;
+  }
+
+  .blockHomeOfTheBrand {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    min-height: 160px;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
+  }
+
+  .titleHomeOfTheBrand {
+    width: 100%;
+    font-size: 1.3rem;
+    text-align: center;
+    color: $textSpan;
+    margin-bottom: 10px;
+  }
+
+  .titleHomeOfTheBrandSpan {
+    color: $primary;
+    font-weight: 600;
+  }
+
+  .textHomeOfTheBrand {
+    font-size: 1rem;
+    color: $text;
+  }
+
+  // Block Equipment
+
+  .blockEquipment {
+    width: 100%;
+    padding: 25px;
+  }
+
+  .titleEquipment {
+    margin-top: 30px;
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .textEquipmentUl {
+    margin-top: 30px;
+  }
+
+  .textEquipment {
+    color: $text;
+    font-size: 1rem;
+  }
+
+  .textEquipment::marker {
+    color: $primary
+  }
+
+  //
 
 
 }
@@ -1978,6 +2391,12 @@ const linkInPageByItems = (item) => {
 
   // Card Side Feature
 
+  .cardMainContainerShopSideFeatureMain {
+    margin-top: 120px;
+    width: 100%;
+    display: flex;
+  }
+
   .cardMainContainerShopSideFeature {
     width: 100%;
     min-height: 300px;
@@ -2001,6 +2420,7 @@ const linkInPageByItems = (item) => {
     width: 100%;
     min-height: 100px;
     margin-top: 40px;
+    display: flex;
     //background-color: grey;
   }
 
@@ -2017,7 +2437,7 @@ const linkInPageByItems = (item) => {
   }
 
   .cardMainContainerShopSideFeatureMiddleTopVTable {
-    min-width: 70%;
+    min-width: 80%;
   }
 
   .cardMainContainerShopSideFeatureMiddleTopVTableText {
@@ -2068,6 +2488,67 @@ const linkInPageByItems = (item) => {
   .cardMainContainerShopSideFeatureDownTopLi::marker {
     color: $primary;
   }
+
+  // blockHomeOfTheBrandEquipment
+
+  .blockHomeOfTheBrandEquipment {
+    width: 30%;
+  }
+
+  .blockHomeOfTheBrand {
+    width: 100%;
+    padding: 25px;
+    border-radius: 10px;
+    min-height: 180px;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
+  }
+
+  .titleHomeOfTheBrand {
+    width: 100%;
+    font-size: 2rem;
+    text-align: center;
+    color: $textSpan;
+  }
+
+  .titleHomeOfTheBrandSpan {
+    color: $primary;
+    font-weight: 600;
+  }
+
+  .textHomeOfTheBrand {
+    font-size: 1.5rem;
+    color: $text;
+  }
+
+  // Block Equipment
+
+  .blockEquipment {
+    width: 100%;
+    padding: 25px;
+  }
+
+  .titleEquipment {
+    margin-top: 30px;
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .textEquipmentUl {
+    margin-top: 30px;
+  }
+
+  .textEquipment {
+    color: $text;
+    font-size: 1.5rem;
+  }
+
+  .textEquipment::marker {
+    color: $primary
+  }
+
+  //
 
 
 }
@@ -2265,6 +2746,12 @@ const linkInPageByItems = (item) => {
 
   // Card Side Feature
 
+  .cardMainContainerShopSideFeatureMain {
+    margin-top: 120px;
+    width: 100%;
+    display: flex;
+  }
+
   .cardMainContainerShopSideFeature {
     width: 100%;
     min-height: 300px;
@@ -2304,7 +2791,7 @@ const linkInPageByItems = (item) => {
   }
 
   .cardMainContainerShopSideFeatureMiddleTopVTable {
-    min-width: 40%;
+    min-width: 70%;
   }
 
   .cardMainContainerShopSideFeatureMiddleTopVTableText {
@@ -2356,6 +2843,66 @@ const linkInPageByItems = (item) => {
     color: $primary;
   }
 
+  // blockHomeOfTheBrandEquipment
+
+  .blockHomeOfTheBrandEquipment {
+    width: 20%;
+  }
+
+  .blockHomeOfTheBrand {
+    width: 100%;
+    padding: 25px;
+    border-radius: 10px;
+    min-height: 180px;
+    box-shadow: 0 1.5px 5.7px rgba(0, 0, 0, 0.24),
+    0 4.9px 19.2px rgba(0, 0, 0, 0.143),
+    0 22px 86px rgba(0, 0, 0, 0.097);
+  }
+
+  .titleHomeOfTheBrand {
+    width: 100%;
+    font-size: 2rem;
+    text-align: center;
+    color: $textSpan;
+  }
+
+  .titleHomeOfTheBrandSpan {
+    color: $primary;
+    font-weight: 600;
+  }
+
+  .textHomeOfTheBrand {
+    font-size: 1.5rem;
+    color: $text;
+  }
+
+  // Block Equipment
+
+  .blockEquipment {
+    width: 100%;
+    padding: 25px;
+  }
+
+  .titleEquipment {
+    margin-top: 30px;
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .textEquipmentUl {
+    margin-top: 30px;
+  }
+
+  .textEquipment {
+    color: $text;
+    font-size: 1.5rem;
+  }
+
+  .textEquipment::marker {
+    color: $primary
+  }
+
+  //
 
 }
 </style>
