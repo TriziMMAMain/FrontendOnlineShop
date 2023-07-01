@@ -22,6 +22,7 @@ const {
   fetchingInstrumentGasoline,
   fetchingInstrumentNetwork,
   fetchingInstrumentPneumotool,
+  fetchingInstrumentDiesel,
   fetchingInstrumentByName,
   filterByNameInstrument,
 
@@ -52,6 +53,12 @@ const fetchingPiniaInstrument = async () => {
           console.log(error)
         })
     await fetchingInstrumentPneumotool()
+        .then(() => {})
+        .catch((error) => {
+          ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
+          console.log(error)
+        })
+    await fetchingInstrumentDiesel()
         .then(() => {})
         .catch((error) => {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")

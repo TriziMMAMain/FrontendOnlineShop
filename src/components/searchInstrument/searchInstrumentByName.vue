@@ -170,6 +170,16 @@ const checkPneumoInstrument = async (idInstrument, routerPush) => {
   await router.push({name: `${routerPush} ID`, params: {id: idInstrument}})
   localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
+const checkDieselInstrument = async (idInstrument, routerPush) => {
+  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
+    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
+  }
+  postAxiosInstrumentById(dataInstrument.value)
+  localStorage.setItem("id_diesel", JSON.stringify(idInstrument))
+  await router.push({name: `${routerPush} ID`, params: {id: idInstrument}})
+  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
+}
+
 
 const addInBasketIdCordless = (idInstrument) => {
   localStorage.setItem("id_cordless", JSON.stringify(idInstrument))
@@ -185,6 +195,10 @@ const addInBasketIdNetwork = (idInstrument) => {
 }
 const addInBasketIdPneumo = (idInstrument) => {
   localStorage.setItem("id_pneumotool", JSON.stringify(idInstrument))
+  localStorage.setItem("basket_click", JSON.stringify(true))
+}
+const addInBasketIdDiesel = (idInstrument) => {
+  localStorage.setItem("id_diesel", JSON.stringify(idInstrument))
   localStorage.setItem("basket_click", JSON.stringify(true))
 }
 
@@ -206,6 +220,10 @@ const viewDetails = async (id) => {
   if (arrayLocalStorage.value[0].type === 'Пневмоинструмент') {
     let routerPush = ref(arrayLocalStorage.value[0].typeThis)
     await checkPneumoInstrument(id, routerPush.value)
+  }
+  if (arrayLocalStorage.value[0].type === 'Дизельный инструмент') {
+    let routerPush = ref(arrayLocalStorage.value[0].typeThis)
+    await checkDieselInstrument(id, routerPush.value)
   }
 }
 
@@ -233,6 +251,13 @@ const buyInBasket = async (id) => {
     let routerPush = ref(arrayLocalStorage.value[0].typeThis)
     await checkPneumoInstrument(id, routerPush.value)
   }
+  if (arrayLocalStorage.value[0].type === 'Дизельный инструмент') {
+    addInBasketIdDiesel(id)
+    let routerPush = ref(arrayLocalStorage.value[0].typeThis)
+    await checkDieselInstrument(id, routerPush.value)
+  }
+
+
 }
 
 const availabilityTrue = (data) => {

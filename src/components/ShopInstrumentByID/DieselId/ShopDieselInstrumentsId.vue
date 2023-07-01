@@ -87,20 +87,22 @@ const navigationDrawerMenuBasketSecond = () => {
   }
 }
 // local
-const gasolineInstruments = ref([])
-const gasolineLocal = ref([])
-const loadingComponent = ref(true)
+const dieselLocalCopy = ref([])
+const dieselLocal = ref([])
+const loadingComponent = ref(false)
+const trueOrFalsePhoto = ref(false)
 const avalibilityTrue = ref(null)
-let trueOrFalsePhoto = ref(false)
-const items = ref([])
+//
+
+let items = ref([])
 
 const updateLocalData = () => {
-  gasolineLocal.value = JSON.parse(localStorage.getItem('filter_by_id'))
-  gasolineInstruments.value = gasolineLocal.value[0]
+  dieselLocal.value = JSON.parse(localStorage.getItem('filter_by_id'))
+  dieselLocalCopy.value = dieselLocal.value[0]
 
-  for (let i = 0; i < gasolineInstruments.value.imgArray.length; i++) {
+  for (let i = 0; i < dieselLocalCopy.value.imgArray.length; i++) {
     try {
-      gasolineInstruments.value.imgArray[i].src
+      dieselLocalCopy.value.imgArray[i].src
     } catch {
       trueOrFalsePhoto.value = false
       return
@@ -109,89 +111,31 @@ const updateLocalData = () => {
 
   trueOrFalsePhoto.value = true
 }
-onMounted(async () => {
-  localStorage.setItem('fetching_instrument_by_id', JSON.stringify(false))
 
+onMounted(async () => {
   try {
     await fetchingInstrumentById()
     loadingComponent.value = JSON.parse(localStorage.getItem('fetching_instrument_by_id'))
 
     if (loadingComponent.value) {
       updateLocalData()
-      if (gasolineInstruments.value.availability === 0) {
+      if (dieselLocalCopy.value.availability === 0) {
         avalibilityTrue.value = false
       } else {
         avalibilityTrue.value = true
       }
-      if (gasolineInstruments.value.typeThis === 'Бензогенератор') {
+      if (dieselLocalCopy.value.typeThis === 'Дизельный генератор') {
         items.value = [
           {
             title: 'Главная'
           },
           {
-            title: 'Бензиновый инструмент',
-            clickToBreadcrumbs: 'gasolineInstrumentAll',
+            title: 'Дизельный инструмент',
+            clickToBreadcrumbs: 'dieselInstrumentAll'
           },
           {
-            title: 'Бензогенераторы',
-            clickToBreadcrumbs: 'Бензогенератор'
-          },
-        ]
-      } else if (gasolineInstruments.value.typeThis === 'Бензопила') {
-        items.value = [
-          {
-            title: 'Главная',
-          },
-          {
-            title: 'Бензиновый инструмент',
-            clickToBreadcrumbs: 'gasolineInstrumentAll',
-          },
-          {
-            title: 'Бензопилы',
-            clickToBreadcrumbs: 'Бензопила'
-          },
-        ]
-      } else if (gasolineInstruments.value.typeThis === 'Бензиновый мотоблок') {
-        items.value = [
-          {
-            title: 'Главная',
-          },
-          {
-            title: 'Бензиновый инструмент',
-            clickToBreadcrumbs: 'gasolineInstrumentAll',
-          },
-          {
-            title: 'Бензиновые мотоблоки',
-            clickToBreadcrumbs: 'Бензиновый мотоблок'
-          },
-        ]
-      }
-      else if (gasolineInstruments.value.typeThis === 'Бензотриммер') {
-        items.value = [
-          {
-            title: 'Главная',
-          },
-          {
-            title: 'Бензиновый инструмент',
-            clickToBreadcrumbs: 'gasolineInstrumentAll',
-          },
-          {
-            title: 'Бензиновые триммеры',
-            clickToBreadcrumbs: 'Бензотриммер'
-          },
-        ]
-      } else if (gasolineInstruments.value.typeThis === 'Бензотриммер') {
-        items.value = [
-          {
-            title: 'Главная',
-          },
-          {
-            title: 'Бензиновый инструмент',
-            clickToBreadcrumbs: 'gasolineInstrumentAll',
-          },
-          {
-            title: 'Бензиновые триммеры',
-            clickToBreadcrumbs: 'Бензотриммер'
+            title: 'Дизельные генераторы',
+            clickToBreadcrumbs: 'Дизельный генератор'
           },
         ]
       }
@@ -199,12 +143,13 @@ onMounted(async () => {
       console.log('error 500')
       ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
     }
-
     localStorage.setItem('fetching_instrument_by_id', JSON.stringify(false))
   } catch (err) {
     console.log(err);
   }
+
 })
+
 
 let basketClick = ref(false)
 setInterval(() => {
@@ -226,10 +171,10 @@ const buyInBasket = (_id) => {
 const linkInPageByItems = (item) => {
   if (item.clickToBreadcrumbs === undefined) {
     router.push({name: 'homeComponent'})
-  } else if (item.clickToBreadcrumbs === 'gasolineInstrumentAll') {
+  } else if (item.clickToBreadcrumbs === 'dieselInstrumentAll') {
     localStorage.setItem("name_type_this", JSON.stringify(item.clickToBreadcrumbs))
     localStorage.setItem("name_type_this_true_or_false", JSON.stringify(false))
-    router.push({name: 'gasolineInstrumentAll'})
+    router.push({name: 'dieselInstrumentAll'})
   } else {
     localStorage.setItem("name_type_this", JSON.stringify(item.clickToBreadcrumbs))
     localStorage.setItem("name_type_this_true_or_false", JSON.stringify(true))
@@ -237,17 +182,20 @@ const linkInPageByItems = (item) => {
   }
 
 }
+
+//
 </script>
 
 <template>
-  <div class="cardMainShopSideContainer w-100"
-       v-for="i in [gasolineInstruments]"
+  <div
+      class="cardMainShopSideContainer p-0 w-100"
+      v-for="i in [dieselLocalCopy]"
   >
     <div class="basketComponentDynamicBlockMain"
          v-if="basketClick">
       <BasketComponentDynamic></BasketComponentDynamic>
     </div>
-    <div class="linkInPage d-flex mt-4">
+    <div class="linkInPage d-flex mb-4">
       <p class="linkInPageVBreadcrumbs pl-6"
          v-for="item in items"
          @click="linkInPageByItems(item)">{{ item.title }} <span class="pa-4">/</span></p>
@@ -280,7 +228,7 @@ const linkInPageByItems = (item) => {
           >
             <v-carousel-item
                 class="w-100"
-                v-for="(item, i) in gasolineInstruments.imgArray"
+                v-for="(item, i) in dieselLocalCopy.imgArray"
                 :key="i"
                 :src="item.src"
             >
@@ -288,12 +236,14 @@ const linkInPageByItems = (item) => {
           </v-carousel>
         </div>
         <div class="d-flex justify-center align-center"
-             v-else><v-progress-circular
-            color="primary"
-            indeterminate
-            :size="128"
-            :width="12"
-        ></v-progress-circular></div>
+             v-else>
+          <v-progress-circular
+              color="primary"
+              indeterminate
+              :size="128"
+              :width="12"
+          ></v-progress-circular>
+        </div>
       </div>
       <div class="cardMainShopSideFeatureMain mt-10">
         <div class="cardMainShopSideFeature">
@@ -301,7 +251,7 @@ const linkInPageByItems = (item) => {
             Основные характеристики
           </h1>
           <!--          -->
-          <v-card-text v-for="item in gasolineInstruments.featureTopTitle"
+          <v-card-text v-for="item in dieselLocalCopy.featureTopTitle"
                        key="item"
                        class="textCardFeature pa-0">{{ item.featureTopTitleInfoTitle }}
             <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></v-card-text>
@@ -363,7 +313,7 @@ const linkInPageByItems = (item) => {
             <v-table class="cardMainContainerShopSideFeatureMiddleTopVTable" density="compact">
               <tbody>
               <tr
-                  v-for="item in gasolineInstruments.featureMiddle"
+                  v-for="item in dieselLocalCopy.featureMiddle"
                   :key="item.feature"
               >
                 <td class="cardMainContainerShopSideFeatureMiddleTopVTableText">{{ item.feature }}</td>
@@ -396,7 +346,7 @@ const linkInPageByItems = (item) => {
             <h1 class="textCardFeatureDown">Преимущества {{ i.name }}</h1>
             <ul class="cardMainContainerShopSideFeatureDownTopUl">
               <li class="cardMainContainerShopSideFeatureDownTopLi"
-                  v-for="i in gasolineInstruments.featureDownArray"
+                  v-for="i in dieselLocalCopy.featureDownArray"
                   :key="i.featureDown">{{ i.featureDown }}
               </li>
             </ul>

@@ -14,6 +14,7 @@ export const useInstrumentStore = defineStore({
         gasolineLocalCopyPinia: null,
         networkLocalCopyPinia: null,
         pneumoLocalCopyPinia: null,
+        dieselLocalCopyPinia: null,
         instrumentLocalCopyByName: null,
         instrumentLocalCopyById: null,
         instrumentFilterByParams: null,
@@ -26,6 +27,7 @@ export const useInstrumentStore = defineStore({
         instrumentNameGasoline: [],
         instrumentNameNetwork: [],
         instrumentNamePneumo: [],
+        instrumentNameDiesel: [],
         instrumentNameAll: [],
         // Fetching error
         error: null
@@ -112,11 +114,23 @@ export const useInstrumentStore = defineStore({
                 ProcessingError('Возникла ошибка. Перезагрузите страницу!')
             }
         },
+        async fetchingInstrumentDiesel() {
+            try {
+                const response = await interceptors.get('api/instruments/get/diesel')
+                this.dieselLocalCopyPinia = response.data
+                localStorage.setItem("diesel", JSON.stringify(this.dieselLocalCopyPinia))
+                await this.fetchingInstrumentDieselName(this.dieselLocalCopyPinia)
+            } catch (error) {
+                this.error = error
+                console.log(error)
+                ProcessingError('Возникла ошибка. Перезагрузите страницу!')
+            }
+        },
 
 
         async fetchingInstrumentByName() {
             try {
-                await this.fetchingInstrumentAllName(this.instrumentNameCordless, this.instrumentNameGasoline, this.instrumentNameNetwork, this.instrumentNamePneumo)
+                await this.fetchingInstrumentAllName(this.instrumentNameCordless, this.instrumentNameGasoline, this.instrumentNameNetwork, this.instrumentNamePneumo, this.instrumentNameDiesel)
             } catch (error) {
                 this.error = error
                 console.log(error)
@@ -209,7 +223,20 @@ export const useInstrumentStore = defineStore({
                 console.log('Invalid input');
             }
         },
-        async fetchingInstrumentAllName(cordless, gasoline, network, pneumo) {
+        async fetchingInstrumentDieselName(diesel) {
+            let dieselLocalCopyNameArray = []
+            if (Array.isArray(diesel) || (typeof diesel === 'object' && cordless.hasOwnProperty('length'))) {
+                for (let i = 0; i < diesel.length; i++) {
+                    dieselLocalCopyNameArray.push(diesel[i]);
+                }
+                for (let i = 0; i < dieselLocalCopyNameArray.length; i++) {
+                    this.instrumentNameDiesel.push(dieselLocalCopyNameArray[i].name);
+                }
+            } else {
+                console.log('Invalid input');
+            }
+        },
+        async fetchingInstrumentAllName(cordless, gasoline, network, pneumo, diesel) {
             for (let i = 0; i < cordless.length; i++) {
                 this.instrumentNameAll.push(cordless[i])
             }
@@ -222,6 +249,9 @@ export const useInstrumentStore = defineStore({
             for (let i = 0; i < pneumo.length; i++) {
                 this.instrumentNameAll.push(pneumo[i])
             }
+            for (let i = 0; i < diesel.length; i++) {
+                this.instrumentNameAll.push(diesel[i])
+            }
             localStorage.setItem("filter_instrument_all_name", JSON.stringify(this.instrumentNameAll))
         },
         // Filter
@@ -233,6 +263,7 @@ export const useInstrumentStore = defineStore({
                 let gasolineFiltered = _.filter(this.gasolineLocalCopyPinia, {name: string});
                 let networkFiltered = _.filter(this.networkLocalCopyPinia, {name: string});
                 let pneumaticFiltered = _.filter(this.pneumoLocalCopyPinia, {name: string});
+                let dieselFiltered = _.filter(this.dieselLocalCopyPinia, {name: string});
                 //
 
 
@@ -255,6 +286,12 @@ export const useInstrumentStore = defineStore({
                 } else {
                     this.arrayInFile = pneumaticFiltered[0]
                 }
+
+                if (dieselFiltered.length === 0) {
+                } else {
+                    this.arrayInFile = dieselFiltered[0]
+                }
+
                 localStorage.setItem("filter_by_name", JSON.stringify(this.arrayInFile))
                 return true
             } catch (err) {

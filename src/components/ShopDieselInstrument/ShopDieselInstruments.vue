@@ -1,6 +1,6 @@
 <script setup="">
 // - Import
-import {onMounted, ref, computed} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import _ from 'lodash'
 import {useInstrumentStore} from '../../stores/counter.js'
@@ -120,25 +120,27 @@ const heightFuncVBtn = () => {
 }
 
 //
-const cordlessInstrumentArray = ref([])
-const cordlessLocal = ref([])
+const dieselArray = ref([])
+const dieselLocal = ref([])
 const typeThis = ref(null)
 const trueOrFalseTypeThis = ref(null)
 
 
-cordlessLocal.value = JSON.parse(localStorage.getItem("cordless"))
+dieselLocal.value = JSON.parse(localStorage.getItem("diesel"))
 typeThis.value = JSON.parse(localStorage.getItem("name_type_this"))
 trueOrFalseTypeThis.value = JSON.parse(localStorage.getItem("name_type_this_true_or_false"))
 
-const cordlessDrill = async (cordless, typeThisSecond, trueOrFalse) => {
+
+
+const dieselInstrumentsFunc = async (diesel, typeThisSecond, trueOrFalse) => {
   try {
     if (trueOrFalse) {
       let filterArray = ref(null)
-      filterArray.value = _.filter(cordless, {typeThis: typeThisSecond})
-      cordlessInstrumentArray.value = filterArray.value
+      filterArray.value = _.filter(diesel, {typeThis: typeThisSecond})
+      dieselArray.value = filterArray.value
     } else {
-      for (let i = 0; i < cordless.length; i++) {
-        cordlessInstrumentArray.value.push(cordless[i])
+      for (let i = 0; i < diesel.length; i++) {
+        dieselArray.value.push(diesel[i])
       }
     }
     return true
@@ -152,42 +154,41 @@ const viewDetails = async (id, _id, data) => {
   console.log(data.typeThis);
   let dataInstrument = ref([])
 
-  for (let i = 0; i < cordlessInstrumentArray.value.length; i++) {
-    dataInstrument.value = _.filter(cordlessInstrumentArray.value, {"_id": _id})
+  for (let i = 0; i < dieselArray.value.length; i++) {
+    dataInstrument.value = _.filter(dieselArray.value, {"_id": _id})
   }
   postAxiosInstrumentById(dataInstrument.value)
 
   await router.push({name: `${data.typeThis} ID`, params: {id: id}})
-  localStorage.setItem("id_cordless", JSON.stringify(id))
+  localStorage.setItem("id_diesel", JSON.stringify(id))
 }
+
+
 // - Logical
 let counterClick = ref(0)
 const buyInBasket = async (id, _id, data) => {
   let dataInstrument = ref([])
-  for (let i = 0; i < cordlessInstrumentArray.value.length; i++) {
-    dataInstrument.value = _.filter(cordlessInstrumentArray.value, {"_id": _id})
+  for (let i = 0; i < dieselArray.value.length; i++) {
+    dataInstrument.value = _.filter(dieselArray.value, {"_id": _id})
   }
   postAxiosInstrumentById(dataInstrument.value)
-
   counterClick.value = counterClick.value + 1
   if (counterClick.value === 1) {
     localStorage.setItem("basket_id", JSON.stringify(id))
     localStorage.setItem("basket_click", JSON.stringify(true))
-    localStorage.setItem("id_cordless", JSON.stringify(id))
+    localStorage.setItem("id_diesel", JSON.stringify(id))
     await router.push({name: `${data.typeThis} ID`, params: {id: id}})
   }
 }
 
-
-
-
 const instrumentShow = ref(10)
-const visibleItems = computed(() => cordlessInstrumentArray.value.slice(0, instrumentShow.value))
-const allItemsShown = computed(() => instrumentShow.value >= cordlessInstrumentArray.value.length)
+const visibleItems = computed(() => dieselArray.value.slice(0, instrumentShow.value))
+const allItemsShown = computed(() => instrumentShow.value >= dieselArray.value.length)
 
 function showMore() {
   instrumentShow.value += 10
 }
+
 
 const availabilityTrue = (data) => {
   if (data === 0) {
@@ -196,8 +197,9 @@ const availabilityTrue = (data) => {
     return true
   }
 }
+
 onMounted(async () => {
-  await cordlessDrill(cordlessLocal.value, typeThis.value, trueOrFalseTypeThis.value)
+  await dieselInstrumentsFunc(dieselLocal.value, typeThis.value, trueOrFalseTypeThis.value)
 })
 </script>
 
@@ -210,7 +212,7 @@ onMounted(async () => {
         color="background"
         elevation="5"
         class="vCardMain pa-5 mr-10 mb-16"
-        v-for="i in visibleItems" :key="i">
+        v-for="i in visibleItems">
       <v-row class="d-sm-flex">
         <!--      FIRST COL-->
         <v-col :cols="firstColFunc()"
@@ -289,13 +291,17 @@ onMounted(async () => {
               Нет в наличии
             </p>
           </v-card-actions>
+
+
+
+
           <!--    CARD ACTIONS END-->
         </v-col>
       </v-row>
     </v-card>
     <v-btn class="vBtnColor"
-        width="100%"
-        v-if="!allItemsShown" @click="showMore()">Загрузить еще...</v-btn>
+           width="100%"
+           v-if="!allItemsShown" @click="showMore()">Загрузить еще...</v-btn>
   </div>
   <!--        END CARD-->
 </template>
@@ -303,6 +309,7 @@ onMounted(async () => {
 <style lang="scss" scoped>
 // - import
 @import '../../assets/mixins';
+
 .vBtnColor {
   color: $background;
   background-color: $primary;

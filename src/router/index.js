@@ -31,6 +31,12 @@ import ShopPneumotoolInstrumentAll from '../components/ShopPneuomotoolInstrument
 import ShopPneumotoolInstruments from '../components/ShopPneuomotoolInstrument/ShopPneumotoolInstruments.vue'
 // Pneumotool ID
 import ShopPneumotoolInstrumentsId from '../components/ShopInstrumentByID/PneumotoolId/ShopPneumotoolInstrumentsId.vue'
+// Diesel
+import ShopDieselInstrument from '../components/ShopDieselInstrument/ShopDieselInstrument.vue'
+import ShopDieselInstrumentAll from '../components/ShopDieselInstrument/ShopDieselInstrumentAll.vue'
+import ShopDieselInstruments from '../components/ShopDieselInstrument/ShopDieselInstruments.vue'
+// Diesel ID
+import ShopDieselInstrumentsId from '../components/ShopInstrumentByID/DieselId/ShopDieselInstrumentsId.vue'
 
 
 const routes = [
@@ -198,6 +204,20 @@ const routes = [
                     shopGasolineInstrumentsId: ShopGasolineInstrumentsId,
                 },
             },
+            {
+                path: 'petrol-trimmer/',
+                name: 'Бензотриммер',
+                components: {
+                    shopGasolineInstruments: ShopGasolineInstruments,
+                },
+            },
+            {
+                path: 'petrol-trimmer/id/:id/',
+                name: 'Бензотриммер ID',
+                components: {
+                    shopGasolineInstrumentsId: ShopGasolineInstrumentsId,
+                },
+            },
         ]
     },
     {
@@ -314,6 +334,36 @@ const routes = [
                 name: 'Гвоздезабивной пистолет пневматический ID',
                 components: {
                     shopPneumotoolInstrumentsId: ShopPneumotoolInstrumentsId,
+                },
+            },
+        ]
+    },
+    {
+        path: '/diesel-instrument/',
+        name: 'dieselInstrument',
+        components: {
+            dieselTools: ShopDieselInstrument,
+        },
+        children: [
+            {
+                path: 'catalog/',
+                name: 'dieselInstrumentAll',
+                components: {
+                    dieselToolsAll: ShopDieselInstrumentAll,
+                }
+            },
+            {
+                path: 'generator/',
+                name: 'Дизельный генератор',
+                components: {
+                    shopDieselInstruments: ShopDieselInstruments,
+                },
+            },
+            {
+                path: 'generator/id/:id',
+                name: 'Дизельный генератор ID',
+                components: {
+                    shopDieselInstrumentsId: ShopDieselInstrumentsId,
                 },
             },
         ]

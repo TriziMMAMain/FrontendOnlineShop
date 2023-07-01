@@ -301,7 +301,7 @@ onMounted(async () => {
     </v-card>
     <v-btn class="vBtnColor"
            width="100%"
-           v-if="!allItemsShown" @click="showMore()">Load more</v-btn>
+           v-if="!allItemsShown" @click="showMore()">Загрузить еще...</v-btn>
   </div>
   <!--        END CARD-->
 </template>

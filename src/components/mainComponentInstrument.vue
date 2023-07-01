@@ -25,6 +25,8 @@ import {ref} from 'vue'
         <router-view name="networkTools"></router-view>
         <!--          PNEUOMOTOOLS-->
         <router-view name="pneuomoTools"></router-view>
+        <!--        DIESEL-->
+        <router-view name="dieselTools"></router-view>
         <!--      ADMIN VIEW-->
         <router-view name="adminPanel"></router-view>
         <router-view></router-view>

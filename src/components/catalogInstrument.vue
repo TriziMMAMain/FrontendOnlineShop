@@ -53,10 +53,10 @@ const clickTo = (nameTypeThis) => {
                 аккмуляторного инструмента</a>
               <a @click="clickTo('Аккумуляторная дрель-шуруповерт')"
                  href="/cordless-instrument/drills" class="textExpansion">Аккумуляторные дрели</a>
-              <a @click="clickTo('Аккумуляторный перфоратор')"
-                 href="/cordless-instrument/screwdrivers" class="textExpansion">Аккумуляторные перфораторы</a>
-              <a @click="clickTo('Аккумуляторная болгарка')"
-                 href="/cordless-instrument/grinders" class="textExpansion">Аккумуляторные болгарки</a>
+<!--              <a @click="clickTo('Аккумуляторный перфоратор')"-->
+<!--                 href="/cordless-instrument/screwdrivers" class="textExpansion">Аккумуляторные перфораторы</a>-->
+<!--              <a @click="clickTo('Аккумуляторная болгарка')"-->
+<!--                 href="/cordless-instrument/grinders" class="textExpansion">Аккумуляторные болгарки</a>-->
             </v-card-text>
           </v-expansion-panel-text>
           <!--           END TEXT-->
@@ -78,8 +78,9 @@ const clickTo = (nameTypeThis) => {
                 инструмента
               </a>
               <a @click="clickTo('Бензогенератор')" href="/gasoline-instrument/generator/" class="textExpansion">Бензогенераторы</a>
-              <a @click="clickTo('Бензиновый мотоблок')"  href="/gasoline-instrument/motoblock/" class="textExpansion">Мотоблоки</a>
+<!--              <a @click="clickTo('Бензиновый мотоблок')"  href="/gasoline-instrument/motoblock/" class="textExpansion">Мотоблоки</a>-->
               <a @click="clickTo('Бензопила')"  href="/gasoline-instrument/chainsaw/" class="textExpansion">Бензопилы</a>
+              <a @click="clickTo('Бензотриммер')"  href="/gasoline-instrument/petrol-trimmer/" class="textExpansion">Бензиновые триммеры</a>
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->
@@ -126,6 +127,27 @@ const clickTo = (nameTypeThis) => {
               <a @click="clickTo('Пневматическая отбойная молотковая машина')" href="/pneumotool-instrument/jackhammer/" class="textExpansion">Отбойный молоток</a>
               <a @click="clickTo('Гвоздезабивной пистолет пневматический')" href="/pneumotool-instrument/nail-gun/" class="textExpansion">Гвоздезабивной пистолет
               </a>
+            </v-card-text>
+          </v-expansion-panel-text>
+          <!--          END TEXT-->
+        </v-expansion-panel>
+
+<!--        DIESEL-->
+        <v-expansion-panel>
+          <!--          START TITLE-->
+          <v-expansion-panel-title>
+            <v-row>
+              <v-col><p class="titleLeftInExpansion">Дизельный инструмент</p></v-col>
+            </v-row>
+          </v-expansion-panel-title>
+          <!--          END TITLE-->
+          <!--          START TEXT-->
+          <v-expansion-panel-text>
+            <v-card-text class="d-flex justify-center flex-column">
+              <a @click="clickToTitle()" href="/diesel-instrument/catalog/" class="textExpansionMain">Каталог дизельного
+                инструмента
+              </a>
+              <a @click="clickTo('Дизельный генератор')" href="/diesel-instrument/generator/" class="textExpansion">Дизельные генераторы</a>
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->
