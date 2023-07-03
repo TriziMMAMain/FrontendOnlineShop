@@ -270,8 +270,29 @@ const routes = [
                 },
             },
             {
-                path: 'perforator/id/:id/',
-                name: 'Перфоратор ID',
+                path: 'grinders/',
+                name: 'Электрическая болгарка',
+                components: {
+                    shopNetworkInstruments: ShopNetworkInstruments,
+                },
+            },
+            {
+                path: 'grinders/id/:id/',
+                name: 'Электрическая болгарка ID',
+                components: {
+                    shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
+                },
+            },
+            {
+                path: 'garden-vacuum-cleaner/',
+                name: 'Садовый пылесос',
+                components: {
+                    shopNetworkInstruments: ShopNetworkInstruments,
+                },
+            },
+            {
+                path: 'garden-vacuum-cleaner/id/:id/',
+                name: 'Садовый пылесос ID',
                 components: {
                     shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
                 },

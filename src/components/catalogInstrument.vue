@@ -15,6 +15,113 @@ const clickTo = (nameTypeThis) => {
   localStorage.setItem("name_type_this_true_or_false", JSON.stringify(true))
 }
 //
+const paramsCordlessInstrument = ref([
+  {
+    nameTypeThis: 'Аккумуляторная дрель-шуруповерт',
+    href: '/cordless-instrument/drills/',
+    title: 'Аккумуляторные дрели',
+    trueOrFalse: true
+  },
+  {
+    nameTypeThis: 'Аккумуляторный перфоратор',
+    href: '/cordless-instrument/screwdrivers/',
+    title: 'Аккумуляторные перфораторы',
+    trueOrFalse: false
+  },
+  {
+    nameTypeThis: 'Аккумуляторная болгарка',
+    href: '/cordless-instrument/grinders/',
+    title: 'Аккумуляторные болгарки',
+    trueOrFalse: true
+  },
+])
+const paramsGasolineInstrument = ref([
+  {
+    nameTypeThis: 'Бензогенератор',
+    href: '/gasoline-instrument/generator/',
+    title: 'Бензогенераторы',
+    trueOrFalse: true
+  },
+  {
+    nameTypeThis: 'Бензиновый мотоблок',
+    href: '/gasoline-instrument/motoblock/',
+    title: 'Мотоблоки',
+    trueOrFalse: false
+  },
+  {
+    nameTypeThis: 'Бензопила',
+    href: '/gasoline-instrument/chainsaw/',
+    title: 'Бензопилы',
+    trueOrFalse: true
+  },
+  {
+    nameTypeThis: 'Бензотриммер',
+    href: '/gasoline-instrument/petrol-trimmer/',
+    title: 'Бензиновые триммеры',
+    trueOrFalse: true
+  },
+])
+const paramsNetworkInstrument = ref([
+  {
+    nameTypeThis: 'Дрель',
+    href: '/network-instrument/drill/',
+    title: 'Сетевые дрели',
+    trueOrFalse: true
+  },
+  {
+    nameTypeThis: 'Электрическая болгарка',
+    href: '/network-instrument/grinders/',
+    title: 'Сетевые болгарки',
+    trueOrFalse: true
+  },
+  {
+    nameTypeThis: 'Лобзик электрический',
+    href: '/network-instrument/fretsaw/',
+    title: 'Сетевые лобзики',
+    trueOrFalse: false
+  },
+  {
+    nameTypeThis: 'Садовый пылесос',
+    href: '/network-instrument/garden-vacuum-cleaner/',
+    title: 'Сетевые садовые пылесосы',
+    trueOrFalse: true
+  },
+  {
+    nameTypeThis: 'Перфоратор',
+    href: '/network-instrument/perforator/',
+    title: 'Сетевые перфораторы',
+    trueOrFalse: true
+  },
+])
+const paramsPneumotoolInstrument = ref([
+  {
+    nameTypeThis: 'Компрессор',
+    href: '/pneumotool-instrument/compressor/',
+    title: 'Компрессоры',
+    trueOrFalse: true
+  },
+  {
+    nameTypeThis: 'Пневматическая отбойная молотковая машина',
+    href: '/pneumotool-instrument/jackhammer/',
+    title: 'Отбойный молоток',
+    trueOrFalse: true
+  },
+  {
+    nameTypeThis: 'Гвоздезабивной пистолет пневматический',
+    href: '/pneumotool-instrument/nail-gun/',
+    title: 'Гвоздезабивной пистолет',
+    trueOrFalse: true
+  },
+])
+const paramsDieselInstrument = ref([
+  {
+    nameTypeThis: '',
+    href: '',
+    title: '',
+    trueOrFalse: true
+  },
+])
+
 
 //
 // const arrayInBasketInstrument = localStorage.setItem("basket_array", JSON.stringify([]))
@@ -51,12 +158,12 @@ const clickTo = (nameTypeThis) => {
             <v-card-text class="d-flex justify-center flex-column">
               <a @click="clickToTitle()" href="/cordless-instrument/catalog/" class="textExpansionMain">Каталог
                 аккмуляторного инструмента</a>
-              <a @click="clickTo('Аккумуляторная дрель-шуруповерт')"
-                 href="/cordless-instrument/drills" class="textExpansion">Аккумуляторные дрели</a>
-<!--              <a @click="clickTo('Аккумуляторный перфоратор')"-->
-<!--                 href="/cordless-instrument/screwdrivers" class="textExpansion">Аккумуляторные перфораторы</a>-->
-<!--              <a @click="clickTo('Аккумуляторная болгарка')"-->
-<!--                 href="/cordless-instrument/grinders" class="textExpansion">Аккумуляторные болгарки</a>-->
+              <div v-for="item in paramsCordlessInstrument">
+                <a :href="item.href" @click="clickTo(`${item.nameTypeThis}`)"
+                   class="textExpansion" v-if="item.trueOrFalse">{{ item.title }}
+                </a>
+              </div>
+
             </v-card-text>
           </v-expansion-panel-text>
           <!--           END TEXT-->
@@ -74,13 +181,17 @@ const clickTo = (nameTypeThis) => {
           <!--          START TEXT-->
           <v-expansion-panel-text>
             <v-card-text class="d-flex justify-center flex-column">
-              <a  @click="clickToTitle()" href="/gasoline-instrument/catalog/" class="textExpansionMain">Каталог бензинового
+              <a @click="clickToTitle()" href="/gasoline-instrument/catalog/" class="textExpansionMain">Каталог
+                бензинового
                 инструмента
               </a>
-              <a @click="clickTo('Бензогенератор')" href="/gasoline-instrument/generator/" class="textExpansion">Бензогенераторы</a>
-<!--              <a @click="clickTo('Бензиновый мотоблок')"  href="/gasoline-instrument/motoblock/" class="textExpansion">Мотоблоки</a>-->
-              <a @click="clickTo('Бензопила')"  href="/gasoline-instrument/chainsaw/" class="textExpansion">Бензопилы</a>
-              <a @click="clickTo('Бензотриммер')"  href="/gasoline-instrument/petrol-trimmer/" class="textExpansion">Бензиновые триммеры</a>
+
+              <div v-for="item in paramsGasolineInstrument">
+                <a :href="item.href" @click="clickTo(`${item.nameTypeThis}`)"
+                   class="textExpansion" v-if="item.trueOrFalse">{{ item.title }}
+                </a>
+              </div>
+
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->
@@ -98,11 +209,16 @@ const clickTo = (nameTypeThis) => {
           <!--          START TEXT-->
           <v-expansion-panel-text>
             <v-card-text class="d-flex justify-center flex-column">
-              <a @click="clickToTitle()" href="/network-instrument/catalog/" class="textExpansionMain">Каталог сетевого инструмента
+              <a @click="clickToTitle()" href="/network-instrument/catalog/" class="textExpansionMain">Каталог сетевого
+                инструмента
               </a>
-              <a @click="clickTo('Дрель')" href="/network-instrument/drill/" class="textExpansion">Сетевые дрели</a>
-              <a @click="clickTo('Лобзик электрический')" href="/network-instrument/fretsaw/" class="textExpansion">Сетевые лобзики</a>
-              <a @click="clickTo('Перфоратор')" href="/network-instrument/perforator/" class="textExpansion">Сетевые перфораторы</a>
+
+              <div v-for="item in paramsNetworkInstrument">
+                <a :href="item.href" @click="clickTo(`${item.nameTypeThis}`)"
+                   class="textExpansion" v-if="item.trueOrFalse">{{ item.title }}
+                </a>
+              </div>
+
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->
@@ -120,19 +236,21 @@ const clickTo = (nameTypeThis) => {
           <!--          START TEXT-->
           <v-expansion-panel-text>
             <v-card-text class="d-flex justify-center flex-column">
-              <a @click="clickToTitle()" href="/pneumotool-instrument/catalog/" class="textExpansionMain">Каталог пневматического
+              <a @click="clickToTitle()" href="/pneumotool-instrument/catalog/" class="textExpansionMain">Каталог
+                пневматического
                 инструмента
               </a>
-              <a @click="clickTo('Компрессор')" href="/pneumotool-instrument/compressor/" class="textExpansion">Компрессоры</a>
-              <a @click="clickTo('Пневматическая отбойная молотковая машина')" href="/pneumotool-instrument/jackhammer/" class="textExpansion">Отбойный молоток</a>
-              <a @click="clickTo('Гвоздезабивной пистолет пневматический')" href="/pneumotool-instrument/nail-gun/" class="textExpansion">Гвоздезабивной пистолет
-              </a>
+              <div v-for="item in paramsPneumotoolInstrument">
+                <a :href="item.href" @click="clickTo(`${item.nameTypeThis}`)"
+                   class="textExpansion" v-if="item.trueOrFalse">{{ item.title }}
+                </a>
+              </div>
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->
         </v-expansion-panel>
 
-<!--        DIESEL-->
+        <!--        DIESEL-->
         <v-expansion-panel>
           <!--          START TITLE-->
           <v-expansion-panel-title>
@@ -147,7 +265,8 @@ const clickTo = (nameTypeThis) => {
               <a @click="clickToTitle()" href="/diesel-instrument/catalog/" class="textExpansionMain">Каталог дизельного
                 инструмента
               </a>
-              <a @click="clickTo('Дизельный генератор')" href="/diesel-instrument/generator/" class="textExpansion">Дизельные генераторы</a>
+              <a @click="clickTo('Дизельный генератор')" href="/diesel-instrument/generator/" class="textExpansion">Дизельные
+                генераторы</a>
             </v-card-text>
           </v-expansion-panel-text>
           <!--          END TEXT-->

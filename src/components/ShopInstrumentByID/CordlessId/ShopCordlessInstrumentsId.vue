@@ -94,7 +94,19 @@ const trueOrFalsePhoto = ref(false)
 const avalibilityTrue = ref(null)
 //
 
-let items = ref([])
+let items = ref([
+  {
+    title: 'Главная'
+  },
+  {
+    title: 'Аккумуляторный инструмент',
+    clickToBreadcrumbs: 'cordlessInstrumentAll'
+  },
+  {
+    title: '',
+    clickToBreadcrumbs: ''
+  }
+])
 
 const updateLocalData = () => {
   cordlessLocal.value = JSON.parse(localStorage.getItem('filter_by_id'))
@@ -125,47 +137,20 @@ onMounted(async () => {
         avalibilityTrue.value = true
       }
       if (cordlessLocalCopy.value.typeThis === 'Аккумуляторная дрель-шуруповерт') {
-        items.value = [
-          {
-            title: 'Главная'
-          },
-          {
-            title: 'Аккумуляторный инструмент',
-            clickToBreadcrumbs: 'cordlessInstrumentAll'
-          },
-          {
-            title: 'Аккумуляторные дрели',
-            clickToBreadcrumbs: 'Аккумуляторная дрель-шуруповерт'
-          },
-        ]
+        items.value[2] = {
+          title: 'Аккумуляторные дрели',
+          clickToBreadcrumbs: 'Аккумуляторная дрель-шуруповерт'
+        }
       } else if (cordlessLocalCopy.value.typeThis === 'Аккумуляторная болгарка') {
-        items.value = [
-          {
-            title: 'Главная'
-          },
-          {
-            title: 'Аккумуляторный инструмент',
-            clickToBreadcrumbs: 'cordlessInstrumentAll'
-          },
-          {
-            title: 'Аккумуляторные болгарки',
-            clickToBreadcrumbs: 'Аккумуляторная болгарка'
-          },
-        ]
+        items.value[2] = {
+          title: 'Аккумуляторные болгарки',
+          clickToBreadcrumbs: 'Аккумуляторная болгарка'
+        }
       } else if (cordlessLocalCopy.value.typeThis === 'Аккумуляторный перфоратор') {
-        items.value = [
-          {
-            title: 'Главная'
-          },
-          {
-            title: 'Аккумуляторный инструмент',
-            clickToBreadcrumbs: 'cordlessInstrumentAll'
-          },
-          {
-            title: 'Аккумуляторные перфораторы',
-            clickToBreadcrumbs: 'Аккумуляторный перфоратор'
-          },
-        ]
+        items.value[2] = {
+          title: 'Аккумуляторные перфораторы',
+          clickToBreadcrumbs: 'Аккумуляторный перфоратор'
+        }
       }
     } else {
       console.log('error 500')

@@ -92,7 +92,19 @@ const networkLocal = ref([])
 const loadingComponent = ref(true)
 const avalibilityTrue = ref(null)
 let trueOrFalsePhoto = ref(false)
-const items = ref([])
+const items = ref( [
+  {
+    title: 'Главная',
+  },
+  {
+    title: 'Сетевой инструмент',
+    clickToBreadcrumbs: 'networkInstrumentAll'
+  },
+  {
+    title: '',
+    clickToBreadcrumbs: ''
+  },
+])
 
 const updateLocalData = () => {
   networkLocal.value = JSON.parse(localStorage.getItem('filter_by_id'))
@@ -124,53 +136,35 @@ onMounted(async () => {
         avalibilityTrue.value = true
       }
       if (networkInstruments.value.typeThis === 'Дрель') {
-        items.value = [
-          {
-            title: 'Главная',
-          },
-          {
-            title: 'Сетевой инструмент',
-            clickToBreadcrumbs: 'networkInstrumentAll'
-          },
-          {
+        items.value[2] = {
             title: 'Сетевые дрели',
             clickToBreadcrumbs: 'Дрель'
-          },
-        ]
+          }
       } else if (networkInstruments.value.typeThis === 'Лобзик электрический') {
-        items.value = [
-          {
-            title: 'Главная',
-          },
-          {
-            title: 'Сетевой инструмент',
-            clickToBreadcrumbs: 'networkInstrumentAll'
-          },
-          {
-            title: 'Сетевые лобзики',
-            clickToBreadcrumbs: 'Лобзик электрический'
-          },
-        ]
+        items.value[2] = {
+          title: 'Сетевые лобзики',
+          clickToBreadcrumbs: 'Лобзик электрический'
+        }
       } else if (networkInstruments.value.typeThis === 'Перфоратор') {
-        items.value = [
-          {
-            title: 'Главная',
-          },
-          {
-            title: 'Сетевой инструмент',
-            clickToBreadcrumbs: 'networkInstrumentAll'
-          },
-          {
-            title: 'Сетевые перфораторы',
-            clickToBreadcrumbs: 'Перфоратор'
-          },
-        ]
+        items.value[2] = {
+          title: 'Сетевые перфораторы',
+          clickToBreadcrumbs: 'Перфоратор'
+        }
+      } else if (networkInstruments.value.typeThis === 'Электрическая болгарка') {
+        items.value[2] = {
+          title: 'Сетевые болгарки',
+          clickToBreadcrumbs: 'Электрическая болгарка'
+        }
+      } else if (networkInstruments.value.typeThis === 'Садовый пылесос') {
+        items.value[2] = {
+            title: 'Садовые пылесосы',
+            clickToBreadcrumbs: 'Садовый пылесос'
+          }
       }
     } else {
       console.log('error 500')
       ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
     }
-
     localStorage.setItem('fetching_instrument_by_id', JSON.stringify(false))
   } catch (err) {
     console.log(err);
