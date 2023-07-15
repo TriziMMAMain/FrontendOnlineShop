@@ -1,0 +1,35 @@
+{
+  "name": "vuetifystart",
+  "version": "1.0.0",
+  "main": "./src/main.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "export": "vite --ssrManifest && vite export",
+    "start": "npm run build && npm run export && serve dist"
+  },
+  "dependencies": {
+    "@vue/compiler-sfc": "^3.2.11",
+    "@vue/runtime-core": "^3.2.11",
+    "axios": "^1.4.0",
+    "core-js": "^3.30.2",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "pinia": "^2.0.28",
+    "sass": "^1.57.1",
+    "sass-loader": "^13.2.0",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6",
+    "vue-toastification": "^2.0.0-rc.5",
+    "vuetify": "3.0.6"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.2.1",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/test-utils": "^2.0.0-rc.15",
+    "rollup-pluginutils": "^2.8.2",
+    "vite": "^4.0.0"
+  }
+}
