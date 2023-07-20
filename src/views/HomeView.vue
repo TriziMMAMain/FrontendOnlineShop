@@ -375,6 +375,10 @@ const fluidFunc = () => {
   color: $textSpan;
 }
 
+.v-main {
+  min-height: 300px;
+}
+
 // Media
 
 @media screen and (max-width: 600px) {

@@ -37,7 +37,7 @@ import {ref} from 'vue'
 
 <style lang="scss" scoped>
 .rowMain {
-  min-height: 200vh;
+  min-height: 100vh;
 }
 
 @media screen and (max-width: 376px) {
