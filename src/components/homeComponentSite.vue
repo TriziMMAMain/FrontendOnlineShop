@@ -44,12 +44,17 @@ const photoInBlock = ref([
       </div>
     </div>
     <div class="photoMainBlock d-flex justify-space-evenly flex-wrap">
-      <h1 class="photoTitle">Топ 3 категории товаров за этот месяц</h1>
-      <div class="photoSrc" v-for="item in photoInBlock">
-        <p class="photoSrcAbsoluteText">{{ item.title }}</p>
-        <a :href="item.link" class="photoSrcLink">
-          <v-img :src="item.src" alt=""></v-img>
-        </a>
+      <div class="instrumentBlock w-33">
+        <h1 class="titleInBlock">Перейти к инструменту</h1>
+        <div class="actionsImg w-50">
+          <img class="w-100" src="https://cdn.vseinstrumenti.ru/images/goods/stroitelnyj-instrument/shurupoverty/800943/560x504/53392205.jpg" alt="">
+        </div>
+      </div>
+      <div class="sparesBlock w-33">
+        <h1 class="titleInBlock">Перейти к запчастям</h1>
+        <div class="actionsImg w-50">
+          <img class="w-100" src="https://zapshast.ru/uploads/news/1571897138.jpg" alt="">
+        </div>
       </div>
     </div>
   </v-container>
@@ -115,38 +120,6 @@ const photoInBlock = ref([
     margin-top: 30px;
   }
 
-  .photoTitle {
-    width: 100%;
-    font-size: 1.1rem;
-    margin-bottom: 120px;
-    text-align: center;
-    color: $text;
-  }
-
-  .photoSrc {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-
-  .photoSrcAbsoluteText {
-    position: absolute;
-    top: -90px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 0.8rem;
-    color: $text;
-  }
-
-  .photoSrcLink {
-    min-width: 200px;
-    margin-bottom: 120px;
-    height: 100px;
-    display: block;
-    background-size: cover;
-    background-position: center;
-  }
 }
 
 @media screen and (min-width: 376px) and (max-width: 600px) {
@@ -206,38 +179,7 @@ const photoInBlock = ref([
     margin-top: 30px;
   }
 
-  .photoTitle {
-    width: 100%;
-    font-size: 1.1rem;
-    margin-bottom: 120px;
-    text-align: center;
-    color: $text;
-  }
 
-  .photoSrc {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-
-  .photoSrcAbsoluteText {
-    position: absolute;
-    top: -90px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 0.8rem;
-    color: $text;
-  }
-
-  .photoSrcLink {
-    min-width: 200px;
-    margin-bottom: 120px;
-    height: 100px;
-    display: block;
-    background-size: cover;
-    background-position: center;
-  }
 }
 
 @media screen and (min-width: 600px) and (max-width: 960px) {
@@ -297,38 +239,6 @@ const photoInBlock = ref([
     margin-top: 30px;
   }
 
-  .photoTitle {
-    width: 100%;
-    font-size: 1.1rem;
-    margin-bottom: 120px;
-    text-align: center;
-    color: $text;
-  }
-
-  .photoSrc {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-
-  .photoSrcAbsoluteText {
-    position: absolute;
-    top: -90px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 0.8rem;
-    color: $text;
-  }
-
-  .photoSrcLink {
-    min-width: 200px;
-    margin-bottom: 120px;
-    height: 100px;
-    display: block;
-    background-size: cover;
-    background-position: center;
-  }
 }
 
 @media screen and (min-width: 960px) and (max-width: 1280px) {
@@ -388,37 +298,6 @@ const photoInBlock = ref([
     margin-top: 30px;
   }
 
-  .photoTitle {
-    width: 100%;
-    font-size: 1.3rem;
-    margin-bottom: 120px;
-    text-align: center;
-    color: $text;
-  }
-
-  .photoSrc {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-
-  .photoSrcAbsoluteText {
-    position: absolute;
-    top: -90px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 1rem;
-    color: $text;
-  }
-
-  .photoSrcLink {
-    min-width: 250px;
-    height: 100px;
-    display: block;
-    background-size: cover;
-    background-position: center;
-  }
 }
 
 @media screen and (min-width: 1280px) and (max-width: 1920px) {
@@ -478,37 +357,6 @@ const photoInBlock = ref([
     margin-top: 30px;
   }
 
-  .photoTitle {
-    width: 100%;
-    font-size: 1.5rem;
-    margin-bottom: 120px;
-    text-align: center;
-    color: $text;
-  }
-
-  .photoSrc {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-
-  .photoSrcAbsoluteText {
-    position: absolute;
-    top: -90px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 1.2rem;
-    color: $text;
-  }
-
-  .photoSrcLink {
-    min-width: 350px;
-    height: 150px;
-    display: block;
-    background-size: cover;
-    background-position: center;
-  }
 }
 
 @media screen and (min-width: 1920px) and (max-width: 2560px) {
@@ -568,37 +416,6 @@ const photoInBlock = ref([
     margin-top: 30px;
   }
 
-  .photoTitle {
-    width: 100%;
-    font-size: 2.5rem;
-    margin-bottom: 120px;
-    text-align: center;
-    color: $text;
-  }
-
-  .photoSrc {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-
-  .photoSrcAbsoluteText {
-    position: absolute;
-    top: -90px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 1.4rem;
-    color: $text;
-  }
-
-  .photoSrcLink {
-    min-width: 350px;
-    height: 200px;
-    display: block;
-    background-size: cover;
-    background-position: center;
-  }
 }
 
 @media screen and (min-width: 2560px) {
@@ -658,35 +475,5 @@ const photoInBlock = ref([
     margin-top: 30px;
   }
 
-  .photoTitle {
-    width: 100%;
-    font-size: 2.5rem;
-    margin-bottom: 120px;
-    text-align: center;
-    color: $text;
-  }
-
-  .photoSrc {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-
-  .photoSrcAbsoluteText {
-    position: absolute;
-    top: -90px;
-    margin: 0 auto;
-    font-size: 1.6rem;
-    color: $text;
-  }
-
-  .photoSrcLink {
-    min-width: 650px;
-    height: 350px;
-    display: block;
-    background-size: cover;
-    background-position: center;
-  }
 }
 </style>
