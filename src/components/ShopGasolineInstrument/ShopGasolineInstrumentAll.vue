@@ -1,6 +1,6 @@
 <script setup="">
 // - Import
-import ShopGasolineInstrument from './ShopGasolineInstruments.vue'
+import ShopGasolineInstruments from './ShopGasolineInstruments.vue'
 //
 
 
@@ -11,7 +11,7 @@ import ShopGasolineInstrument from './ShopGasolineInstruments.vue'
 <template>
   <!--        CARD -->
   <v-container class="pa-0">
-    <ShopGasolineInstrument></ShopGasolineInstrument>
+    <ShopGasolineInstruments></ShopGasolineInstruments>
   </v-container>
 </template>
 

@@ -21,9 +21,9 @@ const heightFunc = () => {
   } else if (name.value === 'sm') {
     return '200'
   } else if (name.value === 'md') {
-    return '250'
+    return '200'
   } else if (name.value === 'lg') {
-    return '300'
+    return '250'
   } else if (name.value === 'xl') {
     return '400'
   } else if (name.value === 'xxl') {
@@ -118,6 +118,21 @@ const heightFuncVBtn = () => {
     return '62'
   } else if (name.value === 'xxl') {
     return '62'
+  }
+}
+const widthFuncVCard = () => {
+  if (name.value === 'xs') {
+    return '100%'
+  } else if (name.value === 'sm') {
+    return '100%'
+  } else if (name.value === 'md') {
+    return '100%'
+  } else if (name.value === 'lg') {
+    return '100%'
+  } else if (name.value === 'xl') {
+    return '100%'
+  } else if (name.value === 'xxl') {
+    return '1100'
   }
 }
 
@@ -273,95 +288,98 @@ const availabilityTrue = (data) => {
   <!--        CARD -->
   <div class="widthBlock">
     <v-card
-        width="100%"
-      :height="heightFunc()"
-      color="background"
-      elevation="5"
-      class="vCardMain pa-5 mr-10 mb-16"
-      v-for="i in instrumentFilterName">
-    <v-row class="d-sm-flex">
-      <!--      FIRST COL-->
-      <v-col :cols="firstColFunc()"
-             class="d-flex justify-center align-center">
-        <!--    CARD ITEM START-->
-        <v-card-item>
-          <div class="photoInCardBlock">
-            <img class="photoInCard" :src="i.imgTitle" alt="">
+        :width="widthFuncVCard()"
+        :height="heightFunc()"
+        color="background"
+        elevation="5"
+        class="vCardMain pa-5 mr-10 mb-16"
+        v-for="i in arrayLocalStorage">
+      <v-row class="d-sm-flex">
+        <!--      FIRST COL-->
+        <v-col :cols="firstColFunc()"
+               class="d-flex justify-center align-center">
+          <!--    CARD ITEM START-->
+          <div class="d-flex justify-center align-center">
+            <div class="photoInCardBlock">
+              <img class="photoInCard" :src="i.imgTitle" alt="">
+            </div>
+            <v-card-subtitle class="vCardSubtitleMain">Код: {{ i.id }}</v-card-subtitle>
           </div>
-          <v-card-subtitle class="vCardSubtitleMain">Код: {{ i.id }}</v-card-subtitle>
-        </v-card-item>
-        <!--    CARD ITEM END-->
-      </v-col>
-      <!--      SECOND COL-->
-      <v-col :cols="secondColFunc()"
-             class="secondCol pa-1">
-        <!--        TITLE-->
-        <div class="blockTitleCard">
-          <button @click="viewDetails(i.id, i._id)" class="cardTextHref mt-1">{{ i.name }}</button>
-        </div>
-        <!--        SPAN AND TEXT-->
-        <div
-            class="textCardFeatureMain">
-          <div v-for="item in i.featureTopTitle"
-               key="item"
-               class="textCardFeatureDiv">
-            <p class="textCardFeature">{{ item.featureTopTitleInfoTitle, ':' }}
-              <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></p></div>
-        </div>
+          <!--    CARD ITEM END-->
+        </v-col>
+        <!--      SECOND COL-->
+        <v-col :cols="secondColFunc()"
+               class="secondCol pa-1">
+          <!--        TITLE-->
+          <div class="blockTitleCard">
+            <button @click="viewDetails(i.id, i._id, i)" class="cardTextHref mt-1">{{ i.name }}</button>
+          </div>
+          <!--        SPAN AND TEXT-->
+          <div
+              class="textCardFeatureMain">
+            <div v-for="item in i.featureTopTitle"
+                 key="item"
+                 class="textCardFeatureDiv">
+              <p class="textCardFeature">{{ item.featureTopTitleInfoTitle, ':' }}
+                <span class="spanTextCard">{{ item.featureTopTitleInfoText }}</span></p></div>
+          </div>
 
 
-      </v-col>
-      <!--      THIRD COL-->
-      <v-col :cols="thirdColFunc()"
-             class="pa-1">
-        <!--    CARD ACTIONS START-->
+        </v-col>
+        <!--      THIRD COL-->
+        <v-col :cols="thirdColFunc()"
+               class="pa-1">
+          <!--    CARD ACTIONS START-->
 
-        <v-card-actions
-            v-if="availabilityTrue(i.availability)"
-            class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
-          <p class="textCardPrice pt-3 pb-3">
-            {{ i.price }} рублей
-          </p>
-          <v-btn
-              @click="buyInBasket(i.id, i._id, i)"
-              elevation="1"
-              class="vBtnBuy"
-              :width="widthtFuncVBtn()"
-              :height="heightFuncVBtn()"
-              prepend-icon="fa-solid fa-cart-shopping"
-          >
-            Купить
-          </v-btn>
-          <p class="textCardAvailability">
-            В наличии имеется > {{ i.availability }} шт
-          </p>
-        </v-card-actions>
-        <v-card-actions
-            v-else
-            class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
-          <p class="textCardPrice pt-3 pb-3">
-            Последняя цена {{ i.price }} рублей
-          </p>
-          <v-btn
-              @click="buyInBasket(i.id, i._id, i)"
-              elevation="1"
-              class="vBtnBuy"
-              :width="widthtFuncVBtn()"
-              :height="heightFuncVBtn()"
-              :disabled="true"
-              prepend-icon="fa-solid fa-cart-shopping"
-          >
-            Купить
-          </v-btn>
-          <p class="textCardAvailabilityFalse">
-            Нет в наличии
-          </p>
-        </v-card-actions>
+          <v-card-actions
+              v-if="availabilityTrue(i.availability)"
+              class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
+            <p class="textCardPrice pt-3 pb-3">
+              {{ i.price }} рублей
+            </p>
+            <v-btn
+                @click="buyInBasket(i.id, i._id, i)"
+                elevation="1"
+                class="vBtnBuy"
+                :width="widthtFuncVBtn()"
+                :height="heightFuncVBtn()"
+                prepend-icon="fa-solid fa-cart-shopping"
+            >
+              Купить
+            </v-btn>
+            <p class="textCardAvailability">
+              В наличии имеется > {{ i.availability }} шт
+            </p>
+          </v-card-actions>
+          <v-card-actions
+              v-else
+              class="d-flex justify-center flex-wrap flex-column pa-0 pr-1">
+            <p class="textCardPrice pt-3 pb-3">
+              Последняя цена {{ i.price }} рублей
+            </p>
+            <v-btn
+                @click="buyInBasket(i.id, i._id, i)"
+                elevation="1"
+                class="vBtnBuy"
+                :width="widthtFuncVBtn()"
+                :height="heightFuncVBtn()"
+                :disabled="true"
+                prepend-icon="fa-solid fa-cart-shopping"
+            >
+              Купить
+            </v-btn>
+            <p class="textCardAvailabilityFalse">
+              Нет в наличии
+            </p>
+          </v-card-actions>
 
-        <!--    CARD ACTIONS END-->
-      </v-col>
-    </v-row>
-  </v-card>
+
+
+
+          <!--    CARD ACTIONS END-->
+        </v-col>
+      </v-row>
+    </v-card>
   </div>
   <!--        END CARD-->
 </template>
@@ -369,18 +387,6 @@ const availabilityTrue = (data) => {
 <style lang="scss" scoped>
 // - import
 @import '../../assets/mixins';
-.vBtnColor {
-  color: $background;
-  background-color: $primary;
-  transition: all 0.3s ease-in-out;
-}
-
-.vBtnColor:hover {
-  color: $primary;
-  background-color: $background;
-  border: 1px solid $primary;
-  transition: all 0.3s ease-in-out;
-}
 
 // Media
 
@@ -411,13 +417,13 @@ const availabilityTrue = (data) => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 120px;
+    height: 90px;
   }
 
   .photoInCard {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -486,6 +492,32 @@ const availabilityTrue = (data) => {
     background: $background;
     border: 1px solid $primary;
   }
+
+  .vBtnBuy:hover {
+    color: $primary;
+    background: $background;
+    border: 1px solid $primary;
+  }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 40px;
+  }
+
+  .vBtnColor {
+    font-size: 0.8rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 376px) and (max-width: 600px) {
@@ -515,13 +547,13 @@ const availabilityTrue = (data) => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 120px;
+    height: 90px;
   }
 
   .photoInCard {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -590,12 +622,38 @@ const availabilityTrue = (data) => {
     background: $background;
     border: 1px solid $primary;
   }
+
+  .vBtnBuy:hover {
+    color: $primary;
+    background: $background;
+    border: 1px solid $primary;
+  }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 40px;
+  }
+
+  .vBtnColor {
+    font-size: 0.8rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 600px) and (max-width: 960px) {
   /*  стили для xl-устройств */
   .widthBlock {
-    width: 540px;
+    width: 100%;
   }
 
   .vCardMain {
@@ -611,13 +669,13 @@ const availabilityTrue = (data) => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 100px;
+    height: 75px;
   }
 
   .photoInCard {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -686,12 +744,32 @@ const availabilityTrue = (data) => {
     background: $background;
     border: 1px solid $primary;
   }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 40px;
+  }
+
+  .vBtnColor {
+    font-size: 0.8rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 960px) and (max-width: 1280px) {
   /*  стили для xl-устройств */
   .widthBlock {
-    width: 900px;
+    width: 100%;
   }
 
   .vCardMain {
@@ -707,13 +785,13 @@ const availabilityTrue = (data) => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 180px;
+    height: 135px;
   }
 
   .photoInCard {
-    width: 160px;
-    height: 160px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -782,12 +860,32 @@ const availabilityTrue = (data) => {
     background: $background;
     border: 1px solid $primary;
   }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 60px;
+  }
+
+  .vBtnColor {
+    font-size: 1rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 1280px) and (max-width: 1920px) {
   /*  стили для xl-устройств */
   .widthBlock {
-    width: 1200px;
+    width: 100%;
   }
 
   .vCardMain {
@@ -808,13 +906,13 @@ const availabilityTrue = (data) => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 230px;
+    height: 175px;
   }
 
   .photoInCard {
-    width: 230px;
-    height: 230px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -883,12 +981,32 @@ const availabilityTrue = (data) => {
     background: $background;
     border: 1px solid $primary;
   }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 80px;
+  }
+
+  .vBtnColor {
+    font-size: 1.5rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 1920px) and (max-width: 2560px) {
   /*  стили для xxl-устройств */
   .widthBlock {
-    width: 1700px;
+    width: 100%;
   }
 
   .vCardMain {
@@ -910,13 +1028,13 @@ const availabilityTrue = (data) => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 350px;
+    height: 265px;
   }
 
   .photoInCard {
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -983,13 +1101,36 @@ const availabilityTrue = (data) => {
     color: $primary;
     background: $background;
     border: 1px solid $primary;
+  }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 100px;
+  }
+
+  .vBtnColor {
+    font-size: 1.7rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
   }
 }
 
 @media screen and (min-width: 2560px) {
   /*  стили для xxl-устройств */
   .widthBlock {
-    width: 1100px;
+    width: 2300px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .vCardMain {
@@ -1011,13 +1152,13 @@ const availabilityTrue = (data) => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 200px;
+    height: 150px;
   }
 
   .photoInCard {
-    width: 250px;
-    height: 250px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -1084,6 +1225,26 @@ const availabilityTrue = (data) => {
     color: $primary;
     background: $background;
     border: 1px solid $primary;
+  }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 100px;
+  }
+
+  .vBtnColor {
+    font-size: 1.5rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
   }
 }
 

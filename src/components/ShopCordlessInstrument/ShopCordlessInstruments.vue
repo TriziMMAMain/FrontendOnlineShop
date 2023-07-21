@@ -19,9 +19,9 @@ const heightFunc = () => {
   } else if (name.value === 'sm') {
     return '200'
   } else if (name.value === 'md') {
-    return '250'
+    return '200'
   } else if (name.value === 'lg') {
-    return '300'
+    return '250'
   } else if (name.value === 'xl') {
     return '400'
   } else if (name.value === 'xxl') {
@@ -118,7 +118,21 @@ const heightFuncVBtn = () => {
     return '62'
   }
 }
-
+const widthFuncVCard = () => {
+  if (name.value === 'xs') {
+    return '100%'
+  } else if (name.value === 'sm') {
+    return '100%'
+  } else if (name.value === 'md') {
+    return '100%'
+  } else if (name.value === 'lg') {
+    return '100%'
+  } else if (name.value === 'xl') {
+    return '100%'
+  } else if (name.value === 'xxl') {
+    return '1100'
+  }
+}
 //
 const cordlessInstrumentArray = ref([])
 const cordlessLocal = ref([])
@@ -205,8 +219,8 @@ onMounted(async () => {
   <!--        CARD -->
   <div class="widthBlock">
     <v-card
-        width="100%"
-        :height="heightFunc()"
+        :width="widthFuncVCard()"
+        :min-height="heightFunc()"
         color="background"
         elevation="5"
         class="vCardMain pa-5 mr-10 mb-16"
@@ -216,12 +230,12 @@ onMounted(async () => {
         <v-col :cols="firstColFunc()"
                class="d-flex justify-center align-center">
           <!--    CARD ITEM START-->
-          <v-card-item>
+          <div class="d-flex justify-center align-center">
             <div class="photoInCardBlock">
               <img class="photoInCard" :src="i.imgTitle" alt="">
             </div>
             <v-card-subtitle class="vCardSubtitleMain">Код: {{ i.id }}</v-card-subtitle>
-          </v-card-item>
+          </div>
           <!--    CARD ITEM END-->
         </v-col>
         <!--      SECOND COL-->
@@ -293,9 +307,14 @@ onMounted(async () => {
         </v-col>
       </v-row>
     </v-card>
-    <v-btn class="vBtnColor"
-        width="100%"
-        v-if="!allItemsShown" @click="showMore()">Загрузить еще...</v-btn>
+    <div class="vBtnColorBlock"
+         v-if="!allItemsShown">
+      <v-btn class="vBtnColor"
+             width="100%"
+             height="100%"
+             @click="showMore()">Загрузить еще...
+      </v-btn>
+    </div>
   </div>
   <!--        END CARD-->
 </template>
@@ -303,18 +322,6 @@ onMounted(async () => {
 <style lang="scss" scoped>
 // - import
 @import '../../assets/mixins';
-.vBtnColor {
-  color: $background;
-  background-color: $primary;
-  transition: all 0.3s ease-in-out;
-}
-
-.vBtnColor:hover {
-  color: $primary;
-  background-color: $background;
-  border: 1px solid $primary;
-  transition: all 0.3s ease-in-out;
-}
 
 // Media
 
@@ -345,13 +352,13 @@ onMounted(async () => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 120px;
+    height: 90px;
   }
 
   .photoInCard {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -420,6 +427,32 @@ onMounted(async () => {
     background: $background;
     border: 1px solid $primary;
   }
+
+  .vBtnBuy:hover {
+    color: $primary;
+    background: $background;
+    border: 1px solid $primary;
+  }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 40px;
+  }
+
+  .vBtnColor {
+    font-size: 0.8rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 376px) and (max-width: 600px) {
@@ -449,13 +482,13 @@ onMounted(async () => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 120px;
+    height: 90px;
   }
 
   .photoInCard {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -524,12 +557,38 @@ onMounted(async () => {
     background: $background;
     border: 1px solid $primary;
   }
+
+  .vBtnBuy:hover {
+    color: $primary;
+    background: $background;
+    border: 1px solid $primary;
+  }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 40px;
+  }
+
+  .vBtnColor {
+    font-size: 0.8rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 600px) and (max-width: 960px) {
   /*  стили для xl-устройств */
   .widthBlock {
-    width: 540px;
+    width: 100%;
   }
 
   .vCardMain {
@@ -545,13 +604,13 @@ onMounted(async () => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 100px;
+    height: 75px;
   }
 
   .photoInCard {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -620,12 +679,32 @@ onMounted(async () => {
     background: $background;
     border: 1px solid $primary;
   }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 40px;
+  }
+
+  .vBtnColor {
+    font-size: 0.8rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 960px) and (max-width: 1280px) {
   /*  стили для xl-устройств */
   .widthBlock {
-    width: 900px;
+    width: 100%;
   }
 
   .vCardMain {
@@ -641,13 +720,13 @@ onMounted(async () => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 180px;
+    height: 135px;
   }
 
   .photoInCard {
-    width: 160px;
-    height: 160px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -716,12 +795,32 @@ onMounted(async () => {
     background: $background;
     border: 1px solid $primary;
   }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 60px;
+  }
+
+  .vBtnColor {
+    font-size: 1rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 1280px) and (max-width: 1920px) {
   /*  стили для xl-устройств */
   .widthBlock {
-    width: 1200px;
+    width: 100%;
   }
 
   .vCardMain {
@@ -742,13 +841,13 @@ onMounted(async () => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 230px;
+    height: 175px;
   }
 
   .photoInCard {
-    width: 230px;
-    height: 230px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -817,12 +916,32 @@ onMounted(async () => {
     background: $background;
     border: 1px solid $primary;
   }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 80px;
+  }
+
+  .vBtnColor {
+    font-size: 1.5rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 @media screen and (min-width: 1920px) and (max-width: 2560px) {
   /*  стили для xxl-устройств */
   .widthBlock {
-    width: 1700px;
+    width: 100%;
   }
 
   .vCardMain {
@@ -844,13 +963,13 @@ onMounted(async () => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 350px;
+    height: 265px;
   }
 
   .photoInCard {
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -917,13 +1036,36 @@ onMounted(async () => {
     color: $primary;
     background: $background;
     border: 1px solid $primary;
+  }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 100px;
+  }
+
+  .vBtnColor {
+    font-size: 1.7rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
   }
 }
 
 @media screen and (min-width: 2560px) {
   /*  стили для xxl-устройств */
   .widthBlock {
-    width: 1100px;
+    width: 2300px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .vCardMain {
@@ -945,13 +1087,13 @@ onMounted(async () => {
   }
 
   .photoInCardBlock {
-    width: 100%;
-    height: 100%;
+    width: 200px;
+    height: 150px;
   }
 
   .photoInCard {
-    width: 250px;
-    height: 250px;
+    width: 100%;
+    height: 100%;
   }
 
   .blockTitleCard {
@@ -1018,6 +1160,26 @@ onMounted(async () => {
     color: $primary;
     background: $background;
     border: 1px solid $primary;
+  }
+
+  .vBtnColorBlock {
+    width: 100%;
+    height: 100px;
+  }
+
+  .vBtnColor {
+    font-size: 1.5rem;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .vBtnColor:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
   }
 }
 

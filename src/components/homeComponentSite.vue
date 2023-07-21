@@ -43,17 +43,17 @@ const photoInBlock = ref([
         </div>
       </div>
     </div>
-    <div class="photoMainBlock d-flex justify-space-evenly flex-wrap">
-      <div class="instrumentBlock w-33">
+    <div class="photoMainBlock">
+      <div class="instrumentBlock">
         <h1 class="titleInBlock">Перейти к инструменту</h1>
-        <div class="actionsImg w-50">
-          <img class="w-100" src="https://cdn.vseinstrumenti.ru/images/goods/stroitelnyj-instrument/shurupoverty/800943/560x504/53392205.jpg" alt="">
+        <div class="actionsImg">
+          <img class="actionsImgPhoto" src="https://cdn.vseinstrumenti.ru/images/goods/stroitelnyj-instrument/shurupoverty/800943/560x504/53392205.jpg" alt="">
         </div>
       </div>
-      <div class="sparesBlock w-33">
+      <div class="sparesBlock">
         <h1 class="titleInBlock">Перейти к запчастям</h1>
-        <div class="actionsImg w-50">
-          <img class="w-100" src="https://zapshast.ru/uploads/news/1571897138.jpg" alt="">
+        <div class="actionsImg">
+          <img class="actionsImgPhoto" src="https://zapshast.ru/uploads/news/1571897138.jpg" alt="">
         </div>
       </div>
     </div>
@@ -114,10 +114,45 @@ const photoInBlock = ref([
 
   .photoMainBlock {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    padding: 20px;
+    flex-direction: column;
+    align-items: center;
     margin-top: 30px;
+  }
+
+  //  Instrument block
+
+  .instrumentBlock, .sparesBlock {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding: 10px;
+    background-color: $background;
+  }
+
+  // Spares block
+
+  .sparesBlock {}
+
+  // block
+
+  .titleInBlock {
+    text-align: center;
+    font-size: 1rem;
+    color: $text;
+  }
+
+  .actionsImg {
+    width: 250px;
+    height: 186px;
+    margin-top: 20px;
+  }
+
+  .actionsImgPhoto {
+    width: 100%;
+    height: 100%;
   }
 
 }
@@ -173,12 +208,46 @@ const photoInBlock = ref([
 
   .photoMainBlock {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    padding: 20px;
+    flex-direction: column;
+    align-items: center;
     margin-top: 30px;
   }
 
+  //  Instrument block
+
+  .instrumentBlock, .sparesBlock {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding: 10px;
+    background-color: $background;
+  }
+
+  // Spares block
+
+  .sparesBlock {}
+
+  // block
+
+  .titleInBlock {
+    text-align: center;
+    font-size: 1rem;
+    color: $text;
+  }
+
+  .actionsImg {
+    width: 180px;
+    height: 135px;
+    margin-top: 20px;
+  }
+
+  .actionsImgPhoto {
+    width: 100%;
+    height: 100%;
+  }
 
 }
 
@@ -234,9 +303,42 @@ const photoInBlock = ref([
   .photoMainBlock {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 70px;
+  }
+
+  //  Instrument block
+
+  .instrumentBlock, .sparesBlock {
+    width: 40%;
+    display: flex;
     justify-content: center;
-    padding: 20px;
-    margin-top: 30px;
+    flex-wrap: wrap;
+    padding: 10px;
+    background-color: $background;
+  }
+
+  // Spares block
+
+  .sparesBlock {}
+
+  // block
+
+  .titleInBlock {
+    text-align: center;
+    font-size: 1rem;
+    color: $text;
+  }
+
+  .actionsImg {
+    width: 180px;
+    height: 135px;
+    margin-top: 20px;
+  }
+
+  .actionsImgPhoto {
+    width: 100%;
+    height: 100%;
   }
 
 }
@@ -293,9 +395,42 @@ const photoInBlock = ref([
   .photoMainBlock {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 70px;
+  }
+
+  //  Instrument block
+
+  .instrumentBlock, .sparesBlock {
+    width: 40%;
+    display: flex;
     justify-content: center;
-    padding: 20px;
-    margin-top: 30px;
+    flex-wrap: wrap;
+    padding: 10px;
+    background-color: $background;
+  }
+
+  // Spares block
+
+  .sparesBlock {}
+
+  // block
+
+  .titleInBlock {
+    text-align: center;
+    font-size: 1.2rem;
+    color: $text;
+  }
+
+  .actionsImg {
+    width: 300px;
+    height: 225px;
+    margin-top: 20px;
+  }
+
+  .actionsImgPhoto {
+    width: 100%;
+    height: 100%;
   }
 
 }
@@ -352,9 +487,42 @@ const photoInBlock = ref([
   .photoMainBlock {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 70px;
+  }
+
+  //  Instrument block
+
+  .instrumentBlock, .sparesBlock {
+    width: 40%;
+    display: flex;
     justify-content: center;
-    padding: 20px;
-    margin-top: 30px;
+    flex-wrap: wrap;
+    padding: 15px;
+    background-color: $background;
+  }
+
+  // Spares block
+
+  .sparesBlock {}
+
+  // block
+
+  .titleInBlock {
+    text-align: center;
+    font-size: 1.5rem;
+    color: $text;
+  }
+
+  .actionsImg {
+    width: 400px;
+    height: 300px;
+    margin-top: 20px;
+  }
+
+  .actionsImgPhoto {
+    width: 100%;
+    height: 100%;
   }
 
 }
@@ -411,9 +579,42 @@ const photoInBlock = ref([
   .photoMainBlock {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 70px;
+  }
+
+  //  Instrument block
+
+  .instrumentBlock, .sparesBlock {
+    width: 40%;
+    display: flex;
     justify-content: center;
-    padding: 20px;
+    flex-wrap: wrap;
+    padding: 15px;
+    background-color: $background;
+  }
+
+  // Spares block
+
+  .sparesBlock {}
+
+  // block
+
+  .titleInBlock {
+    text-align: center;
+    font-size: 2.5rem;
+    color: $text;
+  }
+
+  .actionsImg {
+    width: 600px;
+    height: 480px;
     margin-top: 30px;
+  }
+
+  .actionsImgPhoto {
+    width: 100%;
+    height: 100%;
   }
 
 }
@@ -470,9 +671,42 @@ const photoInBlock = ref([
   .photoMainBlock {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 50px;
+  }
+
+  //  Instrument block
+
+  .instrumentBlock, .sparesBlock {
+    width: 40%;
+    display: flex;
     justify-content: center;
-    padding: 20px;
+    flex-wrap: wrap;
+    padding: 25px;
+    background-color: $background;
+  }
+
+  // Spares block
+
+  .sparesBlock {}
+
+  // block
+
+  .titleInBlock {
+    text-align: center;
+    font-size: 2.5rem;
+    color: $text;
+  }
+
+  .actionsImg {
+    width: 800px;
+    height: 667px;
     margin-top: 30px;
+  }
+
+  .actionsImgPhoto {
+    width: 100%;
+    height: 100%;
   }
 
 }

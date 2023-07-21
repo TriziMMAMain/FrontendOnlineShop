@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <div class="d-flex flex-wrap justify-center d-sm-flex justify-sm-center">
+  <div class="w-100 d-flex flex-wrap justify-center d-sm-flex justify-sm-center">
     <!--      ALL-->
     <router-view name="pneumotoolToolsAll"></router-view>
     <!--      Pneumotool-->

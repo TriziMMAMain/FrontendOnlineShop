@@ -1,6 +1,6 @@
 <script setup="">
 // - Import
-import ExampleShopCordless from './ShopCordlessInstruments.vue'
+import ShopCordlessInstruments from './ShopCordlessInstruments.vue'
 
 
 
@@ -9,7 +9,7 @@ import ExampleShopCordless from './ShopCordlessInstruments.vue'
 <template>
     <!--        CARD -->
   <v-container class="pa-0">
-    <ExampleShopCordless></ExampleShopCordless>
+    <ShopCordlessInstruments></ShopCordlessInstruments>
   </v-container>
 
 
