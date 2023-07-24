@@ -1,29 +1,20 @@
 <script setup="">
-import {ref} from "vue";
+import {ref, watchEffect} from "vue";
 import {useRouter} from 'vue-router'
 import _ from 'lodash'
 import {useDisplay} from 'vuetify'
 
 const {name} = useDisplay()
 
+const openNavigationDrawer = () => {
+  // Будет перенос на главную страницу каталога инструмента
+}
 
-const photoInBlock = ref([
-  {
-    title: 'Аккумуляторные дрели',
-    src: 'https://cdn.vseinstrumenti.ru/images/goods/stroitelnyj-instrument/shurupoverty/800943/560x504/53392205.jpg',
-    link: '/cordless-instrument/drills'
-  },
-  {
-    title: 'Аккумуляторные перфораторы',
-    src: 'https://cdn.vseinstrumenti.ru/images/goods/stroitelnyj-instrument/akkumulyatornyj-instrument/701952/560x504/51268908.jpg',
-    link: '/cordless-instrument/screwdrivers/'
-  },
-  {
-    title: 'Аккумуляторные болгарки',
-    src: 'https://procraft.ua/image/cache/catalog/akkumuljatornye_instryment/akkumuljatornaja-bolgarka/PWA216/PWA216_1-750x610.jpg',
-    link: '/cordless-instrument/grinders/'
-  },
-])
+const openNavigationDrawerSpares = () => {
+  // Будет перенос на главную страницу каталога запчастей
+}
+
+
 </script>
 
 <template>
@@ -44,13 +35,17 @@ const photoInBlock = ref([
       </div>
     </div>
     <div class="photoMainBlock">
-      <div class="instrumentBlock">
+      <div class="instrumentBlock"
+           @click="openNavigationDrawer()">
         <h1 class="titleInBlock">Перейти к инструменту</h1>
         <div class="actionsImg">
-          <img class="actionsImgPhoto" src="https://cdn.vseinstrumenti.ru/images/goods/stroitelnyj-instrument/shurupoverty/800943/560x504/53392205.jpg" alt="">
+          <img class="actionsImgPhoto"
+               src="https://cdn.vseinstrumenti.ru/images/goods/stroitelnyj-instrument/shurupoverty/800943/560x504/53392205.jpg"
+               alt="">
         </div>
       </div>
-      <div class="sparesBlock">
+      <div class="sparesBlock"
+           @click="openNavigationDrawerSpares()">
         <h1 class="titleInBlock">Перейти к запчастям</h1>
         <div class="actionsImg">
           <img class="actionsImgPhoto" src="https://zapshast.ru/uploads/news/1571897138.jpg" alt="">
@@ -134,7 +129,8 @@ const photoInBlock = ref([
 
   // Spares block
 
-  .sparesBlock {}
+  .sparesBlock {
+  }
 
   // block
 
@@ -228,7 +224,8 @@ const photoInBlock = ref([
 
   // Spares block
 
-  .sparesBlock {}
+  .sparesBlock {
+  }
 
   // block
 
@@ -320,7 +317,8 @@ const photoInBlock = ref([
 
   // Spares block
 
-  .sparesBlock {}
+  .sparesBlock {
+  }
 
   // block
 
@@ -412,7 +410,8 @@ const photoInBlock = ref([
 
   // Spares block
 
-  .sparesBlock {}
+  .sparesBlock {
+  }
 
   // block
 
@@ -504,7 +503,8 @@ const photoInBlock = ref([
 
   // Spares block
 
-  .sparesBlock {}
+  .sparesBlock {
+  }
 
   // block
 
@@ -596,7 +596,8 @@ const photoInBlock = ref([
 
   // Spares block
 
-  .sparesBlock {}
+  .sparesBlock {
+  }
 
   // block
 
@@ -688,7 +689,8 @@ const photoInBlock = ref([
 
   // Spares block
 
-  .sparesBlock {}
+  .sparesBlock {
+  }
 
   // block
 

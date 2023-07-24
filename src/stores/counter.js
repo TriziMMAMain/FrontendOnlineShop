@@ -302,24 +302,134 @@ export const useInstrumentStore = defineStore({
         },
         // by type, typeThis, brand, price, avalibility
         async filterByParams(dataObj) {
-            if (await this.filterByParamsMain(dataObj)) {
-                return true
-            } else {
-                return false
+            console.log(typeof dataObj.avalibilitySecond);
+            if (dataObj.type !== "" && dataObj.typeThis !== "" && dataObj.brand !== "" && typeof dataObj.avalibilitySecond === "boolean" && dataObj.price !== "" ) {
+                console.log(`Все параметры`)
+                if (await this.filterByParamsAll(dataObj)) {
+                    return true
+                } else {
+                    return false
+                }
             }
+            else if (dataObj.type !== "" && dataObj.typeThis !== "" && dataObj.brand !== "" && typeof dataObj.avalibilitySecond === "boolean" && dataObj.price === "") {
+                console.log(`Параметры type, typeThis, brand, avalibility second`)
+                if (await this.filterByParamsTypeTypeThisBrandAvalibilitySecond(dataObj)) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            else if (dataObj.type !== "" && dataObj.typeThis !== "" && dataObj.brand !== "" && typeof dataObj.avalibilitySecond === "string" && dataObj.price === "") {
+                console.log(`Параметры type, typeThis, brand`)
+                if (await this.filterByParamsTypeTypeThisBrand(dataObj)) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            else if (dataObj.type !== "" && dataObj.typeThis !== "" && dataObj.brand === "" && typeof dataObj.avalibilitySecond === "string" && dataObj.price === "") {
+                console.log(`Параметры type, typeThis`)
+                if (await this.filterByParamsTypeTypeThis(dataObj)) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            else if (dataObj.type !== "" && dataObj.typeThis === "" && dataObj.brand === "" && typeof dataObj.avalibilitySecond === "string" && dataObj.price === "") {
+                console.log(`Параметры type`)
+                if (await this.filterByParamsType(dataObj)) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            // Фильтр по одному параметру
+            else if (dataObj.type !== "" && dataObj.typeThis === "" && dataObj.brand === "" && typeof dataObj.avalibilitySecond === "string" && dataObj.price === "") {
+                console.log(`Параметры type`)
+                if (await this.filterByParamsType(dataObj)) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+
+
         },
-        async filterByParamsMain(dataObj) {
+        async filterByParamsAll(dataObj) {
             console.log(dataObj);
+            // 1. Есть все параметры
             const instrumentFilteredType = _.filter(this.allLocalCopyPinia, {type: dataObj.type});
             const instrumentFilteredTypeThis = _.filter(instrumentFilteredType, {typeThis: dataObj.typeThis});
             const instrumentFilteredBrand = _.filter(instrumentFilteredTypeThis, {brand: dataObj.brand});
             const instrumentFilteredAvalibilitySecond = _.filter(instrumentFilteredBrand, {avalibilitySecond: dataObj.avalibilitySecond});
             const instrumentFiltered = _.filter(instrumentFilteredAvalibilitySecond, (instrument) => {
-                return instrument.price <= dataObj.price;
+                return instrument.price === dataObj.price
             });
-            console.log(instrumentFiltered);
             if (instrumentFiltered.length >= 1) {
                 this.instrumentFilterByParams = instrumentFiltered
+                console.log(this.instrumentFilterByParams);
+                localStorage.setItem("instrument_filter_by_params", JSON.stringify(this.instrumentFilterByParams))
+                return true
+            } else {
+                ProcessingError('Такого инструмента нету!')
+                return false
+            }
+        },
+        async filterByParamsType(dataObj) {
+            console.log(dataObj)
+            // 2. Нету параметра brand, avalibility second, filtered,
+            const instrumentFilteredType = _.filter(this.allLocalCopyPinia, {type: dataObj.type});
+            if (instrumentFilteredType.length >= 1) {
+                this.instrumentFilterByParams = instrumentFilteredType
+                console.log(this.instrumentFilterByParams);
+                localStorage.setItem("instrument_filter_by_params", JSON.stringify(this.instrumentFilterByParams))
+                return true
+            } else {
+                ProcessingError('Такого инструмента нету!')
+                return false
+            }
+        },
+        async filterByParamsTypeTypeThis(dataObj) {
+            console.log(dataObj)
+            // 2. Нету параметра brand, avalibility second, filtered,
+            const instrumentFilteredType = _.filter(this.allLocalCopyPinia, {type: dataObj.type});
+            const instrumentFilteredTypeThis = _.filter(instrumentFilteredType, {typeThis: dataObj.typeThis});
+            if (instrumentFilteredTypeThis.length >= 1) {
+                this.instrumentFilterByParams = instrumentFilteredTypeThis
+                console.log(this.instrumentFilterByParams);
+                localStorage.setItem("instrument_filter_by_params", JSON.stringify(this.instrumentFilterByParams))
+                return true
+            } else {
+                ProcessingError('Такого инструмента нету!')
+                return false
+            }
+        },
+        async filterByParamsTypeTypeThisBrand(dataObj) {
+            console.log(dataObj)
+            // 3. Нету параметра avalibility second, price,
+            const instrumentFilteredType = _.filter(this.allLocalCopyPinia, {type: dataObj.type});
+            const instrumentFilteredTypeThis = _.filter(instrumentFilteredType, {typeThis: dataObj.typeThis});
+            const instrumentFilteredBrand = _.filter(instrumentFilteredTypeThis, {brand: dataObj.brand});
+            if (instrumentFilteredBrand.length >= 1) {
+                this.instrumentFilterByParams = instrumentFilteredBrand
+                console.log(this.instrumentFilterByParams);
+                localStorage.setItem("instrument_filter_by_params", JSON.stringify(this.instrumentFilterByParams))
+                return true
+            } else {
+                ProcessingError('Такого инструмента нету!')
+                return false
+            }
+        },
+        async filterByParamsTypeTypeThisBrandAvalibilitySecond(dataObj) {
+            console.log(dataObj)
+            // 4. Нету параметра price,
+            const instrumentFilteredType = _.filter(this.allLocalCopyPinia, {type: dataObj.type});
+            const instrumentFilteredTypeThis = _.filter(instrumentFilteredType, {typeThis: dataObj.typeThis});
+            const instrumentFilteredBrand = _.filter(instrumentFilteredTypeThis, {brand: dataObj.brand});
+            const instrumentFilteredAvalibilitySecond = _.filter(instrumentFilteredBrand, {avalibilitySecond: dataObj.avalibilitySecond});
+            if (instrumentFilteredAvalibilitySecond.length >= 1) {
+                this.instrumentFilterByParams = instrumentFilteredAvalibilitySecond
+                console.log(this.instrumentFilterByParams);
                 localStorage.setItem("instrument_filter_by_params", JSON.stringify(this.instrumentFilterByParams))
                 return true
             } else {

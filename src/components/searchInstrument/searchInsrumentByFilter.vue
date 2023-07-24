@@ -289,7 +289,7 @@ const availabilityTrue = (data) => {
   <div class="widthBlock">
     <v-card
         :width="widthFuncVCard()"
-        :height="heightFunc()"
+        :min-height="heightFunc()"
         color="background"
         elevation="5"
         class="vCardMain pa-5 mr-10 mb-16"

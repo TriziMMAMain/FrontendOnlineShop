@@ -29,7 +29,7 @@ const instrumentBrandText = ref('') // string
 const instrumentPriceArray = ref([])
 const instrumentPriceText = ref('')
 
-const instrumentAvailability = ref('') // true or false
+const instrumentAvailability = ref("") // true or false
 
 const disabledVAutocomplete = ref(true)
 const disabledVAutocompleteSecond = ref(true)
@@ -78,10 +78,9 @@ const clickToFilter = async () => {
     avalibilitySecond: instrumentAvailability.value
   })
   if (await filterByParams(data.value)) {
-    await router.push({name: 'searchInstrumentByParams'})
-    window.location.reload()
-  } else {
-  }
+    // await router.push({name: 'searchInstrumentByParams'})
+    // window.location.reload()
+  } else {}
 
 
 }
@@ -135,7 +134,7 @@ onMounted(async () => {
           prepend-icon="fa-solid fa-magnifying-glass"
           placeholder="Введите бренд инструмента"
           variant="filled"
-          :disabled="disabledVAutocompleteSecond"
+          :disabled="disabledVAutocomplete"
           @update:search="filterBrandArray(productsFilterTypeThis, instrumentBrandText)"
       ></v-autocomplete>
 
@@ -148,7 +147,7 @@ onMounted(async () => {
           prepend-icon="fa-solid fa-magnifying-glass"
           placeholder="Введите стоимость инструмента"
           variant="filled"
-          :disabled="disabledVAutocompleteThird"
+          :disabled="disabledVAutocomplete"
           @update:search="filterPriceArray(productsFilterBrand, instrumentPriceText)"
       ></v-autocomplete>
 

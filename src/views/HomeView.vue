@@ -1,6 +1,6 @@
 <script setup="">
 // - Import
-import {computed, onMounted, ref} from 'vue'
+import {computed, onMounted, ref, watchEffect} from 'vue'
 import {Promise} from 'core-js'
 import axios from 'axios'
 import {useRouter} from 'vue-router'
@@ -83,7 +83,6 @@ onMounted(async () => {
   await fetchingPiniaInstrument()
   localStorage.setItem("loading_page", JSON.stringify(false))
   loadingPage.value = JSON.parse(localStorage.getItem("loading_page"))
-
 })
 
 const sizeFunc = () => {
@@ -195,8 +194,9 @@ const heightFuncVBtnNavigationDrawer = () => {
 const instrumentAllNameArray = ref([])
 
 // Navigation
-let navigationDrawer = ref(false)
-const trueOrFalseNavigationDrawer = ref(true)
+
+let navigationDrawer = ref(true)
+const trueOrFalseNavigationDrawer = ref(false)
 
 const navigationDrawerClick = () => {
   navigationDrawer.value = !navigationDrawer.value
@@ -235,24 +235,6 @@ const filterAllNameBtn = async (string) => {
 }
 const loadingPage = ref(false)
 
-
-
-
-const fluidFunc = () => {
-  if (name.value === 'xs') {
-    return ''
-  } else if (name.value === 'sm') {
-    return 'fluid'
-  } else if (name.value === 'md') {
-    return 'fluid'
-  } else if (name.value === 'lg') {
-    return 'fluid'
-  } else if (name.value === 'xl') {
-    return 'fluid'
-  } else if (name.value === 'xxl') {
-    return 'fluid'
-  }
-}
 //
 </script>
 
