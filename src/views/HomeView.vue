@@ -195,8 +195,8 @@ const instrumentAllNameArray = ref([])
 
 // Navigation
 
-let navigationDrawer = ref(true)
-const trueOrFalseNavigationDrawer = ref(false)
+let navigationDrawer = ref(false)
+const trueOrFalseNavigationDrawer = ref(true)
 
 const navigationDrawerClick = () => {
   navigationDrawer.value = !navigationDrawer.value
