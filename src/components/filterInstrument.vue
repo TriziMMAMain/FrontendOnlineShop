@@ -53,8 +53,8 @@ const instrumentPriceText = ref([])
 
 const instrumentAvailabilitySecond = ref(false)
 
-const disabledVAutocomplete = ref(false) // true
-const disabledVAutocompleteSecond = ref(true) // false
+const disabledVAutocomplete = ref(true) // true
+const disabledVAutocompleteSecond = ref(false) // false
 
 
 const filterTypeArray = (products, instrumentTypeText) => {
