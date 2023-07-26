@@ -35,37 +35,43 @@ visitsInSite()
 const fetchingPiniaInstrument = async () => {
   try {
     await fetchingInstrumentCordless()
-        .then(() => {})
+        .then(() => {
+        })
         .catch((error) => {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
           console.log(error)
         })
     await fetchingInstrumentGasoline()
-        .then(() => {})
+        .then(() => {
+        })
         .catch((error) => {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
           console.log(error)
         })
     await fetchingInstrumentNetwork()
-        .then(() => {})
+        .then(() => {
+        })
         .catch((error) => {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
           console.log(error)
         })
     await fetchingInstrumentPneumotool()
-        .then(() => {})
+        .then(() => {
+        })
         .catch((error) => {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
           console.log(error)
         })
     await fetchingInstrumentDiesel()
-        .then(() => {})
+        .then(() => {
+        })
         .catch((error) => {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
           console.log(error)
         })
     await fetchingInstrumentByName()
-        .then(() => {})
+        .then(() => {
+        })
         .catch((error) => {
           ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
           console.log(error)
@@ -308,11 +314,11 @@ const loadingPage = ref(false)
                 @click="navigationDrawerClick">
               Каталог инструмента
             </v-btn>
-<!--            <v-btn-->
-<!--                :height="heightFunc()"-->
-<!--                class="btnMainContainerFilter d-flex align-center"-->
-<!--                @click="filterAllNameBtn(filterAllName)">Найти инструмент-->
-<!--            </v-btn>-->
+            <!--            <v-btn-->
+            <!--                :height="heightFunc()"-->
+            <!--                class="btnMainContainerFilter d-flex align-center"-->
+            <!--                @click="filterAllNameBtn(filterAllName)">Найти инструмент-->
+            <!--            </v-btn>-->
           </div>
           <div class="blockActionSecond pt-1">
             <p class="autocompleteTextLabel pt-1 pl-10 pb-1">
@@ -343,6 +349,26 @@ const loadingPage = ref(false)
         </div>
         <MainComponentInstrument v-else></MainComponentInstrument>
       </v-container>
+      <v-footer class="pa-0" v-if="!loadingPage">
+        <div class="footerMain">
+          <div class="blockTitle">
+            <a href="/home/" class="titleMainFooter">Магазин "<span class="titleMainFooterSpan">Все Инструменты Дон</span>"</a>
+          </div>
+          <div class="blockFooter">
+            <h1 class="titleMainInfo">Наши контакты</h1>
+            <div class="blockContact">
+              <ul class="ulContact">
+                <li class="liContact">Почта для ваших писем: <span class="liSpanContact">s.gubanov87@mail.ru</span></li>
+                <li class="liContact">Почта для ваших жалоб/багов на сайте: <span class="liSpanContact">novaacc611@gmail.com</span>
+                </li>
+              </ul>
+              <ul class="ulContact">
+                <li class="liContact">Номер телефона: <span class="liSpanContact">+7 (949) 412 91 53</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </v-footer>
     </v-main>
   </v-app>
 
@@ -363,7 +389,176 @@ const loadingPage = ref(false)
 
 // Media
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 376px) {
+  .vAppBarMain {
+
+  }
+
+  .vBtnHome {
+    color: $primary;
+    background-color: $background;
+  }
+  .vAppBarTitleMainContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: $primary;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .basketComponent {
+    width: 150px;
+    height: 32px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 4px;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .basketComponent:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btnBlockMainContainer {
+    width: 100%;
+  }
+
+  .blockActionBtnMain {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .btnMainContainerStart, .btnMainContainerFilter {
+    width: 310px;
+    height: 50%;
+    font-size: 0.5rem;
+    text-align: center;
+    color: $background;
+    background-color: $primary;
+  }
+
+  .btnMainContainerStart:hover, .btnMainContainerFilter:hover {
+    box-shadow: 0 0 0 0 black;
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btnMainContainerFilter {
+    width: 150px;
+    font-size: 0.5rem;
+  }
+
+  .vAutocompleteMain {
+    color: $text;
+    background-color: $background;
+  }
+
+  .VBtnNavigationDrawer {
+    font-size: 0.8rem;
+    color: $background;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .VBtnNavigationDrawer:hover {
+    color: $primary;
+    background-color: $background;
+    border: 1px solid $primary;
+    transition: all 0.3s ease-in-out;
+  }
+
+
+  // v-footer
+
+  .footerMain {
+    width: 100%;
+    min-height: 100px;
+    padding: 15px;
+    background-color: $background;
+  }
+
+  // title
+
+  .blockTitle {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .titleMainFooter {
+    font-size: 1.2rem;
+    font-weight: 550;
+    text-decoration: none;
+    color: $text;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .titleMainFooter:hover {
+    text-decoration: underline;
+    transition: all 0.3s ease-in-out;
+
+  }
+
+  .titleMainFooterSpan {
+    color: $primary;
+  }
+
+  // block footer
+
+  .blockFooter {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    //background-color: #4CAF50;
+  }
+
+  .titleMainInfo {
+    width: 100%;
+    margin-bottom: 30px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: center;
+    color: $primary;
+  }
+
+  // block contact
+
+  .blockContact {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+
+  .ulContact {
+    width: 100%;
+  }
+
+  .liContact {
+    font-size: 0.8rem;
+    color: $text;
+  }
+
+  .liSpanContact {
+    color: $primary;
+  }
+}
+
+@media screen and (min-width: 376px) and (max-width: 600px) {
   /* стили для xs-устройств */
   .vAppBarMain {
 
@@ -409,11 +604,12 @@ const loadingPage = ref(false)
     width: 100%;
     height: 50%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+
   }
 
   .btnMainContainerStart, .btnMainContainerFilter {
-    width: 150px;
+    width: 320px;
     height: 50%;
     font-size: 0.5rem;
     text-align: center;
@@ -451,6 +647,85 @@ const loadingPage = ref(false)
     background-color: $background;
     border: 1px solid $primary;
     transition: all 0.3s ease-in-out;
+  }
+
+
+  // v-footer
+
+  .footerMain {
+    width: 100%;
+    min-height: 100px;
+    padding: 15px;
+    background-color: $background;
+  }
+
+  // title
+
+  .blockTitle {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .titleMainFooter {
+    font-size: 1.2rem;
+    font-weight: 550;
+    text-decoration: none;
+    color: $text;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .titleMainFooter:hover {
+    text-decoration: underline;
+    transition: all 0.3s ease-in-out;
+
+  }
+
+  .titleMainFooterSpan {
+    color: $primary;
+  }
+
+  // block footer
+
+  .blockFooter {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    //background-color: #4CAF50;
+  }
+
+  .titleMainInfo {
+    width: 100%;
+    margin-bottom: 30px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: center;
+    color: $primary;
+  }
+
+  // block contact
+
+  .blockContact {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+
+  .ulContact {
+    width: 100%;
+  }
+
+  .liContact {
+    font-size: 0.8rem;
+    color: $text;
+  }
+
+  .liSpanContact {
+    color: $primary;
   }
 }
 
@@ -544,6 +819,84 @@ const loadingPage = ref(false)
     background-color: $background;
     border: 1px solid $primary;
     transition: all 0.3s ease-in-out;
+  }
+
+  // v-footer
+
+  .footerMain {
+    width: 100%;
+    min-height: 100px;
+    padding: 15px;
+    background-color: $background;
+  }
+
+  // title
+
+  .blockTitle {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .titleMainFooter {
+    font-size: 1.5rem;
+    font-weight: 550;
+    text-decoration: none;
+    color: $text;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .titleMainFooter:hover {
+    text-decoration: underline;
+    transition: all 0.3s ease-in-out;
+
+  }
+
+  .titleMainFooterSpan {
+    color: $primary;
+  }
+
+  // block footer
+
+  .blockFooter {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    //background-color: #4CAF50;
+  }
+
+  .titleMainInfo {
+    width: 100%;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+    color: $primary;
+  }
+
+  // block contact
+
+  .blockContact {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+  }
+
+  .ulContact {
+    width: 45%;
+  }
+
+  .liContact {
+    font-size: 0.8rem;
+    color: $text;
+  }
+
+  .liSpanContact {
+    color: $primary;
   }
 }
 
@@ -639,6 +992,85 @@ const loadingPage = ref(false)
     border: 1px solid $primary;
     transition: all 0.3s ease-in-out;
   }
+
+
+  // v-footer
+
+  .footerMain {
+    width: 100%;
+    min-height: 100px;
+    padding: 15px;
+    background-color: $background;
+  }
+
+  // title
+
+  .blockTitle {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .titleMainFooter {
+    font-size: 1.5rem;
+    font-weight: 550;
+    text-decoration: none;
+    color: $text;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .titleMainFooter:hover {
+    text-decoration: underline;
+    transition: all 0.3s ease-in-out;
+
+  }
+
+  .titleMainFooterSpan {
+    color: $primary;
+  }
+
+  // block footer
+
+  .blockFooter {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    //background-color: #4CAF50;
+  }
+
+  .titleMainInfo {
+    width: 100%;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+    color: $primary;
+  }
+
+  // block contact
+
+  .blockContact {
+    width: 85%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+  }
+
+  .ulContact {
+    width: 40%;
+  }
+
+  .liContact {
+    font-size: 1rem;
+    color: $text;
+  }
+
+  .liSpanContact {
+    color: $primary;
+  }
 }
 
 @media screen and (min-width: 1280px) and (max-width: 1920px) {
@@ -732,6 +1164,84 @@ const loadingPage = ref(false)
     background-color: $background;
     border: 1px solid $primary;
     transition: all 0.3s ease-in-out;
+  }
+
+  // v-footer
+
+  .footerMain {
+    width: 100%;
+    min-height: 100px;
+    padding: 15px;
+    background-color: $background;
+  }
+
+  // title
+
+  .blockTitle {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .titleMainFooter {
+    font-size: 1.5rem;
+    font-weight: 550;
+    text-decoration: none;
+    color: $text;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .titleMainFooter:hover {
+    text-decoration: underline;
+    transition: all 0.3s ease-in-out;
+
+  }
+
+  .titleMainFooterSpan {
+    color: $primary;
+  }
+
+  // block footer
+
+  .blockFooter {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    //background-color: #4CAF50;
+  }
+
+  .titleMainInfo {
+    width: 100%;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+    color: $primary;
+  }
+
+  // block contact
+
+  .blockContact {
+    width: 85%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+  }
+
+  .ulContact {
+    width: 40%;
+  }
+
+  .liContact {
+    font-size: 1rem;
+    color: $text;
+  }
+
+  .liSpanContact {
+    color: $primary;
   }
 }
 
@@ -828,6 +1338,83 @@ const loadingPage = ref(false)
     border: 1px solid $primary;
     transition: all 0.3s ease-in-out;
   }
+
+  // v-footer
+
+  .footerMain {
+    width: 100%;
+    min-height: 100px;
+    padding: 25px;
+    background-color: $background;
+  }
+
+  // title
+
+  .blockTitle {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .titleMainFooter {
+    font-size: 2rem;
+    font-weight: 550;
+    text-decoration: none;
+    color: $text;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .titleMainFooter:hover {
+    text-decoration: underline;
+    transition: all 0.3s ease-in-out;
+
+  }
+
+  .titleMainFooterSpan {
+    color: $primary;
+  }
+
+  // block footer
+
+  .blockFooter {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    //background-color: #4CAF50;
+  }
+
+  .titleMainInfo {
+    width: 100%;
+    margin-bottom: 30px;
+    font-weight: 500;
+    text-align: center;
+    color: $primary;
+  }
+
+  // block contact
+
+  .blockContact {
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+  }
+
+  .ulContact {
+    width: 40%;
+  }
+
+  .liContact {
+    font-size: 1.4rem;
+    color: $text;
+  }
+
+  .liSpanContact {
+    color: $primary;
+  }
 }
 
 @media screen and (min-width: 2560px) {
@@ -923,6 +1510,83 @@ const loadingPage = ref(false)
     background-color: $background;
     border: 1px solid $primary;
     transition: all 0.3s ease-in-out;
+  }
+
+  // v-footer
+
+  .footerMain {
+    width: 100%;
+    min-height: 100px;
+    padding: 25px;
+    background-color: $background;
+  }
+
+  // title
+
+  .blockTitle {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .titleMainFooter {
+    font-size: 2rem;
+    font-weight: 550;
+    text-decoration: none;
+    color: $text;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .titleMainFooter:hover {
+    text-decoration: underline;
+    transition: all 0.3s ease-in-out;
+
+  }
+
+  .titleMainFooterSpan {
+    color: $primary;
+  }
+
+  // block footer
+
+  .blockFooter {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    //background-color: #4CAF50;
+  }
+
+  .titleMainInfo {
+    width: 100%;
+    margin-bottom: 30px;
+    font-weight: 500;
+    text-align: center;
+    color: $primary;
+  }
+
+  // block contact
+
+  .blockContact {
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+  }
+
+  .ulContact {
+    width: 40%;
+  }
+
+  .liContact {
+    font-size: 1.4rem;
+    color: $text;
+  }
+
+  .liSpanContact {
+    color: $primary;
   }
 
 }
