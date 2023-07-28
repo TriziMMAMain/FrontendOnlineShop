@@ -1,12 +1,14 @@
 import { createApp } from 'vue'
+import { createMetaManager } from 'vue-meta';
 import { createPinia } from 'pinia'
 import App from './App.vue'
 
 // - router
 import router from './router'
 
-// - pinia
+// - app
 const app = createApp(App)
+const metaManager = createMetaManager();
 
 // - toast
 import Toast from './plugins/toast.js'
@@ -16,6 +18,7 @@ import { vuetify } from "./plugins/vuetify";
 
 // -
 app.use(createPinia())
+app.use(metaManager);
 app.use(Toast, {
     transition: "Vue-Toastification__fade",
     maxToasts: 2,

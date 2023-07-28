@@ -805,6 +805,11 @@ vue-demi@*:
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
   integrity sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==
 
+vue-meta@^3.0.0-alpha.2:
+  version "3.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/vue-meta/-/vue-meta-3.0.0-alpha.2.tgz#38b7c507b082a14902ea0b5155837164ee65ea1c"
+  integrity sha512-mLDB/vGjn2Q58IFKs5Dtp/STWZ0sEbkdM67u+YXuMreK5EjNHnqhcylQb+xn50pwxCdQD98nGgJlEXkh16Hqug==
+
 vue-router@^4.1.6:
   version "4.1.6"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.1.6.tgz#b70303737e12b4814578d21d68d21618469375a1"
