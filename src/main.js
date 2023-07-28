@@ -18,7 +18,7 @@ import { vuetify } from "./plugins/vuetify";
 
 // -
 app.use(createPinia())
-app.use(metaManager);
+app.use(metaManager());
 app.use(Toast, {
     transition: "Vue-Toastification__fade",
     maxToasts: 2,
