@@ -456,15 +456,17 @@ const routes = [
     }
 ]
 
+router.beforeEach((to, from, next) => {
+    document.querySelector('meta[name="description"]').setAttribute('content', to.meta.description)
+    next()
+})
+
 const router = createRouter({
     // history: createWebHistory(process.env.NODE_ENV === 'production' ? '/' : process.env.BASE_URL),
     history: createWebHistory(import.meta.env.BASE_URL),
     routes
 })
 
-router.beforeEach((to, from, next) => {
-    document.querySelector('meta[name="description"]').setAttribute('content', to.meta.description)
-    next()
-})
+
 
 export default router
