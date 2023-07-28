@@ -20,7 +20,7 @@ const openNavigationDrawerSpares = () => {
 <template>
   <v-container>
     <div class="blockHeader">
-      <h1 class="headerTitle">Интернет магазин "<span class="headerTitleSpan">Все Инструменты Дон</span>"</h1>
+      <h1 class="headerTitle">Интернет-магазин "<span class="headerTitleSpan">Все Инструменты Дон</span>"</h1>
       <div class="headerblockInfo">
         <div class="infoPhone">
           <p class="infoPhoneText">
