@@ -1,7 +1,4 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import { createMetaManager, useMeta } from 'vue-meta';
-
-const metaManager = createMetaManager();
 
 import MainComponents from '../components/mainComponentInstrument.vue'
 import homeComponentSite from '../components/homeComponentSite.vue'
@@ -54,17 +51,11 @@ const routes = [
         components: {
             homeComponentSite: homeComponentSite
         },
-        meta: {
-            description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Мы гордимся тем, что предлагаем только высококачественные товары, которые помогут вам справиться с любыми задачами. Наша команда экспертов всегда готова помочь вам выбрать правильный инструмент, отвечающий вашим потребностям. Покупая у нас, вы можете быть уверены в надежности и долговечности каждого приобретенного товара. Откройте для себя широкий выбор инструментов высокого качества и удобство онлайн-шопинга вместе с Все Инструменты Дон!"
-        }
     },
 
     {
         path: '/:pathMatch(.*)*',
         redirect: '/home',
-        meta: {
-            description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Мы гордимся тем, что предлагаем только высококачественные товары, которые помогут вам справиться с любыми задачами. Наша команда экспертов всегда готова помочь вам выбрать правильный инструмент, отвечающий вашим потребностям. Покупая у нас, вы можете быть уверены в надежности и долговечности каждого приобретенного товара. Откройте для себя широкий выбор инструментов высокого качества и удобство онлайн-шопинга вместе с Все Инструменты Дон!"
-        }
     },
 
     {
@@ -73,9 +64,6 @@ const routes = [
         components: {
             basketComponentSite: basketComponentSite
         },
-        meta: {
-            description: 'Корзина интернет-магазина "Все Инструменты Дон" позволяет узнать, какой товар был добавлен вами в заказ. Корзина имеет простой и удобный интерфей, это место, где вы оформляете покупку своих инструментов. Приобретайте качественные товары с комфортом!'
-        }
     },
 
     {
@@ -455,11 +443,6 @@ const routes = [
         ]
     }
 ]
-
-router.beforeEach((to, from, next) => {
-    document.querySelector('meta[name="description"]').setAttribute('content', to.meta.description)
-    next()
-})
 
 const router = createRouter({
     // history: createWebHistory(process.env.NODE_ENV === 'production' ? '/' : process.env.BASE_URL),
