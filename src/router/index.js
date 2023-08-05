@@ -1,7 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
-import Sitemap from '../../sitemap.xml'
-
 import MainComponents from '../components/mainComponentInstrument.vue'
 import homeComponentSite from '../components/homeComponentSite.vue'
 import SearchInstrumentByName from '../components/searchInstrument/searchInstrumentByName.vue'
@@ -45,14 +43,6 @@ const routes = [
     {
         path: '/',
         redirect: '/home'
-    },
-
-    {
-        path: '/sitemap',
-        name: 'Sitemap',
-        components: {
-            Sitemap: Sitemap
-        }
     },
 
     {
