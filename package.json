@@ -30,6 +30,7 @@
     "@fortawesome/fontawesome-free": "^6.2.1",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/test-utils": "^2.0.0-rc.15",
+    "raw-loader": "^4.0.2",
     "rollup-pluginutils": "^2.8.2",
     "vite": "^4.0.0"
   }

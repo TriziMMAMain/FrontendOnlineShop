@@ -46,6 +46,24 @@ const routes = [
     },
 
     {
+        path: '/sitemap.xml',
+        component: {
+            template: `<pre>{{ xmlContent }}</pre>`,
+            data() {
+                return {
+                    xmlContent: '',
+                };
+            },
+            mounted() {
+                axios.get('/sitemap.xml').then((response) => {
+                    this.xmlContent = response.data;
+                });
+            },
+        },
+    },
+
+
+    {
         path: '/home/', // /
         name: 'homeComponent',
         components: {
