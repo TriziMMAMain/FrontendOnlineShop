@@ -54,11 +54,6 @@ const routes = [
     },
 
     {
-        path: '/:pathMatch(.*)*',
-        redirect: '/home',
-    },
-
-    {
         path: '/basket/', // /
         name: 'basketComponent',
         components: {
