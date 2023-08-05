@@ -1,5 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
+import axios from "axios";
+
 import MainComponents from '../components/mainComponentInstrument.vue'
 import homeComponentSite from '../components/homeComponentSite.vue'
 import SearchInstrumentByName from '../components/searchInstrument/searchInstrumentByName.vue'
