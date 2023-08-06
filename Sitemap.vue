@@ -12,6 +12,7 @@ onMounted(async () => {
   try {
     const response = await axios.get('/sitemap.xml');
     xmlContent.value = response.data;
+    console.log(xmlContent.value);
   } catch (error) {
     console.error(error);
   }
