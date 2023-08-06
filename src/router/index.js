@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
-import axios from "axios";
+import Sitemap from '../../Sitemap.vue'
 
 import MainComponents from '../components/mainComponentInstrument.vue'
 import homeComponentSite from '../components/homeComponentSite.vue'
@@ -48,20 +48,8 @@ const routes = [
     },
 
     {
-        path: '/sitemap.xml',
-        component: {
-            template: `<pre>{{ xmlContent }}</pre>`,
-            data() {
-                return {
-                    xmlContent: '',
-                };
-            },
-            mounted() {
-                axios.get('/sitemap.xml').then((response) => {
-                    this.xmlContent = response.data;
-                });
-            },
-        },
+        path: '/sitemap',
+        component: Sitemap
     },
 
 
