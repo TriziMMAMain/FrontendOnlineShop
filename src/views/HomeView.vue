@@ -352,7 +352,7 @@ const loadingPage = ref(false)
       <v-footer class="pa-0" v-if="!loadingPage">
         <div class="footerMain">
           <div class="blockTitle">
-            <a href="/home/" class="titleMainFooter">Магазин "<span class="titleMainFooterSpan">Все Инструменты Дон</span>"</a>
+            <a href="/home/" class="titleMainFooter">Магазин <span class="titleMainFooterSpan">Все Инструменты Дон</span></a>
           </div>
           <div class="blockFooter">
             <h1 class="titleMainInfo">Наши контакты</h1>
