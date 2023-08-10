@@ -1,7 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
-import Sitemap from '../../Sitemap.vue'
-
 import MainComponents from '../components/mainComponentInstrument.vue'
 import homeComponentSite from '../components/homeComponentSite.vue'
 import SearchInstrumentByName from '../components/searchInstrument/searchInstrumentByName.vue'
@@ -45,11 +43,6 @@ const routes = [
     {
         path: '/',
         redirect: '/home'
-    },
-
-    {
-        path: '/sitemap',
-        component: Sitemap
     },
 
 
@@ -99,19 +92,25 @@ const routes = [
         components: {
             cordlessTools: ShopCordless,
         },
+        meta: {
+            description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить аккамуляторный инструмент в Донецке по низкой цене, то вам нужно попасть к нам."
+        },
         children: [
             {
                 path: 'catalog/',
                 name: 'cordlessInstrumentAll',
                 components: {
                     cordlessToolsAll: ShopCordlessAll,
-                }
+                },
             },
             {
                 path: 'drills/',
                 name: 'Аккумуляторная дрель-шуруповерт',
                 components: {
                     cordlessInstrument: ShopCordlessInstruments
+                },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить аккамуляторную дрель-шуруповерт в Донецке по низкой цене, то вам нужно попасть к нам."
                 },
             },
             {
@@ -128,7 +127,9 @@ const routes = [
                 components: {
                     cordlessInstrument: ShopCordlessInstruments
                 },
-
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить аккамуляторную болгарку в Донецке по низкой цене, то вам нужно попасть к нам."
+                },
             },
             {
                 path: 'grinders/id/:id/',
@@ -143,6 +144,9 @@ const routes = [
                 name: 'Аккумуляторный перфоратор',
                 components: {
                     cordlessInstrument: ShopCordlessInstruments
+                },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить аккамуляторный перфоратор в Донецке по низкой цене, то вам нужно попасть к нам."
                 },
             },
             {
@@ -161,6 +165,9 @@ const routes = [
         components: {
             default: ShopGasoline,
         },
+        meta: {
+            description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить бензоинструмент в Донецке по низкой цене, то вам нужно попасть к нам."
+        },
         children: [
             {
                 path: 'catalog/',
@@ -174,6 +181,9 @@ const routes = [
                 name: 'Бензогенератор',
                 components: {
                     shopGasolineInstruments: ShopGasolineInstruments,
+                },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить бензиновый генератор на 1, 3, 5 или 7 кВт в Донецке по низкой цене, то вам нужно попасть к нам."
                 },
             },
             {
@@ -189,6 +199,9 @@ const routes = [
                 components: {
                     shopGasolineInstruments: ShopGasolineInstruments,
                 },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить бензиновый мотоблок 7, 9, 13 л.с. в Донецке по низкой цене, то вам нужно попасть к нам."
+                },
             },
             {
                 path: 'motoblock/id/:id/',
@@ -203,6 +216,9 @@ const routes = [
                 components: {
                     shopGasolineInstruments: ShopGasolineInstruments,
                 },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить бензопилу в Донецке по низкой цене, то вам нужно попасть к нам."
+                },
             },
             {
                 path: 'chainsaw/id/:id/',
@@ -216,6 +232,9 @@ const routes = [
                 name: 'Бензотриммер',
                 components: {
                     shopGasolineInstruments: ShopGasolineInstruments,
+                },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить бензотример двухтактный или четырехтактный в Донецке по низкой цене, то вам нужно попасть к нам."
                 },
             },
             {
@@ -233,6 +252,9 @@ const routes = [
         components: {
             networkTools: ShopNetwork,
         },
+        meta: {
+            description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить электроинструмент в Донецке по низкой цене, то вам нужно попасть к нам."
+        },
         children: [
             {
                 path: 'catalog/',
@@ -246,6 +268,9 @@ const routes = [
                 name: 'Дрель',
                 components: {
                     shopNetworkInstruments: ShopNetworkInstruments,
+                },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить дрель в Донецке по низкой цене, то вам нужно попасть к нам."
                 },
             },
             {
@@ -261,6 +286,9 @@ const routes = [
                 components: {
                     shopNetworkInstruments: ShopNetworkInstruments,
                 },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить дрель-шуруповерт в Донецке по низкой цене, то вам нужно попасть к нам."
+                },
             },
             {
                 path: 'drill-driver/id/:id/',
@@ -274,6 +302,9 @@ const routes = [
                 name: 'Лобзик электрический',
                 components: {
                     shopNetworkInstruments: ShopNetworkInstruments,
+                },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить лобзик в Донецке по низкой цене, то вам нужно попасть к нам."
                 },
             },
             {
@@ -289,6 +320,9 @@ const routes = [
                 components: {
                     shopNetworkInstruments: ShopNetworkInstruments,
                 },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить перфоратор в Донецке по низкой цене, то вам нужно попасть к нам."
+                },
             },
             {
                 path: 'perforator/id/:id/',
@@ -302,6 +336,9 @@ const routes = [
                 name: 'Электрическая болгарка',
                 components: {
                     shopNetworkInstruments: ShopNetworkInstruments,
+                },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить болгарку 115, 125 или 230 мм в Донецке по низкой цене, то вам нужно попасть к нам."
                 },
             },
             {
@@ -317,6 +354,9 @@ const routes = [
                 components: {
                     shopNetworkInstruments: ShopNetworkInstruments,
                 },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить садовый пылесос или воздуходувку в Донецке по низкой цене, то вам нужно попасть к нам."
+                },
             },
             {
                 path: 'garden-vacuum-cleaner/id/:id/',
@@ -331,6 +371,9 @@ const routes = [
                 components: {
                     shopNetworkInstruments: ShopNetworkInstruments,
                 },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить измельчитель веток в Донецке по низкой цене, то вам нужно попасть к нам."
+                },
             },
             {
                 path: 'shredder/id/:id/',
@@ -344,6 +387,9 @@ const routes = [
                 name: 'Шлифмашина электрическая',
                 components: {
                     shopNetworkInstruments: ShopNetworkInstruments,
+                },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить шлифмашинку в Донецке по низкой цене, то вам нужно попасть к нам."
                 },
             },
             {
@@ -361,6 +407,9 @@ const routes = [
         components: {
             pneuomoTools: ShopPneumotoolInstrument,
         },
+        meta: {
+            description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить пневмоинструмент в Донецке по низкой цене, то вам нужно попасть к нам."
+        },
         children: [
             {
                 path: 'catalog/',
@@ -374,6 +423,9 @@ const routes = [
                 name: 'Компрессор',
                 components: {
                     shopPneumotoolInstruments: ShopPneumotoolInstruments,
+                },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить компрессор с ресивером на 50 или 100 литров в Донецке по низкой цене, то вам нужно попасть к нам."
                 },
             },
             {
@@ -390,6 +442,9 @@ const routes = [
                 components: {
                     shopPneumotoolInstruments: ShopPneumotoolInstruments,
                 },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить пневматический отбойный молоток в Донецке по низкой цене, то вам нужно попасть к нам."
+                },
             },
             {
                 path: 'jackhammer/id/:id',
@@ -404,6 +459,9 @@ const routes = [
                 name: 'Гвоздезабивной пистолет пневматический',
                 components: {
                     shopPneumotoolInstruments: ShopPneumotoolInstruments,
+                },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить гвоздезабивной пистолет пневматический в Донецке по низкой цене, то вам нужно попасть к нам."
                 },
             },
             {
@@ -421,6 +479,9 @@ const routes = [
         components: {
             dieselTools: ShopDieselInstrument,
         },
+        meta: {
+            description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить дизельный инструмент в Донецке по низкой цене, то вам нужно попасть к нам."
+        },
         children: [
             {
                 path: 'catalog/',
@@ -434,6 +495,9 @@ const routes = [
                 name: 'Дизельный генератор',
                 components: {
                     shopDieselInstruments: ShopDieselInstruments,
+                },
+                meta: {
+                    description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить дизельный генератор на 5, 7, 10 или 12 кВт в Донецке по низкой цене, то вам нужно попасть к нам."
                 },
             },
             {
@@ -453,6 +517,11 @@ const router = createRouter({
     routes
 })
 
-
+router.beforeEach((to, from, next) => {
+    if (to.meta.description) {
+        document.querySelector('meta[name="description"]').setAttribute('content', to.meta.description);
+    }
+    next();
+});
 
 export default router
