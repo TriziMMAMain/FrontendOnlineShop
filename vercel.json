@@ -23,11 +23,5 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "static": {
-    "include": [
-      "**/*.xml",
-      "**/*.txt"
-    ]
-  }
+  ]
 }
