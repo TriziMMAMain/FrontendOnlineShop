@@ -25,7 +25,11 @@
     },
     {
       "source": "/sitemap.xml",
-      "destination": "/pagges/api/getXml.js"
+      "destination": "/sitemap.xml"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/robots.txt"
     }
   ],
   "static": {
