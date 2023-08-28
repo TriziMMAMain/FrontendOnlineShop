@@ -31,11 +31,6 @@
   "static": {
     "include": [
       "**/*.xml"
-    ],
-    "exclude": [
-      "node_modules/**/*",
-      ".next/**/*",
-      ".vercel/**/*"
     ]
   }
 }
