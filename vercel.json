@@ -27,5 +27,15 @@
       "source": "/sitemap.xml",
       "destination": "/pagges/api/getXml.js"
     }
-  ]
+  ],
+  "static": {
+    "include": [
+      "**/*.xml"
+    ],
+    "exclude": [
+      "node_modules/**/*",
+      ".next/**/*",
+      ".vercel/**/*"
+    ]
+  }
 }
