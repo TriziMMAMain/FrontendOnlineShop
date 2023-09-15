@@ -563,7 +563,7 @@ const router = createRouter({
     routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeResolve((to, from, next) => {
     if (to.meta.description) {
         const metaDescriptionElement = document.querySelector('meta[name="description"]');
         if (metaDescriptionElement) {
