@@ -18,6 +18,10 @@
       }
     }
   ],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/api/files", "dest": "/api/files.js" }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
