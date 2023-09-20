@@ -24,6 +24,10 @@
       "destination": "https://vue-robot.vercel.app/src/robot.html"
     },
     {
+      "source": "/sitemap.xml",
+      "destination": "https://vue-robot.vercel.app/src/sitemap.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
