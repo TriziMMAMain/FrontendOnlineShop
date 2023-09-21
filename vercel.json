@@ -21,7 +21,7 @@
   "rewrites": [
     {
       "source": "/robots.txt",
-      "destination": "https://vue-robot.vercel.app/src/robot.html"
+      "destination": "https://vue-robot.vercel.app/src/robots.txt"
     },
     {
       "source": "/sitemap.xml",
