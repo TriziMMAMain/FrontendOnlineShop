@@ -29,6 +29,8 @@ import {ref} from 'vue'
         <router-view name="dieselTools"></router-view>
         <!--      ADMIN VIEW-->
         <router-view name="adminPanel"></router-view>
+        <!--        Not Found-->
+        <router-view name="errorNotFound"></router-view>
         <router-view></router-view>
       </v-col>
     </v-row>

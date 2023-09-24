@@ -4,6 +4,7 @@ import MainComponents from '../components/mainComponentInstrument.vue'
 import homeComponentSite from '../components/homeComponentSite.vue'
 import SearchInstrumentByName from '../components/searchInstrument/searchInstrumentByName.vue'
 import SearchInstrumentByParams from '../components/searchInstrument/searchInsrumentByFilter.vue'
+import ErrorNotFound from '../components/NotFound.vue'
 // basket
 import basketComponentSite from '../components/Basket/basketComponentSite.vue'
 import BasketComponentCheckout from '../components/Basket/basketComponentCheckout.vue'
@@ -45,6 +46,10 @@ const routes = [
         redirect: '/home'
     },
 
+    {
+        path: '/:pathMatch(.*)*',
+        redirect: '/error-not-found'
+    },
 
     {
         path: '/home/', // /
@@ -55,6 +60,18 @@ const routes = [
         meta: {
             title: "Интернет-магазин Все Инструменты Дон",
             description: "Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить инструмент в Донецке, то вам нужно попасть к нам. Наша команда экспертов всегда готова помочь вам выбрать правильный инструмент, отвечающий вашим потребностям. Находимся мы в городе Донецк, Ленинский район. Откройте для себя широкий выбор инструментов высокого качества и удобство онлайн-шопинга вместе с Все Инструменты Дон!"
+        }
+    },
+
+    {
+        path: '/error-not-found/',
+        name: 'errorNotFound',
+        components: {
+            errorNotFound: ErrorNotFound
+        },
+        meta: {
+            title: "Страница не найдена 404",
+            description: "Страница не найдена 404"
         }
     },
 
