@@ -150,46 +150,26 @@ onMounted(() => {
 
 
 const checkCordlessInstrument = async (idInstrument, routerPush) => {
-  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
-    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
-  }
-  postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_cordless", JSON.stringify(idInstrument))
   await router.push({name: `${routerPush} ID`, params: {id: idInstrument}})
   localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
 const checkGasolineInstrument = async (idInstrument, routerPush) => {
-  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
-    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
-  }
-  postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_gasoline", JSON.stringify(idInstrument))
   await router.push({name: `${routerPush} ID`, params: {id: idInstrument}})
   localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
 const checkNetworkInstrument = async (idInstrument, routerPush) => {
-  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
-    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
-  }
-  postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_network", JSON.stringify(idInstrument))
   await router.push({name: `${routerPush} ID`, params: {id: idInstrument}})
   localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
 const checkPneumoInstrument = async (idInstrument, routerPush) => {
-  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
-    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
-  }
-  postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_pneumotool", JSON.stringify(idInstrument))
   await router.push({name: `${routerPush} ID`, params: {id: idInstrument}})
   localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
 }
 const checkDieselInstrument = async (idInstrument, routerPush) => {
-  for (let i = 0; i < arrayLocalStorage.value.length; i++) {
-    dataInstrument.value = _.filter(arrayLocalStorage.value, {id: idInstrument})
-  }
-  postAxiosInstrumentById(dataInstrument.value)
   localStorage.setItem("id_diesel", JSON.stringify(idInstrument))
   await router.push({name: `${routerPush} ID`, params: {id: idInstrument}})
   localStorage.setItem('fetching_instrument_by_id', JSON.stringify(true))
