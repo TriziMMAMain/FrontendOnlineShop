@@ -6,6 +6,7 @@ import _ from 'lodash'
 import {useInstrumentStore} from '../../stores/counter.js'
 import {useDisplay} from 'vuetify'
 import axios from "axios";
+import {ProcessingError} from "../../notification/toasting.js";
 
 const {name} = useDisplay()
 const {postAxiosInstrumentById} = useInstrumentStore()
@@ -144,7 +145,7 @@ cordlessLocal.value = JSON.parse(localStorage.getItem("cordless"))
 typeThis.value = JSON.parse(localStorage.getItem("name_type_this"))
 trueOrFalseTypeThis.value = JSON.parse(localStorage.getItem("name_type_this_true_or_false"))
 
-const cordlessDrill = async (cordless, typeThisSecond, trueOrFalse) => {
+const cordlessInstrument = async (cordless, typeThisSecond, trueOrFalse) => {
   try {
     if (trueOrFalse) {
       let filterArray = ref(null)
@@ -211,7 +212,21 @@ const availabilityTrue = (data) => {
   }
 }
 onMounted(async () => {
-  await cordlessDrill(cordlessLocal.value, typeThis.value, trueOrFalseTypeThis.value)
+  const currentUrl = ref(router.currentRoute.value.fullPath);
+  console.log(currentUrl.value);
+  if (currentUrl.value === '/cordless-instrument/catalog/') {
+    await cordlessInstrument(cordlessLocal.value, null, false)
+  } else if (currentUrl.value === '/cordless-instrument/drills/') {
+    await cordlessInstrument(cordlessLocal.value, "Аккумуляторная дрель-шуруповерт", true)
+  } else if (currentUrl.value === '/cordless-instrument/grinders/') {
+    await cordlessInstrument(cordlessLocal.value, "Аккумуляторная болгарка", true)
+  } else if (currentUrl.value === '/cordless-instrument/screwdrivers/') {
+    await cordlessInstrument(cordlessLocal.value, "Аккумуляторный перфоратор", true)
+  }
+  if (cordlessInstrumentArray.value.length === 0) {
+    ProcessingError('Страница не найдена')
+    await router.push({name: `errorNotFound`})
+  }
 })
 </script>
 

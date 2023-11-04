@@ -6,6 +6,7 @@ import _ from 'lodash'
 import {useInstrumentStore} from '../../stores/counter.js'
 import {useDisplay} from 'vuetify'
 import axios from "axios";
+import {ProcessingError} from "../../notification/toasting.js";
 
 const {name} = useDisplay()
 const {postAxiosInstrumentById} = useInstrumentStore()
@@ -215,7 +216,32 @@ const availabilityTrue = (data) => {
 }
 
 onMounted(async () => {
-  await networkInstrumentsFunc(networkLocal.value, typeThis.value, trueOrFalseTypeThis.value)
+  const currentUrl = ref(router.currentRoute.value.fullPath);
+  console.log(currentUrl.value);
+  if (currentUrl.value === '/network-instrument/catalog/') {
+    await networkInstrumentsFunc(networkLocal.value, null, false)
+  } else if (currentUrl.value === '/network-instrument/drill/') {
+    await networkInstrumentsFunc(networkLocal.value, "Дрель", true)
+  } else if (currentUrl.value === '/network-instrument/drill-driver/') {
+    await networkInstrumentsFunc(networkLocal.value, "Дрель-шуруповерт", true)
+  } else if (currentUrl.value === '/network-instrument/grinders/') {
+    await networkInstrumentsFunc(networkLocal.value, "Электрическая болгарка", true)
+  } else if (currentUrl.value === '/network-instrument/fretsaw/') {
+    await networkInstrumentsFunc(networkLocal.value, "Лобзик электрический", true)
+  } else if (currentUrl.value === '/network-instrument/garden-vacuum-cleaner/') {
+    await networkInstrumentsFunc(networkLocal.value, "Садовый пылесос", true)
+  } else if (currentUrl.value === '/network-instrument/perforator/') {
+    await networkInstrumentsFunc(networkLocal.value, "Перфоратор", true)
+  } else if (currentUrl.value === '/network-instrument/shredder/') {
+    await networkInstrumentsFunc(networkLocal.value, "Измельчитель", true)
+  } else if (currentUrl.value === '/network-instrument/electric-grinder/') {
+    await networkInstrumentsFunc(networkLocal.value, "Шлифмашина электрическая", true)
+  }
+
+  if (networkArray.value.length === 0) {
+    ProcessingError('Страница не найдена')
+    await router.push({name: `errorNotFound`})
+  }
 })
 </script>
 

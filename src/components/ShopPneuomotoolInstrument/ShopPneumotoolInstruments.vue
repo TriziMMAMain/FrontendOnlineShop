@@ -6,6 +6,7 @@ import _ from 'lodash'
 import {useInstrumentStore} from '../../stores/counter.js'
 import {useDisplay} from 'vuetify'
 import axios from "axios";
+import {ProcessingError} from "../../notification/toasting.js";
 
 const {name} = useDisplay()
 const {postAxiosInstrumentById} = useInstrumentStore()
@@ -212,8 +213,24 @@ const availabilityTrue = (data) => {
   }
 }
 
+
 onMounted(async () => {
-  await pneumotoolInstrumentsFunc(pneumotoolLocal.value, typeThis.value, trueOrFalseTypeThis.value)
+  const currentUrl = ref(router.currentRoute.value.fullPath);
+  console.log(currentUrl.value);
+  if (currentUrl.value === '/pneumotool-instrument/catalog/') {
+    await pneumotoolInstrumentsFunc(pneumotoolLocal.value, null, false)
+  } else if (currentUrl.value === '/pneumotool-instrument/compressor/') {
+    await pneumotoolInstrumentsFunc(pneumotoolLocal.value, "Компрессор", true)
+  } else if (currentUrl.value === '/pneumotool-instrument/jackhammer/') {
+    await pneumotoolInstrumentsFunc(pneumotoolLocal.value, "Пневматическая отбойная молотковая машина", true)
+  } else if (currentUrl.value === '/pneumotool-instrument/nail-gun/') {
+    await pneumotoolInstrumentsFunc(pneumotoolLocal.value, "Гвоздезабивной пистолет пневматический", true)
+  }
+
+  if (pneumotoolArray.value.length === 0) {
+    ProcessingError('Страница не найдена')
+    await router.push({name: `errorNotFound`})
+  }
 })
 </script>
 
