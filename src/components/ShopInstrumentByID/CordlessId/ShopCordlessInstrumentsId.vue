@@ -9,7 +9,7 @@ import {useDisplay} from 'vuetify'
 import router from "../../../router/index.js";
 
 const {name} = useDisplay()
-const {fetchingInstrumentById} = useInstrumentStore()
+const {fetchingInstrumentById, filterByIdInstrument} = useInstrumentStore()
 
 const widthFuncInBtn = () => {
   if (name.value === 'xs') {
@@ -108,8 +108,11 @@ let items = ref([
   }
 ])
 
-const updateLocalData = () => {
-  cordlessLocal.value = JSON.parse(localStorage.getItem('filter_by_id'))
+const updateLocalData = async () => {
+  const currentUrl = ref(router.currentRoute.value.params);
+  const currentUrlId = ref(currentUrl.value.id)
+
+  cordlessLocal.value = await filterByIdInstrument(currentUrlId.value)
   cordlessLocalCopy.value = cordlessLocal.value[0]
 
   for (let i = 0; i < cordlessLocalCopy.value.imgArray.length; i++) {
@@ -130,7 +133,7 @@ onMounted(async () => {
     loadingComponent.value = JSON.parse(localStorage.getItem('fetching_instrument_by_id'))
 
     if (loadingComponent.value) {
-      updateLocalData()
+      await updateLocalData()
       if (cordlessLocalCopy.value.availability === 0) {
         avalibilityTrue.value = false
       } else {

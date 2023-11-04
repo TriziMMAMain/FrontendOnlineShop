@@ -168,12 +168,6 @@ const dieselInstrumentsFunc = async (diesel, typeThisSecond, trueOrFalse) => {
 
 const viewDetails = async (id, _id, data) => {
   console.log(data.typeThis);
-  let dataInstrument = ref([])
-
-  for (let i = 0; i < dieselArray.value.length; i++) {
-    dataInstrument.value = _.filter(dieselArray.value, {"_id": _id})
-  }
-  postAxiosInstrumentById(dataInstrument.value)
 
   await router.push({name: `${data.typeThis} ID`, params: {id: id}})
   localStorage.setItem("id_diesel", JSON.stringify(id))
@@ -183,11 +177,6 @@ const viewDetails = async (id, _id, data) => {
 // - Logical
 let counterClick = ref(0)
 const buyInBasket = async (id, _id, data) => {
-  let dataInstrument = ref([])
-  for (let i = 0; i < dieselArray.value.length; i++) {
-    dataInstrument.value = _.filter(dieselArray.value, {"_id": _id})
-  }
-  postAxiosInstrumentById(dataInstrument.value)
   counterClick.value = counterClick.value + 1
   if (counterClick.value === 1) {
     localStorage.setItem("basket_id", JSON.stringify(id))
@@ -216,7 +205,6 @@ const availabilityTrue = (data) => {
 
 onMounted(async () => {
   const currentUrl = ref(router.currentRoute.value.fullPath);
-  console.log(currentUrl.value);
   if (currentUrl.value === '/diesel-instrument/catalog/') {
     await dieselInstrumentsFunc(dieselLocal.value, null, false)
   } else if (currentUrl.value === '/diesel-instrument/generator/') {

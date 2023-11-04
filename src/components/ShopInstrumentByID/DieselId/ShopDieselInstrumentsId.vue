@@ -9,7 +9,7 @@ import {useDisplay} from 'vuetify'
 import router from "../../../router/index.js";
 
 const {name} = useDisplay()
-const {fetchingInstrumentById} = useInstrumentStore()
+const {fetchingInstrumentById, filterByIdInstrument} = useInstrumentStore()
 
 const widthFuncInBtn = () => {
   if (name.value === 'xs') {
@@ -96,9 +96,13 @@ const avalibilityTrue = ref(null)
 
 let items = ref([])
 
-const updateLocalData = () => {
-  dieselLocal.value = JSON.parse(localStorage.getItem('filter_by_id'))
+const updateLocalData = async () => {
+  const currentUrl = ref(router.currentRoute.value.params);
+  const currentUrlId = ref(currentUrl.value.id)
+
+  dieselLocal.value = await filterByIdInstrument(currentUrlId.value)
   dieselLocalCopy.value = dieselLocal.value[0]
+
 
   for (let i = 0; i < dieselLocalCopy.value.imgArray.length; i++) {
     try {
@@ -118,7 +122,7 @@ onMounted(async () => {
     loadingComponent.value = JSON.parse(localStorage.getItem('fetching_instrument_by_id'))
 
     if (loadingComponent.value) {
-      updateLocalData()
+      await updateLocalData()
       if (dieselLocalCopy.value.availability === 0) {
         avalibilityTrue.value = false
       } else {

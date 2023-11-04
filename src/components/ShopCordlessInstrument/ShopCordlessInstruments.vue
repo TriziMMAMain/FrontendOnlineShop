@@ -165,12 +165,6 @@ const cordlessInstrument = async (cordless, typeThisSecond, trueOrFalse) => {
 
 const viewDetails = async (id, _id, data) => {
   console.log(data.typeThis);
-  let dataInstrument = ref([])
-
-  for (let i = 0; i < cordlessInstrumentArray.value.length; i++) {
-    dataInstrument.value = _.filter(cordlessInstrumentArray.value, {"_id": _id})
-  }
-  postAxiosInstrumentById(dataInstrument.value)
 
   await router.push({name: `${data.typeThis} ID`, params: {id: id}})
   localStorage.setItem("id_cordless", JSON.stringify(id))
@@ -178,12 +172,6 @@ const viewDetails = async (id, _id, data) => {
 // - Logical
 let counterClick = ref(0)
 const buyInBasket = async (id, _id, data) => {
-  let dataInstrument = ref([])
-  for (let i = 0; i < cordlessInstrumentArray.value.length; i++) {
-    dataInstrument.value = _.filter(cordlessInstrumentArray.value, {"_id": _id})
-  }
-  postAxiosInstrumentById(dataInstrument.value)
-
   counterClick.value = counterClick.value + 1
   if (counterClick.value === 1) {
     localStorage.setItem("basket_id", JSON.stringify(id))
@@ -213,7 +201,6 @@ const availabilityTrue = (data) => {
 }
 onMounted(async () => {
   const currentUrl = ref(router.currentRoute.value.fullPath);
-  console.log(currentUrl.value);
   if (currentUrl.value === '/cordless-instrument/catalog/') {
     await cordlessInstrument(cordlessLocal.value, null, false)
   } else if (currentUrl.value === '/cordless-instrument/drills/') {

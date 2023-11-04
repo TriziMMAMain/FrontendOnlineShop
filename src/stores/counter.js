@@ -160,16 +160,16 @@ export const useInstrumentStore = defineStore({
                 return false
             }
         },
-        async postAxiosInstrumentById(data) {
-            try {
-                localStorage.setItem("filter_by_id", JSON.stringify(data))
-                return true
-            } catch (err) {
-                this.error = err
-                console.error(err);
-                return false
-            }
-        },
+        // async postAxiosInstrumentById(data) {
+        //     try {
+        //         localStorage.setItem("filter_by_id", JSON.stringify(data))
+        //         return true
+        //     } catch (err) {
+        //         this.error = err
+        //         console.error(err);
+        //         return false
+        //     }
+        // },
         // Fetching filtered name
         async fetchingInstrumentCordlessName(cordless) {
             let cordlessLocalCopyNameArray = []
@@ -255,6 +255,19 @@ export const useInstrumentStore = defineStore({
             localStorage.setItem("filter_instrument_all_name", JSON.stringify(this.instrumentNameAll))
         },
         // Filter
+
+        // by id
+        async filterByIdInstrument(id) {
+            try {
+                const allInstrumentsLocalCopy = JSON.parse(localStorage.getItem("all_instrument"))
+                const filteredIdInstrument = _.filter(allInstrumentsLocalCopy, {id: +id})
+                return filteredIdInstrument
+            } catch (err) {
+                this.error = err
+                console.error(err);
+                return false
+            }
+        },
 
         // by name
         async filterByNameInstrument(string) {

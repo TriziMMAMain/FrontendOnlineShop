@@ -7,12 +7,13 @@ import {useBasketStore} from '../../stores/counterBasket.js'
 import {useDisplay} from 'vuetify'
 import {Promise} from "core-js";
 import {ProccesingSuccessfuly, ProcessingError} from "../../notification/toasting";
+import router from "../../router/index.js";
 
 const {name} = useDisplay()
 // variable
 localStorage.setItem("basket_array", JSON.stringify([]))
 const getLocalStoreIdBasket = JSON.parse(localStorage.getItem("basket_id"))
-const {fetchingInstrumentById} = useInstrumentStore()
+const {fetchingInstrumentById, filterByIdInstrument} = useInstrumentStore()
 const {setLocalStorageBasketObject,} = useBasketStore()
 
 const widthFuncPlusAndMinus = () => {
@@ -103,7 +104,11 @@ const cordlessLocalCopyFun = async () => {
   try {
     if (await fetchingInstrumentById()) {
       basketObjectAll.value = JSON.parse(localStorage.getItem("basket_object"))
-      basketArrayCopy.value = JSON.parse(localStorage.getItem("filter_by_id"))
+      const currentUrl = ref(router.currentRoute.value.params);
+      const currentUrlId = ref(currentUrl.value.id)
+
+      const instrumentLocal = ref(await filterByIdInstrument(currentUrlId.value))
+      basketArrayCopy.value = instrumentLocal.value
 
       const checkoutBasketObject = _.filter(basketObjectAll.value, {name: basketArrayCopy.value[0].name})
 
@@ -131,6 +136,7 @@ const cordlessLocalCopyFun = async () => {
 
 
   } catch (error) {
+    ProcessingError('Ошибка перезагрузите страницу')
     console.log(error)
   }
   isLoading.value = false
