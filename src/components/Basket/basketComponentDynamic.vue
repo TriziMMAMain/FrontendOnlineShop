@@ -146,8 +146,8 @@ const cordlessLocalCopyFun = async () => {
 const VBtnClickInPLus = async () => {
   try {
     orderInInstrument.value = orderInInstrument.value + 1;
-    console.log('order', orderInInstrument.value)
-    console.log('order', itemAvailability.value)
+    // console.log('order', orderInInstrument.value)
+    // console.log('order', itemAvailability.value)
     if (orderInInstrument.value === itemAvailability.value) {
 
       ProcessingError('Достигнуто максимальное кол-во товара')
