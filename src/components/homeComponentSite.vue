@@ -3,15 +3,18 @@ import {ref, watchEffect} from "vue";
 import {useRouter} from 'vue-router'
 import _ from 'lodash'
 import {useDisplay} from 'vuetify'
+import {ProccesingSuccessfuly, ProcessingError} from "../notification/toasting.js";
 
 const {name} = useDisplay()
 
 const openNavigationDrawer = () => {
   // Будет перенос на главную страницу каталога инструмента
+  ProccesingSuccessfuly('Нажмите на кнопку "Каталог инструмента"')
 }
 
 const openNavigationDrawerSpares = () => {
   // Будет перенос на главную страницу каталога запчастей
+  ProcessingError('Для консультации звоните по телефону +7 (949) 412 91 53')
 }
 
 
