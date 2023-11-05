@@ -18,6 +18,7 @@ const router = useRouter()
 const {
   visitsInSite,
   changeInstrumentInFile,
+  fetchingInstrumentAll,
   fetchingInstrumentCordless,
   fetchingInstrumentGasoline,
   fetchingInstrumentNetwork,
@@ -34,6 +35,13 @@ visitsInSite()
 
 const fetchingPiniaInstrument = async () => {
   try {
+    await fetchingInstrumentAll()
+        .then(() => {
+        })
+        .catch((error) => {
+          ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
+          console.log(error)
+        })
     await fetchingInstrumentCordless()
         .then(() => {
         })
