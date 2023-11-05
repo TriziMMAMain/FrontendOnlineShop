@@ -148,6 +148,9 @@ const routes = [
                 components: {
                     cordlessInstrumentId: ShopCordlessInstrumentsId
                 },
+                meta: {
+                    title: "Загрузка...",
+                }
             },
             // done!
             {
@@ -167,6 +170,9 @@ const routes = [
                 components: {
                     cordlessInstrumentId: ShopCordlessInstrumentsId
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
             // done!
             {
@@ -186,7 +192,9 @@ const routes = [
                 components: {
                     cordlessInstrumentId: ShopCordlessInstrumentsId
                 },
-
+                meta: {
+                    title: "Загрузка..."
+                }
             },
         ],
     },
@@ -228,6 +236,10 @@ const routes = [
                 components: {
                     shopGasolineInstrumentsId: ShopGasolineInstrumentsId,
                 },
+
+                meta: {
+                    title: "Загрузка..."
+                }
             },
             {
                 path: 'motoblock/',
@@ -246,6 +258,9 @@ const routes = [
                 components: {
                     shopGasolineInstrumentsId: ShopGasolineInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
             {
                 path: 'chainsaw/',
@@ -264,6 +279,9 @@ const routes = [
                 components: {
                     shopGasolineInstrumentsId: ShopGasolineInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
             {
                 path: 'petrol-trimmer/',
@@ -282,6 +300,9 @@ const routes = [
                 components: {
                     shopGasolineInstrumentsId: ShopGasolineInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
         ]
     },
@@ -323,6 +344,9 @@ const routes = [
                 components: {
                     shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
             {
                 path: 'drill-driver/',
@@ -341,6 +365,9 @@ const routes = [
                 components: {
                     shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
             {
                 path: 'fretsaw/',
@@ -359,6 +386,9 @@ const routes = [
                 components: {
                     shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
             {
                 path: 'perforator/',
@@ -377,6 +407,9 @@ const routes = [
                 components: {
                     shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
             {
                 path: 'grinders/',
@@ -395,6 +428,9 @@ const routes = [
                 components: {
                     shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
             {
                 path: 'garden-vacuum-cleaner/',
@@ -413,6 +449,9 @@ const routes = [
                 components: {
                     shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
             {
                 path: 'shredder/',
@@ -431,6 +470,9 @@ const routes = [
                 components: {
                     shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
             {
                 path: 'electric-grinder/',
@@ -449,6 +491,9 @@ const routes = [
                 components: {
                     shopNetworkInstrumentsId: ShopNetworkInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
         ]
     },
@@ -490,6 +535,9 @@ const routes = [
                 components: {
                     shopPneumotoolInstrumentsId: ShopPneumotoolInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
 
             {
@@ -509,6 +557,9 @@ const routes = [
                 components: {
                     shopPneumotoolInstrumentsId: ShopPneumotoolInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
 
             {
@@ -528,6 +579,9 @@ const routes = [
                 components: {
                     shopPneumotoolInstrumentsId: ShopPneumotoolInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
         ]
     },
@@ -569,6 +623,9 @@ const routes = [
                 components: {
                     shopDieselInstrumentsId: ShopDieselInstrumentsId,
                 },
+                meta: {
+                    title: "Загрузка..."
+                }
             },
         ]
     }

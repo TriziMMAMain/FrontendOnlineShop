@@ -1,6 +1,6 @@
 <script setup="">
 // core
-import {onMounted, ref} from 'vue'
+import {onMounted, ref, onBeforeMount} from 'vue'
 import {useInstrumentStore} from '../../../stores/counter'
 import BasketComponentDynamic from "../../Basket/basketComponentDynamic.vue"
 import {Promise} from "core-js";
@@ -155,6 +155,17 @@ onMounted(async () => {
           clickToBreadcrumbs: 'Аккумуляторный перфоратор'
         }
       }
+      const instrumentId = router.currentRoute.value.params.id;
+      const pageTitle = ref(cordlessLocalCopy.value.name)
+      // const pageDescription = ref(`Добро пожаловать в интернет-магазин Все Инструменты Дон! У нас вы найдете широкий ассортимент бытового и профессионального инструмента от ведущих брендов, таких как Makita, Bosch, Stihl и многих других. Хотите купить ${cordlessLocalCopy.value.name} в Донецке по низкой цене, то вам нужно попасть к нам.`)
+      document.title = pageTitle.value;
+      router.currentRoute.value.meta.title = pageTitle.value;
+
+      // const descriptionMetaTag = document.createElement('meta');
+      // descriptionMetaTag.name = 'description';
+      // descriptionMetaTag.content = pageDescription.value;
+      // document.head.appendChild(descriptionMetaTag);
+      // router.currentRoute.value.meta.description = descriptionMetaTag;
     } else {
       console.log('error 500')
       ProcessingError("Ошибка на сервере! Перезагрузите страницу!")
